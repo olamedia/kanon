@@ -1,4 +1,7 @@
 <?php
+/**
+ * $Id$
+ */
 class phpCombinator{
 	private static $_data = "<?php\r\n";
 	private static $_fileData = array();
