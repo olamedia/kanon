@@ -1,4 +1,7 @@
 <?php
+/**
+ * $Id$
+ */
 class registry{
 	/**
 	 * The variables array

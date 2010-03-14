@@ -1,4 +1,7 @@
 <?php
+/**
+ * $Id$
+ */
 require_once dirname(__FILE__).'/application.php';
 class kanon{
 	public static function getBaseUri(){

@@ -1,4 +1,7 @@
 <?php
+/**
+ * $Id$
+ */
 require_once '../../kanon-framework.php';
 class helloWorld extends controller{
 	public function index(){

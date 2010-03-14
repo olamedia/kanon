@@ -1,4 +1,7 @@
 <?php
+/**
+ * $Id$
+ */
 require_once dirname(__FILE__).'/controllerPrototype.php';
 require_once dirname(__FILE__).'/applicationRegistry.php';
 class controller extends controllerPrototype{

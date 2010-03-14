@@ -1,4 +1,7 @@
 <?php
+/**
+ * $Id$
+ */
 require_once dirname(__FILE__).'/controller.php';
 class frontController extends controller{
 	public static function startSession($domain, $expire = 360000) {
