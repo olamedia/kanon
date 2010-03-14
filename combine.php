@@ -3,7 +3,7 @@ class phpCombinator{
 	private static $_data = "<?php\r\n";
 	private static $_fileData = array();
 	private static $_fileRequire = array();
-	public static function combine($path = ''){
+	public static function combine($path = '', $realData = false){
 		$path = realpath(dirname(__FILE__).'/'.$path);
 		$files = array();
 		foreach (glob($path.'/*',GLOB_NOSORT) as $filePath){
@@ -32,7 +32,7 @@ class phpCombinator{
 			self::$_fileData[$fileName] = $data;
 		}
 		foreach ($files as $fileName => $filePath){
-			self::_put($fileName, $files);
+			self::_put($fileName, $files, $realData);
 		}
 		file_put_contents('kanon-framework.php', self::$_data);
 		//echo self::$_data;
@@ -40,7 +40,7 @@ class phpCombinator{
 	private static function _put($fileName, $files, $realData = false){
 		if (isset(self::$_fileRequire[$fileName])){
 			foreach (self::$_fileRequire[$fileName] as $requiredFileName){
-				self::_put($requiredFileName, $files);
+				self::_put($requiredFileName, $files, $realData);
 			}
 		}
 		if (isset(self::$_fileData[$fileName])){
@@ -54,4 +54,4 @@ class phpCombinator{
 	}
 }
 header("Content-type: text/plain; charset=UTF-8");
-phpCombinator::combine('src');
+phpCombinator::combine('src', true);
