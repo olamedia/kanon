@@ -17,7 +17,7 @@ class frontController extends controller{
 	}
 
 }
-/**
+/*
  * $app = application::getInstance('/');
  * $app->run('/');
  */

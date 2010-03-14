@@ -1,7 +1,8 @@
 <?php
+require_once dirname(__FILE__).'/frontController.php';
 class application extends frontController{
 	private static $_instance = null;
-	private function __construct(){
+	public function __construct(){
 		parent::__construct();
 		header($_SERVER['SERVER_PROTOCOL']." 200 OK");
 		header("Content-Type: text/html; charset=utf-8");
@@ -12,7 +13,7 @@ class application extends frontController{
 			$this->_stripSlashesDeep($_POST);
 		}
 	}
-	public function getHeadContents(){ 
+	public function getHeadContents(){
 		$h = '<!DOCTYPE html>'; // html5
 		$h .= '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
 		$h .= '<title>'.$this->getTitle().'</title>';
@@ -35,11 +36,12 @@ class application extends frontController{
 		return $h;
 	}
 	public static function getInstance($controllerClassName = null){
-		if ($this->_instance === null && $controllerClassName !== null){
-			$this->_instance = new $controllerClassName();
+		if (self::$_instance === null && $controllerClassName !== null){
+			self::$_instance = new $controllerClassName();
 		}
-		return $this->_instance;
+		return self::$_instance;
 	}
+	
 }
 function app(){
 	return application::getInstance();

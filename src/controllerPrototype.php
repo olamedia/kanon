@@ -88,8 +88,8 @@ class controllerPrototype{
 		if (is_string($relativeUri)) $relativeUri = uri::fromString($relativeUri);
 		$a = array();
 		if ($includeAction) $a[] = $this->_action;
-		$relUri->setPath(array_merge($this->_baseUri->getPath(),$a,$relUri->getPath()));
-		return $relUri;
+		$relativeUri->setPath(array_merge($this->_baseUri->getPath(),$a,$relativeUri->getPath()));
+		return $relativeUri;
 	}
 	/**
 	 * Redirect with custom HTTP code
