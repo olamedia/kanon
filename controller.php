@@ -60,6 +60,9 @@ class controller extends controllerPrototype{
 		}
 		$this->getRegistry()->cssIncludes[] = $uri;
 	}
+	public function css($cssString){
+		$this->getRegistry()->plainCss .= $cssString;
+	}
 	public function requireJs($uri){
 		if (!is_array($this->getRegistry()->javascriptIncludes)){
 			$this->getRegistry()->javascriptIncludes = array();
