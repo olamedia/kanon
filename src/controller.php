@@ -11,10 +11,28 @@ class controller extends controllerPrototype{
 		return applicationRegistry::getInstance();
 	}
 	public function getApplication(){
-		// @todo
+		application::getInstance();
 	}
 	public function app(){
 		return $this->getApplication();
+	}
+	/**
+	 * Set base path for /images/, /css/ etc
+	 * @param string $path
+	 */
+	public function setBasePath($path){
+		$this->getRegistry()->basePath = $path;
+		return $this;
+	}
+	public function getBasePath($path = null){
+		if ($path !== null){
+			return realpath($this->getBasePath().$path).'/';
+		}
+		if ($this->getRegistry()->basePath === null){
+			return realpath(dirname(__FILE__).$this->_relativeBasePath).'/';
+		}else{
+			return realpath($this->getRegistry()->basePath).'/';
+		}
 	}
 	/**
 	 * Set html page <title>
@@ -69,6 +87,28 @@ class controller extends controllerPrototype{
 		}
 		$this->getRegistry()->javascriptIncludes[] = $uri;
 	}
+	public function getHeadContents(){
+		$h = '<!DOCTYPE html>'; // html5
+		$h .= '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
+		$h .= '<title>'.$this->getTitle().'</title>';
+		if (is_array($this->getRegistry()->cssIncludes)){
+			foreach ($this->getRegistry()->cssIncludes as $url){
+				$h .= '<link rel="stylesheet" type="text/css" href="'.$url.'" />';
+			}
+		}
+		if (isset($this->getRegistry()->plainCss)){
+			$h .= '<style type="text/css">';
+			$h .= $this->getRegistry()->plainCss;
+			$h .= '</style>';
+		}
+		if (is_array($this->getRegistry()->javascriptIncludes)){
+			foreach ($this->getRegistry()->javascriptIncludes as $url){
+				$h .= '<script type="text/javascript" src="'.$url.'"></script>';
+			}
+		}
+		$h .= '<link rel="shortcut icon" href="/favicon.ico" />';
+		return $h;
+	}
 	protected function &getDatabase($name = null){
 		if ($name === null){
 			return $this->getRegistry()->defaultDatabase;
@@ -78,5 +118,5 @@ class controller extends controllerPrototype{
 		}
 		return isset($this->getRegistry()->databases[$name])?$this->getRegistry()->databases[$name]:null;
 	}
-	
+
 }

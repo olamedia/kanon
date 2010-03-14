@@ -1,6 +1,6 @@
 <IfModule mod_rewrite.c>
 	RewriteEngine	On
-	#RewriteBase		/
+	#RewriteBase		/kanon-framework/examples/hello_world/
 	RewriteCond		%{REQUEST_FILENAME} !-f
 	RewriteRule		^.*$	bootstrap.php [QSA,L]
 </IfModule>

@@ -11,7 +11,7 @@ class phpCombinator{
 				$fileName = basename($filePath);
 				if (!in_array($fileName, array('combine.php', 'kanon-framework.php'))){
 					$files[$fileName] = $filePath;
-				} 
+				}
 			}
 		}
 		$require = array();
@@ -32,19 +32,23 @@ class phpCombinator{
 			self::$_fileData[$fileName] = $data;
 		}
 		foreach ($files as $fileName => $filePath){
-			self::_put($fileName);
+			self::_put($fileName, $files);
 		}
 		file_put_contents('kanon-framework.php', self::$_data);
 		//echo self::$_data;
 	}
-	private static function _put($fileName){
+	private static function _put($fileName, $files, $realData = false){
 		if (isset(self::$_fileRequire[$fileName])){
 			foreach (self::$_fileRequire[$fileName] as $requiredFileName){
-				self::_put($requiredFileName);
+				self::_put($requiredFileName, $files);
 			}
 		}
 		if (isset(self::$_fileData[$fileName])){
-			self::$_data .= self::$_fileData[$fileName]."\r\n";
+			if ($realData){
+				self::$_data .= self::$_fileData[$fileName]."\r\n";
+			}else{
+				self::$_data .= "require_once '".$files[$fileName]."';\r\n";
+			}
 			unset(self::$_fileData[$fileName]);
 		}
 	}

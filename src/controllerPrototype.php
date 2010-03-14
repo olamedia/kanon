@@ -42,7 +42,7 @@ class controllerPrototype{
 	 * Source for <link rel="canonical" href="" />
 	 */
 	public function getCanonicalUrl(){
-		return 'http://'.$this->getDomainName().''.$this->rel($this->_relativeUri);
+		return 'http://'.$this->getDomainName().''.$this->rel("$this->_relativeUri"); // quotes required to not overwrite _relativeUri
 	}
 	/**
 	 * Get current url excluding query
@@ -66,6 +66,7 @@ class controllerPrototype{
 			$this->_relativeUri->subtractBase($this->_baseUri);
 		}
 	}
+
 	public function setRelativeUriFromBase($uriString){
 		$baseUri = uri::fromString($uriString);
 		$this->_relativeUri = uri::fromRequestUri();
@@ -96,6 +97,8 @@ class controllerPrototype{
 	 * @param string $message
 	 */
 	protected function _redirect($url = null, $httpCode = 303){
+		//echo '<a href="'.$url.'">'.$url.'</a>';
+		//exit;
 		$title = 'Переадресация';
 		if (!preg_match("#^[a-z]+:#ims",$url)){
 			if (!preg_match("#^/#ims",$url)){
@@ -146,7 +149,7 @@ class controllerPrototype{
 		 </script>
 		 <script type="text/javascript" src="http://linkhelp.clients.google.com/tbproxy/lh/wm/fixurl.js">
 		 </script>';*/
-		//echo str_repeat('&nbsp; ', 100);
+		echo str_repeat('&nbsp; ', 100); // required to display custom error message (IE, Chrome)
 		exit;
 	}
 	/**
@@ -375,6 +378,11 @@ class controllerPrototype{
 	public function run(){
 		$methodFound = false;
 		$class = get_class($this);
+		if (strlen($this->_relativeUri) > 1){ // longer than "/"
+			if ($this->getCurrentUrl() != $this->getCanonicalUrl()){
+				$this->movedPermanently($this->getCanonicalUrl());
+			}
+		}
 		if ($action = $this->_relativeUri->getBasePath()){
 			$this->_action = $action;
 		}
@@ -396,11 +404,9 @@ class controllerPrototype{
 				return;
 			}
 		}
-		if ($this->getCurrentUrl() != $this->getCanonicalUrl()){
-			$this->movedPermanently($this->getCanonicalUrl());
-		}
-		if ($action = $this->_relativeUri->getBasePath()){
-			$uc = ucfirst($action);
+
+		if ($this->_action){
+			$uc = ucfirst($this->_action);
 			$this->_makeChildUri(array($action));
 			$initFunction = 'init'.$uc;
 			if (method_exists($this, $initFunction)){
