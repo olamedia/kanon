@@ -1,4 +1,5 @@
 <?php
+require_once dirname(__FILE__).'/uri.php';
 class controllerPrototype{
 	protected $_me = null; // ReflectionClass
 	protected $_parent = null;
