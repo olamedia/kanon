@@ -13,21 +13,14 @@ class kanon{
 		}
 		return substr($requestUri, 0, $cmp);
 	}
-	public static function run($applicationClass){//, $baseUrl = '/', $basePath = null
+	public static function run($applicationClass){
 		$app = application::getInstance($applicationClass);
-		//if ($basePath === null){
-			$trace = debug_backtrace();
-			$file = $trace[0]['file'];
-			$basePath = dirname($file);
-			$app->setBasePath($basePath);
-		//}
-		// ["REQUEST_URI"]=> string(40) "/kanon-framework/examples/hello_world/ok"
-		// ["SCRIPT_NAME"]=> string(51) "/kanon-framework/examples/hello_world/bootstrap.php" 
+		$trace = debug_backtrace();
+		$file = $trace[0]['file'];
+		$basePath = dirname($file);
+		$app->setBasePath($basePath);
 		$baseUrl = kanon::getBaseUri();
-		//echo 'Base PATH: '.$basePath."<br />";
-		//echo 'Base URL: '.$baseUrl."<br />";
 		$app->setBaseUri($baseUrl);
-		//var_dump($app);
-		$app->run($baseUrl);//$baseUrl
+		$app->run();
 	}
 }
