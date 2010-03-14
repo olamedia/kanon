@@ -28,4 +28,4 @@ class phpCombinator{
 	}
 }
 header("Content-type: text/plain; charset=UTF-8");
-phpCombinator::combine();
+phpCombinator::combine('src');
