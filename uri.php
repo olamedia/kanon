@@ -1,4 +1,8 @@
 <?php
+/**
+ * Class representation of relative uri string
+ * @author olamedia 
+ */
 class uri{
 	/**
 	 * Path section of URI
