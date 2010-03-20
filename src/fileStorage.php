@@ -1,4 +1,8 @@
 <?php
+/**
+ * $Id$
+ * @author olamedia
+ */
 class fileStorage{
 	protected static $_instances = array();
 	protected $_name = null;
