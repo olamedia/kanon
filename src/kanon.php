@@ -3,7 +3,13 @@
  * $Id$
  */
 require_once dirname(__FILE__).'/application.php';
+require_once dirname(__FILE__).'/fileStorage.php';
 class kanon{
+	/**
+	 * Get named file storage
+	 * @param string $storageName
+	 * @return fileStorage
+	 */
 	public static function getStorage($storageName){
 		return fileStorage::getStorage($storageName);
 	}

@@ -66,6 +66,9 @@ class fileStorage{
 	 * @return fileStorage
 	 */
 	public function setPath($path){
+		if (!substr($path,0,1)!=='/'){
+			$path = realpath($path);
+		}
 		$this->_path = $this->_normalizePath($path);
 		return $this;
 	}
@@ -74,6 +77,7 @@ class fileStorage{
 	 * @return string
 	 */
 	public function getPath($relativePath = ''){
+		//echo 'class::'.get_class($this).'('.$this->_name.')->getPath('.$relativePath.')start  ';
 		$basename = basename($relativePath);
 		$dirname = dirname($relativePath);
 		if (in_array($basename, array('.', '..'))){
@@ -82,6 +86,7 @@ class fileStorage{
 			$basename = '';
 		}
 		$dirname = $this->_rel($dirname);
+		//echo 'class::'.get_class($this).'('.$this->_name.')->getPath('.$relativePath.')return '.$dirname.'/'.$basename.' ';
 		return $dirname.'/'.$basename;
 	}
 	public function getFilePath($relativeFilename){
@@ -116,12 +121,15 @@ class fileStorage{
        return dirname($path.'/.'); 
 	}
 	protected function _rel($relativePath = ''){
+		//echo 'class::'.get_class($this).'('.$this->_name.')->_rel('.$relativePath.')start  ';
 		$path = $this->_path.$relativePath;
+		//echo 'class::'.get_class($this).'('.$this->_name.')->getPath('.$relativePath.')path '.$path.' ';
 		if (is_object($this->_parent)){
 			$path = $this->_parent->getPath($path);
 		}else{
 			$path = '/'.$path; // denormalize path
 		}
+		//echo 'class::'.get_class($this).'('.$this->_name.')->getPath('.$relativePath.')return <b>realpath('.$path.')='.realpath($path).'</b> ';
 		return $this->_fixPath(realpath($path).'/');
 	}
 	/**
