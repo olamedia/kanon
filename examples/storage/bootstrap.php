@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: bootstrap.php 19 2010-03-14 21:26:32Z olamedia $
+ * $Id$
  */
 require_once '../../kanon-framework.php';
 class storageExample extends controller{
