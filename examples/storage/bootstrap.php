@@ -14,11 +14,11 @@ class storageExample extends controller{
 	}
 	public function index(){
 		$storage = kanon::getStorage('icons');
-		echo 'Path:'.$storage->getPath('favicon.ico').'<br />';
-		echo 'Url:'.$storage->getUrl('favicon.ico').'<br />';
+		echo 'Path: '.$storage->getPath('favicon.ico').'<br />';
+		echo 'Url: '.$storage->getUrl('favicon.ico').'<br />';
 		$storage = kanon::getStorage('images');
-		echo 'Path:'.$storage->getPath('test.jpg').'<br />';
-		echo 'Url:'.$storage->getUrl('test.jpg').'<br />';
+		echo 'Path: '.$storage->getPath('test.jpg').'<br />';
+		echo 'Url: '.$storage->getUrl('test.jpg').'<br />';
 	}
 }
 kanon::run('storageExample');

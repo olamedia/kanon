@@ -6,9 +6,8 @@ class phpCombinator{
 	private static $_data = "<?php\r\n";
 	private static $_fileData = array();
 	private static $_fileRequire = array();
-	public static function combine($path = '', $realData = false){
+	protected static function _addFiles($files = array(), $path){
 		$path = realpath(dirname(__FILE__).'/'.$path);
-		$files = array();
 		foreach (glob($path.'/*',GLOB_NOSORT) as $filePath){
 			if (end(explode('.',$filePath)) == 'php'){
 				$fileName = basename($filePath);
@@ -16,6 +15,17 @@ class phpCombinator{
 					$files[$fileName] = $filePath;
 				}
 			}
+		}
+		return $files;
+	} 
+	public static function combine($path = '', $realData = false){
+		$files = array();
+		if (is_array($path)){
+			foreach ($path as $subpath){
+				$files = self::_addFiles($files, $subpath);
+			}
+		}else{
+			$files = self::_addFiles($files, $path);
 		}
 		$require = array();
 		$datas = array();
@@ -57,4 +67,10 @@ class phpCombinator{
 	}
 }
 header("Content-type: text/plain; charset=UTF-8");
-phpCombinator::combine('src', true);
+phpCombinator::combine(
+	array(
+		'src/common', 
+		'src/mvc-controller'
+	), 
+	true
+);

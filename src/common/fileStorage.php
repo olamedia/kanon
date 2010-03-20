@@ -72,13 +72,16 @@ class fileStorage{
 	public function setPath($path){
 		if (!substr($path,0,1)!=='/'){
 			$path = realpath($path);
+			if ($path === false){
+				throw new Exception('Path '.$path.' not exists');
+			}
 		}
 		$this->_path = $this->_normalizePath($path);
 		return $this;
 	}
 	/**
-	 * Get path for storage
-	 * @return string
+	 * Get expanded path from relative
+	 * @return string|boolean
 	 */
 	public function getPath($relativePath = ''){
 		//echo 'class::'.get_class($this).'('.$this->_name.')->getPath('.$relativePath.')start  ';
@@ -134,7 +137,12 @@ class fileStorage{
 			$path = '/'.$path; // denormalize path
 		}
 		//echo 'class::'.get_class($this).'('.$this->_name.')->getPath('.$relativePath.')return <b>realpath('.$path.')='.realpath($path).'</b> ';
-		return $this->_fixPath(realpath($path).'/');
+		$path = realpath($path);
+		if ($path === false){
+			// path not exists
+			return false;
+		}
+		return $this->_fixPath($path.'/');
 	}
 	/**
 	 * Upload file to storage 
