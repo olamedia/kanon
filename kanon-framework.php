@@ -714,6 +714,7 @@ class controller extends controllerPrototype{
 		$h = '<!DOCTYPE html>'; // html5
 		$h .= '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
 		$h .= '<title>'.$this->getTitle().'</title>';
+		var_dump($this->getRegistry()->cssIncludes);
 		if (is_array($this->getRegistry()->cssIncludes)){
 			foreach ($this->getRegistry()->cssIncludes as $url){
 				$h .= '<link rel="stylesheet" type="text/css" href="'.$url.'" />';

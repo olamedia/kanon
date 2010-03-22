@@ -144,7 +144,8 @@ class controllerPrototype{
 	 */
 	public function notFound($message = ''){
 		header($_SERVER['SERVER_PROTOCOL']." 404 Not found");
-		echo $message;
+		echo '<title>Страница не найдена</title>';
+		echo '<body>'.$message.'</body>';
 		// Google helper:
 		/*echo '<script type="text/javascript">
 		 var GOOG_FIXURL_LANG = "ru";

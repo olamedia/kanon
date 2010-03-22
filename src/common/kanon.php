@@ -13,6 +13,9 @@ class kanon{
 	public static function getStorage($storageName){
 		return fileStorage::getStorage($storageName);
 	}
+	public static function getCollection($modelName){
+		return modelCollection::getCollection($modelName);
+	}
 	public static function getBaseUri(){
 		$requestUri = $_SERVER['REQUEST_URI'];
 		$scriptUri = $_SERVER['SCRIPT_NAME'];
