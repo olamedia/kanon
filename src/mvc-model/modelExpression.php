@@ -11,6 +11,9 @@ class modelExpression{
 			$this->_right = $this->_right->getValue();
 		}
 	}
+	public function getArguments(){
+		return array($this->_left, $this->_right);
+	}
 	public function getLeft(){
 		return $this->_left;
 	}

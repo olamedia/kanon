@@ -1,4 +1,6 @@
 <?php
+require_once dirname(__FILE__).'/modelExpression.php';
+require_once dirname(__FILE__).'/modelAggregation.php';
 class modelField{
 	protected $_collection = null;
 	protected $_fieldName = null;
@@ -17,6 +19,14 @@ class modelField{
 	}
 	public function is($value){
 		return new modelExpression($this, '=', $value);
+	}
+	public function sum(){
+		$as = $this->getUniqueId('sql');
+		return new modelAggregation($this, 'SUM', $as);
+	}
+	public function avg(){
+		$as = $this->getUniqueId('sql');
+		return new modelAggregation($this, 'AVG', $as);
 	}
 	public function lt($value){
 		return new modelExpression($this, '<', $value);

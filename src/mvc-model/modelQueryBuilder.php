@@ -1,7 +1,7 @@
 <?php
 class modelQueryBuilder{
 	/**
-	 * 
+	 *
 	 * @var modelCollection
 	 */
 	protected $_storageSource = null;
@@ -10,7 +10,7 @@ class modelQueryBuilder{
 	protected $_selected = array();
 	protected $_limitFrom = 0;
 	protected $_limit = null;
-	
+
 	protected $_joinOptions = array();
 	protected $_join = array();
 	protected $_where = array();
@@ -22,8 +22,12 @@ class modelQueryBuilder{
 		$this->_filters[] = $filter;
 		return $this;
 	}
+	/**
+	 * @return modelStorage
+	 */
 	public function getStorage(){
-		
+		if ($this->_storageSource === null) return false;
+		return  $this->_storageSource->getStorage();
 	}
 	public function e($unescapedString){
 		return $this->getStorage()->quote($unescapedString);
@@ -35,31 +39,39 @@ class modelQueryBuilder{
 		$args = func_get_args();
 		if (!count($args)) return $this;
 		foreach ($args as $arg){
-			$table = null;
-			$field = null;
-			if ($arg instanceof modelCollection){
-				$table = $arg;
-			}
-			if ($arg instanceof zenMysqlField){
-				$table = $arg->getTable();
-				$field = $arg;
-			}
-			if ($this->_storageSource === null) $this->_storageSource = $table;
-			$a = array();
-			if ($arg instanceof modelCollection){
-				foreach ($table->getFieldNames() as $fieldName){
-					$field = $table[$fieldName];
-					$fid = $field->__toString();
-					$a[$fid] = $field;
+			if ($arg instanceof modelAggregation){
+				$fields = $arg->getArguments();
+				foreach ($fields as $field){
+					$a["$field"] = $field;
 				}
+				$field = $arg;
+				$this->_selected[] = $arg;
+			}else{
+				$table = null;
+				$field = null;
+				if ($arg instanceof modelCollection){
+					$table = $arg;
+				}
+				if ($arg instanceof modelField){
+					$table = $arg->getTable();
+					$field = $arg;
+				}
+
+				if ($this->_storageSource === null) $this->_storageSource = $table;
+				$a = array();
+				if ($arg instanceof modelCollection){
+					foreach ($table->getFieldNames() as $fieldName){
+						$field = $table[$fieldName];
+						$a["$field"] = $field;
+					}
+				}
+				if ($arg instanceof modelField){
+					$a["$field"] = $field;
+				}
+				$this->_selected[] = array($table, $a);
+				$this->_selectedTables[$table->getUniqueId()] = $table;
+				$this->_joinedTables[$table->getUniqueId()] = $table;
 			}
-			if ($arg instanceof zenMysqlField){
-				$fid = $field->__toString();
-				$a[$fid] = $field;
-			}
-			$this->_selected[] = array($table, $a);
-			$this->_selectedTables[$table->getUniqueId()] = $table;
-			$this->_joinedTables[$table->getUniqueId()] = $table;
 		}
 		//var_dump($this->_selected);
 		return $this;
@@ -80,18 +92,13 @@ class modelQueryBuilder{
 					$on = $options['on'];
 					$joinType = $options['type'];
 				}
-				$join = modelStorage::getIndirectTablesJoins($sourceTable, $table2, $this->_joinOptions);
-				if ($join !== false){
-					list($joinTables, $joinString) = $join;
-					$notJoined = false;
-					foreach ($joinTables as $tableUid => $b){
-						if (!isset($joined[$tableUid])){
-							$notJoined = true;
-							$joined[$tableUid] = true;
+				$joins = modelStorage::getIndirectTablesJoins($sourceTable, $table2, $this->_joinOptions);
+				if ($joins !== false){
+					foreach ($joins as $uid => $joinString){
+						if (!isset($joined[$uid])){
+							$this->_join[] = $joinString;
+							$joined[$uid] = true;
 						}
-					}
-					if ($notJoined){
-						$this->_join[] = $joinString;
 					}
 				}
 			}
@@ -102,16 +109,6 @@ class modelQueryBuilder{
 	 * @return modelQueryBuilder
 	 */
 	public function &join($table2, $on = '', $joinType = 'INNER'){
-		/*foreach ($this->_joinedTables as $table1){
-			$join = zenMysql::getTablesJoin($table1, $table2, $joinType, $on);
-			if ($join !== false){
-				$this->_join[] = $join;
-				break;
-			}
-		}*/
-		/*if (!is_object($table2)){
-			var_dump($table2);
-		}*/
 		$this->_joinOptions[$table2->getUniqueId()] = array(
 			'on' => $on,
 			'type' => $joinType
@@ -181,7 +178,7 @@ class modelQueryBuilder{
 	 */
 	public function &asc($field){
 		$this->_order[] = $field.' ASC';
-		if ($field instanceof zenMysqlField){
+		if ($field instanceof modelField){
 			$this->join($field->getTable());
 		}
 		return $this;
@@ -191,7 +188,7 @@ class modelQueryBuilder{
 	 */
 	public function &desc($field){
 		$this->_order[] = $field.' DESC';
-		if ($field instanceof zenMysqlField){
+		if ($field instanceof modelField){
 			$this->join($field->getTable());
 		}
 		return $this;
@@ -213,16 +210,20 @@ class modelQueryBuilder{
 	protected function getWhatSql(){
 		$wa = array();
 		foreach ($this->_selected as $sa){
-			list($table, $fields) = $sa;
-			foreach ($fields as $fid => $field){
-				$wa[] = $field." as ".$field->getUniqueId();
+			if (is_array($sa)){
+				list($table, $fields) = $sa;
+				foreach ($fields as $fid => $field){
+					$wa[] = $field." as ".$field->getUniqueId();
+				}
+			}else{
+				$wa[] = "$sa";
 			}
 		}
 		return implode(", ", $wa);
 	}
 	protected function getJoinSql(){
 		$this->_constructJoins();
-		return implode(" ", $this->_join);
+		return implode("", $this->_join);
 	}
 	protected function getFromSql(){
 		reset($this->_selected);
@@ -294,5 +295,5 @@ class modelQueryBuilder{
 		.$this->getLimitSql();
 		return $sql;
 	}
-	
+
 }

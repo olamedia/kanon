@@ -4,7 +4,7 @@ require_once dirname(__FILE__).'/modelField.php';
 class modelCollection implements ArrayAccess{
 	private static $_instances = array();
 	protected $_modelName = null; // helper
-	protected $_helper = null; // model instance
+	//protected $_helper = null; // model instance
 	protected $_uniqueId = null;
 	public function getModelClass(){
 		return $this->_modelName;
@@ -51,8 +51,11 @@ class modelCollection implements ArrayAccess{
 	public function getForeignKeys(){
 		return $this->getHelper()->getForeignKeys(); 
 	}
+	public function getStorage(){
+		return $this->getHelper()->getStorage();
+	}
 	public function getConnection(){
-		return $this->getHelper()->getStorage()->getConnection();
+		return $this->getStorage()->getConnection();
 	}
 	public function getUniqueId(){
 		if ($this->_uniqueId === null){
@@ -67,6 +70,7 @@ class modelCollection implements ArrayAccess{
 	 * @return model
 	 */
 	public function getHelper(){
+		return new $this->_modelName;
 		if ($this->_helper === null){
 			$this->_helper = new $this->_modelName;
 		}

@@ -104,41 +104,38 @@ class modelStorage{
 		$targetClass = self::getTableModel($targetTable);
 		$joins = array();
 		$joinedTables = array();
+		//echo 'Connecting from '.$sourceClass.' to '.$targetClass.'<br />';
 		foreach ($keys[$sourceClass] as $foreignClass => $options){
 			if ($foreignClass == $targetClass){
 				if (!is_array($options)){
 					$viaClass = $options;
-					//echo 'Connectiong via '.$viaClass.'<br />';
-					$viaTable = self::getModelTable($viaClass);
-					$join1 = self::getIndirectTablesJoins($sourceTable, $viaTable, $joinOptions);
-					$join2 = self::getIndirectTablesJoins($viaTable, $targetTable, $joinOptions);
-					if ($join1 !== false){
-						list($extraJoinedTables, $joinString) = $join1;
-						$joins[] = $joinString;
-						foreach ($extraJoinedTables as $uid => $b){
-							$joinedTables[$uid] = true;
+					//echo 'Connecting via '.$viaClass.'<br />';
+					$viaTable = modelCollection::getInstance($viaClass);
+					$subJoins = self::getIndirectTablesJoins($sourceTable, $viaTable, $joinOptions);
+					if ($subJoins !== false){
+						foreach ($subJoins as $uid => $joinString){
+							$joins[$uid] = $joinString;
 						}
 					}
-					if ($join2 !== false){
-						list($extraJoinedTables, $joinString) = $join2;
-						$joins[] = $joinString;
-						foreach ($extraJoinedTables as $uid => $b){
-							$joinedTables[$uid] = true;
+					$subJoins = self::getIndirectTablesJoins($viaTable, $targetTable, $joinOptions);
+					if ($subJoins !== false){
+						foreach ($subJoins as $uid => $joinString){
+							$joins[$uid] = $joinString;
 						}
 					}
-					return array($joinedTables, implode("", $joins));
+					return $joins;
 				}else{
-					$joinType = $options[$targetTable->getUniqueId()]['type'];
+					$joinType = isset($joinOptions[$targetTable->getUniqueId()]['type'])?$joinOptions[$targetTable->getUniqueId()]['type']:'INNER';
 					list($sourcePropertyName, $targetPropertyName) = $options;
 					$joinString = " ".$joinType." JOIN {$targetTable->getTableName()} AS $targetTable ON ({$sourceTable->$sourcePropertyName} = {$targetTable->$targetPropertyName})";
-					$joinedTables[$sourceTable->getUniqueId()] = true;
-					$joinedTables[$targetTable->getUniqueId()] = true;
-					//echo 'Connectiong via DIRECT<br />';
-					if ($joinString !== false) return array($joinedTables, $joinString);
+					//$joins[$sourceTable->getUniqueId()] = true;
+					$joins[$targetTable->getUniqueId()] = $joinString;
+					//echo 'Connecting via DIRECT<br />';
+					if ($joinString !== false) return $joins;//array($joinedTables, $joinString);
 				}
 			}
 		}
-		//echo 'Connectiong via FALSE<br />';
+		echo 'Connecting via FALSE<br />';
 		return false;
 	}
 	/**

@@ -42,34 +42,7 @@ class zenMysqlResult extends zenMysqlQueryBuilder implements IteratorAggregate, 
 	protected $_mysqlResult = null;
 	protected $_finished = false;
 	protected $_list = array();
-	public function count(){
-		$q = $this->_q($this->getCountSql());
-		if ($q === false){
-			throw new Exception(mysql_error($this->getLink())."\n".$sql);
-		}else{
-			return mysql_result($q,0);
-		}
-	}
-	protected function _makeList(){
-		while ($model = $this->fetch()){
-			$this->_list[] = $model;
-		}
-	}
-	public function getIterator(){
-		if (!$this->_finished){
-			$this->_makeList();
-		}
-		return new ArrayIterator($this->_list);
-	}
-	public function execute(){
-		if ($this->_mysqlResult === null){
-			if ($this->_mysqlResult = $this->_q($this->getSql())){
-				return true;
-			}
-			return false;
-		}
-		return true;
-	}
+
 	/**
 	 * Fetch a result row as a zenMysqlItem
 	 * @return zenMysqlItem

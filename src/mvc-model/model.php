@@ -9,8 +9,8 @@ class model implements ArrayAccess, IteratorAggregate{
 	protected $_autoIncrement = null; // propertyName
 	protected $_foreignKeys = array(); // property => array(foreignClass, foreignProperty)
 	protected $_options = array(); // propertyName => options
-	protected $_storage = null;
-	protected $_storageClass = 'modelStorage';
+	//protected $_storage = null;
+	//protected $_storageClass = 'modelStorage';
 	public static function getCollection(){
 		if (!function_exists('get_called_class')){
 			require_once dirname(__FILE__).'/../common/compat/get_called_class.php';
@@ -38,7 +38,7 @@ class model implements ArrayAccess, IteratorAggregate{
 	}
 	public function toArray(){
 		$a = array();
-		foreach ($this as $name => $property){
+		foreach ($this->_properties as $name => $property){
 			$a[$name] = $property->getValue();
 		}
 		return $a;
@@ -55,9 +55,11 @@ class model implements ArrayAccess, IteratorAggregate{
 					$class = $this->_classes[$name];
 				}
 			}
-			$this->_properties[$name] = new $class();
+			$this->_properties[$name] = new $class($name);
 			$this->_properties[$name]->setModel($this);
-			$this->_properties[$name]->setOptions($this->_options[$name]);
+			if (is_array($this->_options[$name])){
+				$this->_properties[$name]->setOptions($this->_options[$name]);
+			}
 		}
 		return $this->_properties[$name];
 	}
@@ -94,18 +96,13 @@ class model implements ArrayAccess, IteratorAggregate{
 		}
 		return $this;
 	}
-	public function setStorage($storage){
-		$this->_storage = $storage;
-	}
 	/**
 	 * @return modelStorage
 	 */
 	public function getStorage(){
-		if ($this->_storage === null){
-			$storageClass = $this->_storageClass;
-			$this->_storage = new $storageClass();
-		}
-		return $this->_storage;
+		$storageId = storageRegistry::getInstance()->modelSettings[get_class($this)]['storage'];
+		$storage = storageRegistry::getInstance()->storages[$storageId];
+		return $storage;
 	}
 	public function save(){
 		$this->preSave();
