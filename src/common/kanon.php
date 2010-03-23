@@ -5,11 +5,27 @@
 require_once dirname(__FILE__).'/application.php';
 require_once dirname(__FILE__).'/fileStorage.php';
 class kanon{
+	private static $_uniqueId = 0;
 	/**
 	 * Get named file storage
 	 * @param string $storageName
 	 * @return fileStorage
 	 */
+	public static function getUniqueId(){
+		$id = self::$_uniqueId;
+		$id = strval(base_convert($id, 10, 26));
+		$shift = ord("a") - ord("0");
+		for ($i = 0; $i < strlen($id); $i++){
+			$c = $id{$i};
+			if (ord($c) < ord("a")){
+				$id{$i} = chr(ord($c)+$shift);
+			}else{
+				$id{$i} = chr(ord($c)+10);
+			}
+		}
+		self::$_uniqueId++;
+		return $id;
+	}
 	public static function getStorage($storageName){
 		return fileStorage::getStorage($storageName);
 	}
