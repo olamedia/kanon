@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: applicationRegistry.php 27 2010-03-20 01:04:22Z olamedia $
+ * $Id$
  */
 require_once dirname(__FILE__).'/../common/registry.php';
 class storageRegistry extends registry{
