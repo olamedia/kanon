@@ -6,6 +6,9 @@ class modelCollection implements ArrayAccess{
 	protected $_modelName = null; // helper
 	protected $_helper = null; // model instance
 	protected $_uniqueId = null;
+	public function getModelClass(){
+		return $this->_modelName;
+	}
 	public function offsetExists($offset){
 		return in_array($offset, $this->getFieldNames());
 	}
@@ -44,6 +47,9 @@ class modelCollection implements ArrayAccess{
 	}
 	public function getFieldNames(){
 		return $this->getHelper()->getFieldNames();
+	}
+	public function getForeignKeys(){
+		return $this->getHelper()->getForeignKeys(); 
 	}
 	public function getConnection(){
 		return $this->getHelper()->getStorage()->getConnection();

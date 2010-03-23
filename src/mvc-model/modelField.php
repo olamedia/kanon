@@ -6,6 +6,9 @@ class modelField{
 		$this->_collection = $collection;
 		$this->_fieldName = $fieldname;
 	}
+	public function getCollection(){
+		return $this->_collection;
+	}
 	public function __toString(){
 		return $this->_collection->getUniqueId().'.`'.$this->_fieldName.'`';
 	}

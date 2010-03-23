@@ -80,7 +80,7 @@ class modelQueryBuilder{
 					$on = $options['on'];
 					$joinType = $options['type'];
 				}
-				$join = zenMysql::getIndirectTablesJoins($sourceTable, $table2, $this->_joinOptions);
+				$join = modelStorage::getIndirectTablesJoins($sourceTable, $table2, $this->_joinOptions);
 				if ($join !== false){
 					list($joinTables, $joinString) = $join;
 					$notJoined = false;
@@ -146,14 +146,14 @@ class modelQueryBuilder{
 		return $this;
 	}
 	protected function _joinCondition($condition){
-		if ($condition instanceof zenExpression){
+		if ($condition instanceof modelExpression){
 			$left = $condition->getLeft();
-			if ($left instanceof zenMysqlField){
-				$this->join($left->getTable());
+			if ($left instanceof modelField){
+				$this->join($left->getCollection());
 			}
 			$right = $condition->getLeft();
-			if ($right instanceof zenMysqlField){
-				$this->join($right->getTable());
+			if ($right instanceof modelField){
+				$this->join($right->getCollection());
 			}
 		}
 	}

@@ -2,7 +2,7 @@
 /**
  * $Id$
  */
-class registry implements ArrayAccess{
+class registry implements ArrayAccess, IteratorAggregate{
 	/**
 	 * The variables array
 	 * @access private
@@ -28,8 +28,11 @@ class registry implements ArrayAccess{
 		}
 		return $this->_vars[$key];
 	}
+	public function __isset($key){
+		return isset($this->_vars[$key]);
+	}
 	public function offsetExists($offset){
-		return isset($this->_vars[$offset]);
+		return array_key_exists($offset, $this->_vars);
 	}
 	public function offsetGet($offset){
 		return $this->__get($offset);
@@ -39,5 +42,8 @@ class registry implements ArrayAccess{
 	}
 	public function offsetUnset($offset){
 		unset($this->_vars[$offset]);
+	}
+	public function getIterator(){
+		return new ArrayIterator($this->_vars);
 	}
 }

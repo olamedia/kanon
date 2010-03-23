@@ -573,85 +573,14 @@ class zenMysql{
 		return $model->foreignKeysGet();
 		//list($foreignModelClass, $foreignPropertyName) = $a;
 	}
-	public static function getIndirectTablesJoins($sourceTable, $table2, $joinOptions){
-		//echo '<pre>';
-		//var_dump(self::$_foreignConnections);
-		//echo '</pre>';
-		$sourceModelClass = self::getTableModel($sourceTable);
-		$model2Class = self::getTableModel($table2);
-		$joins = array();
-		$joinedTables = array();
-		foreach (self::$_foreignConnections[$sourceModelClass] as $connectedClass => $options){
-			if ($connectedClass == $model2Class){
-				if (!is_array($options)){
-					$viaClass = $options;
-					//echo 'Connectiong via '.$viaClass.'<br />';
-					$viaTable = self::getModelTable($viaClass);
-					$join1 = self::getIndirectTablesJoins($sourceTable, $viaTable, $joinOptions);
-					$join2 = self::getIndirectTablesJoins($viaTable, $table2, $joinOptions);
-					if ($join1 !== false){
-						list($extraJoinedTables, $joinString) = $join1;
-						$joins[] = $joinString;
-						foreach ($extraJoinedTables as $uid => $b){
-							$joinedTables[$uid] = true;
-						}
-					}
-					if ($join2 !== false){
-						list($extraJoinedTables, $joinString) = $join2;
-						$joins[] = $joinString;
-						foreach ($extraJoinedTables as $uid => $b){
-							$joinedTables[$uid] = true;
-						}
-					}
-					return array($joinedTables, implode("", $joins));
-				}else{
-					$joinString = self::getTablesJoin($sourceTable, $table2, $joinOptions);
-					$joinedTables[$sourceTable->getUid()] = true;
-					$joinedTables[$table2->getUid()] = true;
-					//echo 'Connectiong via DIRECT<br />';
-					if ($joinString !== false) return array($joinedTables, $joinString);
-				}
-			}
-		}
-		//echo 'Connectiong via FALSE<br />';
-		return false;
-	}
-	public static function getTablesJoin($table1, $table2, $options){
-		$joinType = $options[$table2->getUid()]['type'];
-		$model1Class = self::getTableModel($table1);
-		$model2Class = self::getTableModel($table2);
-		$model1 = new $model1Class();
-		$model2 = new $model2Class();
-		$fks = $model1->foreignKeysGet();
-		foreach ($fks as $p => $a){
-			list($fm, $fp) = $a;
-			if ($fm == $model2Class){
-				$f1 = $model1->propertyFieldNameGet($p);
-				$f2 = $model2->propertyFieldNameGet($fp);
-				return " ".$joinType." JOIN {$table2->getTableName()} AS $table2 ON ({$table1->$f1} = {$table2->$f2}".($on==''?'':' AND '.$on).")";
-			}
-		}
-		$fks = $model2->foreignKeysGet();
-		foreach ($fks as $p => $a){
-			list($fm, $fp) = $a;
-			if ($fm == $model1Class){
-				$f1 = $model1->propertyFieldNameGet($fp);
-				$f2 = $model2->propertyFieldNameGet($p);
-				return " ".$joinType." JOIN {$table2->getTableName()} AS $table2 ON ({$table1->$f1} = {$table2->$f2}".($on==''?'':' AND '.$on).")";
-			}
-		}
-		return false;
-	}
+
 	public static function setTableModel($zenMysqlTable, $modelClass){
 		self::$_models[$zenMysqlTable->getDatabaseName()][$zenMysqlTable->getTableName()] = $modelClass;
 		self::$_tables[$modelClass] = $zenMysqlTable;
 		$model = new $modelClass();
 		self::registerForeignKeys($model);
 	}
-	public static function getModelTable($class){
-		//var_dump(self::$_tables);
-		return self::$_tables[$class];
-	}
+	
 	public static function getModels(){
 		return self::$_tables;
 	}
