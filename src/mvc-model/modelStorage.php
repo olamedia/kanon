@@ -70,7 +70,7 @@ class modelStorage{
 		$fks = $collection->getForeignKeys();
 		foreach ($fks as $propertyName => $a){
 			list($foreignModel, $foreignPropertyName) = $a;
-			echo '+ '.$modelName.'.'.$propertyName.' => '.$foreignModel.'.'.$foreignPropertyName.':<br />';
+			//echo '+ '.$modelName.'.'.$propertyName.' => '.$foreignModel.'.'.$foreignPropertyName.':<br />';
 			$keys[$foreignModel][$modelName] = array($foreignPropertyName, $propertyName);
 			$keys[$modelName][$foreignModel] = array($propertyName, $foreignPropertyName);
 		}
@@ -83,8 +83,8 @@ class modelStorage{
 					foreach ($keys[$viaModel] as $foreignModel => $options2){
 						if ($foreignModel !== $model){
 							if (!isset($keys[$model][$foreignModel])){
-								echo $model.'=>'.$foreignModel.' via '.$viaModel.'.<br />';
-								echo $indirectForeignClass2.'<br />';
+								//echo $model.'=>'.$foreignModel.' via '.$viaModel.'.<br />';
+								//echo $indirectForeignClass2.'<br />';
 								$keys[$model][$foreignModel] = $viaModel;
 								$reverseKeys[$foreignModel][$model] = $viaModel;
 							}
