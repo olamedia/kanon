@@ -2,7 +2,7 @@
 /**
  * $Id$
  */
-require_once dirname(__FILE__).'/uri.php';
+require_once dirname(__FILE__).'/../common/uri.php';
 class controllerPrototype{
 	protected $_me = null; // ReflectionClass
 	protected $_parent = null;

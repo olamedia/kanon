@@ -2,7 +2,8 @@
 /**
  * $Id$
  */
-require_once dirname(__FILE__).'/application.php';
+require_once dirname(__FILE__).'/../mvc-controller/application.php';
+require_once dirname(__FILE__).'/../mvc-model/modelCollection.php';
 require_once dirname(__FILE__).'/fileStorage.php';
 class kanon{
 	private static $_uniqueId = 0;
@@ -26,8 +27,16 @@ class kanon{
 		self::$_uniqueId++;
 		return $id;
 	}
-	public static function getStorage($storageName){
+	public static function getStorage($storageName = 'default'){
 		return fileStorage::getStorage($storageName);
+	}
+	/**
+	 * 
+	 * @param string $storageName
+	 * @return modelStorage
+	 */
+	public static function getModelStorage($storageName = 'default'){
+		return modelStorage::getInstance($storageName);
 	}
 	public static function getCollection($modelName){
 		return modelCollection::getCollection($modelName);

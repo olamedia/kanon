@@ -50,11 +50,6 @@ class zenMysqlResult extends zenMysqlQueryBuilder implements IteratorAggregate, 
 			return mysql_result($q,0);
 		}
 	}
-	public function delete(){ // Properly delete items
-		foreach ($this as $item){
-			$item->delete();
-		}
-	}
 	protected function _makeList(){
 		while ($model = $this->fetch()){
 			$this->_list[] = $model;
@@ -128,269 +123,7 @@ class zenMysqlResult extends zenMysqlQueryBuilder implements IteratorAggregate, 
 		return $models;
 	}
 }
-class zenMysqlQueryBuilder{
-	protected $_linkSource = null;
-	protected $_joinedTables = array(); // all tables joined by user
-	protected $_selectedTables = array(); // all tables in select
-	protected $_selected = array();
-	protected $_limitFrom = 0;
-	protected $_limit = null;
-	
-	protected $_joinOptions = array();
-	protected $_join = array();
-	protected $_where = array();
-	protected $_having = array();
-	protected $_order = array();
-	protected $_group = array();
-	protected function _q($sql){
-		return mysql_query($sql, $this->getLink());
-	}
-	public function q($sql){
-		return mysql_query($sql, $this->getLink());
-	}
-	public function e($unescapedString){
-		return mysql_real_escape_string($unescapedString, $this->getLink());
-	}
-	public function &getLink(){
-		return zenMysql::getDatabaseLink($this->_linkSource->getServerId(), $this->_linkSource->getDatabaseName())->getLink();
-	}
-	public function &select(){
-		$args = func_get_args();
-		if (!count($args)) return $this;
-		foreach ($args as $arg){
-			$table = null;
-			$field = null;
-			if ($arg instanceof zenMysqlTable){
-				$table = $arg;
-			}
-			if ($arg instanceof zenMysqlField){
-				$table = $arg->getTable();
-				$field = $arg;
-			}
-			if ($this->_linkSource === null) $this->_linkSource = $table;
-			$a = array();
-			if ($arg instanceof zenMysqlTable){
-				foreach ($table as $field){
-					$fid = $field->__toString();
-					$a[$fid] = $field;
-				}
-			}
-			if ($arg instanceof zenMysqlField){
-				$fid = $field->__toString();
-				$a[$fid] = $field;
-			}
-			$this->_selected[] = array($table, $a);
-			$this->_selectedTables[$table->getUid()] = $table;
-			$this->_joinedTables[$table->getUid()] = $table;
-		}
-		//var_dump($this->_selected);
-		return $this;
-	}
-	protected function _constructJoins(){
-		$this->_join = array(); // reset joins
-		$sourceTable = $this->_linkSource;
-		$sourceTableUid = $sourceTable->getUid();
-		$joined = array();
-		$joined[$sourceTable->getUid()] = true;
-		foreach ($this->_joinedTables as $tableUid => $table2){
-			if ($sourceTableUid !== $tableUid){ //
-				// Trying to join table
-				$on = '';
-				$joinType = 'INNER';
-				if (isset($this->_joinOptions[$table2->getUid()])){
-					$options = $this->_joinOptions[$table2->getUid()];
-					$on = $options['on'];
-					$joinType = $options['type'];
-				}
-				$join = zenMysql::getIndirectTablesJoins($sourceTable, $table2, $this->_joinOptions);
-				if ($join !== false){
-					list($joinTables, $joinString) = $join;
-					$notJoined = false;
-					foreach ($joinTables as $tableUid => $b){
-						if (!isset($joined[$tableUid])){
-							$notJoined = true;
-							$joined[$tableUid] = true;
-						}
-					}
-					if ($notJoined){
-						$this->_join[] = $joinString;
-					}
-				}
-			}
-		}
-		//var_dump($this->_join);
-	}
-	public function &join($table2, $on = '', $joinType = 'INNER'){
-		/*foreach ($this->_joinedTables as $table1){
-			$join = zenMysql::getTablesJoin($table1, $table2, $joinType, $on);
-			if ($join !== false){
-				$this->_join[] = $join;
-				break;
-			}
-		}*/
-		/*if (!is_object($table2)){
-			var_dump($table2);
-		}*/
-		$this->_joinOptions[$table2->getUid()] = array(
-			'on' => $on,
-			'type' => $joinType
-		);
-		$this->_joinedTables[$table2->getUid()] = $table2;
-		return $this;
-	}
-	public function &leftJoin($table2, $on = ''){
-		return $this->join($table2, $on, 'LEFT');
-	}
-	public function &limit(){
-		$args = func_get_args();
-		switch (count($args)){
-			case 1:
-				$this->_limit = $args[0];
-				$this->_limitFrom = 0;
-				break;
-			case 2:
-				$this->_limit = $args[1];
-				$this->_limitFrom = $args[0];
-				break;
-			default:
-				$this->_limit = null;
-				$this->_limitFrom = 0;
-		}
-		return $this;
-	}
-	protected function _joinCondition($condition){
-		if ($condition instanceof zenExpression){
-			$left = $condition->getLeft();
-			if ($left instanceof zenMysqlField){
-				$this->join($left->getTable());
-			}
-			$right = $condition->getLeft();
-			if ($right instanceof zenMysqlField){
-				$this->join($right->getTable());
-			}
-		}
-	}
-	public function &where(){
-		$conditions = func_num_args()?func_get_args():array();
-		foreach ($conditions as $condition){
-			$this->_where[] = $condition;
-			$this->_joinCondition($condition);
-		}
-		return $this;
-	}
-	public function &having($condition){
-		$this->_having[] = $condition;
-		$this->_joinCondition($condition);
-		return $this;
-	}
-	public function &asc($field){
-		$this->_order[] = $field.' ASC';
-		if ($field instanceof zenMysqlField){
-			$this->join($field->getTable());
-		}
-		return $this;
-	}
-	public function &desc($field){
-		$this->_order[] = $field.' DESC';
-		if ($field instanceof zenMysqlField){
-			$this->join($field->getTable());
-		}
-		return $this;
-	}
-	public function &orderBy($orderString){
-		$this->_order[] = $orderString;
-		return $this;
-	}
-	public function &groupBy($groupString){
-		$this->_group[] = $groupString;
-		return $this;
-	}
-	protected function getWhatSql(){
-		$wa = array();
-		foreach ($this->_selected as $sa){
-			list($table, $fields) = $sa;
-			foreach ($fields as $fid => $field){
-				$wa[] = $field." as ".$field->getUid();
-			}
-		}
-		return implode(", ", $wa);
-	}
-	protected function getJoinSql(){
-		$this->_constructJoins();
-		return implode(" ", $this->_join);
-	}
-	protected function getFromSql(){
-		reset($this->_selected);
-		$sa = current($this->_selected);
-		list($table, $fields) = $sa;
-		return " FROM ".$table->getTableName()." as ".$table;
-	}
-	protected function getOrderSql(){
-		if (count($this->_order)){
-			return " ORDER BY ".implode(", ", $this->_order);
-		}
-		return '';
-	}
-	protected function getWhereSql(){
-		if (count($this->_where)){
-			return " WHERE ".implode(" AND ", $this->_where);
-		}
-		return '';
-	}
-	protected function getHavingSql(){
-		if (count($this->_having)){
-			return " HAVING ".implode(" AND ", $this->_having);
-		}
-		return '';
-	}
-	protected function getGroupBySql(){
-		if (count($this->_group)){
-			return " GROUP BY ".implode(", ", $this->_group);
-		}
-		return '';
-	}
-	protected function getLimitSql(){
-		if ($this->_limitFrom){
-			if ($this->_limit){
-				return " LIMIT $this->_limitFrom, $this->_limit";
-			}else{
-				return "";//,18446744073709551615;
-			}
-		}else{
-			if ($this->_limit){
-				return " LIMIT $this->_limit";
-			}else{
-				return "";//,18446744073709551615;
-			}
-		}
-	}
-	public function getSql(){
-		$sql = "SELECT ".$this->getWhatSql()
-		.$this->getFromSql()
-		// join
-		.$this->getJoinSql()
-		.$this->getWhereSql()
-		.$this->getGroupBySql()
-		.$this->getHavingSql()
-		.$this->getOrderSql()
-		.$this->getLimitSql();
-		//echo '<b>'.$sql.'</b><br />';
-		return $sql;
-	}
-	public function getCountSql(){
-		$sql = "SELECT COUNT(*)"
-		.$this->getFromSql()
-		// join
-		.$this->getJoinSql()
-		.$this->getWhereSql()
-		.$this->getGroupBySql()
-		.$this->getHavingSql()
-		.$this->getOrderSql()
-		.$this->getLimitSql();
-		return $sql;
-	}
-	
-}
+
 class zenMysqlRow extends mysqlRow{
 	protected $_storageClass = 'zenMysqlItemStorage';
 	public function __construct(){
@@ -437,9 +170,6 @@ class zenMysqlField{
 		$this->_tableUid = $table->getUid();
 		$this->_fieldName = $fieldName;
 	}
-	public function __toString(){
-		return $this->_tableUid.'.`'.$this->_fieldName.'`';
-	}
 	public function getUid(){
 		return $this->_tableUid.'__'.$this->_fieldName;
 	}
@@ -461,21 +191,7 @@ class zenMysqlField{
 	public function getFieldName(){
 		return $this->_fieldName;
 	}
-	public function is($value){
-		return new zenExpression($this, '=', $value);
-	}
-	public function lt($value){
-		return new zenExpression($this, '<', $value);
-	}
-	public function gt($value){
-		return new zenExpression($this, '>', $value);
-	}
-	public function in($value){
-		return new zenExpression($this, 'IN', $value);
-	}
-	public function like($value){
-		return new zenExpression($this, 'LIKE', $value);
-	}
+	
 }
 class zenMysqlTable extends mysqlTable implements ArrayAccess, Countable, IteratorAggregate{
 	private $_serverId = null;
@@ -485,12 +201,7 @@ class zenMysqlTable extends mysqlTable implements ArrayAccess, Countable, Iterat
 	private $_fList = array();
 	private $_isFullList = false;
 	private $_uid = null;
-	private $_filters = array();
 	private $_defaults = array();
-	public function &addFilter($filter){
-		$this->_filters[] = $filter;
-		return $this;
-	}
 	public function &setDefaultFieldValue($field, $value){
 		$this->_defaults[$field] = $value;
 		return $this;

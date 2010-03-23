@@ -70,7 +70,10 @@ header("Content-type: text/plain; charset=UTF-8");
 phpCombinator::combine(
 	array(
 		'src/common', 
-		'src/mvc-controller'
+		'src/mvc-controller',
+		'src/mvc-model',
+		'src/mvc-model/properties',
+		'src/mvc-model/storageDrivers',
 	), 
 	true
 );

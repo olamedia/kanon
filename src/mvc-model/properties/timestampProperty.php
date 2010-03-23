@@ -1,4 +1,5 @@
 <?php
+require_once dirname(__FILE__).'/integerProperty.php';
 class timestampProperty extends integerProperty{
 	/**
 	 * @return string Human presentation

@@ -1,5 +1,6 @@
 <?php
 //  implements IControllableProperty
+require_once dirname(__FILE__).'/modelExpression.php';
 class modelProperty{
 	protected $_name = null;
 	protected $_defaultValue = null;

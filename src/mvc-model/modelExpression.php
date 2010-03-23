@@ -7,7 +7,7 @@ class modelExpression{
 		$this->_left = $left;
 		$this->_operator = $operator;
 		$this->_right = $right;
-		if ($this->_right instanceof property){
+		if ($this->_right instanceof modelProperty){
 			$this->_right = $this->_right->getValue();
 		}
 	}

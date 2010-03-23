@@ -10,7 +10,14 @@ class model implements ArrayAccess, IteratorAggregate{
 	protected $_foreignKeys = array(); // property => array(foreignClass, foreignProperty)
 	protected $_options = array(); // propertyName => options
 	protected $_storage = null;
-	protected $_storageClass = 'mysqlStorage';
+	protected $_storageClass = 'modelStorage';
+	public static function getCollection(){
+		if (!function_exists('get_called_class')){
+			require_once dirname(__FILE__).'/../common/compat/get_called_class.php';
+			// PHP 5 >= 5.2.4
+		}
+		return modelCollection::getInstance(get_called_class()); // PHP 5 >= 5.3.0
+	}
 	public function getIterator(){
 		return new modelIterator($this, $this->_classes);
 	}
@@ -22,6 +29,9 @@ class model implements ArrayAccess, IteratorAggregate{
 	}
 	public function getFieldNames(){
 		return $this->_fields;
+	}
+	public function getPropertyNames(){
+		return array_keys($this->_classes);
 	}
 	public function getForeignKeys(){
 		return $this->_foreignKeys;
@@ -87,6 +97,9 @@ class model implements ArrayAccess, IteratorAggregate{
 	public function setStorage($storage){
 		$this->_storage = $storage;
 	}
+	/**
+	 * @return modelStorage
+	 */
 	public function getStorage(){
 		if ($this->_storage === null){
 			$storageClass = $this->_storageClass;
@@ -96,8 +109,7 @@ class model implements ArrayAccess, IteratorAggregate{
 	}
 	public function save(){
 		$this->preSave();
-		foreach ($this->_classes as $propertyName => $class){
-			$property = $this->_getProperty($propertyName);
+		foreach ($this as $property){
 			$property->preSave();
 			$control = $property->getControl();
 			if ($control !== null){
@@ -106,8 +118,7 @@ class model implements ArrayAccess, IteratorAggregate{
 		}
 		$result = $this->getStorage()->saveModel($this);
 		$this->postSave();
-		foreach ($this->_classes as $propertyName => $class){
-			$property = $this->_getProperty($propertyName);
+		foreach ($this as $property){
 			$property->postSave();
 			$control = $property->getControl();
 			if ($control !== null){
@@ -118,37 +129,37 @@ class model implements ArrayAccess, IteratorAggregate{
 	}
 	public function insert(){
 		$this->preInsert();
-		foreach ($this->_classes as $propertyName => $class){
-			$this->_getProperty($propertyName)->preInsert();
+		foreach ($this as $property){
+			$property->preInsert();
 		}
 		$result = $this->getStorage()->insertModel($this);
 		$this->postInsert();
-		foreach ($this->_classes as $propertyName => $class){
-			$this->_getProperty($propertyName)->postInsert();
+		foreach ($this as $property){
+			$property->postInsert();
 		}
 		return $result;
 	}
 	public function update(){
 		$this->preUpdate();
-		foreach ($this->_classes as $propertyName => $class){
-			$this->_getProperty($propertyName)->preUpdate();
+		foreach ($this as $property){
+			$property->preUpdate();
 		}
 		$result = $this->getStorage()->updateModel($this);
 		$this->postUpdate();
-		foreach ($this->_classes as $propertyName => $class){
-			$this->_getProperty($propertyName)->postUpdate();
+		foreach ($this as $property){
+			$property->postUpdate();
 		}
 		return $result;
 	}
 	public function delete(){
 		$this->preDelete();
-		foreach ($this->_classes as $propertyName => $class){
-			$this->_getProperty($propertyName)->preDelete();
+		foreach ($this as $property){
+			$property->preDelete();
 		}
 		$result = $this->getStorage()->deleteModel($this);
 		$this->postDelete();
-		foreach ($this->_classes as $propertyName => $class){
-			$this->_getProperty($propertyName)->postDelete();
+		foreach ($this as $property){
+			$property->postDelete();
 		}
 		return $result;
 	}
