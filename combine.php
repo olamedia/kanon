@@ -18,7 +18,7 @@ class phpCombinator{
 		}
 		return $files;
 	} 
-	public static function combine($path = '', $realData = false){
+	public static function combine($path = '', $finalFilename, $realData = false){
 		$files = array();
 		if (is_array($path)){
 			foreach ($path as $subpath){
@@ -47,7 +47,7 @@ class phpCombinator{
 		foreach ($files as $fileName => $filePath){
 			self::_put($fileName, $files, $realData);
 		}
-		file_put_contents('kanon-framework.php', self::$_data);
+		file_put_contents($finalFilename, self::$_data);
 		//echo self::$_data;
 	}
 	private static function _put($fileName, $files, $realData = false){
@@ -75,5 +75,6 @@ phpCombinator::combine(
 		'src/mvc-model/properties',
 		'src/mvc-model/storageDrivers',
 	), 
+	'kanon-framework.php',
 	true
 );

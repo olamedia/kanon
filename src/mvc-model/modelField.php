@@ -20,13 +20,17 @@ class modelField{
 	public function is($value){
 		return new modelExpression($this, '=', $value);
 	}
+	public function min(){
+		return new modelAggregation($this, 'MIN');
+	}
+	public function max(){
+		return new modelAggregation($this, 'MAX');
+	}
 	public function sum(){
-		$as = $this->getUniqueId('sql');
-		return new modelAggregation($this, 'SUM', $as);
+		return new modelAggregation($this, 'SUM');
 	}
 	public function avg(){
-		$as = $this->getUniqueId('sql');
-		return new modelAggregation($this, 'AVG', $as);
+		return new modelAggregation($this, 'AVG');
 	}
 	public function lt($value){
 		return new modelExpression($this, '<', $value);
