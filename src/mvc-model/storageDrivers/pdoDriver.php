@@ -17,13 +17,13 @@ class pdoDriver extends storageDriver{
 	public function query($sql){
 		return $this->getConnection()->query($sql);
 	}
-	public function fetch(PDOStatement $resultSet){
+	public function fetch($resultSet){
 		return $resultSet->fetch();
 	}
-	public function fetchColumn(PDOStatement $resultSet, $columnNumber = 0){
+	public function fetchColumn($resultSet, $columnNumber = 0){
 		return $resultSet->fetchColumn($columnNumber);
 	}
-	public function rowCount(PDOStatement $resultSet){
+	public function rowCount($resultSet){
 		return $resultSet->rowCount();
 	}
 	public function quote($string){

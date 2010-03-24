@@ -17,7 +17,7 @@ class phpCombinator{
 			}
 		}
 		return $files;
-	} 
+	}
 	public static function combine($path = '', $finalFilename, $realData = false){
 		$files = array();
 		if (is_array($path)){
@@ -44,6 +44,11 @@ class phpCombinator{
 			}
 			self::$_fileData[$fileName] = $data;
 		}
+		$match = "#((require|include)(_once)?[^=;]+['\"];)#ims";
+		foreach (self::$_fileData as $fileName => $data){
+			self::$_fileData[$fileName] = preg_replace($match, "", $data);
+		}
+		//			self::$_fileData[$fileName] = $data;
 		foreach ($files as $fileName => $filePath){
 			self::_put($fileName, $files, $realData);
 		}
@@ -68,13 +73,15 @@ class phpCombinator{
 }
 header("Content-type: text/plain; charset=UTF-8");
 phpCombinator::combine(
-	array(
+array(
 		'src/common', 
+		'src/forms',
+		'src/forms/controls',
 		'src/mvc-controller',
 		'src/mvc-model',
 		'src/mvc-model/properties',
 		'src/mvc-model/storageDrivers',
-	), 
+),
 	'kanon-framework.php',
-	true
+true
 );

@@ -1,6 +1,16 @@
 <?php
 
-class registry{
+/**
+ * $Id$
+ */
+class nullObject{
+	// nothing
+}
+
+/**
+ * $Id$
+ */
+class registry implements ArrayAccess, IteratorAggregate{
 	/**
 	 * The variables array
 	 * @access private
@@ -21,12 +31,33 @@ class registry{
 	 * @return mixed
 	 */
 	public function __get($key){
-		if (isset($this->_vars[$key])) return $this->_vars[$key];
-		return null;
+		if (!isset($this->_vars[$key])){
+			$this->_vars[$key] = new registry();
+		}
+		return $this->_vars[$key];
+	}
+	public function __isset($key){
+		return isset($this->_vars[$key]);
+	}
+	public function offsetExists($offset){
+		return array_key_exists($offset, $this->_vars);
+	}
+	public function offsetGet($offset){
+		return $this->__get($offset);
+	}
+	public function offsetSet($offset, $value){
+		$this->__set($offset, $value);
+	}
+	public function offsetUnset($offset){
+		unset($this->_vars[$offset]);
+	}
+	public function getIterator(){
+		return new ArrayIterator($this->_vars);
 	}
 }
 
 /**
+ * $Id$
  * Class representation of relative uri string
  * @author olamedia 
  */
@@ -180,6 +211,1667 @@ class uri{
 	}
 }
 
+/**
+ * $Id$
+ * @author olamedia
+ */
+class fileStorage{
+	protected static $_instances = array();
+	protected $_name = null;
+	protected $_parent = null;
+	protected $_path = null;
+	protected $_url = null;
+	/**
+	 * Constructor
+	 * @param string $storageName
+	 */
+	protected function __construct($storageName){
+		$this->_name = $storageName;
+	}
+	/**
+	 * Get named file storage
+	 * @param string $storageName
+	 * @return fileStorage
+	 */
+	public static function getStorage($storageName = 'default'){
+		if (!isset(self::$_instances[$storageName])) {
+			self::$_instances[$storageName] = new static($storageName);
+		}
+		return self::$_instances[$storageName];
+	}
+	/**
+	 * Get named file storage, relative to this storage
+	 * @param string $storageName
+	 * @param string $relativePath
+	 * @return fileStorage
+	 * @example $defaultStorage->getRelativeStorage('images', 'images/');
+	 */
+	public function getRelativeStorage($storageName, $relativePath = ''){
+		static::getStorage($storageName)->setParent($this)->setRelativePath($relativePath);
+		return $this;
+	}
+	/**
+	 * Set parent storage
+	 * @param fileStorage $parent
+	 * @return fileStorage
+	 */
+	public function setParent($parent){
+		$this->_parent = $parent;
+		return $this;
+	}
+	/**
+	 * Get parent storage
+	 * @return fileStorage
+	 */
+	public function getParent(){
+		return $this->_parent;
+	}
+	/**
+	 * Set both path and url for storage, relative to parent storage
+	 * @param string $relativePath
+	 * @return fileStorage
+	 */
+	public function setRelativePath($relativePath = ''){
+		$this->setPath($relativePath);
+		$this->setUrl($relativePath);
+		return $this;
+	}
+	/**
+	 * Set path for storage
+	 * @param string $path
+	 * @return fileStorage
+	 */
+	public function setPath($path){
+		if (!substr($path,0,1)!=='/'){
+			$path = realpath($path);
+			if ($path === false){
+				throw new Exception('Path '.$path.' not exists');
+			}
+		}
+		$this->_path = $this->_normalizePath($path);
+		return $this;
+	}
+	/**
+	 * Get expanded path from relative
+	 * @return string|boolean
+	 */
+	public function getPath($relativePath = ''){
+		//echo 'class::'.get_class($this).'('.$this->_name.')->getPath('.$relativePath.')start  ';
+		$basename = basename($relativePath);
+		$dirname = dirname($relativePath);
+		if (in_array($basename, array('.', '..'))){
+			// concatenate
+			$dirname .= '/'.$basename;
+			$basename = '';
+		}
+		$dirname = $this->_rel($dirname);
+		//echo 'class::'.get_class($this).'('.$this->_name.')->getPath('.$relativePath.')return '.$dirname.'/'.$basename.' ';
+		return $dirname.'/'.$basename;
+	}
+	public function getFilePath($relativeFilename){
+		return $this->_relFile($relativeFilename);
+	}
+	/**
+	 * Set url for storage
+	 * @param string $url
+	 * @return fileStorage
+	 */
+	public function setUrl($url){
+		$this->_url = $this->_normalizePath($url);
+		return $this;
+	}
+	/**
+	 * Get url for file or directory 
+	 * @param string $relativeUrl
+	 * @return string
+	 * @example $storage->getUrl('images/image.png');
+	 */
+	public function getUrl($relativeUrl = ''){
+		$url = $this->_url.$relativeUrl;
+		if (is_object($this->_parent)){
+			return $this->_parent->getUrl($url);
+		}
+		return '/'.$url;
+	}
+	protected function _relFile($relativeFilename = ''){
+		return $this->_rel(dirname($relativeFilename)).basename($relativeFilename);
+	}
+	protected function _fixPath($path){ 
+       return dirname($path.'/.'); 
+	}
+	protected function _rel($relativePath = ''){
+		//echo 'class::'.get_class($this).'('.$this->_name.')->_rel('.$relativePath.')start  ';
+		$path = $this->_path.$relativePath;
+		//echo 'class::'.get_class($this).'('.$this->_name.')->getPath('.$relativePath.')path '.$path.' ';
+		if (is_object($this->_parent)){
+			$path = $this->_parent->getPath($path);
+		}else{
+			$path = '/'.$path; // denormalize path
+		}
+		//echo 'class::'.get_class($this).'('.$this->_name.')->getPath('.$relativePath.')return <b>realpath('.$path.')='.realpath($path).'</b> ';
+		$path = realpath($path);
+		if ($path === false){
+			// path not exists
+			return false;
+		}
+		return $this->_fixPath($path.'/');
+	}
+	/**
+	 * Upload file to storage 
+	 * @param string $sourceFilename
+	 * @param string $targetFilename
+	 */
+	public function upload($sourceFilename, $targetFilename){
+		return copy($sourceFilename, $this->_relFile($targetFilename));
+	}
+	/**
+	 * Download file from storage 
+	 * @param string $sourceFilename
+	 * @param string $targetFilename
+	 */
+	public function download($sourceFilename, $targetFilename){
+		return copy($this->_relFile($sourceFilename), $targetFilename);
+	}
+	/**
+	 * Write a string to a file
+	 * @param string $sourceFilename
+	 * @param string $targetFilename
+	 */
+	public function putContents($targetFilename, $data){
+		return file_put_contents($this->_relFile($targetFilename), $data);
+	}
+	/**
+	 * Reads entire file into a string
+	 * @param string $sourceFilename
+	 * @return string
+	 */
+	public function getContents($sourceFilename){
+		return file_get_contents($this->_relFile($sourceFilename));
+	}
+	/**
+	 * Normalize path for safe concatenation
+	 * @param string $path
+	 * @return string
+	 */
+	protected function _normalizePath($path){
+		// 1. remove all slashes at both sides
+		$path = ltrim(trim($path, "/"), "/");
+		// 2. add right slash if strlen
+		if (strlen($path)) $path = $path.'/';
+		return $path;
+	}
+}
+/*$defaultStorage = fileStorage::getStorage()
+	->setPath(dirname(__FILE__).'/../')
+	->setUrl('/');
+$defaultStorage->getRelativeStorage('images', 'images/');
+$defaultStorage->getRelativeStorage('css', 'css/');
+$defaultStorage->getRelativeStorage('js', 'js/');
+$storage = fileStorage::getStorage('css');
+var_dump($storage);
+echo '<hr />';
+echo $storage->getUrl('images/img.png');
+echo '<hr />';
+echo $storage->getPath('images/img.png');
+echo '<hr />';
+
+echo '<hr />';*/
+
+/**
+ * $Id$
+ */
+require_once dirname(__FILE__).'/../mvc-controller/application.php';
+require_once dirname(__FILE__).'/../mvc-model/modelCollection.php';
+
+class kanon{
+	private static $_uniqueId = 0;
+	/**
+	 * Get named file storage
+	 * @param string $storageName
+	 * @return fileStorage
+	 */
+	public static function getUniqueId(){
+		$id = self::$_uniqueId;
+		$id = strval(base_convert($id, 10, 26));
+		$shift = ord("a") - ord("0");
+		for ($i = 0; $i < strlen($id); $i++){
+			$c = $id{$i};
+			if (ord($c) < ord("a")){
+				$id{$i} = chr(ord($c)+$shift);
+			}else{
+				$id{$i} = chr(ord($c)+10);
+			}
+		}
+		self::$_uniqueId++;
+		return $id;
+	}
+	public static function getStorage($storageName = 'default'){
+		return fileStorage::getStorage($storageName);
+	}
+	/**
+	 * 
+	 * @param string $storageName
+	 * @return modelStorage
+	 */
+	public static function getModelStorage($storageName = 'default'){
+		return modelStorage::getInstance($storageName);
+	}
+	public static function getCollection($modelName){
+		return modelCollection::getCollection($modelName);
+	}
+	public static function getBaseUri(){
+		$requestUri = $_SERVER['REQUEST_URI'];
+		$scriptUri = $_SERVER['SCRIPT_NAME'];
+		$max = min(strlen($requestUri), strlen($scriptUri));
+		$cmp = 0;
+		for ($l = 1; $l <= $max; $l++){
+			if (substr_compare($requestUri, $scriptUri, 0, $l, true) === 0){
+				$cmp = $l;
+			}
+		}
+		return substr($requestUri, 0, $cmp);
+	}
+	public static function run($applicationClass){
+		$app = application::getInstance($applicationClass);
+		$trace = debug_backtrace();
+		$file = $trace[0]['file'];
+		$basePath = dirname($file);
+		$app->setBasePath($basePath);
+		$baseUrl = kanon::getBaseUri();
+		$app->setBaseUri($baseUrl);
+		$app->run();
+	}
+}
+
+class modelAggregation{
+	protected $_argument = null;
+	protected $_function = 'SUM';
+	protected $_as = '';
+	public function __construct($argument, $function){
+		$this->_argument = $argument;
+		$this->_function = $function;
+		$this->_as = kanon::getUniqueId('sql');
+	}
+	public function getArguments(){
+		return array($this->_argument);
+	}
+	public function getAs(){
+		return $this->_as;
+	}
+	public function __toString(){
+		return $this->_function.'('.$this->_argument.') AS '.$this->_as;
+	}
+}
+
+class modelExpression{
+	protected $_left = null;
+	protected $_operator = '=';
+	protected $_right = null;
+	public function __construct($left, $operator, $right){
+		$this->_left = $left;
+		$this->_operator = $operator;
+		$this->_right = $right;
+		if ($this->_right instanceof modelProperty){
+			$this->_right = $this->_right->getValue();
+		}
+	}
+	public function getArguments(){
+		return array($this->_left, $this->_right);
+	}
+	public function getLeft(){
+		return $this->_left;
+	}
+	public function getRight(){
+		return $this->_right;
+	}
+	public function __toString(){
+		$right = $this->getRight();
+		if (strtoupper($this->_operator) == 'IN'){
+			if (is_array($right)){
+				$right = implode(",", $right);
+			}
+			$right = '('.$right.')';
+		}
+		return $this->getLeft().' '.$this->_operator.' '.$right;
+	}
+}
+
+
+
+class modelField{
+	protected $_collection = null;
+	protected $_fieldName = null;
+	protected $_uniqueId = null;
+	public function getUniqueId(){
+		if ($this->_uniqueId === null){
+			$this->_uniqueId = kanon::getUniqueId();
+		}
+		return $this->_uniqueId;
+	}
+	/*public function getUniqueId(){
+		return $this->_collection->getUniqueId().'__'.$this->_fieldName;
+	}*/
+	public function __construct($collection, $fieldname){
+		$this->_collection = $collection;
+		$this->_fieldName = $fieldname;
+	}
+	public function getName(){
+		return $this->_fieldName;
+	}
+	public function getCollection(){
+		return $this->_collection;
+	}
+	public function __toString(){
+		return $this->_collection->getUniqueId().'.`'.$this->_fieldName.'`';
+	}
+	public function is($value){
+		return new modelExpression($this, '=', $value);
+	}
+	public function min(){
+		return new modelAggregation($this, 'MIN');
+	}
+	public function max(){
+		return new modelAggregation($this, 'MAX');
+	}
+	public function sum(){
+		return new modelAggregation($this, 'SUM');
+	}
+	public function avg(){
+		return new modelAggregation($this, 'AVG');
+	}
+	public function lt($value){
+		return new modelExpression($this, '<', $value);
+	}
+	public function gt($value){
+		return new modelExpression($this, '>', $value);
+	}
+	public function in($value){
+		return new modelExpression($this, 'IN', $value);
+	}
+	public function like($value){
+		return new modelExpression($this, 'LIKE', $value);
+	}
+}
+
+class modelQueryBuilder{
+	/**
+	 *
+	 * @var modelCollection
+	 */
+	protected $_storageSource = null;
+	protected $_joinedTables = array(); // all tables joined by user
+	protected $_selectedTables = array(); // all tables in select
+	protected $_selected = array();
+	protected $_limitFrom = 0;
+	protected $_limit = null;
+
+	protected $_joinOptions = array();
+	protected $_join = array();
+	protected $_where = array();
+	protected $_having = array();
+	protected $_order = array();
+	protected $_group = array();
+	protected $_filters = array();
+	public function addFilter($filter){
+		$this->_filters[] = $filter;
+		return $this;
+	}
+	/**
+	 * @return modelStorage
+	 */
+	public function getStorage(){
+		if ($this->_storageSource === null) return false;
+		return  $this->_storageSource->getStorage();
+	}
+	public function e($unescapedString){
+		return $this->getStorage()->quote($unescapedString);
+	}
+	/**
+	 * @return modelQueryBuilder
+	 */
+	public function select(){
+		$args = func_get_args();
+		if (!count($args)) return $this;
+		foreach ($args as $arg){
+			if ($arg instanceof modelAggregation){
+				$fields = $arg->getArguments();
+				foreach ($fields as $field){
+					$a["$field"] = $field;
+				}
+				$field = $arg;
+				$this->_selected[] = $arg;
+			}else{
+				$table = null;
+				$field = null;
+				if ($arg instanceof modelCollection){
+					$table = $arg;
+				}
+				if ($arg instanceof modelField){
+					$table = $arg->getTable();
+					$field = $arg;
+				}
+
+				if ($this->_storageSource === null) $this->_storageSource = $table;
+				$a = array();
+				if ($arg instanceof modelCollection){
+					foreach ($table->getFieldNames() as $fieldName){
+						$field = $table[$fieldName];
+						$a["$field"] = $field;
+					}
+				}
+				if ($arg instanceof modelField){
+					$a["$field"] = $field;
+				}
+				$this->_selected[] = array($table, $a);
+				$this->_selectedTables[$table->getUniqueId()] = $table;
+				$this->_joinedTables[$table->getUniqueId()] = $table;
+			}
+		}
+		//var_dump($this->_selected);
+		return $this;
+	}
+	protected function _constructJoins(){
+		$this->_join = array(); // reset joins
+		$sourceTable = $this->_storageSource;
+		$sourceTableUid = $sourceTable->getUniqueId();
+		$joined = array();
+		$joined[$sourceTable->getUniqueId()] = true;
+		foreach ($this->_joinedTables as $tableUid => $table2){
+			if ($sourceTableUid !== $tableUid){ //
+				// Trying to join table
+				$on = '';
+				$joinType = 'INNER';
+				if (isset($this->_joinOptions[$table2->getUniqueId()])){
+					$options = $this->_joinOptions[$table2->getUniqueId()];
+					$on = $options['on'];
+					$joinType = $options['type'];
+				}
+				$joins = modelStorage::getIndirectTablesJoins($sourceTable, $table2, $this->_joinOptions);
+				if ($joins !== false){
+					foreach ($joins as $uid => $joinString){
+						if (!isset($joined[$uid])){
+							$this->_join[] = $joinString;
+							$joined[$uid] = true;
+						}
+					}
+				}
+			}
+		}
+		//var_dump($this->_join);
+	}
+	/**
+	 * @return modelQueryBuilder
+	 */
+	public function &join($table2, $on = '', $joinType = 'INNER'){
+		$this->_joinOptions[$table2->getUniqueId()] = array(
+			'on' => $on,
+			'type' => $joinType
+		);
+		$this->_joinedTables[$table2->getUniqueId()] = $table2;
+		return $this;
+	}
+	/**
+	 * @return modelQueryBuilder
+	 */
+	public function &leftJoin($table2, $on = ''){
+		return $this->join($table2, $on, 'LEFT');
+	}
+	/**
+	 * @return modelQueryBuilder
+	 */
+	public function &limit(){
+		$args = func_get_args();
+		switch (count($args)){
+			case 1:
+				$this->_limit = $args[0];
+				$this->_limitFrom = 0;
+				break;
+			case 2:
+				$this->_limit = $args[1];
+				$this->_limitFrom = $args[0];
+				break;
+			default:
+				$this->_limit = null;
+				$this->_limitFrom = 0;
+		}
+		return $this;
+	}
+	protected function _joinCondition($condition){
+		if ($condition instanceof modelExpression){
+			$left = $condition->getLeft();
+			if ($left instanceof modelField){
+				$this->join($left->getCollection());
+			}
+			$right = $condition->getLeft();
+			if ($right instanceof modelField){
+				$this->join($right->getCollection());
+			}
+		}
+	}
+	/**
+	 * @return modelQueryBuilder
+	 */
+	public function &where(){
+		$conditions = func_num_args()?func_get_args():array();
+		foreach ($conditions as $condition){
+			$this->_where[] = $condition;
+			$this->_joinCondition($condition);
+		}
+		return $this;
+	}
+	/**
+	 * @return modelQueryBuilder
+	 */
+	public function &having($condition){
+		$this->_having[] = $condition;
+		$this->_joinCondition($condition);
+		return $this;
+	}
+	/**
+	 * @return modelQueryBuilder
+	 */
+	public function &asc($field){
+		$this->_order[] = $field.' ASC';
+		if ($field instanceof modelField){
+			$this->join($field->getTable());
+		}
+		return $this;
+	}
+	/**
+	 * @return modelQueryBuilder
+	 */
+	public function &desc($field){
+		$this->_order[] = $field.' DESC';
+		if ($field instanceof modelField){
+			$this->join($field->getTable());
+		}
+		return $this;
+	}
+	/**
+	 * @return modelQueryBuilder
+	 */
+	public function &orderBy($orderString){
+		$this->_order[] = $orderString;
+		return $this;
+	}
+	/**
+	 * @return modelQueryBuilder
+	 */
+	public function &groupBy($groupString){
+		$this->_group[] = $groupString;
+		return $this;
+	}
+	protected function getWhatSql(){
+		$wa = array();
+		foreach ($this->_selected as $sa){
+			if (is_array($sa)){
+				list($table, $fields) = $sa;
+				foreach ($fields as $fid => $field){
+					$wa[] = $field." as ".$field->getUniqueId();
+				}
+			}else{
+				$wa[] = "$sa";
+			}
+		}
+		return implode(", ", $wa);
+	}
+	protected function getJoinSql(){
+		$this->_constructJoins();
+		return implode("", $this->_join);
+	}
+	protected function getFromSql(){
+		reset($this->_selected);
+		$sa = current($this->_selected);
+		list($table, $fields) = $sa;
+		return " FROM ".$table->getTableName()." as ".$table;
+	}
+	protected function getOrderSql(){
+		if (count($this->_order)){
+			return " ORDER BY ".implode(", ", $this->_order);
+		}
+		return '';
+	}
+	protected function getWhereSql(){
+		if (count($this->_where)){
+			return " WHERE ".implode(" AND ", $this->_where);
+		}
+		return '';
+	}
+	protected function getHavingSql(){
+		if (count($this->_having)){
+			return " HAVING ".implode(" AND ", $this->_having);
+		}
+		return '';
+	}
+	protected function getGroupBySql(){
+		if (count($this->_group)){
+			return " GROUP BY ".implode(", ", $this->_group);
+		}
+		return '';
+	}
+	protected function getLimitSql(){
+		if ($this->_limitFrom){
+			if ($this->_limit){
+				return " LIMIT $this->_limitFrom, $this->_limit";
+			}else{
+				return "";//,18446744073709551615;
+			}
+		}else{
+			if ($this->_limit){
+				return " LIMIT $this->_limit";
+			}else{
+				return "";//,18446744073709551615;
+			}
+		}
+	}
+	public function getSql(){
+		$sql = "SELECT ".$this->getWhatSql()
+		.$this->getFromSql()
+		// join
+		.$this->getJoinSql()
+		.$this->getWhereSql()
+		.$this->getGroupBySql()
+		.$this->getHavingSql()
+		.$this->getOrderSql()
+		.$this->getLimitSql();
+		//echo '<b>'.$sql.'</b><br />';
+		return $sql;
+	}
+	public function getCountSql(){
+		$sql = "SELECT COUNT(*)"
+		.$this->getFromSql()
+		// join
+		.$this->getJoinSql()
+		.$this->getWhereSql()
+		.$this->getGroupBySql()
+		.$this->getHavingSql()
+		.$this->getOrderSql()
+		.$this->getLimitSql();
+		return $sql;
+	}
+
+}
+
+
+//, Countable
+class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Countable{
+	protected $_result = null;
+	protected $_finished = false;
+	protected $_list = array();
+	protected function _makeModels($a){
+		$models = array();
+		foreach ($this->_selected as $sa){
+			if ($sa instanceof modelAggregation){
+				$models[] = $a[$sa->getAs()];
+			}else{
+				//reset($this->_selected);
+				//$sa = current($this->_selected);
+				list($table, $fields) = $sa;
+				if (!($modelClass = $table->getModelClass())){
+					$modelClass = 'model';
+				}
+				$model = new $modelClass();
+				foreach ($fields as $field){
+					//$k_fn = $field->getUniqueId();
+					$model[$field->getName()] = $a[$field->getUniqueId()];
+				}
+				/*
+				$tid = $table->getUniqueId();
+				foreach ($a as $k => $v){
+					if (($p = strpos($k, "__")) !== FALSE){
+						$k_tid = substr($k, 0, $p);
+						$k_fn = substr($k,$p+2);
+						if ($tid == $k_tid){
+							if (!is_object($model[$k_fn]) && is_object($model)){
+								// throw new Exception("Property \"".htmlspecialchars($k_fn)."\" not exists in class \"".get_class($model).'"');
+							}else{
+								$model[$k_fn]->setInitialValue($v);
+							}
+						}
+					}else{
+						// aggregate?
+					}
+				}*/
+				$models[] = $model;
+			}
+		}
+		if (count($models) == 1){
+			return $model;
+		}
+		return $models;
+	}
+	public function count(){
+		return $this->getStorage()->fetchColumn(
+		$this->getStorage()->query($this->getCountSql()),0
+		);
+	}
+	public function execute(){
+		if ($this->_result === null){
+			if ($this->_result = $this->getStorage()->query($this->getSql())){
+				return true;
+			}
+			return false;
+		}
+		return true;
+	}
+	/**
+	 * Fetch a result row
+	 * @return model
+	 */
+	public function fetch(){
+		//echo ' fetch()';
+		if ($this->_finished) return false;
+		$this->execute();
+		//var_dump($this->getStorage());
+		//var_dump($this->_result);
+		if ($this->_result){
+			if ($a = $this->getStorage()->fetch($this->_result)){
+				//var_dump($a);
+				/*$this->_list[] = $a;
+				 return $a;*/
+				$models = $this->_makeModels($a);
+				$this->_list[] = $models;
+				return $models;
+			}
+		}
+		$this->_finished = true;
+		return false;
+	}
+	protected function _fetchAll(){
+		//echo ' _fetchAll()';
+		while ($this->fetch()){}
+	}
+	public function getIterator(){
+		$this->_fetchAll();
+		return new ArrayIterator($this->_list);
+	}
+	public function delete(){ // Properly delete models
+		foreach ($this as $result){
+			if ($result instanceof model){
+				$result->delete();
+			}else{
+				foreach ($result as $model){
+					$model->delete();
+				}
+			}
+		}
+	}
+
+}
+
+
+
+class modelCollection implements ArrayAccess{
+	private static $_instances = array();
+	protected $_modelName = null; // helper
+	//protected $_helper = null; // model instance
+	protected $_uniqueId = null;
+	public function getModelClass(){
+		return $this->_modelName;
+	}
+	public function offsetExists($offset){
+		return in_array($offset, $this->getFieldNames());
+	}
+	public function __toString(){
+		return $this->getUniqueId();
+	}
+	public function getTableName(){
+		$tableName = storageRegistry::getInstance()->modelSettings[$this->_modelName]['table'];
+		return is_string($tableName)?$tableName:false;
+	}
+	public function offsetGet($offset){
+		return new modelField($this, $offset);
+	}
+	public function offsetSet($offset, $value){
+		
+	}
+	public function offsetUnset($offset){
+		
+	}
+	public function __get($name){
+		$fields = $this->getHelper()->getFieldNames();
+		if (isset($fields[$name])){
+			return new modelField($this, $fields[$name]);
+		}
+		return null;
+	}
+	public function __set($name, $value){
+		
+	}
+	public function select(){
+		$args = func_get_args();
+		array_unshift($args, $this);
+		$result = new modelResultSet();
+		call_user_func_array(array($result, 'select'), $args);
+		return $result;
+	}
+	public function getFieldNames(){
+		return $this->getHelper()->getFieldNames();
+	}
+	public function getForeignKeys(){
+		return $this->getHelper()->getForeignKeys(); 
+	}
+	public function getStorage(){
+		return $this->getHelper()->getStorage();
+	}
+	public function getConnection(){
+		return $this->getStorage()->getConnection();
+	}
+	public function getUniqueId(){
+		if ($this->_uniqueId === null){
+			$this->_uniqueId = kanon::getUniqueId();
+		}
+		return $this->_uniqueId;
+	}
+	private function __construct($modelName){
+		$this->_modelName = $modelName;
+	}
+	/**
+	 * @return model
+	 */
+	public function getHelper(){
+		return new $this->_modelName;
+		if ($this->_helper === null){
+			$this->_helper = new $this->_modelName;
+		}
+		return $this->_helper;
+	}
+	public static function getInstance($modelName){
+		if (!isset(self::$_instances[$modelName])){
+			self::$_instances[$modelName] = new self($modelName);
+		}
+		return self::$_instances[$modelName];
+	}
+}
+
+abstract class control{
+	protected $_prefix = null; // <input name="prefix_control_name" />
+	protected $_name = null; // <input name="control_name" />
+	protected $_key = null; // <input name="control_name[key]" />
+	protected $_value = null;
+	protected $_defaultValue = null;
+	protected $_required = false;
+	// basic decorations
+	protected $_title = '';
+	// control set adapter
+	protected $_controlSet = null;
+	protected $_item = null;
+	protected $_jsOnChangeCallback = '';
+	protected $_options = array();
+	protected $_repeatable = false; // name="name[]"
+	protected $_inputCssClass = 'text';
+	protected $_labelCssClass = 'text';
+	protected $_afterTitle = '';
+	
+	protected $_property = null;
+	//protected $_dataSources = array('GET', 'POST'); // GET/POST/FILES
+	public function setOptions($options = array()){
+		foreach ($options as $k => $v) $this->_options[$k] = $v;
+	}
+	public function setInputCssClass($cssClass){
+		$this->_inputCssClass = $cssClass;
+	}
+	public function getInputCssClass(){
+		if (isset($this->_options['inputCssClass'])){
+			return $this->_options['inputCssClass'];
+		}
+		return $this->_inputCssClass;
+	}
+	public function setLabelCssClass($cssClass){
+		$this->_labelCssClass = $cssClass;
+	}
+	public function getLabelCssClass(){
+		if (isset($this->_options['labelCssClass'])){
+			return $this->_options['labelCssClass'];
+		}
+		return $this->_labelCssClass;
+	}
+	public function __construct($controlName, $manualOnConstruct = false){
+		$this->_name = $controlName;
+		if (!$manualOnConstruct) $this->onConstruct();
+	}
+	public function onConstruct(){
+	}
+	public function error($errorString){
+		if ($this->_controlSet !== null){
+			$this->_controlSet->error($errorString);
+		}
+	}
+	public function setControlSet($controlSet){
+		$this->_controlSet = $controlSet;
+		$this->setItem($this->_controlSet->getItem());
+	}
+	/**
+	 * @return AControlSet
+	 */
+	public function getControlSet(){
+		return $this->_controlSet;
+	}
+	public function setItem($item){
+		$this->_item = $item;
+	}
+	public function setNote($note){
+		$this->_note = $note;
+	}
+	public function getItem(){
+		return is_object($this->_item)?$this->_item:false;
+	}
+	public function getItemPrimaryKey(){
+		if ($item = $this->getItem()){
+			return $item->primaryKey();
+		}
+		return false;
+	}
+	public function setRepeatable($repeatable = true){
+		$this->_repeatable = $repeatable;
+	}
+	public function getRepeatable(){
+		return $this->_repeatable;
+	}
+	public function setRequired($required){
+		$this->_required = $required;
+	}
+	public function setValue($value){
+		$this->_value = $value;
+		$this->onChange();
+	}
+	public function onChange(){
+	}
+	public function setDefaultValue($value){
+		$this->_defaultValue = $value;
+	}
+	public function getValue(){
+		return ($this->_value === null?$this->_defaultValue:$this->_value);
+	}
+	public function setKey($key){
+		$this->_key = $key;
+	}
+	public function getPostKey(){
+		return $this->_key;
+	}
+	public function setPrefix($prefix){
+		$this->_prefix = $prefix;
+	}
+	public function setName($name){
+		$this->_name = $name;
+	}
+	public function getPostName(){ // for $_POST / $_FILES
+		return ($this->_prefix===null?'':$this->_prefix.'_').$this->_name;
+	}
+	public function getName(){ // for Html
+		return $this->getPostName().($this->getRepeatable()?'[]':($this->getPostKey()===null?'':'['.$this->getPostKey().']'));
+	}
+	public function setTitle($title){
+		$this->_title = $title;
+	}
+	public function getTitle(){
+		return $this->_title;
+	}
+	public function getNote(){
+		if ($this->_note == '') return '';
+		return ' '.$this->_note.'';
+		return '';
+	}
+	public function getId(){
+		return $this->getRepeatable()?false:($this->getPostName().($this->getPostKey()===null?'':'_'.$this->getPostKey().''));
+	}
+	// init
+	public function isValidValue(){
+		if ($this->_required && ($this->getValue() == '')){
+			$this->error('Не заполнено поле "'.$this->getTitle().'"');
+			return false;
+		}
+		return true; // always valid
+	}
+	public function isUpdated(){
+		return $this->_isUpdated;
+	}
+	public function isRequired(){
+		return $this->_required;
+	}
+	public function getPostKeys(){
+		$name = $this->getPostName();
+		if (isset($_POST[$name])){
+			if (is_array($_POST[$name])){
+				$keys = array_keys($_POST[$name]);
+				return $keys;
+			}else{
+				return array(null);
+			}
+		}
+		if (isset($_FILES[$name])){
+			if (is_array($_FILES[$name]['tmp_name'])){
+				$keys = array_keys($_FILES[$name]['tmp_name']);
+				foreach ($keys as $k => $key){
+					if ($_FILES[$name]['error'][$key] != UPLOAD_ERR_OK){
+						unset($keys[$k]);
+					}
+				}
+				return $keys;
+			}else{
+				if ($_FILES[$name]['error'] == UPLOAD_ERR_OK){
+					return array(null);
+				}
+			}
+		}
+		return array();
+	}
+	public function inPost($key = null){
+		return in_array($key, $this->getPostKeys());
+	}
+	public function fill($key){
+		$this->_key = $key;
+		$this->fillFromPost();
+	}
+	public function fillFromPost(){
+		$name = ($this->_prefix===null?'':$this->_prefix.'_').$this->_name;
+		if ($this->_key === null){
+			if (isset($_POST[$name])){
+				$this->setValue($_POST[$name]);
+				return;
+			}
+		}else{
+			if (isset($_POST[$name]) && isset($_POST[$name][$this->_key])){
+				$this->setValue($_POST[$name][$this->_key]);
+				return;
+			}
+		}
+		//$this->setValue('');
+	}
+	public function beforeSave(){
+	}
+	public function afterSave(){
+	}
+	// html
+	public function getIdHtml(){
+		return $this->getId()?' id="'.$this->getId().'"':'';
+	}
+	public function getRowHtml(){
+		return '<tr><td valign="top" class="label">'.($this->getId()?'<label class="'.$this->getLabelCssClass().'" for="'.$this->getId().'">':'').
+		((strlen($this->getTitle()) || $this->isRequired())?
+		'<span'.($this->_required?' title="Обязательно к заполнению"':'').'>'.$this->getTitle().($this->_required?' <b style="color: #f00;">*</b>':'').$this->_afterTitle.'</span>':'')
+		.'</td><td>'.$this->getHtml().$this->getNote().''.($this->getId()?'</label>':'').'</td></tr>';
+	}
+	public function getHtml(){
+		return '<input type="text"'.$this->getIdHtml().' class="'.$this->getInputCssClass().'" name="'.$this->getName().'" value="'.htmlspecialchars($this->getValue()).'" />';
+	}
+	
+	
+	
+	
+	
+
+	public function setProperty($property){
+		if (!is_object($property)){
+			throw new Exception($property);
+		}
+		$this->_property = $property;
+		if ($this->_value !== null){
+			$this->_property->setValue($this->_value);
+		}
+		if ($property->getControl() === null){
+			$property->setControl($this);
+		}
+	}
+	public function getProperty(){
+		return $this->_property;
+	}
+	public function setValue($value){
+		$property = $this->getProperty();
+		if ($property !== null && is_object($property)){
+			$property->setValue($value);
+		}else{
+			parent::setValue($value);
+		}
+		$this->onChange();
+	}
+	/**
+	 * Prepare for DB
+	 */
+	public function importPropertyValue($propertyValue){
+		$this->setValue($value);
+	}
+	public function exportValueToProperty(){
+		return $this->getValue();
+	}
+	
+	public function getValue(){
+		$property = $this->getProperty();
+		if ($property !== null && is_object($property)){
+			$value = $property->getValue(false);
+			if ($value !== null){
+				return $value;
+			}else{
+				// default value of input is preffered
+				if ($this->_defaultValue !== null){
+					return $this->_defaultValue;
+				}
+				$propertyDefault = $property->getDefaultValue();
+				if ($propertyDefault !== null){
+					return $propertyDefault;
+				}
+				
+			}
+		}
+		return parent::getValue();
+	}
+	public function preSave(){}
+	public function preInsert(){}
+	public function preUpdate(){}
+	public function preDelete(){}
+	public function postSave(){}
+	public function postInsert(){}
+	public function postUpdate(){}
+	public function postDelete(){}
+}
+
+
+abstract class controlSet{
+	protected $_controls;
+	protected $_classesMap = array(); // controlName => class
+	protected $_titles = array(); // controlName => title
+	protected $_required = array(); // controlName => required
+	protected $_propertiesMap = array(); // controlName => propertyName
+	protected $_options = array(); // control options
+	protected $_errors;
+	protected $_prefix = null;
+	protected $_item = null;
+	protected $_itemTemplate = null;
+	protected $_hiddenControls = array();
+	protected $_repeat = false;
+	protected $_isUpdated = false;
+	//===================================================================== getters && setters / options
+	public function setOptions($options = array()){
+		foreach ($options as $k => $v) $this->_options[$k] = $v;
+	}
+	public function hideControl($controlName){
+		$this->_hiddenControls[$controlName] = true;
+	}
+	public function showControl($controlName){
+		unset($this->_hiddenControls[$controlName]);
+	}
+	public function setRepeat($repeat = true){
+		$this->_repeat = $repeat;
+	}
+	public function getRepeat(){
+		return $this->_repeat;
+	}
+	public function isUpdated(){
+		return $this->_isUpdated;
+	}	
+	public function setItemUpdated($updated = true){
+		$this->_isUpdated = true;
+	}	
+	public function setItem($item){
+		$this->_item = $item;
+	}
+	public function getItem(){
+		return $this->_item;
+	}
+	public function setClasses($classes){
+		$this->_classesMap = $classes;
+	}
+	public function setClass($controlName, $className){
+		$this->_classesMap[$controlName] = $className;
+	}
+	public function setProperties($properties){
+		$this->_propertiesMap = $properties;
+	}
+	public function setTitles($titles){
+		foreach ($titles as $controlName => $title){
+			$this->getControl($controlName)->setTitle($title);
+		}
+	}
+	/**
+	 * @return AControl
+	 */
+	public function getControl($controlName){
+		if (!isset($this->_controls[$controlName])){
+			if (!isset($this->_classesMap[$controlName])){
+				return null;
+			}
+			$class = $this->_classesMap[$controlName];
+			/** @var AControl */
+			$control = new $class($controlName, true);
+			$control->setControlSet($this);
+			$control->setPrefix($this->_prefix);
+			if (isset($this->_options[$controlName])) $control->setOptions($this->_options[$controlName]);
+			$this->_controls[$controlName] = $control;
+			if (isset($this->_propertiesMap[$controlName])){
+				$propertyName = $this->_propertiesMap[$controlName];
+				if ($this->_item !== null){
+					$control->setProperty($this->_item->{$propertyName});
+				}
+			}
+			if (isset($this->_titles[$controlName])){
+				$title = $this->_titles[$controlName];
+				$control->setTitle($title);
+			}
+			if (isset($this->_notes[$controlName])){
+				$note = $this->_notes[$controlName];
+				$control->setNote($note);
+			}
+			if (isset($this->_required[$controlName])){
+				$required = $this->_required[$controlName];
+				$control->setRequired($required);
+			}
+			$control->setRepeatable($this->getRepeat()?true:false);
+			$control->onConstruct();
+		}
+		return $this->_controls[$controlName];
+	}
+	public function resetControls(){
+		$this->_controls = array();
+	}
+	public function save(){
+		if ($this->getItem() !== null){
+			$result = $this->getItem()->save();
+			//var_dump($result);
+			return $result;
+		}
+	}
+	public function error($errorString){
+		$this->_errors[] = $errorString;
+	}
+	public function getErrors(){
+		return $this->_errors;
+	}
+	public function setKey($key){
+		foreach ($this->_classesMap as $controlName => $class){
+			$control = $this->getControl($controlName);
+			$control->setKey($key);
+		}
+	}
+	//===================================================================== processing POST
+	/**
+	 * Get keys array for POST and FILES
+	 */
+	public function getPostKeys(){
+		$keys = array();
+		foreach ($this->_classesMap as $controlName => $class){
+			if (!isset($this->_hiddenControls[$controlName])){
+				$controlKeys = $this->getControl($controlName)->getPostKeys();
+				if (count($controlKeys)){
+					$keys = array_unique(array_merge($keys, $controlKeys));
+				}
+			}
+		}
+		//echo 'Keys:<br />';
+		//var_dump($keys);
+		if (!count($keys)) return false;
+		
+		return $keys;
+	}
+	public function inPost($key = null){
+		foreach ($this->_classesMap as $controlName => $class){
+			if (!isset($this->_hiddenControls[$controlName])){
+				if (($foundKey = $this->getControl($controlName)->inPost($key)) !== false){
+					return $foundKey;
+				}
+			}
+		}
+		return false;
+	}
+	public function fillFromPost($key = null){
+		foreach ($this->_classesMap as $controlName => $class){
+			if (!isset($this->_hiddenControls[$controlName])){
+				$control = $this->getControl($controlName);
+				$control->setKey($key);
+				$control->fillFromPost();
+			}
+		}
+	}
+	public function isValidValues(){
+		foreach ($this->_classesMap as $controlName => $class){
+			if (!isset($this->_hiddenControls[$controlName])){
+				if (!$this->getControl($controlName)->isValidValue()) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+	public function beforeSave(){
+		foreach ($this->_classesMap as $controlName => $class){
+			if (!isset($this->_hiddenControls[$controlName])){
+				$control = $this->getControl($controlName);
+				$control->beforeSave();
+			}
+		}
+	}
+	public function afterSave(){
+		foreach ($this->_classesMap as $controlName => $class){
+			if (!isset($this->_hiddenControls[$controlName])){
+				$control = $this->getControl($controlName);
+				$control->afterSave();
+			}
+		}
+	}
+	public function checkPost($key = null){
+		$this->fillFromPost($key);
+		if ($this->isValidValues()){
+			$this->beforeSave();
+			if ($this->save()){
+				$this->afterSave();
+				$this->setItemUpdated(true);
+			}
+		}
+	}
+	public function setItemTemplate($itemTemplate){
+		$this->_itemTemplate = $itemTemplate;
+	}
+	public function getItemTemplate(){
+		return clone $this->_itemTemplate;
+	}
+	public function process(){
+		//echo 'Process<br />';
+		$this->processPost();
+	}
+	public function processPost(){
+		if ($keys = $this->getPostKeys()){
+			if (is_array($keys) && count($keys)){
+				foreach ($keys as $key){
+					if (is_object($this->_itemTemplate)){
+						$this->resetControls();
+						$this->setItem($this->getItemTemplate());
+					}
+					$this->checkPost($key);
+				}
+			}
+		}
+	}
+
+	//===================================================================== output HTML
+	public function getTableRowsHtml($key = null){
+		$h = '';
+		$this->setKey($key);
+		foreach ($this->_classesMap as $controlName => $class){
+			if (!isset($this->_hiddenControls[$controlName])){
+			$control = $this->getControl($controlName);
+			$h .= $control->getRowHtml();
+			}
+		}
+		return $h;
+	}
+	public function getTableHtml($key = null){
+		$h = '';
+		$h .= '<table>';
+		$rh = $this->getTableRowsHtml($key);
+		$repeat = 1;
+		if ($this->getRepeat()) $repeat = $this->getRepeat();
+		$h .= str_repeat($rh, $repeat);
+		$h .= '</table>';
+		return $h;
+	}
+	public function getHtml($key = null){
+		return $this->getTableHtml($key);
+	}
+	public function getFormHtml($key = null){
+		return 
+		(count($this->getErrors())?'<div class="errors"><ul><li>'.implode("</li><li>", $this->getErrors()).'</li></ul></div>':'').
+		'<form method="post" enctype="multipart/form-data" action="">'.$this->getHtml($key).'<input type="submit" value="Сохранить" /></form>';
+	}
+}
+
+
+class selectControl extends control{
+	protected $_controlType = 'select'; // select, checkbox, radio
+	protected $_multiple = false;
+	protected $_options = array();
+	protected $_invalidOptions = array();
+	public function setControlType($controlType){
+		$this->_controlType = $controlType;
+	}
+	public function setMultiple($multiple){
+		$this->_multiple = $multiple;
+	}
+	public function setOptions($options){
+		$this->_options = $options;
+	}
+	public function importPropertyValue($value){
+		switch ($this->_controlType){
+			case 'checkbox':
+				if (strlen($value)){
+					$values = explode('//', substr($value, 1, strlen($value)-2));
+				}else{
+					$values = array();
+				}
+				$this->setValue($values);
+				break;
+			case 'radio':
+			case 'select':
+			default:
+				$this->setValue($value);
+				break;
+		}
+	}
+	public function exportValueToProperty(){
+		switch ($this->_controlType){
+			case 'checkbox':
+				$values = $this->getValue();
+				return '/'.implode('//', $values).'/';
+				break;
+			case 'radio':
+			case 'select':
+			default:
+				return $this->getValue();
+				break;
+		}
+	}
+	public function isValidValue(){
+		$values = array();
+		if ($this->_controlType == 'checkbox'){
+			$values = $this->getValue();
+		}else{
+			$values[] = $this->getValue();
+		}
+		//var_dump($values);
+		foreach ($values as $value){
+			if (in_array($value, $this->_invalidOptions)){
+				$this->error('Неверно заполнено поле "'.$this->getTitle().'"');
+				return false;
+			}
+		}
+		foreach ($values as $value){
+			if (!isset($this->_options[$value])){
+				$this->error('Неверно заполнено поле "'.$this->getTitle().'"');
+				return false;
+			}
+		}
+		return true;
+	}
+	public function getHtml(){
+		//'.$this->getValue().'
+		$selectedId = $this->getValue();
+		$options = array();
+		$onchangehtml = '';
+		if ($this->_jsOnChangeCallback !== ''){
+			$onchangehtml .= ' onChange="'.$this->_jsOnChangeCallback.'"';
+		}
+		foreach ($this->_options as $optionId => $optionTitle){
+			switch ($this->_controlType){
+				case 'checkbox':
+					if (!is_array($selectedId)) $selectedId = array();
+					$options[] = '<input class="checkbox" name="'.$this->getName().'[]" type="checkbox" id="'.$this->getId().'_'.$optionId.'" value="'.$optionId.'"'.(in_array($optionId,$selectedId)?' checked="checked"':'').'><label for="'.$this->getId().'_'.$optionId.'">'.htmlspecialchars($optionTitle).'</label>';
+					break;
+				case 'radio':
+					$options[] = '<input name="'.$this->getName().'" type="radio" id="'.$this->getId().'_'.$optionId.'" value="'.$optionId.'"'.($selectedId==$optionId?' checked="checked"':'').'><label for="'.$this->getId().'_'.$optionId.'">'.htmlspecialchars($optionTitle).'</label>';
+					break;
+				case 'select':
+				default:
+					$options[] = '<option value="'.$optionId.'"'.($selectedId==$optionId?' selected="selected"':'').'>'.htmlspecialchars($optionTitle).'</option>';
+					break;
+			}
+		}
+		switch ($this->_controlType){
+			case 'checkbox':
+			case 'radio':
+				return '<div id="'.$this->getId().'_wrap"><div>'.implode('</div><div>',$options).'</div></div>';
+				break;
+			case 'select':
+			default:
+				return '<div id="'.$this->getId().'_wrap" class="select"><select'.$onchangehtml.' id="'.$this->getId().'" name="'.$this->getName().'">'.implode('',$options).'</select></div>';
+				break;
+		}
+
+		//'.($this->_onChangeCallback ==''?'':' onChange="'.$this->_onChangeCallback.'"').'
+		//return '<select></select>';
+	}
+}
+
+
+class fileInput extends propertyControl{
+	protected $_files = array();
+	protected $_filesPrefix = '';
+	protected function _getPath(){
+		return $this->_options['upload_path'];
+	}
+	protected function _files(){
+		$files = array();
+		foreach ($_FILES as $k => $f){
+			$files[$k] = array();
+			foreach ($f as $fk => $a){
+				if (is_array($a)){
+					$files[$k] = $this->_arrayAddLastKey($files[$k], $a, $fk);
+				}else{
+					$files[$k][$fk] = $a;
+				}
+			}
+		}
+		return $files;
+	}
+	protected function _arrayAddLastKey($target, $a, $lastKey){ // tmp_name => ds =>fd
+		foreach ($a as $k => $v){
+			if (is_array($v)){
+				$target[$k] = $this->_arrayAddLastKey($target[$k], $v, $lastKey);
+			}else{
+				$target[$k][$lastKey] = $v;
+			}
+		}
+		return $target;
+	}
+	protected function _saveFile($tmpName, $name){
+		$ext = '.dat';
+		if ($dotpos = strrpos($name, ".")){
+			$ext = substr($name, $dotpos);
+		}
+		$fileName = false;
+		if (!is_file($tmpName)) return false;
+		$path = realpath($this->_getPath());
+		if ($pk = $this->getItemPrimaryKey()){
+			$fileName = $path.'/'.$this->_filesPrefix.$pk.$ext;
+		}else{
+			return false;
+		}
+		if ($fileName == ''){
+			$fileName = $this->_tempnam($path, $this->_filesPrefix, $ext);
+		}
+		if ($fileName){
+			if (copy($tmpName, $fileName)){
+				
+				return basename($fileName);
+			}
+		}
+		return false;
+	}
+	public function beforeSave(){
+	}
+	public function afterSave(){
+		$files = $this->_files();
+		$name = $this->getPostName();
+		if (!isset($files[$name])) {
+			return;
+		}
+		$key = $this->getPostKey();
+		if ($key === null){
+			$file = $files[$name];
+		}else{
+			if (!isset($files[$name][$key])) return;
+			$file = $files[$name][$key];
+		}
+		if (isset($file['tmp_name'])){
+			if ($fileName = $this->_saveFile($file['tmp_name'], $file['name'])){
+				$this->setValue($fileName);
+				if ($property = $this->getProperty()){
+					if ($property instanceof imageFilenameProperty){
+						$property->unlinkThumbs();
+					}
+				}
+				if ($item = $this->getItem()){
+					$item->save();
+				}
+			}
+		}
+	}
+	public function fillFromPost(){
+	}
+	public function getHtml(){
+		$previewHtml = '';
+		if (isset($this->_options['show_preview']) && ($this->_options['show_preview'] == true)){
+			if ($property = $this->getProperty()){
+				if ($property instanceof imageFilenameProperty){
+					$previewHtml = $property->html(100);
+				}else{
+					$previewHtml = $property->html();
+				}
+			}
+		}
+		return '<div>'.$previewHtml.'</div><input class="file" type="file"'.$this->getIdHtml().' name="'.$this->getName().'" value="'.$this->getValue().'" />';
+	}
+}
+
+
+class textInput extends control{
+}
+
+
+class textarea extends textInput{
+	public function getHtml(){
+		$style = array();
+		if (isset($this->_options['width'])){
+			$style[] = 'width: '.$this->_options['width'];
+		}
+		if (isset($this->_options['height'])){
+			$style[] = 'height: '.$this->_options['height'];
+		}
+		$ss = count($style)?' style="'.implode(";", $style).'"':'';
+		return '<textarea id="'.$this->getId().'" class="'.$this->getInputCssClass().'" name="'.$this->getName().'"'.$ss.'>'.$this->getValue().'</textarea>';
+	}
+}
+
+
+class passwordInput extends textInput{
+	public function getHtml(){
+		return '<input type="password" autocomplete="off"'.$this->getIdHtml().' class="'.$this->getInputCssClass().'" name="'.$this->getName().'" value="'.$this->getValue().'" />';
+	}
+}
+
+require_once dirname(__FILE__).'/textarea.php';
+class htmlTextarea extends textarea{
+	protected $_inputCssClass = 'htmlarea';
+	public function getHtml(){
+		$html = parent::getHtml();
+		$config = '';
+		if (isset($this->_options['filemanager_url'])){
+			$url = $this->_options['filemanager_url'];
+			$config  = '<script type="text/javascript">var '.$this->getId().'_filemanager = "'.$url.'";</script>';
+		}
+		return $html.$config;
+	}
+}
+
+
+class checkboxInput extends control{ // 0/1 values
+	protected $_inputCssClass = 'checkbox';
+	public function getHtml(){
+		return '<div style="margin: 5px 0;"><input type="hidden" name="'.$this->getName().'" value="0" />'.
+		'<input type="checkbox"'.$this->getIdHtml().' class="'.$this->getInputCssClass().'" name="'.$this->getName().'" value="1"'.($this->getValue()?' checked="checked"':'').' /></div>';
+	}
+}
+
+/**
+ * $Id$
+ */
 
 class controllerPrototype{
 	protected $_me = null; // ReflectionClass
@@ -322,7 +2014,8 @@ class controllerPrototype{
 	 */
 	public function notFound($message = ''){
 		header($_SERVER['SERVER_PROTOCOL']." 404 Not found");
-		echo $message;
+		echo '<title>Страница не найдена</title>';
+		echo '<body>'.$message.'</body>';
 		// Google helper:
 		/*echo '<script type="text/javascript">
 		 var GOOG_FIXURL_LANG = "ru";
@@ -622,6 +2315,9 @@ class controllerPrototype{
 	}
 }
 
+/**
+ * $Id$
+ */
 
 
 class controller extends controllerPrototype{
@@ -714,7 +2410,6 @@ class controller extends controllerPrototype{
 		$h = '<!DOCTYPE html>'; // html5
 		$h .= '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
 		$h .= '<title>'.$this->getTitle().'</title>';
-		var_dump($this->getRegistry()->cssIncludes);
 		if (is_array($this->getRegistry()->cssIncludes)){
 			foreach ($this->getRegistry()->cssIncludes as $url){
 				$h .= '<link rel="stylesheet" type="text/css" href="'.$url.'" />';
@@ -745,6 +2440,9 @@ class controller extends controllerPrototype{
 
 }
 
+/**
+ * $Id$
+ */
 
 class application extends frontController{
 	private static $_selfInstance = null;
@@ -778,39 +2476,9 @@ function app(){
 	return application::getInstance();
 }
 
-
-class kanon{
-	public static function getBaseUri(){
-		$requestUri = $_SERVER['REQUEST_URI'];
-		$scriptUri = $_SERVER['SCRIPT_NAME'];
-		$max = min(strlen($requestUri), strlen($scriptUri));
-		$cmp = 0;
-		for ($l = 1; $l <= $max; $l++){
-			if (substr_compare($requestUri, $scriptUri, 0, $l, true) === 0){
-				$cmp = $l;
-			}
-		}
-		return substr($requestUri, 0, $cmp);
-	}
-	public static function run($applicationClass){//, $baseUrl = '/', $basePath = null
-		$app = application::getInstance($applicationClass);
-		//if ($basePath === null){
-			$trace = debug_backtrace();
-			$file = $trace[0]['file'];
-			$basePath = dirname($file);
-			$app->setBasePath($basePath);
-		//}
-		// ["REQUEST_URI"]=> string(40) "/kanon-framework/examples/hello_world/ok"
-		// ["SCRIPT_NAME"]=> string(51) "/kanon-framework/examples/hello_world/bootstrap.php" 
-		$baseUrl = kanon::getBaseUri();
-		//echo 'Base PATH: '.$basePath."<br />";
-		//echo 'Base URL: '.$baseUrl."<br />";
-		$app->setBaseUri($baseUrl);
-		//var_dump($app);
-		$app->run($baseUrl);//$baseUrl
-	}
-}
-
+/**
+ * $Id$
+ */
 
 class serviceController extends controller{
 	/**
@@ -825,6 +2493,9 @@ class serviceController extends controller{
 	}
 }
 
+/**
+ * $Id$
+ */
 
 class applicationRegistry extends registry{
 	private static $_instance = null;
@@ -839,6 +2510,9 @@ class applicationRegistry extends registry{
 	}
 }
 
+/**
+ * $Id$
+ */
 
 class frontController extends controller{
 	public static function startSession($domain, $expire = 360000) {
@@ -861,3 +2535,1319 @@ class frontController extends controller{
  * $app = application::getInstance('/');
  * $app->run('/');
  */
+
+/*
+ * TODO:
+ * fromArray()
+ * loadRelated() / submodels
+ * Trees
+ * select($table1, $table2, $field1, $field2, $string)
+ * state(DRAFT/TDRAFT/TCLEAN/CLEAN)
+ * $user->updated_at = new Doctrine_Expression('NOW()');
+ * $user->refresh($refreshRelated = true);
+ * $user->refreshRelated();
+ * replace()
+ * not()
+ * PDO
+ * find(pk)
+ * $user->exists()
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ */
+
+class kanonItem extends kanonObject{
+
+	public function fromArray($array){
+		foreach ($array as $name => $value){
+			$this->_propertyGet($name)->setInitialValue($value);
+		}
+	}
+	public function count(){
+		$this->_makeAllProperties();
+		return count($this->_properties);
+	}
+}
+
+
+
+class zenMysqlRow extends mysqlRow{
+
+	public function __construct(){
+		$this->_makeAllProperties();
+		$this->_updateDefaults();
+		$this->onConstruct();
+	}
+	public function onConstruct(){
+
+	}
+	protected function _updateDefaults(){
+		$class = get_class($this);
+		$table = zenMysql::getModelTable($class);
+		if (!is_object($table)){
+			throw new Exception('No table found for class '.$class);
+		}
+		foreach ($this->_classesMap as $propertyName => $className){
+			if (isset($this->_fieldsMap[$propertyName])){
+				$fieldName = $this->_fieldsMap[$propertyName];
+				$default = $table->getDefaultFieldValue($fieldName);
+				if ($default !== false){
+					$this->{$propertyName}->setValue($default);
+				}
+			}
+		}
+	}
+}
+
+class zenMysqlTable extends mysqlTable implements ArrayAccess, Countable, IteratorAggregate{
+	private $_serverId = null;
+	private $_databaseName = null;
+	private $_tableName = null;
+	private $_fCache = array();
+	private $_fList = array();
+	private $_isFullList = false;
+	private $_uid = null;
+	private $_defaults = array();
+	public function &setDefaultFieldValue($field, $value){
+		$this->_defaults[$field] = $value;
+		return $this;
+	}
+	public function &getDefaultFieldValue($field){
+		if (isset($this->_defaults[$field])){
+			return $this->_defaults[$field];
+		}
+		return false;
+	}
+	public function &resetFilters(){
+		$this->_filters = array();
+		return $this;
+	}
+	protected function _q($sql){
+		return mysql_query($sql, $this->getLink());
+	}
+	public function q($sql){
+		return mysql_query($sql, $this->getLink());
+	}
+	public function e($unescapedString){
+		return mysql_real_escape_string($unescapedString, $this->getLink());
+	}
+	public function getUid(){
+		if ($this->_uid === null){
+			$this->_uid = zenMysql::getTableUid();
+		}
+		return $this->_uid;
+	}
+	protected function _fetchFieldsList(){
+		$sql = "SHOW COLUMNS FROM `".$this->e($this->_tableName)."`";
+		if ($q = $this->_q($sql)){
+			while ($a = mysql_fetch_row($q)){
+				$fieldName = $a[0];
+				$this->_fList[$fieldName] = $this->getFieldByName($fieldName);
+			}
+			$this->_isFullList = true;
+		}
+	}
+	public function __construct($database, $tableName){
+		$this->_serverId = $database->getServerId();
+		$this->_databaseName = $database->getDatabaseName();
+		$this->_tableName = $tableName;
+	}
+	public function getFieldByName($fieldName){
+		if (!isset($this->_fCache[$fieldName])){
+			$this->_fCache[$fieldName] = new zenMysqlField($this, $fieldName);
+		}
+		return $this->_fCache[$fieldName];
+	}
+	public function __toString(){
+		return $this->getUid();
+		return $this->_tableName;
+	}
+	public function setModel($modelClass){
+		zenMysql::setTableModel($this, $modelClass);
+		//zenMysql::configureModel($modelClass)->setTable($this);
+	}
+	public function getServerId(){
+		return $this->_serverId;
+	}
+	public function getDatabaseName(){
+		return $this->_databaseName;
+	}
+	public function getTableName(){
+		return $this->_tableName;
+	}
+	public function &getLink(){
+		return zenMysql::getDatabaseLink($this->_serverId, $this->_databaseName)->getLink();
+	}
+	/* ArrayAccess interface */
+	public function offsetSet($fieldName, $value) {
+		$this->_fCache[$fieldName] = $value;
+	}
+	public function offsetExists($fieldName) {
+		if (!isset($this->_fCache[$fieldName]) && !$this->_isFullList){
+			$this->_fetchFieldsList();
+		}
+		return isset($this->_fCache[$fieldName]);
+	}
+	public function offsetUnset($fieldName) {
+		unset($this->_fCache[$fieldName]);
+	}
+	public function offsetGet($fieldName) {
+		return $this->getFieldByName($fieldName);
+	}
+	/**
+	 * Countable interface
+	 * @return integer
+	 */
+	public function count() {
+		if (!$this->_isFullList){
+			$this->_fetchFieldsList();
+		}
+		return count($this->_fList);
+	}
+	public function getIterator(){
+		if (!$this->_isFullList){
+			$this->_fetchFieldsList();
+		}
+		return new ArrayIterator($this->_fList);
+	}
+	// __get && __set && __isset && __unset
+	public function __get($fieldName){
+		return $this->getFieldByName($fieldName);
+	}
+	/* SQL */
+	public function select(){
+		$args = func_num_args()?func_get_args():array();
+		array_unshift($args, $this);
+		$qb = new zenMysqlResult();
+		call_user_func_array(array($qb, 'select'), $args);
+		foreach ($this->_filters as $filter){
+			$qb->where($filter);
+		}
+		return $qb;
+	}
+}
+class zenMysqlDatabase implements IZenMysqlPrototype, ArrayAccess, Countable, IteratorAggregate{
+	private $_serverId = null;
+	private $_databaseName = null;
+	private $_tCache = array();
+	private $_tList = array();
+	private $_isFullList = false;
+	public function __construct($server, $databaseName){
+		$this->_serverId = $server->getServerId();
+		$this->_databaseName = $databaseName;
+	}
+	public function __toString(){
+		return $this->_databaseName;
+	}
+	protected function _q($sql){
+		return mysql_query($sql, $this->getLink());
+	}
+	public function q($sql){
+		return mysql_query($sql, $this->getLink());
+	}
+	public function e($unescapedString){
+		return mysql_real_escape_string($unescapedString, $this->getLink());
+	}
+	public function getServerId(){
+		return $this->_serverId;
+	}
+	public function getDatabaseName(){
+		return $this->_databaseName;
+	}
+	public function &setAlias($alias){
+		zenMysql::setDatabaseAlias($this, $alias);
+		return $this;
+	}
+	public function &setDefault(){
+		return $this->setAlias('__default');
+	}
+	public function getTableByName($tableName){
+		if (!isset($this->_tCache[$tableName])){
+			$this->_tCache[$tableName] = new zenMysqlTable($this, $tableName);
+		}
+		return $this->_tCache[$tableName];
+	}
+	public function &getLink(){
+		return zenMysql::getDatabaseLink($this->_serverId, $this->_databaseName)->getLink();
+	}
+	protected function _fetchTablesList(){
+		$sql = "SHOW TABLES";
+		if ($q = $this->_q($sql)){
+			while ($a = mysql_fetch_row($q)){
+				$tableName = $a[0];
+				$this->_tList[$tableName] = $this->getTableByName($tableName);
+			}
+			$this->_isFullList = true;
+		}
+	}
+	/* ArrayAccess interface */
+	public function offsetSet($tableName, $value) {
+		$this->_tCache[$tableName] = $value;
+	}
+	public function offsetExists($tableName) {
+		if (!isset($this->_tCache[$tableName]) && !$this->_isFullList){
+			$this->_fetchTablesList();
+		}
+		return isset($this->_tCache[$tableName]);
+	}
+	public function offsetUnset($tableName) {
+		unset($this->_tCache[$tableName]);
+	}
+	public function offsetGet($tableName) {
+		return $this->getTableByName($tableName);
+	}
+	/**
+	 * Countable interface
+	 * @return integer
+	 */
+	public function count() {
+		if (!$this->_isFullList){
+			$this->_fetchTablesList();
+		}
+		return count($this->_tList);
+	}
+	public function getIterator(){
+		if (!$this->_isFullList){
+			$this->_fetchTablesList();
+		}
+		return new ArrayIterator($this->_tList);
+	}
+}
+
+
+class zenMysqlItemStorage extends itemStorage{
+	protected $_table = null;
+	public function query($sql){
+		if (!strlen($sql)) return false;
+		//echo $sql;
+		//die();
+		$q = mysql_query($sql, $this->_table->getLink());
+		if (!$q){
+			$app = application::getInstance();
+			if ($app->getUserId() == 1){
+				throw new Exception(mysql_error($this->_table->getLink())."\n".$sql);
+			}
+		}
+		return $q;
+		return true;
+	}
+
+
+}
+
+
+
+
+class filenameProperty extends stringProperty{
+	protected $_path = 'undefined';
+	protected $_uri = '';
+	protected $_tmWidth = 0;
+	protected $_tmHeight = 0;
+	public function getPath(){
+		$app = application::getInstance();
+		return $app->getBasePath($this->_options['path']);
+	}
+	public function getUri(){
+		return $this->_options['url'];
+	}
+	public function sourcePath(){
+		return $this->getPath().$this->getValue();
+	}
+	public function sourceUrl(){
+		return $this->getUri().$this->getValue();
+	}
+	public function source(){
+		return $this->sourceUrl();
+	}
+	public function unlink(){
+		unlink($this->sourcePath());
+	}
+	public function preDelete(){
+		$this->unlink();
+	}
+}
+class imageFilenameProperty extends filenameProperty{
+	public function tm($size, $method = 'fit'){
+		if (!is_file($this->getPath().$this->getValue())){
+			return false;
+		}
+		$img = new tImage();
+		$img->path = $this->getPath();
+		$img->thumbnailsFolder = '.thumb';
+		$tm = $img->tm($this->getValue(), $size, $method);
+		if (is_file($img->path.$img->thumbnailsFolder.'/'.$tm)){
+			$info = getimagesize($img->path.$img->thumbnailsFolder.'/'.$tm);
+			$this->_tmWidth = $info[0];
+			$this->_tmHeight = $info[1];
+		}else{
+			return false;
+		}
+		return $this->getUri().$img->thumbnailsFolder.'/'.$tm;
+	}
+	public function html($size = 100, $method="fit"){
+		return '<img src="'.$this->tm($size, $method).'" height="'.$this->_tmHeight.'" width="'.$this->_tmWidth.'" />';
+	}
+	public function unlink(){
+		$img = new tImage();
+		$img->path = $this->getPath();
+		$img->thumbnailsFolder = '.thumb';
+		$img->unlink($this->getValue());
+	}
+	public function unlinkThumbs(){
+		$img = new tImage();
+		$img->path = $this->getPath();
+		$img->thumbnailsFolder = '.thumb';
+		$img->unlink($this->getValue(), true);
+	}
+}
+class flashFilenameProperty extends filenameProperty{
+	public function html($width = 'auto', $height = 'auto'){
+		if ($this->getValue() == '') return '';
+		list($w,$h) = getimagesize($this->sourcePath());
+		if ($width == 'auto') $width = $w;
+		if ($height == 'auto') $height = $h;
+		return '<object width="'.$width.'" height="'.$height.'">'.
+		'<param name="movie" value="'.$this->source().'"></param>'.
+		'<param name="allowFullScreen" value="true"></param>'.
+		'<param name="allowscriptaccess" value="always"></param>'.
+		'<embed src="'.$this->source().'" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="'.$width.'" height="'.$height.'"></embed>'.
+		'</object>';
+	}
+}
+class mediaFilenameProperty extends imageFilenameProperty{
+	protected function _getSize(){
+		if ($this->getValue() == '') return false;
+		list($fw,$fh) = getimagesize($this->sourcePath());
+		$w = $fw; $h = $fh;
+		$item = $this->getItem();
+		//echo get_class($item);
+		if (isset($this->_options['widthKey'])){
+			$wk = $this->_options['widthKey'];
+			$w = $item->$wk->getValue();
+		}
+		$w = $w?$w:$fw;
+		if (isset($this->_options['heightKey'])){
+			$hk = $this->_options['heightKey'];
+			$h = $item->$hk->getValue();
+		}
+		$h = $h?$h:$fh;
+		//echo ' w:'.$w;
+		//echo ' h:'.$h;
+		return array($w,$h);
+	}
+	protected function _flashHtml($width = 'auto', $height = 'auto'){
+		if ($this->getValue() == '') return '';
+		list($w,$h) = $this->_getSize();//getimagesize($this->sourcePath());
+		if ($width == 'auto') $width = $w;
+		if ($height == 'auto') $height = $h;
+		return '<object width="'.$width.'" height="'.$height.'">'.
+		'<param name="movie" value="'.$this->source().'"></param>'.
+		'<param name="allowFullScreen" value="true"></param>'.
+		'<param name="allowscriptaccess" value="always"></param>'.
+		'<embed src="'.$this->source().'" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="'.$width.'" height="'.$height.'"></embed>'.
+		'</object>';
+	}
+	public function _imageHtml($size = 100, $method="fit"){
+		if ($size == 'auto'){
+			$tm = $this->source();
+			list($w,$h) = getimagesize($this->sourcePath());
+			$in = ' height="'.$h.'" width="'.$w.'"';
+		}else{
+			$tm = $this->tm($size, $method);
+			$in = ' height="'.$this->_tmHeight.'" width="'.$this->_tmWidth.'"';
+		}
+		return '<img src="'.$tm.'"'.$in.' />';
+	}
+	public function _imageSourceHtml($size = 100, $method="fit"){
+		$tm = $this->source();
+		list($w,$h) = getimagesize($this->sourcePath());
+		$in = ' height="'.$h.'" width="'.$w.'"';
+		return '<img src="'.$tm.'"'.$in.' />';
+	}
+	public function html($width = 'auto', $height = 'auto'){
+		$ext = end(explode(".", $this->getValue()));
+		if ($ext == 'swf'){
+			return $this->_flashhtml();//$width, $height
+		}else{
+			$size = 'auto';
+			if ($width != 'auto' && $height != 'auto'){
+				$size = max($width, $height);
+			}else{
+				if ($width != 'auto') $size = $width;
+				if ($height != 'auto') $size = $height;
+			}
+			return $this->_imageSourceHtml($size);
+		}
+	}
+}
+
+//  implements IControllableProperty
+
+class modelProperty{
+	protected $_name = null;
+	protected $_defaultValue = null;
+	protected $_initialValue = null;
+	protected $_value = null;
+	protected $_options = array();
+	protected $_model = null;
+	/**
+	 * @var IPropertyControl
+	 */
+	protected $_control = null;
+	public function setOptions($options = array()){
+		foreach ($options as $k => $v) $this->_options[$k] = $v;
+	}
+	public function __construct($propertyName){
+		$this->_name = $propertyName;
+		$this->onConstruct();
+	}
+	public function onConstruct(){
+		
+	}
+	public function is($value){
+		return new modelExpression($this, '=', $value);
+	}
+	public function lt($value){
+		return new modelExpression($this, '<', $value);
+	}
+	public function gt($value){
+		return new modelExpression($this, '>', $value);
+	}
+	public function in($value){
+		return new modelExpression($this, 'IN', $value);
+	}
+	public function like($value){
+		return new modelExpression($this, 'LIKE', $value);
+	}
+	public function setControl($controlClassName){
+		$this->_control = new $controlClassName($this->_name);
+		if ($this->_control->getProperty() === null){
+			$this->_control->setProperty($this);
+		}
+	}
+	public function setModel($model){
+		$this->_model = $model;
+	}
+	/**
+	 * @return model
+	 */
+	public function getModel(){
+		return $this->_model;
+	}
+	public function getStorage(){
+		return $this->getModel()->getStorage();
+	}
+	public function getControl(){
+		return $this->_control;
+	}
+	public function getDefaultValue(){
+		return $this->_defaultValue;
+	}
+	public function getInitialValue(){
+		return $this->_initialValue;
+	}
+	public function getInternalValue($allowDefault = true){ // for sql SET
+		return $this->_getInternalValue($allowDefault);
+	}
+	public function getValue($allowDefault = true){
+		return $this->_getInternalValue($allowDefault);
+	}
+	protected function _getInternalValue($allowDefault = true){ // Template for both public and database variants
+		if ($this->_value === null){
+			if ($this->_initialValue === null){
+				if ($allowDefault){
+					return $this->_defaultValue;
+				}
+			}
+			return $this->_initialValue;
+		}
+		return $this->_value;
+	}
+	public function setValue($value){
+		$this->_value = $value;
+	}
+	public function setInitialValue($value){
+		$this->_initialValue = $value;
+	}
+	public function isChangedValue(){
+		return (($this->_value !== null) && ($this->_value != $this->_initialValue));
+	}
+	public function hasChangedValue(){
+		return (($this->_value !== null) && ($this->_value != $this->_initialValue));
+	}
+	public function __toString(){
+		return strval($this->getValue());
+	}
+	public function e(){
+		return $this->getStorage()->quote($this->getValue());
+	}
+	public function html(){
+		return htmlspecialchars($this->getValue());
+	}
+	// Storable value
+	public function isValidValue($toSave = false){
+		return true;
+	}
+	public function preSave(){
+		if (!$this->isValidValue()){
+			$this->setValue(null);
+		}
+	}
+	public function preInsert(){}
+	public function preUpdate(){}
+	public function preDelete(){}
+	public function postSave(){}
+	public function postInsert(){}
+	public function postUpdate(){}
+	public function postDelete(){}
+}
+
+class collectionResultSet implements IteratorAggregate, Countable{
+	public function fetch(){
+		
+	}
+	public function getIterator(){
+		
+	}
+	public function execute(){
+		
+	}
+	public function delete(){ // Properly delete models
+		foreach ($this as $model){
+			$model->delete();
+		}
+	}
+
+}
+
+class modelIterator implements Iterator{
+	private $_model = null;
+	private $_classes = array();
+	private $_iterator = null;
+	public function __construct($model, $classes){
+		$this->_model = $model;
+		$this->_classes = $classes;
+		$this->_iterator = new ArrayIterator($this->_classes); 
+	}
+	function rewind() {
+        $this->_iterator->rewind();
+    }
+    function current() {
+       $propertyName = $this->_iterator->key();
+       return $this->_model->$propertyName;
+    }
+    function key() {
+        return $this->_iterator->key();
+    }
+    function next() {
+        $this->_iterator->next();
+    }
+    function valid() {
+        return $this->_iterator->valid();;
+    }
+}
+
+
+class stringProperty extends modelProperty{
+}
+
+
+
+class model implements ArrayAccess, IteratorAggregate{
+	protected $_properties = array(); // array of modelProperty
+	protected $_classes = array(); // propertyName => className
+	protected $_fields = array(); // propertyName => fieldName
+	protected $_primaryKey = array(); // propertyNames
+	protected $_autoIncrement = null; // propertyName
+	protected $_foreignKeys = array(); // property => array(foreignClass, foreignProperty)
+	protected $_options = array(); // propertyName => options
+	//protected $_storage = null;
+	//protected $_storageClass = 'modelStorage';
+	public function __sleep(){
+		return array('_properties');//'_classesMap', '_fieldsMap', '_primaryKey', '_autoIncrement',
+	}
+	public function __wakeup(){}
+	public static function getCollection(){
+		if (!function_exists('get_called_class')){
+			require_once dirname(__FILE__).'/../common/compat/get_called_class.php';
+			// PHP 5 >= 5.2.4
+		}
+		return modelCollection::getInstance(get_called_class()); // PHP 5 >= 5.3.0
+	}
+	public function getIterator(){
+		return new modelIterator($this, $this->_classes);
+	}
+	public function getPrimaryKey(){
+		return $this->_primaryKey;
+	}
+	public function getAutoIncrement(){
+		return $this->_autoIncrement;
+	}
+	public function getFieldNames(){
+		return $this->_fields;
+	}
+	public function getPropertyNames(){
+		return array_keys($this->_classes);
+	}
+	public function getForeignKeys(){
+		return $this->_foreignKeys;
+	}
+	public function toArray(){
+		$a = array();
+		foreach ($this->_properties as $name => $property){
+			$a[$name] = $property->getValue();
+		}
+		return $a;
+	}
+	public function setOptions($options = array()){
+		foreach ($options as $k => $v) $this->_options[$k] = $v;
+		return $this;
+	}
+	protected function _getProperty($name){
+		if (!isset($this->_properties[$name])){
+			$class = 'stringProperty';
+			if (isset($this->_classes[$name])){
+				if (class_exists($this->_classes[$name])){
+					$class = $this->_classes[$name];
+				}
+			}
+			$this->_properties[$name] = new $class($name);
+			$this->_properties[$name]->setModel($this);
+			if (is_array($this->_options[$name])){
+				$this->_properties[$name]->setOptions($this->_options[$name]);
+			}
+		}
+		return $this->_properties[$name];
+	}
+	protected function _makeValuesInitial(){
+		foreach ($this->_properties as $property){
+			if ($property->isChangedValue()){
+				$property->setInitialValue($property->getValue());
+				$property->setValue(null);
+			}
+		}
+	}
+	public function __get($name){
+		return $this->_getProperty($name);
+	}
+	public function __set($name, $value){
+		$this->_getProperty($name)->setValue($value);
+	}
+	// ArrayAccess
+	public function offsetExists($offset){
+		return in_array($this->_fields($offset));
+	}
+	public function offsetUnset($offset){
+		// can't be unset
+	}
+	public function offsetGet($offset){
+		if (($propertyName = array_search($offset, $this->_fields)) !== false){
+			return $this->_getProperty($propertyName);
+		}
+		return new nullObject;
+	}
+	public function offsetSet($offset, $value){
+		if (($propertyName = array_search($offset, $this->_fields)) !== false){
+			$this->_getProperty($propertyName)->setValue($value);
+		}
+		return $this;
+	}
+	/**
+	 * @return modelStorage
+	 */
+	public function getStorage(){
+		$storageId = storageRegistry::getInstance()->modelSettings[get_class($this)]['storage'];
+		$storage = storageRegistry::getInstance()->storages[$storageId];
+		return $storage;
+	}
+	/**
+	 * @return string
+	 */
+	public function getTableName(){
+		return storageRegistry::getInstance()->modelSettings[get_class($this)]['table'];
+	}
+	public function save(){
+		$this->preSave();
+		foreach ($this as $property){
+			$property->preSave();
+			$control = $property->getControl();
+			if ($control !== null){
+				$control->preSave();
+			}
+		}
+		$result = $this->getStorage()->saveModel($this);
+		$this->postSave();
+		foreach ($this as $property){
+			$property->postSave();
+			$control = $property->getControl();
+			if ($control !== null){
+				$control->postSave();
+			}
+		}
+		return $result;
+	}
+	public function insert(){
+		$this->preInsert();
+		foreach ($this as $property){
+			$property->preInsert();
+		}
+		$result = $this->getStorage()->insertModel($this);
+		$this->postInsert();
+		foreach ($this as $property){
+			$property->postInsert();
+		}
+		return $result;
+	}
+	public function update(){
+		$this->preUpdate();
+		foreach ($this as $property){
+			$property->preUpdate();
+		}
+		$result = $this->getStorage()->updateModel($this);
+		$this->postUpdate();
+		foreach ($this as $property){
+			$property->postUpdate();
+		}
+		return $result;
+	}
+	public function delete(){
+		$this->preDelete();
+		foreach ($this as $property){
+			$property->preDelete();
+		}
+		$result = $this->getStorage()->deleteModel($this);
+		$this->postDelete();
+		foreach ($this as $property){
+			$property->postDelete();
+		}
+		return $result;
+	}
+	public function preSave(){}
+	public function preInsert(){}
+	public function preUpdate(){}
+	public function preDelete(){}
+	public function postSave(){}
+	public function postInsert(){}
+	public function postUpdate(){}
+	public function postDelete(){}
+}
+
+class modelStatement{
+	
+}
+
+/**
+ * $Id$
+ */
+
+class storageRegistry extends registry{
+	private static $_instance = null;
+	private function __construct(){
+		
+	}
+	public static function getInstance(){
+		if (self::$_instance === null){
+			self::$_instance = new self();
+		}
+		return self::$_instance;
+	}
+	public static function dump(){
+		print_r(self::$_instance);
+	}
+}
+
+
+
+abstract class storageDriver{
+	protected $_uniqueId = null;
+	protected $_connection = null;
+	public function getConnection(){
+		if ($this->_connection === null){
+			$this->_makeConnection();
+		}
+		return $this->_connection;
+	}
+	abstract protected function _makeConnection();
+	public function getUniqueId(){
+		if ($this->_uniqueId === null){
+			$this->_uniqueId = kanon::getUniqueId();
+		}
+		return $this->_uniqueId;
+	}
+	abstract public function execute($sql);
+	abstract public function query($sql);
+	abstract public function lastInsertId();
+	abstract public function fetch($resultSet);
+	abstract public function fetchColumn($resultSet, $columnNumber = 0);
+	abstract public function rowCount($resultSet);
+	abstract public function quote($string);
+	public function get($name){
+		$driverOptions = $this->getRegistry()->driverOptions;
+		return isset($driverOptions[$this->getUniqueId()][$name])?$driverOptions[$this->getUniqueId()][$name]:false;
+	}
+	public function setup($name, $value){
+		//echo 'setup('.$name.', '.$value.') ';
+		$driverOptions = $this->getRegistry()->driverOptions;
+		$driverOptions[$this->getUniqueId()][$name] = $value;
+		$this->getRegistry()->driverOptions = $driverOptions;
+	}
+	public function getRegistry(){
+		return storageRegistry::getInstance();
+	}
+}
+
+
+class mysqlDriver extends storageDriver{
+	protected function _makeConnection(){
+		if ($host = $this->get('host')){
+			if (!$port = $this->get('port')){
+				$port = 3307;
+			}
+			$host = $host.':'.$port;
+		}else{
+			if ($this->get('unix_socket')){
+				$host = ':'.$this->get('unix_socket');
+			}
+		}
+		if ($host){
+			$this->_connection = mysql_connect($host, $this->get('username'), $this->get('password'));
+		}
+		if ($dbname = $this->get('dbname')){
+			mysql_select_db($dbname, $this->_connection);
+		}
+	}
+	/**
+	 * Execute an SQL statement and return the number of affected rows
+	 * @param string $sql
+	 */
+	public function execute($sql){
+		mysql_query($sql, $this->getConnection());
+		return mysql_affected_rows($this->getConnection());
+	}
+	/**
+	 * Executes an SQL statement, returning a result set
+	 * @param string $sql
+	 */
+	public function query($sql){
+		return mysql_query($sql, $this->getConnection());
+	}
+	public function fetch($resultSet){
+		return mysql_fetch_assoc($resultSet);
+	}
+	public function fetchColumn($resultSet, $columnNumber = 0){
+		return mysql_result($resultSet,0,$columnNumber);
+	}
+	public function rowCount($resultSet){
+		return mysql_num_rows($resultSet);
+	}
+	public function quote($string){
+		return mysql_real_escape_string($string, $this->getConnection());
+	}
+	public function lastInsertId(){
+		return mysql_insert_id($this->getConnection());
+	}
+}
+
+
+class modelStorage{
+	private static $_foreignConnections = array();
+	private static $_instances = array();
+	/**
+	 * @var storageDriver
+	 */
+	private $_storageDriver = null;
+	protected $_uniqueId = null;
+	public function getUniqueId(){
+		if ($this->_uniqueId === null){
+			$this->_uniqueId = kanon::getUniqueId();
+		}
+		return $this->_uniqueId;
+	}
+	protected function _getWhatSql($item){
+		return '*';
+	}
+	/**
+	 *
+	 * @param model $model
+	 */
+	protected function _getSetSql($model){
+		$seta = array();
+		$fields = $model->getFieldNames();
+		foreach ($fields as $fieldName){
+			$property = $model[$fieldName];
+			if ($property){
+				if ($property->hasChangedValue()){
+					$seta[] = "`$fieldName` = '".$this->quote($property->getInternalValue())."'";
+				}
+			}
+		}
+		if (count($seta)){
+			return " SET ".implode(",", $seta);
+		}
+		return false;
+	}
+	/**
+	 *
+	 * @param model $model
+	 */
+	protected function _getWherePrimaryKeySql($model, $useAssignedValues = false){
+		$wherea = array();
+		$pk = $model->getPrimaryKey();
+		if (count($pk)){
+			foreach ($pk as $propertyName){
+				$property = $item->{$propertyName};
+				if ($property){
+					$initialValue = $property->getInitialValue();
+					if ($initialValue !== null){
+						$wherea[] = "`$fieldName` = '".$this->quote($initialValue)."'";
+					}else{
+						if ($useAssignedValues){
+							$value = $property->getValue();
+							if ($value !== null){
+								$wherea[] = "`$fieldName` = '".$this->quote($value)."'";
+							}
+						}
+					}
+				}
+			}
+			if (count($pk) == count($wherea)){
+				return " WHERE ".implode(" AND ", $wherea);
+			}
+		}
+		return false;
+	}
+	/**
+	 *
+	 * @param model $model
+	 */
+	protected function _getWhereSql($model, $useAssignedValues = false){
+		if (($whereSql = $this->_getWherePrimaryKeySql($model, $useAssignedValues)) !== false){
+			return $whereSql;
+		}
+		// can't use PK
+		$wherea = array();
+		$fields = $model->getFieldNames();
+		foreach ($fields as $fieldName){
+			$property = $item[$fieldName];
+			if ($property){
+				$initialValue = $property->getInitialValue();
+				if ($initialValue !== null){
+					$wherea[] = "`$fieldName` = '".$this->quote($initialValue)."'";
+				}
+			}
+		}
+		if (count($wherea)){
+			return " WHERE ".implode(" AND ", $wherea);
+		}
+		return false;
+	}
+	/**
+	 *
+	 * @param model $model
+	 */
+	protected function _getInsertSql($model){
+		$setSql = $this->_getSetSql($model);
+		if ($setSql){
+			return "INSERT INTO `{$model->getTableName()}`".$setSql;
+		}
+		return false;
+	}
+	/**
+	 *
+	 * @param model $model
+	 */
+	protected function _getUpdateSql($model){
+		$setSql = $this->_getSetSql($model);
+		if ($setSql){
+			return "UPDATE `{$model->getTableName()}`".$setSql.$this->_getWhereSql($model)." LIMIT 1";
+		}
+		return false;
+	}
+	/**
+	 *
+	 * @param model $model
+	 */
+	protected function _getDeleteSql($model){
+		return "DELETE FROM `{$model->getTableName()}`".$this->_getWhereSql($model, true)." LIMIT 1";
+	}
+	/**
+	 *
+	 * @param model $model
+	 */
+	public function saveModel($model){
+		if ($this->_getWhereSql($model)){
+			$result = $model->update();
+		}else{
+			$result = $model->insert();
+		}
+		return $result;
+	}
+	/**
+	 *
+	 * @param model $model
+	 */
+	public function insertModel($model){
+		$sql = $this->_getInsertSql($model);
+		if ($this->query($sql)){
+			$model->makeValuesInitial();
+			// Update AutoIncrement property
+			$autoIncrement = $model->getAutoIncrement();
+			if ($autoIncrement !== null){
+				$property = $item->{$autoIncrement};
+				if ($value = $this->lastInsertId()){
+					if (!is_object($property)){
+						throw new Exception('Autoincrement "'.print_r($autoIncrement, true).'" not defined in class "'.get_class($model).'"');
+					}
+					$property->setInitialValue($value);
+				}
+			}
+			return true;
+		}
+		return false;
+	}
+	/**
+	 *
+	 * @param model $model
+	 */
+	public function updateModel($model){
+		$sql = $this->_getUpdateSql($model);
+		if ($this->query($sql)){
+			$model->makeValuesInitial();
+			return true;
+		}
+		return false;
+	}
+	/**
+	 *
+	 * @param model $model
+	 */
+	public function deleteModel($model){
+		$sql = $this->_getDeleteSql($model);
+		$this->query($sql);
+	}
+	private function __construct(){
+
+	}
+	public function getConnection(){
+		return $this->_storageDriver->getConnection();
+	}
+	public static function getInstance($name = 'default'){
+		if (!isset(self::$_instances[$name])){
+			$instance = new self;
+			self::$_instances[$name] = $instance;
+			storageRegistry::getInstance()->storages[$instance->getUniqueId()] = $instance;
+		}
+		return self::$_instances[$name];
+	}
+	public function execute($sql){
+		return $this->_storageDriver->execute($sql);
+	}
+	public function query($sql){
+		return $this->_storageDriver->query($sql);
+	}
+	public function lastInsertId(){
+		return $this->_storageDriver->lastInsertId();
+	}
+	public function fetch($resultSet){
+		return $this->_storageDriver->fetch($resultSet);
+	}
+	public function fetchColumn($resultSet, $columnNumber = 0){
+		return $this->_storageDriver->fetchColumn($resultSet, $columnNumber = 0);
+	}
+	public function rowCount($resultSet){
+		return $this->_storageDriver->rowCount($resultSet);
+	}
+	public function quote($string){
+		return $this->_storageDriver->quote($string);
+	}
+	public function getRegistry(){
+		return storageRegistry::getInstance();
+	}
+	public function registerCollection($modelName, $tableName){
+		$this->getRegistry()->modelSettings[$modelName]['table'] = $tableName;
+		$this->getRegistry()->modelSettings[$modelName]['storage'] = $this->getUniqueId();
+		$this->_registerForeignKeys($modelName);
+		return $this;
+	}
+	protected function _registerForeignKeys($modelName){
+		//echo '<div>+ '.$modelName.'</div>';
+		$keys = &$this->getRegistry()->foreignKeys;
+		$reverseKeys = &$this->getRegistry()->reverseKeys;
+		$collection = modelCollection::getInstance($modelName);
+		$fks = $collection->getForeignKeys();
+		foreach ($fks as $propertyName => $a){
+			list($foreignModel, $foreignPropertyName) = $a;
+			//echo '+ '.$modelName.'.'.$propertyName.' => '.$foreignModel.'.'.$foreignPropertyName.':<br />';
+			$keys[$foreignModel][$modelName] = array($foreignPropertyName, $propertyName);
+			$keys[$modelName][$foreignModel] = array($propertyName, $foreignPropertyName);
+		}
+		foreach ($keys as $model => $connections){
+			//echo '<div>Test '.$model.' ';
+			foreach ($connections as $viaModel => $options){
+				//echo 'using '.$viaModel.' ';
+				if ($keys->offsetExists($viaModel)){
+					//echo 'ok ';
+					foreach ($keys[$viaModel] as $foreignModel => $options2){
+						if ($foreignModel !== $model){
+							if (!isset($keys[$model][$foreignModel])){
+								//echo $model.'=>'.$foreignModel.' via '.$viaModel.'.<br />';
+								//echo $indirectForeignClass2.'<br />';
+								$keys[$model][$foreignModel] = $viaModel;
+								$reverseKeys[$foreignModel][$model] = $viaModel;
+							}
+						}
+					}
+				}
+			}
+			//echo '</div>';
+		}
+	}
+	public static function getTableModel($collection){
+		return $collection->getModelClass();
+	}
+	public static function getIndirectTablesJoins($sourceTable, $targetTable, $joinOptions){
+		$keys = &storageRegistry::getInstance()->foreignKeys;
+		$sourceClass = self::getTableModel($sourceTable);
+		$targetClass = self::getTableModel($targetTable);
+		$joins = array();
+		$joinedTables = array();
+		//echo 'Connecting from '.$sourceClass.' to '.$targetClass.'<br />';
+		foreach ($keys[$sourceClass] as $foreignClass => $options){
+			if ($foreignClass == $targetClass){
+				if (!is_array($options)){
+					$viaClass = $options;
+					//echo 'Connecting via '.$viaClass.'<br />';
+					$viaTable = modelCollection::getInstance($viaClass);
+					$subJoins = self::getIndirectTablesJoins($sourceTable, $viaTable, $joinOptions);
+					if ($subJoins !== false){
+						foreach ($subJoins as $uid => $joinString){
+							$joins[$uid] = $joinString;
+						}
+					}
+					$subJoins = self::getIndirectTablesJoins($viaTable, $targetTable, $joinOptions);
+					if ($subJoins !== false){
+						foreach ($subJoins as $uid => $joinString){
+							$joins[$uid] = $joinString;
+						}
+					}
+					return $joins;
+				}else{
+					$joinType = isset($joinOptions[$targetTable->getUniqueId()]['type'])?$joinOptions[$targetTable->getUniqueId()]['type']:'INNER';
+					list($sourcePropertyName, $targetPropertyName) = $options;
+					$joinString = " ".$joinType." JOIN {$targetTable->getTableName()} AS $targetTable ON ({$sourceTable->$sourcePropertyName} = {$targetTable->$targetPropertyName})";
+					//$joins[$sourceTable->getUniqueId()] = true;
+					$joins[$targetTable->getUniqueId()] = $joinString;
+					//echo 'Connecting via DIRECT<br />';
+					if ($joinString !== false) return $joins;//array($joinedTables, $joinString);
+				}
+			}
+		}
+		echo 'Connecting via FALSE<br />';
+		return false;
+	}
+	/**
+	 *
+	 * @param string $dsn
+	 * @param string $username
+	 * @param string $password
+	 * @return modelStorage
+	 */
+	public function connect($dsn, $username = 'root', $password = ''){
+		$extension = reset(explode(":", $dsn));
+		$driverName = $extension.'Driver';
+		if (!extension_loaded($extension)){
+			$driverName = 'pdoDriver';
+			if (!extension_loaded('pdo')){
+				return $this;
+			}
+		}
+		$dsne = substr($dsn, strlen($extension)+1);
+		$this->_storageDriver = new $driverName;
+		$this->_storageDriver->setup('dsn',$dsn);
+		$this->_storageDriver->setup('username',$username);
+		$this->_storageDriver->setup('password',$password);
+		$dsna = explode(";", $dsne);
+		foreach ($dsna as $p){
+			list($k,$v) = explode("=", $p);
+			$this->_storageDriver->setup($k,$v);
+		}
+		return $this;
+	}
+}
+
+
+class integerProperty extends modelProperty{
+	public function getCreateTablePropertySql(){
+		return "`".$this->_fieldName."` bigint(20) unsigned NOT NULL";
+	}
+}
+
+
+class timestampProperty extends integerProperty{
+	/**
+	 * @return string Human presentation
+	 */
+	public function format($format = "d.m.Y H:i:s"){
+		return date($format, $this->value());
+	}
+	public function chanFormat(){//Вск 06 Дек 2009
+		$ts = $this->getValue();
+		$wa = array('Вск','Пнд','Втр','Срд','Чтв','Птн','Сбт');
+		$ma = array(null,'Янв','Фев','Мар','Апр','Май','Июн','Июл','Авг','Сен','Окт','Ноя','Дек');
+		return $wa[date("w", $ts)].' '.date("d", $ts).' '.$ma[date("m", $ts)].' '.date("Y H:i:s", $ts);
+	}
+}
+
+
+class modificationTimestampProperty extends timestampProperty{
+	public function preSave(){
+		$this->setValue(time());
+	}
+}
+
+
+class creationTimestampProperty extends timestampProperty{
+	public function preInsert(){
+		$this->setValue(time());
+	}
+}
+
+class pdoDriver extends storageDriver{
+	protected function _makeConnection(){
+		$this->_connection = new PDO($this->get('dsn'), $this->get('username'), $this->get('password'));
+	}
+	/**
+	 * Execute an SQL statement and return the number of affected rows
+	 * @param string $sql
+	 */
+	public function execute($sql){
+		$this->getConnection()->exec($sql);
+	}
+	/**
+	 * Executes an SQL statement, returning a result set
+	 * @param string $sql
+	 */
+	public function query($sql){
+		return $this->getConnection()->query($sql);
+	}
+	public function fetch(PDOStatement $resultSet){
+		return $resultSet->fetch();
+	}
+	public function fetchColumn(PDOStatement $resultSet, $columnNumber = 0){
+		return $resultSet->fetchColumn($columnNumber);
+	}
+	public function rowCount(PDOStatement $resultSet){
+		return $resultSet->rowCount();
+	}
+	public function quote($string){
+		return $this->getConnection()->quote($string);
+	}
+	public function lastInsertId(){
+		$this->getConnection()->lastInsertId();
+	}
+}
