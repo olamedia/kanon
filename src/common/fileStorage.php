@@ -35,7 +35,7 @@ class fileStorage{
 	 * @example $defaultStorage->getRelativeStorage('images', 'images/');
 	 */
 	public function getRelativeStorage($storageName, $relativePath = ''){
-		static::getStorage($storageName)->setParent($this)->setRelativePath($relativePath);
+		self::getStorage($storageName)->setParent($this)->setRelativePath($relativePath);
 		return $this;
 	}
 	/**
