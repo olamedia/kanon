@@ -23,7 +23,7 @@ class fileStorage{
 	 */
 	public static function getStorage($storageName = 'default'){
 		if (!isset(self::$_instances[$storageName])) {
-			self::$_instances[$storageName] = new static($storageName);
+			self::$_instances[$storageName] = new self($storageName);
 		}
 		return self::$_instances[$storageName];
 	}
