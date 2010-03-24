@@ -14,10 +14,168 @@ class modelStorage{
 		}
 		return $this->_uniqueId;
 	}
-	public function saveModel($item){}
-	public function insertModel($item){}
-	public function updateModel($item){}
-	public function deleteModel($item){}
+	protected function _getWhatSql($item){
+		return '*';
+	}
+	/**
+	 *
+	 * @param model $model
+	 */
+	protected function _getSetSql($model){
+		$seta = array();
+		$fields = $model->getFieldNames();
+		foreach ($fields as $fieldName){
+			$property = $model[$fieldName];
+			if ($property){
+				if ($property->hasChangedValue()){
+					$seta[] = "`$fieldName` = '".$this->quote($property->getInternalValue())."'";
+				}
+			}
+		}
+		if (count($seta)){
+			return " SET ".implode(",", $seta);
+		}
+		return false;
+	}
+	/**
+	 *
+	 * @param model $model
+	 */
+	protected function _getWherePrimaryKeySql($model, $useAssignedValues = false){
+		$wherea = array();
+		$pk = $model->getPrimaryKey();
+		if (count($pk)){
+			foreach ($pk as $propertyName){
+				$property = $item->{$propertyName};
+				if ($property){
+					$initialValue = $property->getInitialValue();
+					if ($initialValue !== null){
+						$wherea[] = "`$fieldName` = '".$this->quote($initialValue)."'";
+					}else{
+						if ($useAssignedValues){
+							$value = $property->getValue();
+							if ($value !== null){
+								$wherea[] = "`$fieldName` = '".$this->quote($value)."'";
+							}
+						}
+					}
+				}
+			}
+			if (count($pk) == count($wherea)){
+				return " WHERE ".implode(" AND ", $wherea);
+			}
+		}
+		return false;
+	}
+	/**
+	 *
+	 * @param model $model
+	 */
+	protected function _getWhereSql($model, $useAssignedValues = false){
+		if (($whereSql = $this->_getWherePrimaryKeySql($model, $useAssignedValues)) !== false){
+			return $whereSql;
+		}
+		// can't use PK
+		$wherea = array();
+		$fields = $model->getFieldNames();
+		foreach ($fields as $fieldName){
+			$property = $item[$fieldName];
+			if ($property){
+				$initialValue = $property->getInitialValue();
+				if ($initialValue !== null){
+					$wherea[] = "`$fieldName` = '".$this->quote($initialValue)."'";
+				}
+			}
+		}
+		if (count($wherea)){
+			return " WHERE ".implode(" AND ", $wherea);
+		}
+		return false;
+	}
+	/**
+	 *
+	 * @param model $model
+	 */
+	protected function _getInsertSql($model){
+		$setSql = $this->_getSetSql($model);
+		if ($setSql){
+			return "INSERT INTO `{$model->getTableName()}`".$setSql;
+		}
+		return false;
+	}
+	/**
+	 *
+	 * @param model $model
+	 */
+	protected function _getUpdateSql($model){
+		$setSql = $this->_getSetSql($model);
+		if ($setSql){
+			return "UPDATE `{$model->getTableName()}`".$setSql.$this->_getWhereSql($model)." LIMIT 1";
+		}
+		return false;
+	}
+	/**
+	 *
+	 * @param model $model
+	 */
+	protected function _getDeleteSql($model){
+		return "DELETE FROM `{$model->getTableName()}`".$this->_getWhereSql($model, true)." LIMIT 1";
+	}
+	/**
+	 *
+	 * @param model $model
+	 */
+	public function saveModel($model){
+		if ($this->_getWhereSql($model)){
+			$result = $model->update();
+		}else{
+			$result = $model->insert();
+		}
+		return $result;
+	}
+	/**
+	 *
+	 * @param model $model
+	 */
+	public function insertModel($model){
+		$sql = $this->_getInsertSql($model);
+		if ($this->query($sql)){
+			$model->makeValuesInitial();
+			// Update AutoIncrement property
+			$autoIncrement = $model->getAutoIncrement();
+			if ($autoIncrement !== null){
+				$property = $item->{$autoIncrement};
+				if ($value = $this->lastInsertId()){
+					if (!is_object($property)){
+						throw new Exception('Autoincrement "'.print_r($autoIncrement, true).'" not defined in class "'.get_class($model).'"');
+					}
+					$property->setInitialValue($value);
+				}
+			}
+			return true;
+		}
+		return false;
+	}
+	/**
+	 *
+	 * @param model $model
+	 */
+	public function updateModel($model){
+		$sql = $this->_getUpdateSql($model);
+		if ($this->query($sql)){
+			$model->makeValuesInitial();
+			return true;
+		}
+		return false;
+	}
+	/**
+	 *
+	 * @param model $model
+	 */
+	public function deleteModel($model){
+		$sql = $this->_getDeleteSql($model);
+		$this->query($sql);
+	}
 	private function __construct(){
 
 	}

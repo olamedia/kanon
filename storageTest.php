@@ -81,10 +81,10 @@ $categories = helpCategory::getCollection();
 $topics = helpTopic::getCollection();
 /*$categories = helpRelation::getCollection();*/
 $keywords = helpKeyword::getCollection();
-$list = $categories->select($topics, $categories->id->sum())->where($keywords->name->is("'SELECT'"));
-echo '<pre>';
+$list = $categories->select($topics, $categories->id->max())->where($keywords->name->is("'SELECT'"));
 //var_dump($list);
 echo '<div style="padding: 7px; border: solid 1px #eee; margin: 4px;">'.$list->getSql().'</div>';
+echo '<pre>';
 foreach ($list as $result){
 	list($category, $topic, $sum) = $result;
 	var_dump($category->toArray(), $topic->toArray(), $sum);

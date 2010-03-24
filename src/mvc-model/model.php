@@ -11,6 +11,10 @@ class model implements ArrayAccess, IteratorAggregate{
 	protected $_options = array(); // propertyName => options
 	//protected $_storage = null;
 	//protected $_storageClass = 'modelStorage';
+	public function __sleep(){
+		return array('_properties');//'_classesMap', '_fieldsMap', '_primaryKey', '_autoIncrement',
+	}
+	public function __wakeup(){}
 	public static function getCollection(){
 		if (!function_exists('get_called_class')){
 			require_once dirname(__FILE__).'/../common/compat/get_called_class.php';
@@ -103,6 +107,12 @@ class model implements ArrayAccess, IteratorAggregate{
 		$storageId = storageRegistry::getInstance()->modelSettings[get_class($this)]['storage'];
 		$storage = storageRegistry::getInstance()->storages[$storageId];
 		return $storage;
+	}
+	/**
+	 * @return string
+	 */
+	public function getTableName(){
+		return storageRegistry::getInstance()->modelSettings[get_class($this)]['table'];
 	}
 	public function save(){
 		$this->preSave();

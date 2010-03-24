@@ -25,7 +25,7 @@
  */
 
 class kanonItem extends kanonObject{
-	
+
 	public function fromArray($array){
 		foreach ($array as $name => $value){
 			$this->_propertyGet($name)->setInitialValue($value);
@@ -38,74 +38,16 @@ class kanonItem extends kanonObject{
 }
 
 
-class zenMysqlResult extends zenMysqlQueryBuilder implements IteratorAggregate, Countable{// implements IteratorAggregate, ArrayAccess, Countable
-	protected $_mysqlResult = null;
-	protected $_finished = false;
-	protected $_list = array();
-
-	/**
-	 * Fetch a result row as a zenMysqlItem
-	 * @return zenMysqlItem
-	 */
-	public function fetch(){
-		if ($this->_finished) return false;
-		$this->execute();
-		if ($this->_mysqlResult){
-			if ($a = mysql_fetch_assoc($this->_mysqlResult)){
-				//var_dump($a);
-				$models = $this->_makeModels($a);
-				return $models;
-			}
-		}
-		$this->_finished = true;
-		return false;
-	}
-	protected function _makeModels($a){
-		$models = array();
-		foreach ($this->_selected as $sa){
-			//reset($this->_selected);
-			//$sa = current($this->_selected);
-			list($table, $fields) = $sa;
-			if (!($modelClass = zenMysql::getTableModel($table))){
-				$modelClass = 'zenMysqlRow';
-			}
-			$model = new $modelClass();
-			/** @var zenMysqlRow $model */
-			//var_dump($model);
-			$tid = $table->getUid();
-			foreach ($a as $k => $v){
-				if (($p = strpos($k, "__")) !== FALSE){
-					$k_tid = substr($k, 0, $p);
-					$k_fn = substr($k,$p+2);
-					//if ($k_tid == )
-					//echo $k;
-					if ($tid == $k_tid){
-						if (!is_object($model[$k_fn]) && is_object($model)){
-							// throw new Exception("Property \"".htmlspecialchars($k_fn)."\" not exists in class \"".get_class($model).'"');
-						}else{
-							$model[$k_fn]->setInitialValue($v);
-						}
-					}
-				}
-			}
-			$models[] = $model;
-		}
-		if (count($models) == 1){
-			return $model;
-		}
-		return $models;
-	}
-}
 
 class zenMysqlRow extends mysqlRow{
-	protected $_storageClass = 'zenMysqlItemStorage';
+
 	public function __construct(){
 		$this->_makeAllProperties();
 		$this->_updateDefaults();
 		$this->onConstruct();
 	}
 	public function onConstruct(){
-		
+
 	}
 	protected function _updateDefaults(){
 		$class = get_class($this);
@@ -123,49 +65,8 @@ class zenMysqlRow extends mysqlRow{
 			}
 		}
 	}
-	public function __sleep(){
-        return array('_properties');//'_classesMap', '_fieldsMap', '_primaryKey', '_autoIncrement', 
-	}
-	public function __wakeup(){}
 }
-class zenMysqlField{
-	private $_serverId = null;
-	private $_databaseName = null;
-	private $_table = null;
-	private $_tableName = null;
-	private $_tableUid = null;
-	private $_fieldName = null;
-	public function __construct($table, $fieldName){
-		$this->_serverId = $table->getServerId();
-		$this->_databaseName = $table->getDatabaseName();
-		$this->_table = $table;
-		$this->_tableName = $table->getTableName();
-		$this->_tableUid = $table->getUid();
-		$this->_fieldName = $fieldName;
-	}
-	public function getUid(){
-		return $this->_tableUid.'__'.$this->_fieldName;
-	}
-	public function getServerId(){
-		return $this->_serverId;
-	}
-	public function getDatabaseName(){
-		return $this->_databaseName;
-	}
-	public function getTable(){
-		return $this->_table;
-	}
-	public function getTableName(){
-		return $this->_tableName;
-	}
-	public function getTableUid(){
-		return $this->_tableUid;
-	}
-	public function getFieldName(){
-		return $this->_fieldName;
-	}
-	
-}
+
 class zenMysqlTable extends mysqlTable implements ArrayAccess, Countable, IteratorAggregate{
 	private $_serverId = null;
 	private $_databaseName = null;
@@ -182,7 +83,7 @@ class zenMysqlTable extends mysqlTable implements ArrayAccess, Countable, Iterat
 	public function &getDefaultFieldValue($field){
 		if (isset($this->_defaults[$field])){
 			return $this->_defaults[$field];
-		}		
+		}
 		return false;
 	}
 	public function &resetFilters(){
@@ -282,7 +183,7 @@ class zenMysqlTable extends mysqlTable implements ArrayAccess, Countable, Iterat
 		return $this->getFieldByName($fieldName);
 	}
 	/* SQL */
-	public function select(){ 
+	public function select(){
 		$args = func_num_args()?func_get_args():array();
 		array_unshift($args, $this);
 		$qb = new zenMysqlResult();
@@ -380,301 +281,7 @@ class zenMysqlDatabase implements IZenMysqlPrototype, ArrayAccess, Countable, It
 		return new ArrayIterator($this->_tList);
 	}
 }
-class zenMysqlServer implements IZenMysqlPrototype, ArrayAccess, Countable, IteratorAggregate{
-	private $_serverId = null;
-	private $_zenMysqlLink = null;
-	private $_dCache = array();
-	private $_dList = array();
-	private $_isFullList = false;
-	public function __construct($serverId){
-		$this->_serverId = $serverId;
-	}
-	protected function _fetchDatabasesList(){
-		$sql = "SHOW DATABASES";
-		if ($q = $this->_q($sql)){
-			while ($a = mysql_fetch_assoc($q)){
-				$databaseName = $a['Database'];
-				$this->_dList[$databaseName] = $this->getDatabaseByName($databaseName);
-			}
-			$this->_isFullList = true;
-		}
-	}
-	protected function _q($sql){
-		return mysql_query($sql, $this->getLink());
-	}
-	public function q($sql){
-		return mysql_query($sql, $this->getLink());
-	}
-	public function e($unescapedString){
-		return mysql_real_escape_string($unescapedString, $this->getLink());
-	}
-	public function getServerId(){
-		return $this->_serverId;
-	}
-	public function getDatabaseByName($databaseName){
-		if (!isset($this->_dCache[$databaseName])){
-			$this->_dCache[$databaseName] = new zenMysqlDatabase($this, $databaseName);
-		}
-		return $this->_dCache[$databaseName];
-	}
-	public function getDatabaseByAlias($alias){
-		return zenMysql::getDatabaseByAlias($alias);
-	}
-	public function &getLink(){
-		return zenMysql::getServerLink($this->_serverId)->getLink();
-	}
-	/* ArrayAccess interface */
-	public function offsetSet($databaseName, $value) {
-		$this->_dCache[$databaseName] = $value;
-	}
-	public function offsetExists($databaseName) {
-		if (!isset($this->_dCache[$databaseName]) && !$this->_isFullList){
-			$this->_fetchDatabasesList();
-		}
-		return isset($this->_dCache[$databaseName]);
-	}
-	public function offsetUnset($databaseName) {
-		unset($this->_dCache[$databaseName]);
-	}
-	/**
-	 * @param string $databaseName
-	 * @return zenMysqlDatabase
-	 */
-	public function offsetGet($databaseName) {
-		return $this->getDatabaseByName($databaseName);
-	}
-	/**
-	 * Countable interface
-	 * @return integer
-	 */
-	public function count() {
-		if (!$this->_isFullList){
-			$this->_fetchDatabasesList();
-		}
-		return count($this->_dList);
-	}
-	public function getIterator(){
-		if (!$this->_isFullList){
-			$this->_fetchDatabasesList();
-		}
-		return new ArrayIterator($this->_dList);
-	}
-}
-class zenMysql{
-	private static $_models = array();
-	private static $_tables = array();
-	private static $_databases = array();
-	private static $_servers = array();
-	private static $_serverLinks = array();
-	private static $_databaseLinks = array();
-	private static $_tableUidAi = 0;
-	private static $_foreignKeys = array(); // table => array(key, foreignTable, foreignKey);
-	private static $_foreignConnections = array(); // complete list of direct & indirect connections
-	public static function getTableUid(){
-		$uid = self::$_tableUidAi;
-		$uid = strval(base_convert($uid, 10, 26));
-		$shift = ord("a") - ord("0");
-		for ($i = 0; $i < strlen($uid); $i++){
-			$c = $uid{$i};
-			if (ord($c) < ord("a")){
-				$uid{$i} = chr(ord($c)+$shift);
-			}else{
-				$uid{$i} = chr(ord($c)+10);
-			}
-		}
-		self::$_tableUidAi++;
-		return $uid;
-	}
-	public static function registerForeignKeys($model){
-		$class = get_class($model);
-		//echo '<b style="font-weight: bold;">Register '.$class.'</b><br />';
-		
-		$fks = $model->foreignKeysGet(); // array( property => array(foreignClass, foreignProperty),..)
-		foreach ($fks as $propertyName => $a){
-			list($foreignClass, $foreignPropertyName) = $a;
-			//echo '+ foreignClass '.$foreignClass.':<br />';
-			// add direct connections
-			if (!isset(self::$_foreignConnections[$foreignClass])){
-				self::$_foreignConnections[$foreignClass] = array();
-			}
-			self::$_foreignConnections[$foreignClass][$class] = array($foreignPropertyName, $propertyName);
-			// reverse connection
-			if (!isset(self::$_foreignConnections[$foreignClass])){
-				self::$_foreignConnections[$foreignClass] = array();
-			}
-			self::$_foreignConnections[$class][$foreignClass] = array($propertyName, $foreignPropertyName);
-			
-			// add indirect connections
-			/*foreach (self::$_foreignConnections as $indirectClass => $connections){
-				//echo 'indirectClass '.$indirectClass.'<br />';
-				if ($indirectClass == $foreignClass){
-					foreach ($connections as $indirectForeignClass => $indirectOptions){
-						if ($indirectForeignClass !== $class && $indirectForeignClass !== $foreignClass){
-							// add connection from indirectForeignClass to foreignClass
-							self::$_foreignConnections[$class][$indirectForeignClass] = $foreignClass; // connection available via $class
-							self::$_foreignConnections[$indirectForeignClass][$class] = $foreignClass; // connection available via $class
-						}
-					}
-				}
-			}*/
-			//echo '<pre>';
-			//var_dump(self::$_foreignConnections);
-			//echo '</pre><hr />';
-		}
-		foreach (self::$_foreignConnections as $class => $connections){
-			foreach ($connections as $foreignClass => $options){
-				if (!isset(self::$_foreignConnections[$foreignClass])) continue;
-				foreach (self::$_foreignConnections[$foreignClass] as $foreignClass2 => $options2){
-					if (!isset(self::$_foreignConnections[$class][$foreignClass2])){
-						//echo $class.'=>'.$foreignClass2.' via '.$foreignClass.'.<br />';
-						//echo $indirectForeignClass2.'<br />';
-						self::$_foreignConnections[$class][$foreignClass2] = $foreignClass;
-					}
-				}
-			}
-		}
-		
-	}
-	public static function setDatabaseAlias($zenMysqlDatabase, $databaseAlias){
-		self::$_databases[$databaseAlias] = $zenMysqlDatabase;
-	}
-	public static function getDatabaseByAlias($databaseAlias){
-		return self::$_databases[$databaseAlias];
-	}
-	public static function getModelForeignKeys($modelClass){
-		$model = new $modelClass();
-		return $model->foreignKeysGet();
-		//list($foreignModelClass, $foreignPropertyName) = $a;
-	}
 
-	public static function setTableModel($zenMysqlTable, $modelClass){
-		self::$_models[$zenMysqlTable->getDatabaseName()][$zenMysqlTable->getTableName()] = $modelClass;
-		self::$_tables[$modelClass] = $zenMysqlTable;
-		$model = new $modelClass();
-		self::registerForeignKeys($model);
-	}
-	
-	public static function getModels(){
-		return self::$_tables;
-	}
-	public static function getTable($class){
-		return self::getModelTable($class);
-	}
-	public static function getTableModel($table){
-		if (!isset(self::$_models[$table->getDatabaseName()]) || !isset(self::$_models[$table->getDatabaseName()][$table->getTableName()])){
-			return false;
-		}
-		return self::$_models[$table->getDatabaseName()][$table->getTableName()];
-	}
-	public static function configureModel($modelClass){
-		return new zenMysqlModelConfiguration($modelClass);
-	}
-	public static function registerServer($hostname = 'localhost', $username = 'root', $password = '', $persistent = false){
-		$serverId = $username.'@'.$hostname;
-		$server = new zenMysqlServer($serverId);
-		self::$_serverLinks[$serverId] = new zenMysqlLink($hostname, $username, $password, $persistent);
-		return $server;
-	}
-	public static function &getServerLink($serverId){
-		return self::$_serverLinks[$serverId];
-	}
-	public static function &getDatabaseLink($serverId, $databaseName){
-		if (!isset(self::$_databaseLinks[$serverId]) || !isset(self::$_databaseLinks[$serverId][$databaseName])){
-			$link = clone self::getServerLink($serverId);
-			$link->setDatabase($databaseName);
-			self::$_databaseLinks[$serverId][$databaseName] = $link;
-		}
-		return self::$_databaseLinks[$serverId][$databaseName];
-	}
-}
-class zenMysqlLink{
-	protected $_server = null;
-	protected $_username = null;
-	protected $_password = null;
-	protected $_persistent = null;
-	protected $_databaseName = null;
-	protected $_characterSet = 'UTF8';
-	
-	protected $_lastAffectedRows = 0;
-	protected $_currentDatabaseName = null;
-	protected $_link = null; // mysql link resource
-	public function __construct($server, $username, $password, $persistent = false){
-		$this->_server = $server;
-		$this->_username = $username;
-		$this->_password = $password;
-		$this->_persistent = $persistent;
-	}
-	protected function _switchDatabase($databaseName){
-		if ($this->_currentDatabaseName !== $this->_databaseName){
-			if (is_resource($this->_link)){
-				if (mysql_select_db($this->_databaseName, $this->_link)){
-					$this->_currentDatabaseName = $this->_databaseName;
-					return true;
-				}
-			}
-			return false;
-		}
-		return true;
-	}
-	public function setDatabase($databaseName){
-		$this->_databaseName = $databaseName;
-	}
-	public function isConnected(){
-		if ($this->_link === null) return false;
-		if (!is_resource($this->_link)) return false;
-		if (mysql_ping ($this->_link)) {
-			return true;
-		}
-		return false;
-	}
-	public function open(){
-		if ($this->_link !== null) return;
-		if ($this->_persistent){
-			$this->_link = @mysql_pconnect($this->_server, $this->_username, $this->_password, true);
-		}else{
-			$this->_link = @mysql_connect($this->_server, $this->_username, $this->_password, true);
-		}
-		$this->query("SET NAMES ".$this->_characterSet);
-		$this->_switchDatabase($this->_databaseName);
-	}
-	public function query($sql){
-		$q = mysql_query($sql, $this->getLink());
-		$this->_lastAffectedRows = mysql_affected_rows($this->getLink());
-		return $q;
-	}
-	public function insertId(){
-		return mysql_insert_id($this->getLink());
-	}
-	public function affectedRows(){
-		return $this->_lastAffectedRows;//mysql_affected_rows($this->getLink());
-	}
-	public function lastErrorNumber(){
-		return mysql_errno($this->getLink());
-	}
-	public function lastError(){
-		return mysql_error($this->getLink());
-	}
-	public function escape($unescaped_string){
-		return mysql_real_escape_string($unescaped_string, $this->getLink());
-	}
-
-	public function &getLink(){
-		if ($this->_link === null) $this->open();
-		return $this->_link;
-	}
-	public function __clone() {
-		$this->_link = null;
-	}
-}
-class zenMysqlModelConfiguration{
-	private $_modelClass;
-	public function __construct($modelClass){
-		$this->_modelClass = $modelClass;
-	}
-	public function setTable($zenMysqlTable){
-		zenMysql::setTableModel($zenMysqlTable, $this->_modelClass);
-	}
-}
 
 class zenMysqlItemStorage extends itemStorage{
 	protected $_table = null;
@@ -692,141 +299,8 @@ class zenMysqlItemStorage extends itemStorage{
 		return $q;
 		return true;
 	}
-	protected function _getSetSql($item){
-		$seta = array();
-		$fields = $item->fieldsGet();
-		foreach ($fields as $fieldName){
-			$property = $item[$fieldName];
-			if ($property){
-				if ($property->isChangedValue()){
-					$seta[] = "`$fieldName` = '".$this->_table->e($property->getDatabaseValue())."'";
-				}
-			}
-		}
-		if (count($seta)){
-			return " SET ".implode(",", $seta);
-		}
-		return false;
-	}
-	protected function _getWhatSql($item){
-		return '*';
-	}
-	protected function _getWherePrimaryKeySql($item){
-		$wherea = array();
-		$pk = $item->primaryKeyGet();
-		if (count($pk)){
-			foreach ($pk as $fieldName){
-				$property = $item[$fieldName];
-				if ($property){
-					$initialValue = $property->getInitialValue();
-					if ($initialValue !== null){
-						$wherea[] = "`$fieldName` = '".$this->_table->e($initialValue)."'";
-					}
-				}
-			}
-			if (count($pk) == count($wherea)){
-				return " WHERE ".implode(" AND ", $wherea);
-			}
-		}
-		return false;
-	}
-	protected function _getWhereSql($item){
-		if (($whereSql = $this->_getWherePrimaryKeySql($item)) !== false){
-			return $whereSql;
-		}
-		// can't use PK
-		$wherea = array();
-		$fields = $item->fieldsGet();
-		foreach ($fields as $fieldName){
-			$property = $item[$fieldName];
-			if ($property){
-				$initialValue = $property->getInitialValue();
-				if ($initialValue !== null){
-					$wherea[] = "`$fieldName` = '".$this->_table->e($initialValue)."'";
-				}
-			}
-		}
-		if (count($wherea)){
-			return " WHERE ".implode(" AND ", $wherea);
-		}
-		return false;
-	}
-	protected function _getInsertSql($item){
-		if (!is_object($this->_table)){
-			$this->_table = zenMysql::getModelTable(get_class($item));
-			if (!is_object($this->_table)){
-				var_dump($item);
-				var_dump($this->_table);
-				var_dump(zenMysql::getModels());
-				throw new Exception("can't save item: table undefined");
-			}
-		}
-		$tableName = $this->_table->getTableName();
-		$setSql = $this->_getSetSql($item);
-		if ($setSql){
-			return "INSERT INTO `$tableName`".$setSql;
-		}
-		return false;
-	}
-	protected function _getUpdateSql($item){
-		$tableName = $this->_table->getTableName();
-		$setSql = $this->_getSetSql($item);
-		if ($setSql){
-			return "UPDATE `$tableName`".$setSql.$this->_getWhereSql($item)." LIMIT 1";
-		}
-		return false;
-	}
-	protected function _getDeleteSql($item){
-		$tableName = $this->_table->getTableName();
-		return "DELETE FROM `$tableName`".$this->_getWhereSql($item)." LIMIT 1";
-	}
-	public function saveItem($item){
-		$this->_table = zenMysql::getModelTable(get_class($item));
-		if ($this->_getWhereSql($item)){
-			$result = $item->update();
-		}else{
-			$result = $item->insert();
-		}
-		return $result;
-	}
-	public function insertItem($item){
-		//var_dump(__METHOD__);
-		$this->_table = zenMysql::getModelTable(get_class($item));
-		$sql = $this->_getInsertSql($item);
-		if ($this->query($sql)){
-			$item->makeValuesInitial();
-			$aiFieldName = $item->autoIncrementGet();
-			//echo $aiFieldName;
-			if ($aiFieldName !== null){
-				$aiProperty = $item[$aiFieldName];
-				if ($aiValue = mysql_insert_id($this->_table->getLink())){
-					if (!is_object($aiProperty)){
-						throw new Exception('field "'.print_r($aiFieldName, true).'" not defined in class "'.get_class($item).'"');
-					}
-					$aiProperty->setInitialValue($aiValue);
-				}
-			}
-			return true;
-		}
-		return false;
-	}
-	public function updateItem($item){
-		//var_dump(__METHOD__);
-		$this->_table = zenMysql::getModelTable(get_class($item));
-		$sql = $this->_getUpdateSql($item);
-		if ($this->query($sql)){
-			$item->makeValuesInitial();
-			return true;
-		}
-		return false;
-	}
-	public function deleteItem($item){
-		//var_dump(__METHOD__);
-		$this->_table = zenMysql::getModelTable(get_class($item));
-		$sql = $this->_getDeleteSql($item);
-		//echo $sql;
-		$this->query($sql);
-	}
+
+
 }
 
 
@@ -925,8 +399,8 @@ class mediaFilenameProperty extends imageFilenameProperty{
 			$h = $item->$hk->getValue();
 		}
 		$h = $h?$h:$fh;
-			//echo ' w:'.$w;
-			//echo ' h:'.$h;
+		//echo ' w:'.$w;
+		//echo ' h:'.$h;
 		return array($w,$h);
 	}
 	protected function _flashHtml($width = 'auto', $height = 'auto'){

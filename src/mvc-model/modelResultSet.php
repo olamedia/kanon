@@ -18,7 +18,11 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 					$modelClass = 'model';
 				}
 				$model = new $modelClass();
-				/** @var model $model */
+				foreach ($fields as $field){
+					//$k_fn = $field->getUniqueId();
+					$model[$field->getName()] = $a[$field->getUniqueId()];
+				}
+				/*
 				$tid = $table->getUniqueId();
 				foreach ($a as $k => $v){
 					if (($p = strpos($k, "__")) !== FALSE){
@@ -34,7 +38,7 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 					}else{
 						// aggregate?
 					}
-				}
+				}*/
 				$models[] = $model;
 			}
 		}

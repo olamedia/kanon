@@ -46,8 +46,14 @@ class modelProperty{
 	public function setModel($model){
 		$this->_model = $model;
 	}
+	/**
+	 * @return model
+	 */
 	public function getModel(){
 		return $this->_model;
+	}
+	public function getStorage(){
+		return $this->getModel()->getStorage();
 	}
 	public function getControl(){
 		return $this->_control;
@@ -84,8 +90,14 @@ class modelProperty{
 	public function isChangedValue(){
 		return (($this->_value !== null) && ($this->_value != $this->_initialValue));
 	}
+	public function hasChangedValue(){
+		return (($this->_value !== null) && ($this->_value != $this->_initialValue));
+	}
 	public function __toString(){
 		return strval($this->getValue());
+	}
+	public function e(){
+		return $this->getStorage()->quote($this->getValue());
 	}
 	public function html(){
 		return htmlspecialchars($this->getValue());

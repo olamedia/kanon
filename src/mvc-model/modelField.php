@@ -4,18 +4,28 @@ require_once dirname(__FILE__).'/modelAggregation.php';
 class modelField{
 	protected $_collection = null;
 	protected $_fieldName = null;
+	protected $_uniqueId = null;
+	public function getUniqueId(){
+		if ($this->_uniqueId === null){
+			$this->_uniqueId = kanon::getUniqueId();
+		}
+		return $this->_uniqueId;
+	}
+	/*public function getUniqueId(){
+		return $this->_collection->getUniqueId().'__'.$this->_fieldName;
+	}*/
 	public function __construct($collection, $fieldname){
 		$this->_collection = $collection;
 		$this->_fieldName = $fieldname;
+	}
+	public function getName(){
+		return $this->_fieldName;
 	}
 	public function getCollection(){
 		return $this->_collection;
 	}
 	public function __toString(){
 		return $this->_collection->getUniqueId().'.`'.$this->_fieldName.'`';
-	}
-	public function getUniqueId(){
-		return $this->_collection->getUniqueId().'__'.$this->_fieldName;
 	}
 	public function is($value){
 		return new modelExpression($this, '=', $value);
