@@ -1,4 +1,5 @@
 <?php
+require_once dirname(__FILE__).'/../storageDriver.php';
 class pdoDriver extends storageDriver{
 	protected function _makeConnection(){
 		$this->_connection = new PDO($this->get('dsn'), $this->get('username'), $this->get('password'));
