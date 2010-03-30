@@ -17,6 +17,15 @@ class modelProperty{
 	 * @var IPropertyControl
 	 */
 	protected $_control = null;
+	/*protected function _clone(&$var){
+		$var = is_object($var)?clone $var:$var;
+	}
+	public function __clone(){
+		$this->_clone($this->_defaultValue);
+		$this->_clone($this->_initialValue);
+		$this->_clone($this->_value);
+		$this->_clone($this->_model);
+	}*/
 	public function setFieldName($name){
 		$this->_fieldName = $name;
 	}
@@ -73,10 +82,10 @@ class modelProperty{
 		return $this->_control;
 	}
 	public function getDefaultValue(){
-		return $this->_defaultValue;
+		return $this->_calc($this->_defaultValue);
 	}
 	public function getInitialValue(){
-		return $this->_initialValue;
+		return $this->_calc($this->_initialValue);
 	}
 	public function getInternalValue($allowDefault = true){ // for sql SET
 		return $this->_getInternalValue($allowDefault);
@@ -84,16 +93,19 @@ class modelProperty{
 	public function getValue($allowDefault = true){
 		return $this->_getInternalValue($allowDefault);
 	}
+	protected function _calc($value){
+		return is_object($value)?$value->getValue():$value;
+	}
 	protected function _getInternalValue($allowDefault = true){ // Template for both public and database variants
 		if ($this->_value === null){
 			if ($this->_initialValue === null){
 				if ($allowDefault){
-					return $this->_defaultValue;
+					return $this->_calc($this->_defaultValue);
 				}
 			}
-			return $this->_initialValue;
+			return $this->_calc($this->_initialValue);
 		}
-		return $this->_value;
+		return $this->_calc($this->_value);
 	}
 	public function setValue($value){
 		$this->_value = $value;
@@ -102,10 +114,10 @@ class modelProperty{
 		$this->_initialValue = $value;
 	}
 	public function isChangedValue(){
-		return (($this->_value !== null) && ($this->_value != $this->_initialValue));
+		return (($this->getValue() !== null) && ($this->getValue() != $this->getInitialValue()));
 	}
 	public function hasChangedValue(){
-		return (($this->_value !== null) && ($this->_value != $this->_initialValue));
+		return (($this->getValue() !== null) && ($this->getValue() != $this->getInitialValue()));
 	}
 	public function __toString(){
 		return strval($this->getValue());

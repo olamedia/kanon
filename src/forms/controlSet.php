@@ -10,6 +10,7 @@ abstract class controlSet{
 	protected $_errors;
 	protected $_prefix = null;
 	protected $_key = null;
+	protected $_legend = '';
 	protected $_item = null;
 	protected $_itemTemplate = null;
 	protected $_hiddenControls = array();
@@ -30,6 +31,12 @@ abstract class controlSet{
 	}
 	public function getKey(){
 		return $this->_key;
+	}
+	public function setLegend($legend){
+		$this->_legend = $legend;
+	}
+	public function getLegend($legend){
+		return $this->_legend;
 	}
 	public function getRepeat(){
 		return $this->_repeat;
@@ -260,7 +267,14 @@ abstract class controlSet{
 		foreach ($this->_classesMap as $controlName => $class){
 			if (!isset($this->_hiddenControls[$controlName])){
 				$control = $this->getControl($controlName);
-				$h .= $control->getRowHtml();
+				if (is_subclass_of($control, 'controlSet')){
+					$h .= '<tr><td colspan="2"><fieldset class="controlset">';
+					$h .= '<legend>'.$control->getLegend().'</legend>';
+					$h .= $control->getTableRowsHtml($key);
+					$h .= '</fieldset><td></tr>';
+				}else{
+					$h .= $control->getRowHtml();
+				}
 			}
 		}
 		return $h;
