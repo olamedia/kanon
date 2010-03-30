@@ -83,5 +83,5 @@ array(
 		'src/mvc-model/storageDrivers',
 ),
 	'kanon-framework.php',
-true
+false
 );
