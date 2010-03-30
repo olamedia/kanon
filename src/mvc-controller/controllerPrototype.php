@@ -17,9 +17,15 @@ class controllerPrototype{
 		$this->_me = new ReflectionClass(get_class($this));
 	}
 	/**
-	 * Executing before run()
+	 * Executing before run() deprecated
 	 */
 	public function onConstruct(){
+
+	}
+	/**
+	 * Executing before run()
+	 */
+	public function onRun(){
 
 	}
 	/**
