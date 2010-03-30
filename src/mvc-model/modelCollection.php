@@ -9,6 +9,9 @@ class modelCollection implements ArrayAccess{
 	public function getModelClass(){
 		return $this->_modelName;
 	}
+	public function getCreateSql(){
+		return $this->getHelper()->getCreateSql();
+	}
 	public function offsetExists($offset){
 		return in_array($offset, $this->getFieldNames());
 	}

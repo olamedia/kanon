@@ -3,6 +3,11 @@
 require_once dirname(__FILE__).'/modelExpression.php';
 class modelProperty{
 	protected $_name = null;
+	
+	protected $_fieldName = null;
+	protected $_size = 255;
+	protected $_notNull = true;
+	
 	protected $_defaultValue = null;
 	protected $_initialValue = null;
 	protected $_value = null;
@@ -12,6 +17,12 @@ class modelProperty{
 	 * @var IPropertyControl
 	 */
 	protected $_control = null;
+	public function setFieldName($name){
+		$this->_fieldName = $name;
+	}
+	public function getCreateSql(){
+		return '`'.$this->_fieldName.'` varchar('.$this->_size.') CHARACTER SET utf8'.($this->_notNull?' NOT NULL':'');
+	}
 	public function setOptions($options = array()){
 		foreach ($options as $k => $v) $this->_options[$k] = $v;
 	}
@@ -20,7 +31,7 @@ class modelProperty{
 		$this->onConstruct();
 	}
 	public function onConstruct(){
-		
+
 	}
 	public function is($value){
 		return new modelExpression($this, '=', $value);
@@ -51,6 +62,9 @@ class modelProperty{
 	 */
 	public function getModel(){
 		return $this->_model;
+	}
+	public function getName(){
+		return $this->_name;
 	}
 	public function getStorage(){
 		return $this->getModel()->getStorage();

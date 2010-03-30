@@ -9,6 +9,7 @@ abstract class controlSet{
 	protected $_options = array(); // control options
 	protected $_errors;
 	protected $_prefix = null;
+	protected $_key = null;
 	protected $_item = null;
 	protected $_itemTemplate = null;
 	protected $_hiddenControls = array();
@@ -27,16 +28,20 @@ abstract class controlSet{
 	public function setRepeat($repeat = true){
 		$this->_repeat = $repeat;
 	}
+	public function getKey(){
+		return $this->_key;
+	}
 	public function getRepeat(){
 		return $this->_repeat;
 	}
 	public function isUpdated(){
 		return $this->_isUpdated;
-	}	
+	}
 	public function setItemUpdated($updated = true){
 		$this->_isUpdated = true;
-	}	
+	}
 	public function setItem($item){
+		$this->setItemTemplate($item);
 		$this->_item = $item;
 	}
 	public function getItem(){
@@ -65,32 +70,38 @@ abstract class controlSet{
 				return null;
 			}
 			$class = $this->_classesMap[$controlName];
-			/** @var AControl */
-			$control = new $class($controlName, true);
-			$control->setControlSet($this);
-			$control->setPrefix($this->_prefix);
-			if (isset($this->_options[$controlName])) $control->setOptions($this->_options[$controlName]);
-			$this->_controls[$controlName] = $control;
-			if (isset($this->_propertiesMap[$controlName])){
-				$propertyName = $this->_propertiesMap[$controlName];
-				if ($this->_item !== null){
-					$control->setProperty($this->_item->{$propertyName});
+			if (is_subclass_of($class, 'controlSet')){
+				$controlSet = new $class($controlName, true);
+				//$controlSet->setControlSet($this);
+				$this->_controls[$controlName] = $controlSet;
+			}else{
+				/** @var AControl */
+				$control = new $class($controlName, true);
+				$control->setControlSet($this);
+				$control->setPrefix($this->_prefix);
+				if (isset($this->_options[$controlName])) $control->setOptions($this->_options[$controlName]);
+				$this->_controls[$controlName] = $control;
+				if (isset($this->_propertiesMap[$controlName])){
+					$propertyName = $this->_propertiesMap[$controlName];
+					if ($this->_item !== null){
+						$control->setProperty($this->_item->{$propertyName});
+					}
 				}
+				if (isset($this->_titles[$controlName])){
+					$title = $this->_titles[$controlName];
+					$control->setTitle($title);
+				}
+				if (isset($this->_notes[$controlName])){
+					$note = $this->_notes[$controlName];
+					$control->setNote($note);
+				}
+				if (isset($this->_required[$controlName])){
+					$required = $this->_required[$controlName];
+					$control->setRequired($required);
+				}
+				$control->setRepeatable($this->getRepeat()?true:false);
+				$control->onConstruct();
 			}
-			if (isset($this->_titles[$controlName])){
-				$title = $this->_titles[$controlName];
-				$control->setTitle($title);
-			}
-			if (isset($this->_notes[$controlName])){
-				$note = $this->_notes[$controlName];
-				$control->setNote($note);
-			}
-			if (isset($this->_required[$controlName])){
-				$required = $this->_required[$controlName];
-				$control->setRequired($required);
-			}
-			$control->setRepeatable($this->getRepeat()?true:false);
-			$control->onConstruct();
 		}
 		return $this->_controls[$controlName];
 	}
@@ -111,6 +122,7 @@ abstract class controlSet{
 		return $this->_errors;
 	}
 	public function setKey($key){
+		$this->_key = $key;
 		foreach ($this->_classesMap as $controlName => $class){
 			$control = $this->getControl($controlName);
 			$control->setKey($key);
@@ -133,7 +145,7 @@ abstract class controlSet{
 		//echo 'Keys:<br />';
 		//var_dump($keys);
 		if (!count($keys)) return false;
-		
+
 		return $keys;
 	}
 	public function inPost($key = null){
@@ -148,18 +160,26 @@ abstract class controlSet{
 	}
 	public function fillFromPost($key = null){
 		foreach ($this->_classesMap as $controlName => $class){
-			if (!isset($this->_hiddenControls[$controlName])){
-				$control = $this->getControl($controlName);
-				$control->setKey($key);
-				$control->fillFromPost();
+			if (is_subclass_of($class, 'controlSet')){
+				// skip
+			}else{
+				if (!isset($this->_hiddenControls[$controlName])){
+					$control = $this->getControl($controlName);
+					$control->setKey($key);
+					$control->fillFromPost();
+				}
 			}
 		}
 	}
 	public function isValidValues(){
 		foreach ($this->_classesMap as $controlName => $class){
-			if (!isset($this->_hiddenControls[$controlName])){
-				if (!$this->getControl($controlName)->isValidValue()) {
-					return false;
+			if (is_subclass_of($class, 'controlSet')){
+				// skip
+			}else{
+				if (!isset($this->_hiddenControls[$controlName])){
+					if (!$this->getControl($controlName)->isValidValue()) {
+						return false;
+					}
 				}
 			}
 		}
@@ -167,17 +187,34 @@ abstract class controlSet{
 	}
 	public function beforeSave(){
 		foreach ($this->_classesMap as $controlName => $class){
-			if (!isset($this->_hiddenControls[$controlName])){
-				$control = $this->getControl($controlName);
-				$control->beforeSave();
+			if (is_subclass_of($class, 'controlSet')){
+				// skip
+			}else{
+				if (!isset($this->_hiddenControls[$controlName])){
+					$control = $this->getControl($controlName);
+					$control->beforeSave();
+				}
 			}
 		}
 	}
-	public function afterSave(){
+	public function afterSave(){ // onSuccess
 		foreach ($this->_classesMap as $controlName => $class){
-			if (!isset($this->_hiddenControls[$controlName])){
-				$control = $this->getControl($controlName);
-				$control->afterSave();
+			if (is_subclass_of($class, 'controlSet')){
+				// skip
+			}else{
+				if (!isset($this->_hiddenControls[$controlName])){
+					$control = $this->getControl($controlName);
+					$control->afterSave();
+				}
+			}
+		}
+		foreach ($this->_classesMap as $controlName => $class){
+			if (is_subclass_of($class, 'controlSet')){
+				$controlSet = $this->getControl($controlName);
+				$controlSet->process();
+				if ($controlSet->isUpdated()){
+					//?
+				}
 			}
 		}
 	}
@@ -195,7 +232,8 @@ abstract class controlSet{
 		$this->_itemTemplate = $itemTemplate;
 	}
 	public function getItemTemplate(){
-		return clone $this->_itemTemplate;
+		$this->_item = clone $this->_itemTemplate;
+		return $this->_item;
 	}
 	public function process(){
 		//echo 'Process<br />';
@@ -221,8 +259,8 @@ abstract class controlSet{
 		$this->setKey($key);
 		foreach ($this->_classesMap as $controlName => $class){
 			if (!isset($this->_hiddenControls[$controlName])){
-			$control = $this->getControl($controlName);
-			$h .= $control->getRowHtml();
+				$control = $this->getControl($controlName);
+				$h .= $control->getRowHtml();
 			}
 		}
 		return $h;
@@ -241,7 +279,7 @@ abstract class controlSet{
 		return $this->getTableHtml($key);
 	}
 	public function getFormHtml($key = null){
-		return 
+		return
 		(count($this->getErrors())?'<div class="errors"><ul><li>'.implode("</li><li>", $this->getErrors()).'</li></ul></div>':'').
 		'<form method="post" enctype="multipart/form-data" action="">'.$this->getHtml($key).'<input type="submit" value="Сохранить" /></form>';
 	}

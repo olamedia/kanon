@@ -1,6 +1,9 @@
 <?php
 require_once dirname(__FILE__).'/../storageDriver.php';
 class mysqlDriver extends storageDriver{
+	public function quoteFieldName($fieldName){
+		return '`'.$fieldName.'`';
+	}
 	protected function _makeConnection(){
 		if ($host = $this->get('host')){
 			if (!$port = $this->get('port')){

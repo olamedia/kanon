@@ -16,6 +16,13 @@ class helpCategory extends model{
 	'parentId' => 'parent_category_id',
 	'url' => 'url'
 	);
+	protected $_classes = array(
+	'id' => 'integerProperty',
+	'name' => 'stringProperty',
+	'parentId' => 'integerProperty',
+	'url' => 'stringProperty'
+	);
+	protected $_primaryKey = array('id');
 	protected $_foreignKeys = array(
 	'parentId' => array('helpCategory', 'id')
 	);
@@ -60,9 +67,9 @@ class groupImage extends model{
 	'groupId' => array('group', 'id')
 	);
 }
-$storage = kanon::getModelStorage()
+/*$storage = kanon::getModelStorage()
 ->connect('mysql:host=localhost;port=3307;dbname=db', 'root', 'password')
-;
+;*/
 $storage = kanon::getModelStorage()
 ->connect('mysql:unix_socket=/usr/KANOJO/mysqld.sock;dbname=mysql', 'root', '')
 ;
@@ -78,9 +85,10 @@ $storage->registerCollection('helpKeyword', 'help_keyword');
 
 
 $categories = helpCategory::getCollection();
-$topics = helpTopic::getCollection();
+echo $categories->getCreateSql();
+//$topics = helpTopic::getCollection();
 /*$categories = helpRelation::getCollection();*/
-$keywords = helpKeyword::getCollection();
+/*$keywords = helpKeyword::getCollection();
 $list = $categories->select($topics, $categories->id->max())->where($keywords->name->is("'SELECT'"));
 //var_dump($list);
 echo '<div style="padding: 7px; border: solid 1px #eee; margin: 4px;">'.$list->getSql().'</div>';

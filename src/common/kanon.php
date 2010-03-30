@@ -31,7 +31,7 @@ class kanon{
 		return fileStorage::getStorage($storageName);
 	}
 	/**
-	 * 
+	 *
 	 * @param string $storageName
 	 * @return modelStorage
 	 */
@@ -52,6 +52,22 @@ class kanon{
 			}
 		}
 		return substr($requestUri, 0, $cmp);
+	}
+	/**
+	 * Redirect with custom HTTP code
+	 */
+	public static function redirect($url = null, $httpCode = 303){
+		header("Location: ".$url, true, $httpCode);
+		header("Content-type: text/html; charset=UTF-8");
+		echo '<body onload="r()">';
+		echo '<noscript>';
+		echo '<meta http-equiv="refresh" content="0; url=&#39;'.htmlspecialchars($url).'&#39;">';
+		echo '</noscript>';
+		echo '<script type="text/javascript" language="javascript">';
+		echo 'function r(){location.replace("'.$url.'");}';
+		echo '</script>';
+		echo '</body>';
+		exit;
 	}
 	public static function run($applicationClass){
 		$app = application::getInstance($applicationClass);

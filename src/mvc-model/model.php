@@ -1,5 +1,10 @@
 <?php
 require_once dirname(__FILE__).'/properties/stringProperty.php';
+require_once dirname(__FILE__).'/properties/integerProperty.php';
+require_once dirname(__FILE__).'/properties/textProperty.php';
+require_once dirname(__FILE__).'/properties/timestampProperty.php';
+require_once dirname(__FILE__).'/properties/creationTimestampProperty.php';
+require_once dirname(__FILE__).'/properties/modificationTimestampProperty.php';
 require_once dirname(__FILE__).'/modelIterator.php';
 class model implements ArrayAccess, IteratorAggregate{
 	protected $_properties = array(); // array of modelProperty
@@ -11,6 +16,24 @@ class model implements ArrayAccess, IteratorAggregate{
 	protected $_options = array(); // propertyName => options
 	//protected $_storage = null;
 	//protected $_storageClass = 'modelStorage';
+	public function getCreateSql(){
+		$t = $this->getTableName();
+		$sql = "CREATE TABLE IF NOT EXISTS `$t` (\r\n";
+		$set = array();
+		foreach ($this->_fields as $propertyName => $fieldName){
+			$property = $this->_getProperty($propertyName);
+			$set[] = "\t".$property->getCreateSql().
+				($property->getName() == $this->_autoIncrement?' AUTO_INCREMENT':'');
+		}
+		if (count($this->_primaryKey)){
+			$a = array();
+			foreach ($this->_primaryKey as $c) $a[] = "`".$c."`";
+			$set[] = "\tPRIMARY KEY (".implode(",", $a).")\r\n";
+		}
+		$sql .= implode(",\r\n", $set);
+		$sql .= ")";
+		return $sql;
+	}
 	public function __sleep(){
 		return array('_properties');//'_classesMap', '_fieldsMap', '_primaryKey', '_autoIncrement',
 	}
@@ -60,6 +83,9 @@ class model implements ArrayAccess, IteratorAggregate{
 				}
 			}
 			$this->_properties[$name] = new $class($name);
+			if (isset($this->_fields[$name])){
+				$this->_properties[$name]->setFieldName($this->_fields[$name]);
+			}
 			$this->_properties[$name]->setModel($this);
 			if (is_array($this->_options[$name])){
 				$this->_properties[$name]->setOptions($this->_options[$name]);

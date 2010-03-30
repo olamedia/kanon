@@ -1,6 +1,8 @@
 <?php
 require_once dirname(__FILE__).'/integerProperty.php';
 class timestampProperty extends integerProperty{
+	protected $_size = 10;
+	protected $_unsigned = true;
 	/**
 	 * @return string Human presentation
 	 */
