@@ -103,11 +103,14 @@ class kanon{
 		return self::$_basePath;
 	}
 	public static function run($applicationClass){
-		spl_autoload_register(array(self, 'autoload'));
+		//spl_autoload_register(array(self, 'autoload'));
 		$app = application::getInstance($applicationClass);
 		$app->setBasePath(self::getBasePath());
 		$baseUrl = kanon::getBaseUri();
 		$app->setBaseUri($baseUrl);
 		$app->run();
 	}
+}
+function __autoload($name) {
+	kanon::autoload($name);
 }
