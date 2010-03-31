@@ -3,7 +3,8 @@ class modelExpression{
 	protected $_left = null;
 	protected $_operator = '=';
 	protected $_right = null;
-	public function __construct($left, $operator, $right){
+	protected $_escapeRight = true;
+	public function __construct($left, $operator, $right, $escapeRight = true){
 		$this->_left = $left;
 		$this->_operator = $operator;
 		$this->_right = $right;
@@ -18,6 +19,9 @@ class modelExpression{
 		return $this->_left;
 	}
 	public function getRight(){
+		if ($this->_escapeRight){
+			return "'".addslashes($this->_right)."'";
+		}
 		return $this->_right;
 	}
 	public function __toString(){
@@ -28,6 +32,6 @@ class modelExpression{
 			}
 			$right = '('.$right.')';
 		}
-		return $this->getLeft().' '.$this->_operator.' '.$right;
+		return $this->getLeft().' '.$this->_operator.' '.$this->getRight();
 	}
 }
