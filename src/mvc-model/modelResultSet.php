@@ -20,7 +20,7 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 				$model = new $modelClass();
 				foreach ($fields as $field){
 					//$k_fn = $field->getUniqueId();
-					$model[$field->getName()] = $a[$field->getUniqueId()];
+					$model[$field->getName()]->setInitialValue($a[$field->getUniqueId()]);
 				}
 				/*
 				$tid = $table->getUniqueId();
