@@ -23,7 +23,7 @@ class model implements ArrayAccess, IteratorAggregate{
 		foreach ($this->_fields as $propertyName => $fieldName){
 			$property = $this->_getProperty($propertyName);
 			$set[] = "\t".$property->getCreateSql().
-				($property->getName() == $this->_autoIncrement?' AUTO_INCREMENT':'');
+			($property->getName() == $this->_autoIncrement?' AUTO_INCREMENT':'');
 		}
 		if (count($this->_primaryKey)){
 			$a = array();
@@ -63,10 +63,14 @@ class model implements ArrayAccess, IteratorAggregate{
 	public function getForeignKeys(){
 		return $this->_foreignKeys;
 	}
-	public function toArray(){
+	public function toArray($showInternal = false){
 		$a = array();
 		foreach ($this->_properties as $name => $property){
-			$a[$name] = $property->getValue();
+			if ($showInternal){
+				$a[$name] = $property->getInternalValue();
+			}else{
+				$a[$name] = $property->getValue();
+			}
 		}
 		return $a;
 	}
