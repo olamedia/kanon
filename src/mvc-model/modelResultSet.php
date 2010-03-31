@@ -17,7 +17,7 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 				if (!($modelClass = $table->getModelClass())){
 					$modelClass = 'model';
 				}
-				var_dump($fields);
+				var_dump($a);
 				$model = new $modelClass();
 				foreach ($fields as $field){
 					//$k_fn = $field->getUniqueId();
