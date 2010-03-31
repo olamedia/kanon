@@ -11,6 +11,7 @@ class kanon{
 	private static $_loadedModules = array();
 	private static $_autoload = array();
 	public static function autoload($class){
+		echo 'autoload '.$class;
 		if (isset(self::$_autoload[$class])){
 			require_once self::$_autoload[$class];
 		}
