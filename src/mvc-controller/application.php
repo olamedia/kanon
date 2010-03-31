@@ -16,6 +16,9 @@ class application extends frontController{
 			self::$_selfInstance = new self();
 				
 			}*/
+		if (self::$_instance === null && $controllerClassName !== null){
+			self::$_instance = new $controllerClassName();
+		}
 		header($_SERVER['SERVER_PROTOCOL']." 200 OK");
 		header("Content-Type: text/html; charset=utf-8");
 		@set_magic_quotes_runtime(false);
@@ -23,9 +26,6 @@ class application extends frontController{
 		if (get_magic_quotes_gpc()){
 			frontController::_stripSlashesDeep($_GET);
 			frontController::_stripSlashesDeep($_POST);
-		}
-		if (self::$_instance === null && $controllerClassName !== null){
-			self::$_instance = new $controllerClassName();
 		}
 		return self::$_instance;
 	}
