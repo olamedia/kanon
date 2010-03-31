@@ -81,7 +81,6 @@ class kanon{
 		if (isset(self::$_loadedModules[$module])) return true;
 		$modulePath = self::getBasePath().'/modules/'.$module.'/';
 		$moduleFile = $modulePath.'module.php';
-		echo $moduleFile;
 		if (is_file($moduleFile)){
 			self::$_loadedModules[$module] = true;
 			$autoload = array();
