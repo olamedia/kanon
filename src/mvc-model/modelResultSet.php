@@ -17,7 +17,6 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 				if (!($modelClass = $table->getModelClass())){
 					$modelClass = 'model';
 				}
-				var_dump($a);
 				$model = new $modelClass();
 				foreach ($fields as $field){
 					//$k_fn = $field->getUniqueId();
@@ -74,7 +73,7 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 		//var_dump($this->_result);
 		if ($this->_result){
 			if ($a = $this->getStorage()->fetch($this->_result)){
-				//var_dump($a);
+				var_dump($a);
 				/*$this->_list[] = $a;
 				 return $a;*/
 				$models = $this->_makeModels($a);
