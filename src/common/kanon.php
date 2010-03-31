@@ -95,20 +95,17 @@ class kanon{
 		return false;
 	}
 	public static function getBasePath(){
-		if (self::$basePath === null){
+		if (self::$_basePath === null){
 			$trace = debug_backtrace();
 			$file = $trace[0]['file'];
-			self::$basePath = dirname($file);
+			self::$_basePath = dirname($file);
 		}
-		return self::$basePath;
+		return self::$_basePath;
 	}
 	public static function run($applicationClass){
 		spl_autoload_register(array(self, 'autoload'));
 		$app = application::getInstance($applicationClass);
-		$trace = debug_backtrace();
-		$file = $trace[0]['file'];
-		self::$basePath = dirname($file);
-		$app->setBasePath(self::$basePath);
+		$app->setBasePath(self::getBasePath());
 		$baseUrl = kanon::getBaseUri();
 		$app->setBaseUri($baseUrl);
 		$app->run();
