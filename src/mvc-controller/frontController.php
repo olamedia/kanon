@@ -5,7 +5,6 @@
 require_once dirname(__FILE__).'/controller.php';
 class frontController extends controller{
 	public static function startSession($domain, $expire = 360000) {
-		echo $domain;
 		session_set_cookie_params($expire, '/', $domain);
 		@session_start();
 		// Reset the expiration time upon page load
