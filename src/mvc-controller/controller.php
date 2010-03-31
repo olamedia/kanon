@@ -76,19 +76,16 @@ class controller extends controllerPrototype{
 		return is_object($this->getUser())?$this->getUser()->id->getValue():0;
 	}
 	public function requireCss($uri){
-		if (!is_array($this->getRegistry()->cssIncludes)){
-			$this->getRegistry()->cssIncludes = array();
-		}
-		$this->getRegistry()->cssIncludes[] = $uri;
+		$this->getRegistry()->cssIncludes = array_merge($this->getRegistry()->cssIncludes, array($uri));
 	}
 	public function css($cssString){
 		$this->getRegistry()->plainCss .= $cssString;
 	}
+	public function js($jsString, $scriptSlot = 'default'){
+		$this->getRegistry()->plainJs[$scriptSlot] = $this->getRegistry()->plainJs[$scriptSlot].$jsString;
+	}
 	public function requireJs($uri){
-		if (!is_array($this->getRegistry()->javascriptIncludes)){
-			$this->getRegistry()->javascriptIncludes = array();
-		}
-		$this->getRegistry()->javascriptIncludes[] = $uri;
+		$this->getRegistry()->javascriptIncludes = array_merge($this->getRegistry()->javascriptIncludes, array($uri));
 	}
 	public function getHeadContents(){
 		$h = '<!DOCTYPE html>'; // html5
@@ -99,7 +96,7 @@ class controller extends controllerPrototype{
 				$h .= '<link rel="stylesheet" type="text/css" href="'.$url.'" />';
 			}
 		}
-		if (isset($this->getRegistry()->plainCss)){
+		if (strlen($this->getRegistry()->plainCss)){
 			$h .= '<style type="text/css">';
 			$h .= $this->getRegistry()->plainCss;
 			$h .= '</style>';
@@ -107,6 +104,13 @@ class controller extends controllerPrototype{
 		if (is_array($this->getRegistry()->javascriptIncludes)){
 			foreach ($this->getRegistry()->javascriptIncludes as $url){
 				$h .= '<script type="text/javascript" src="'.$url.'"></script>';
+			}
+		}
+		if (is_array($this->getRegistry()->plainJs)){
+			foreach ($this->getRegistry()->plainJs as $plainJs){
+				$h .= '<script type="text/javascript">';
+				$h .= $plainJs;
+				$h .= '</script>';
 			}
 		}
 		$h .= '<link rel="shortcut icon" href="/favicon.ico" />';
