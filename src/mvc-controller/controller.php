@@ -76,16 +76,16 @@ class controller extends controllerPrototype{
 		return is_object($this->getUser())?$this->getUser()->id->getValue():0;
 	}
 	public function requireCss($uri){
-		$this->getRegistry()->cssIncludes = array_merge($this->getRegistry()->cssIncludes, array($uri));
+		$this->getRegistry()->cssIncludes[] = $uri;
 	}
 	public function css($cssString){
 		$this->getRegistry()->plainCss .= $cssString;
 	}
 	public function js($jsString, $scriptSlot = 'default'){
-		$this->getRegistry()->plainJs[$scriptSlot] = $this->getRegistry()->plainJs[$scriptSlot].$jsString;
+		$this->getRegistry()->plainJs[$scriptSlot] .= $jsString;
 	}
 	public function requireJs($uri){
-		$this->getRegistry()->javascriptIncludes = array_merge($this->getRegistry()->javascriptIncludes, array($uri));
+		$this->getRegistry()->javascriptIncludes[] = $uri;
 	}
 	public function getHeadContents(){
 		$h = '<!DOCTYPE html>'; // html5
