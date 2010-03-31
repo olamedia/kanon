@@ -11,7 +11,6 @@ class kanon{
 	private static $_loadedModules = array();
 	private static $_autoload = array();
 	public static function autoload($class){
-		echo 'autoload '.$class;
 		if (isset(self::$_autoload[$class])){
 			require_once self::$_autoload[$class];
 		}
@@ -79,7 +78,6 @@ class kanon{
 		exit;
 	}
 	public static function loadModule($module){
-		echo 'load '.$module;
 		if (isset(self::$_loadedModules[$module])) return true;
 		$modulePath = self::getBasePath().'/modules/'.$module.'/';
 		$moduleFile = $modulePath.'module.php';
