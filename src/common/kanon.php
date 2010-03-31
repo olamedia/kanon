@@ -7,6 +7,14 @@ require_once dirname(__FILE__).'/../mvc-model/modelCollection.php';
 require_once dirname(__FILE__).'/fileStorage.php';
 class kanon{
 	private static $_uniqueId = 0;
+	private static $_basePath = null;
+	private static $_loadedModules = array();
+	private static $_autoload = array();
+	public static function autoload($class){
+		if (isset(self::$_autoload[$class])){
+			require_once self::$_autoload[$class];
+		}
+	}
 	/**
 	 * Get named file storage
 	 * @param string $storageName
@@ -69,12 +77,38 @@ class kanon{
 		echo '</body>';
 		exit;
 	}
+	public static function loadModule($module){
+		if (isset(self::$_loadedModules[$module])) return true;
+		$modulePath = self::getBasePath().'/modules/'.$module.'/';
+		$moduleFile = $modulePath.'module.php';
+		if (is_file($moduleFile)){
+			self::$_loadedModules[$module] = true;
+			$autoload = array();
+			require_once $moduleFile;
+			if (count($autoload)){
+				foreach ($autoload as $k => $v){
+					self::$_autoload[$k] = $modulePath.$v;
+				}
+			}
+			return true;
+		}
+		return false;
+	}
+	public static function getBasePath(){
+		if (self::$basePath === null){
+			$trace = debug_backtrace();
+			$file = $trace[0]['file'];
+			self::$basePath = dirname($file);
+		}
+		return self::$basePath;
+	}
 	public static function run($applicationClass){
+		spl_autoload_register(array(self, 'autoload'));
 		$app = application::getInstance($applicationClass);
 		$trace = debug_backtrace();
 		$file = $trace[0]['file'];
-		$basePath = dirname($file);
-		$app->setBasePath($basePath);
+		self::$basePath = dirname($file);
+		$app->setBasePath(self::$basePath);
 		$baseUrl = kanon::getBaseUri();
 		$app->setBaseUri($baseUrl);
 		$app->run();
