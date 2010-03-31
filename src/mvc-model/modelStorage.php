@@ -9,6 +9,7 @@ class modelStorage{
 	 */
 	private $_storageDriver = null;
 	protected $_uniqueId = null;
+	protected $_unregisteredForeignKeys = array();
 	public function getUniqueId(){
 		if ($this->_uniqueId === null){
 			$this->_uniqueId = kanon::getUniqueId();
@@ -218,7 +219,14 @@ class modelStorage{
 	public function registerCollection($modelName, $tableName){
 		$this->getRegistry()->modelSettings[$modelName]['table'] = $tableName;
 		$this->getRegistry()->modelSettings[$modelName]['storage'] = $this->getUniqueId();
-		$this->_registerForeignKeys($modelName);
+		$this->_unregisteredForeignKeys[] = $modelName;
+		return $this;
+	}
+	public function registerForeignKeys(){
+		foreach ($this->_unregisteredForeignKeys as $modelName){
+			$this->_registerForeignKeys($modelName);
+		}
+		$this->_unregisteredForeignKeys = array();
 		return $this;
 	}
 	protected function _registerForeignKeys($modelName){

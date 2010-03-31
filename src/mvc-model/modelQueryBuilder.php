@@ -77,6 +77,7 @@ class modelQueryBuilder{
 		return $this;
 	}
 	protected function _constructJoins(){
+		$this->getStorage()->registerForeignKeys();
 		$this->_join = array(); // reset joins
 		$sourceTable = $this->_storageSource;
 		$sourceTableUid = $sourceTable->getUniqueId();
