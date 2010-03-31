@@ -28,7 +28,7 @@ class registry implements ArrayAccess, IteratorAggregate, Countable{
 		}
 		return $this->_vars[$key];
 	}
-	public function __isset($key){
+	public function __isset($key){ 
 		return isset($this->_vars[$key]);
 	}
 	public function offsetExists($offset){
@@ -38,6 +38,10 @@ class registry implements ArrayAccess, IteratorAggregate, Countable{
 		return $this->__get($offset);
 	}
 	public function offsetSet($offset, $value){
+		if ($offset == ''){
+			$this->_vars[] = $value;
+			return;
+		}
 		$this->__set($offset, $value);
 	}
 	public function offsetUnset($offset){
