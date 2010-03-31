@@ -79,7 +79,7 @@ class controller extends controllerPrototype{
 		$this->getRegistry()->cssIncludes[] = $uri;
 	}
 	public function css($cssString){
-		$this->getRegistry()->plainCss .= $cssString;
+		$this->getRegistry()->plainCss[] = $cssString;
 	}
 	public function js($jsString, $scriptSlot = 'default'){
 		$this->getRegistry()->plainJs[$scriptSlot] .= $jsString;
@@ -91,22 +91,22 @@ class controller extends controllerPrototype{
 		$h = '<!DOCTYPE html>'; // html5
 		$h .= '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
 		$h .= '<title>'.$this->getTitle().'</title>';
-		if (is_array($this->getRegistry()->cssIncludes)){
+		if (count($this->getRegistry()->cssIncludes)){
 			foreach ($this->getRegistry()->cssIncludes as $url){
 				$h .= '<link rel="stylesheet" type="text/css" href="'.$url.'" />';
 			}
 		}
-		if (strlen($this->getRegistry()->plainCss)){
+		if (count($this->getRegistry()->plainCss)){
 			$h .= '<style type="text/css">';
 			$h .= $this->getRegistry()->plainCss;
 			$h .= '</style>';
 		}
-		if (is_array($this->getRegistry()->javascriptIncludes)){
+		if (count($this->getRegistry()->javascriptIncludes)){
 			foreach ($this->getRegistry()->javascriptIncludes as $url){
 				$h .= '<script type="text/javascript" src="'.$url.'"></script>';
 			}
 		}
-		if (is_array($this->getRegistry()->plainJs)){
+		if (count($this->getRegistry()->plainJs)){
 			foreach ($this->getRegistry()->plainJs as $plainJs){
 				$h .= '<script type="text/javascript">';
 				$h .= $plainJs;

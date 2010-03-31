@@ -2,7 +2,7 @@
 /**
  * $Id$
  */
-class registry implements ArrayAccess, IteratorAggregate{
+class registry implements ArrayAccess, IteratorAggregate, Countable{
 	/**
 	 * The variables array
 	 * @access private
@@ -45,5 +45,8 @@ class registry implements ArrayAccess, IteratorAggregate{
 	}
 	public function getIterator(){
 		return new ArrayIterator($this->_vars);
+	}
+	public function count(){
+		return count($this->_vars);
 	}
 }
