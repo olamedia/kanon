@@ -314,9 +314,9 @@ class modelStorage{
 	 */
 	public function connect($dsn, $username = 'root', $password = ''){
 		$extension = reset(explode(":", $dsn));
-		if (extension_loaded('pdo')){
+		/*if (extension_loaded('pdo')){
 			$extension = 'pdo';
-		}
+		}*/
 		$driverName = $extension.'Driver';
 		if (!extension_loaded($extension)){
 			$driverName = 'pdoDriver';
