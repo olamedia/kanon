@@ -7,15 +7,25 @@ class modelCollection implements ArrayAccess{
 	//protected $_helper = null; // model instance
 	protected $_uniqueId = null;
 	protected $_filters = array();
+	protected $_filtersEnabled = true;
 	public function addFilter($filter){
 		$this->_filters[] = $filter;
 		return $this;
+	}
+	public function disableFilters(){
+		$this->_filtersEnabled = false;
+	}
+	public function enableFilters(){
+		$this->_filtersEnabled = true;
 	}
 	public function e($string){
 		return $this->getStorage()->quote($string);
 	}
 	public function getFilters(){
-		return $this->_filters;
+		if ($this->_filtersEnabled){
+			return $this->_filters;
+		}
+		return array();
 	}
 	public function getModelClass(){
 		return $this->_modelName;
