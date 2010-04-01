@@ -284,7 +284,7 @@ abstract class controlSet{
 					$h .= ''.$control->getLegend().'';
 					$h .= '</td><td>'; 
 					$h .= $control->getTableRowsHtml($key);
-					$h .= '<td></tr>';
+					$h .= '</td></tr>';
 				}else{
 					$h .= $control->getRowHtml();
 				}
