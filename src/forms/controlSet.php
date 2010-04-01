@@ -122,6 +122,8 @@ abstract class controlSet{
 			$result = $this->getItem()->save();
 			//var_dump($result);
 			return $result;
+		}else{
+			echo ' getItem=null ';
 		}
 	}
 	public function error($errorString){
