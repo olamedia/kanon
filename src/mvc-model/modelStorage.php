@@ -46,13 +46,11 @@ class modelStorage{
 	protected function _getWherePrimaryKeySql($model, $useAssignedValues = false){
 		$wherea = array();
 		$pk = $model->getPrimaryKey();
-		var_dump($pk);
 		if (count($pk)){
 			foreach ($pk as $propertyName){
 				$property = $model->{$propertyName};
-				var_dump($property);
+				$fieldName = $property->getFieldName();
 				if (is_object($property)){
-					
 					$initialValue = $property->getInitialValue();
 					if ($initialValue !== null){
 						$wherea[] = "`$fieldName` = '".$this->quote($initialValue)."'";
@@ -78,7 +76,6 @@ class modelStorage{
 	 */
 	protected function _getWhereSql($model, $useAssignedValues = false){
 		if (($whereSql = $this->_getWherePrimaryKeySql($model, $useAssignedValues)) !== false){
-			echo '_getWherePrimaryKeySql';
 			return $whereSql;
 		}
 		// can't use PK

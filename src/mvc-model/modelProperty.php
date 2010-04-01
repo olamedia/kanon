@@ -26,8 +26,12 @@ class modelProperty{
 		$this->_clone($this->_value);
 		$this->_clone($this->_model);
 	}*/
+	public function getFieldName($name){
+		return $this->_fieldName;
+	}
 	public function setFieldName($name){
 		$this->_fieldName = $name;
+		return $this;
 	}
 	public function getCreateSql(){
 		return '`'.$this->_fieldName.'` varchar('.$this->_size.') CHARACTER SET utf8'.($this->_notNull?' NOT NULL':'');
