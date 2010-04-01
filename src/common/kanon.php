@@ -101,7 +101,7 @@ class kanon{
 		foreach (glob($path.'/modules/*') as $d){
 			if (is_dir($d)){
 				if (is_file($d.'/module.php')){
-					require_once $d.'/module.php';
+					self::loadModule(basename($d));
 				}
 			}
 		}
