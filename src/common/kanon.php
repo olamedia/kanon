@@ -115,8 +115,11 @@ class kanon{
 	public static function registerActionController($controller, $action, $controller2){
 		self::$_actionControllers[$controller][$action] = $controller2;
 	}
-	public static function getActionController($controller){
-		self::$_actionControllers[$controller];
+	public static function getActionController($controller, $action){
+		if (isset(self::$_actionControllers[$controller][$action])){
+			return self::$_actionControllers[$controller][$action];
+		}
+		return false;
 	}
 }
 function __autoload($name) {
