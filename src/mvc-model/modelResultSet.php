@@ -48,7 +48,7 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 		return $models;
 	}
 	public function count(){
-		echo $this->getCountSql();
+		//echo $this->getCountSql();
 		return $this->getStorage()->fetchColumn(
 		$this->getStorage()->query($this->getCountSql()),0
 		);
