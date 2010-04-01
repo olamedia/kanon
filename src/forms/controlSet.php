@@ -282,9 +282,9 @@ abstract class controlSet{
 				if (is_subclass_of($control, 'controlSet')){
 					$h .= '<tr><td><h3>'.str_repeat('&nbsp;', $level*2);
 					$h .= ''.$control->getLegend().'';
-					$h .= '</h3></td><td><table width="100%">'; 
+					$h .= '</h3></td><td></tr>';//<table width="100%">'; 
 					$h .= $control->getTableRowsHtml($key, $level + 1);
-					$h .= '</table></td></tr>';
+					//$h .= '</table></td></tr>';
 				}else{
 					$h .= $control->getRowHtml($level + 1);
 				}
