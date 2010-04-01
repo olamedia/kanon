@@ -10,6 +10,7 @@ class kanon{
 	private static $_basePath = null;
 	private static $_loadedModules = array();
 	private static $_autoload = array();
+	private static $_actionControllers = array();
 	public static function autoload($class){
 		if (isset(self::$_autoload[$class])){
 			require_once self::$_autoload[$class];
@@ -104,12 +105,18 @@ class kanon{
 	}
 	public static function run($applicationClass){
 		//spl_autoload_register(array(self, 'autoload'));
-		
+
 		$app = application::getInstance($applicationClass);
 		$app->setBasePath(self::getBasePath());
 		$baseUrl = kanon::getBaseUri();
 		$app->setBaseUri($baseUrl);
 		$app->run();
+	}
+	public static function registerActionController($controller, $action, $controller2){
+		$this->_actionControllers[$controller][$action] = $controller2;
+	}
+	public static function getActionController($controller){
+		$this->_actionControllers[$controller];
 	}
 }
 function __autoload($name) {

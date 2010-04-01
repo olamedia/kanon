@@ -19,6 +19,8 @@ class application extends frontController{
 		if (self::$_instance === null && $controllerClassName !== null){
 			// autoload class and all dependencies before session start
 			self::$_instance = new $controllerClassName();
+		}else{
+			return self::$_instance;
 		}
 		header($_SERVER['SERVER_PROTOCOL']." 200 OK");
 		header("Content-Type: text/html; charset=utf-8");
