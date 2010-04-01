@@ -312,7 +312,7 @@ class modelStorage{
 	 * @param string $password
 	 * @return modelStorage
 	 */
-	public function connect($dsn, $username = 'root', $password = ''){
+	public function connect($dsn, $username = 'root', $password = '', $charset = 'UTF-8'){
 		$extension = reset(explode(":", $dsn));
 		/*if (extension_loaded('pdo')){
 			$extension = 'pdo';
@@ -329,6 +329,7 @@ class modelStorage{
 		$this->_storageDriver->setup('dsn',$dsn);
 		$this->_storageDriver->setup('username',$username);
 		$this->_storageDriver->setup('password',$password);
+		$this->_storageDriver->setup('charset',$charset);
 		$dsna = explode(";", $dsne);
 		foreach ($dsna as $p){
 			list($k,$v) = explode("=", $p);

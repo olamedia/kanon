@@ -21,6 +21,9 @@ class mysqlDriver extends storageDriver{
 		if ($dbname = $this->get('dbname')){
 			mysql_select_db($dbname, $this->_connection);
 		}
+		if ($charset = $this->get('charset')){
+			mysql_query("SET NAMES ".$charset, $this->_connection);
+		}
 	}
 	/**
 	 * Execute an SQL statement and return the number of affected rows
