@@ -286,7 +286,7 @@ abstract class controlSet{
 					$h .= $control->getTableRowsHtml($key, $level + 1);
 					//$h .= '</table></td></tr>';
 				}else{
-					$h .= $control->getRowHtml($level + 1);
+					$h .= $control->getRowHtml($level);
 				}
 			}
 		}
