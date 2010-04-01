@@ -280,10 +280,11 @@ abstract class controlSet{
 			if (!isset($this->_hiddenControls[$controlName])){
 				$control = $this->getControl($controlName);
 				if (is_subclass_of($control, 'controlSet')){
-					//$h .= '<tr><td colspan="2"><fieldset class="controlset"><table width="100%">';
-					//$h .= '<legend>'.$control->getLegend().'</legend>';
+					$h .= '<tr><td>';
+					$h .= ''.$control->getLegend().'';
+					$h .= '</td><td>'; 
 					$h .= $control->getTableRowsHtml($key);
-					//$h .= '</table></fieldset><td></tr>';
+					$h .= '<td></tr>';
 				}else{
 					$h .= $control->getRowHtml();
 				}
