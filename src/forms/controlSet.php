@@ -265,8 +265,8 @@ abstract class controlSet{
 	public function getTableRowsHtml($key = null){
 		$h = '';
 		$this->setKey($key);
-		var_dump($this->_classesMap); 
-		var_dump(get_class($this)); 
+		//var_dump($this->_classesMap); 
+		//var_dump(get_class($this)); 
 		foreach ($this->_classesMap as $controlName => $class){
 			if (!isset($this->_hiddenControls[$controlName])){
 				$control = $this->getControl($controlName);
