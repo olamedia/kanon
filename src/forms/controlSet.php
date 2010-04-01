@@ -114,16 +114,20 @@ abstract class controlSet{
 		return $this->_controls[$controlName];
 	}
 	public function resetControls(){
+		$items = array();
+		foreach ($this->_classesMap as $controlName => $class){
+			$items[$controlName] = $this->getControl($controlName)->getItem();
+		}
 		$this->_controls = array();
+		foreach ($this->_classesMap as $controlName => $class){
+			$this->getControl($controlName)->setItem($items[$controlName]); // controlSet->getControl()->setItem
+		}
 	}
 	public function save(){
 		if ($this->getItem() !== null){
-			echo ' getItem ';
 			$result = $this->getItem()->save();
 			//var_dump($result);
 			return $result;
-		}else{
-			echo ' getItem=null ';
 		}
 	}
 	public function error($errorString){
@@ -221,15 +225,10 @@ abstract class controlSet{
 				}
 			}
 		}
-		echo ' after save2 ';
 		foreach ($this->_classesMap as $controlName => $class){
-			echo ' '.$class.' ';
 			if (is_subclass_of($class, 'controlSet')){
-				echo ' controlSet->process('.$controlName.') ';
 				$controlSet = $this->getControl($controlName);
-				var_dump($controlSet->getItem());
 				$controlSet->process();
-				die();
 				if ($controlSet->isUpdated()){
 					//?
 				}
@@ -237,13 +236,10 @@ abstract class controlSet{
 		}
 	}
 	public function checkPost($key = null){
-		echo ' fillFromPost ';
 		$this->fillFromPost($key);
 		if ($this->isValidValues()){
-			echo ' isValidValues ';
 			$this->beforeSave();
 			if ($this->save()){
-				echo ' after save ';
 				$this->afterSave();
 				$this->setItemUpdated(true);
 			}
@@ -258,21 +254,16 @@ abstract class controlSet{
 	}
 	public function process(){
 		//echo 'Process<br />';
-		
 		$this->processPost();
 	}
 	public function processPost(){
-		echo ' processPost ';
 		if ($keys = $this->getPostKeys()){
-			echo ' getPostKeys ';
 			if (is_array($keys) && count($keys)){
-				echo ' is_array($keys) ';
 				foreach ($keys as $key){
 					if (is_object($this->_itemTemplate)){
 						$this->resetControls();
 						$this->setItem($this->getItemTemplate());
 					}
-					var_dump($this->getControl('branch')->getItem());
 					$this->checkPost($key);
 				}
 			}
