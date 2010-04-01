@@ -177,9 +177,7 @@ class modelStorage{
 	 */
 	public function deleteModel($model){
 		$sql = $this->_getDeleteSql($model);
-		echo $sql;
-		die();
-		//$this->query($sql);
+		$this->query($sql);
 	}
 	private function __construct(){
 
