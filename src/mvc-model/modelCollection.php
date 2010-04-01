@@ -11,6 +11,9 @@ class modelCollection implements ArrayAccess{
 		$this->_filters[] = $filter;
 		return $this;
 	}
+	public function e($string){
+		return $this->getStorage()->quote($string);
+	}
 	public function getFilters(){
 		return $this->_filters;
 	}
