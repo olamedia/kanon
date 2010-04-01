@@ -113,10 +113,10 @@ class kanon{
 		$app->run();
 	}
 	public static function registerActionController($controller, $action, $controller2){
-		$this->_actionControllers[$controller][$action] = $controller2;
+		self::$_actionControllers[$controller][$action] = $controller2;
 	}
 	public static function getActionController($controller){
-		$this->_actionControllers[$controller];
+		self::$_actionControllers[$controller];
 	}
 }
 function __autoload($name) {
