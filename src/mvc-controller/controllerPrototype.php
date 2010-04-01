@@ -421,9 +421,16 @@ class controllerPrototype{
 		}
 
 		if ($this->_action){
+			
 			$uc = ucfirst($this->_action);
 			$this->_makeChildUri(array($action));
 			$initFunction = 'init'.$uc;
+			
+			if ($controller = kanon::getActionController(get_class($this), $this->_action)){
+				$this->runController($controller);
+				return;
+			}
+			
 			if (method_exists($this, $initFunction)){
 				$methodFound = true;
 				call_user_func_array(array($this, $initFunction), $this->_getArgs($initFunction));
