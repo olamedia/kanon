@@ -75,6 +75,7 @@ class modelStorage{
 	 */
 	protected function _getWhereSql($model, $useAssignedValues = false){
 		if (($whereSql = $this->_getWherePrimaryKeySql($model, $useAssignedValues)) !== false){
+			echo '_getWherePrimaryKeySql';
 			return $whereSql;
 		}
 		// can't use PK
