@@ -96,6 +96,16 @@ class kanon{
 		}
 		return false;
 	}
+	public static function loadAllModules(){
+		$path = self::getBasePath();
+		foreach (glob($path.'/modules/*') as $d){
+			if (is_dir($d)){
+				if (is_file($d.'/module.php')){
+					require_once $d.'/module.php';
+				}
+			}
+		}
+	}
 	public static function getBasePath(){
 		if (self::$_basePath === null){
 			$trace = debug_backtrace();
@@ -106,7 +116,8 @@ class kanon{
 	}
 	public static function run($applicationClass){
 		//spl_autoload_register(array(self, 'autoload'));
-
+		// load all modules
+		self::loadAllModules();
 		$app = application::getInstance($applicationClass);
 		$app->setBasePath(self::getBasePath());
 		$baseUrl = kanon::getBaseUri();
