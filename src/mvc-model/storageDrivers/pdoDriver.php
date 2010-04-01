@@ -22,7 +22,10 @@ class pdoDriver extends storageDriver{
 		return $resultSet->fetch();
 	}
 	public function fetchColumn($resultSet, $columnNumber = 0){
-		return $resultSet->fetchColumn($columnNumber);
+		if (is_object($resultSet)){
+			return $resultSet->fetchColumn($columnNumber);
+		}
+		return false;
 	}
 	public function rowCount($resultSet){
 		return $resultSet->rowCount();
