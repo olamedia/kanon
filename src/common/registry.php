@@ -53,4 +53,7 @@ class registry implements ArrayAccess, IteratorAggregate, Countable{
 	public function count(){
 		return count($this->_vars);
 	}
+	public function __toString(){
+		return implode('',$this->_vars); 
+	}
 }
