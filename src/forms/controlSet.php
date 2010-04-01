@@ -118,6 +118,7 @@ abstract class controlSet{
 	}
 	public function save(){
 		if ($this->getItem() !== null){
+			echo ' getItem ';
 			$result = $this->getItem()->save();
 			//var_dump($result);
 			return $result;
