@@ -22,6 +22,7 @@ class mysqlDriver extends storageDriver{
 			mysql_select_db($dbname, $this->_connection);
 		}
 		if ($charset = $this->get('charset')){
+			echo "SET NAMES ".$charset;
 			mysql_query("SET NAMES ".$charset, $this->_connection);
 		}
 	}
