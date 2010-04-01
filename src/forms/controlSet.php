@@ -233,6 +233,7 @@ abstract class controlSet{
 		}
 	}
 	public function checkPost($key = null){
+		echo ' fillFromPost ';
 		$this->fillFromPost($key);
 		if ($this->isValidValues()){
 			$this->beforeSave();
@@ -255,8 +256,11 @@ abstract class controlSet{
 		$this->processPost();
 	}
 	public function processPost(){
+		echo ' processPost ';
 		if ($keys = $this->getPostKeys()){
+			echo ' getPostKeys ';
 			if (is_array($keys) && count($keys)){
+				echo ' is_array($keys) ';
 				foreach ($keys as $key){
 					if (is_object($this->_itemTemplate)){
 						$this->resetControls();
