@@ -11,6 +11,7 @@ class kanon{
 	private static $_loadedModules = array();
 	private static $_autoload = array();
 	private static $_actionControllers = array();
+	private static $_menu = array();
 	public static function autoload($class){
 		if (isset(self::$_autoload[$class])){
 			require_once self::$_autoload[$class];
@@ -115,9 +116,18 @@ class kanon{
 	public static function registerActionController($controller, $action, $controller2){
 		self::$_actionControllers[$controller][$action] = $controller2;
 	}
+	public static function registerMenuITem($controller, $title, $rel){
+		self::$_menu[$controller][$title] = $rel;
+	}
 	public static function getActionController($controller, $action){
 		if (isset(self::$_actionControllers[$controller][$action])){
 			return self::$_actionControllers[$controller][$action];
+		}
+		return false;
+	}
+	public static function getMenu($controller){
+		if (isset(self::$_menu[$controller])){
+			return self::$_menu[$controller];
 		}
 		return false;
 	}
