@@ -258,7 +258,7 @@ abstract class controlSet{
 	}
 	public function process(){
 		//echo 'Process<br />';
-		var_dump($this->getControl('branch')->getItem());
+		
 		$this->processPost();
 	}
 	public function processPost(){
@@ -272,6 +272,7 @@ abstract class controlSet{
 						$this->resetControls();
 						$this->setItem($this->getItemTemplate());
 					}
+					var_dump($this->getControl('branch')->getItem());
 					$this->checkPost($key);
 				}
 			}
