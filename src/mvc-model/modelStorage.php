@@ -312,7 +312,7 @@ class modelStorage{
 	 * @param string $password
 	 * @return modelStorage
 	 */
-	public function connect($dsn, $username = 'root', $password = '', $charset = 'UTF-8'){
+	public function connect($dsn, $username = 'root', $password = '', $charset = 'UTF8'){
 		$extension = reset(explode(":", $dsn));
 		/*if (extension_loaded('pdo')){
 			$extension = 'pdo';
