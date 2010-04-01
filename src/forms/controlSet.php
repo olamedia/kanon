@@ -225,7 +225,7 @@ abstract class controlSet{
 		foreach ($this->_classesMap as $controlName => $class){
 			echo ' '.$class.' ';
 			if (is_subclass_of($class, 'controlSet')){
-				echo ' controlSet->process() ';
+				echo ' controlSet->process('.$controlName.') ';
 				$controlSet = $this->getControl($controlName);
 				var_dump($controlSet->getItem());
 				$controlSet->process();
