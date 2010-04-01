@@ -78,6 +78,7 @@ abstract class controlSet{
 			}
 			$class = $this->_classesMap[$controlName];
 			if (is_subclass_of($class, 'controlSet')){
+				echo $class;
 				$controlSet = new $class($controlName, true);
 				//$controlSet->setControlSet($this);
 				$this->_controls[$controlName] = $controlSet;
