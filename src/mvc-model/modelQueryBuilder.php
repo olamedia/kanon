@@ -271,7 +271,16 @@ class modelQueryBuilder{
 			}
 		}
 	}
+	protected function applyFilters(){
+		foreach ($this->_joinedTables as $tableUid => $table){
+			$filters = $table->getFilters();
+			foreach ($filters as $filter){
+				$this->where($filter);
+			}
+		}
+	}
 	public function getSql(){
+		$this->applyFilters();
 		$sql = "SELECT ".$this->getWhatSql()
 		.$this->getFromSql()
 		// join
@@ -285,6 +294,7 @@ class modelQueryBuilder{
 		return $sql;
 	}
 	public function getCountSql(){
+		$this->applyFilters();
 		$sql = "SELECT COUNT(*)"
 		.$this->getFromSql()
 		// join

@@ -6,6 +6,14 @@ class modelCollection implements ArrayAccess{
 	protected $_modelName = null; // helper
 	//protected $_helper = null; // model instance
 	protected $_uniqueId = null;
+	protected $_filters = array();
+	public function addFilter($filter){
+		$this->_filters[] = $filter;
+		return $this;
+	}
+	public function getFilters(){
+		return $this->_filters;
+	}
 	public function getModelClass(){
 		return $this->_modelName;
 	}
@@ -26,10 +34,10 @@ class modelCollection implements ArrayAccess{
 		return new modelField($this, $offset);
 	}
 	public function offsetSet($offset, $value){
-		
+
 	}
 	public function offsetUnset($offset){
-		
+
 	}
 	public function __get($name){
 		$fields = $this->getHelper()->getFieldNames();
@@ -39,7 +47,7 @@ class modelCollection implements ArrayAccess{
 		return null;
 	}
 	public function __set($name, $value){
-		
+
 	}
 	public function select(){
 		$args = func_get_args();
@@ -52,7 +60,7 @@ class modelCollection implements ArrayAccess{
 		return $this->getHelper()->getFieldNames();
 	}
 	public function getForeignKeys(){
-		return $this->getHelper()->getForeignKeys(); 
+		return $this->getHelper()->getForeignKeys();
 	}
 	public function getStorage(){
 		return $this->getHelper()->getStorage();
