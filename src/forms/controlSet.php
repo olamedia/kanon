@@ -227,6 +227,7 @@ abstract class controlSet{
 			if (is_subclass_of($class, 'controlSet')){
 				echo ' controlSet->process() ';
 				$controlSet = $this->getControl($controlName);
+				var_dump($controlSet->getItem());
 				$controlSet->process();
 				die();
 				if ($controlSet->isUpdated()){
