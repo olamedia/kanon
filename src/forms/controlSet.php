@@ -236,6 +236,7 @@ abstract class controlSet{
 		echo ' fillFromPost ';
 		$this->fillFromPost($key);
 		if ($this->isValidValues()){
+			echo ' isValidValues ';
 			$this->beforeSave();
 			if ($this->save()){
 				echo ' after save ';
