@@ -19,6 +19,12 @@ class controller extends controllerPrototype{
 	public function app(){
 		return $this->getApplication();
 	}
+	public function registerMenuItem($title, $action){
+		$this->getRegistry()->menu->{get_class($this)}[$title] = $action;
+	}
+	public function getMenu(){
+		return $this->getRegistry()->menu->{get_class($this)};
+	}
 	/**
 	 * Set base path for /images/, /css/ etc
 	 * @param string $path

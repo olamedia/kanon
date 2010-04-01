@@ -10,12 +10,17 @@ class controllerPrototype{
 	protected $_relativeUri = null;
 	protected $_childUri = '';
 	protected $_action = '';
+	protected $_actionControllers = array();
 	protected $_options = array();
 	public function __construct(){
 		$this->_baseUri = uri::fromString('/');
 		$this->_relativeUri = uri::fromRequestUri();
 		$this->_me = new ReflectionClass(get_class($this));
 	}
+	public function registerActionController($action, $controller){
+		$this->_actionControllers[$action] = $controller;
+	}
+	
 	/**
 	 * Executing before run() deprecated
 	 */
