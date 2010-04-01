@@ -44,7 +44,7 @@ class modelCollection implements ArrayAccess{
 		if (isset($fields[$name])){
 			return new modelField($this, $fields[$name]);
 		}
-		return null;
+		return $name;
 	}
 	public function __set($name, $value){
 
