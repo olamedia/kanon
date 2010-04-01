@@ -26,7 +26,7 @@ class modelProperty{
 		$this->_clone($this->_value);
 		$this->_clone($this->_model);
 	}*/
-	public function getFieldName($name){
+	public function getFieldName(){
 		return $this->_fieldName;
 	}
 	public function setFieldName($name){
