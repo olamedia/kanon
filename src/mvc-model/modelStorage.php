@@ -49,7 +49,7 @@ class modelStorage{
 		var_dump($pk);
 		if (count($pk)){
 			foreach ($pk as $propertyName){
-				$property = $item->{$propertyName};
+				$property = $model->{$propertyName};
 				var_dump($property);
 				if (is_object($property)){
 					
