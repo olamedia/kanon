@@ -35,7 +35,7 @@ abstract class controlSet{
 	public function setLegend($legend){
 		$this->_legend = $legend;
 	}
-	public function getLegend($legend){
+	public function getLegend(){
 		return $this->_legend;
 	}
 	public function getRepeat(){
