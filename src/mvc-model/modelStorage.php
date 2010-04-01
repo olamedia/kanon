@@ -50,7 +50,7 @@ class modelStorage{
 		if (count($pk)){
 			foreach ($pk as $propertyName){
 				$property = $item->{$propertyName};
-				if ($property){
+				if (is_object($property)){
 					$initialValue = $property->getInitialValue();
 					if ($initialValue !== null){
 						$wherea[] = "`$fieldName` = '".$this->quote($initialValue)."'";
