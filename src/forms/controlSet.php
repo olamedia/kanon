@@ -78,7 +78,7 @@ abstract class controlSet{
 			}
 			$class = $this->_classesMap[$controlName];
 			if (is_subclass_of($class, 'controlSet')){
-				
+
 				$controlSet = new $class($controlName, true);
 				//$controlSet->setControlSet($this);
 				$this->_controls[$controlName] = $controlSet;
@@ -143,10 +143,12 @@ abstract class controlSet{
 	public function getPostKeys(){
 		$keys = array();
 		foreach ($this->_classesMap as $controlName => $class){
-			if (!isset($this->_hiddenControls[$controlName])){
-				$controlKeys = $this->getControl($controlName)->getPostKeys();
-				if (count($controlKeys)){
-					$keys = array_unique(array_merge($keys, $controlKeys));
+			if (is_subclass_of($class, 'control')){
+				if (!isset($this->_hiddenControls[$controlName])){
+					$controlKeys = $this->getControl($controlName)->getPostKeys();
+					if (count($controlKeys)){
+						$keys = array_unique(array_merge($keys, $controlKeys));
+					}
 				}
 			}
 		}
@@ -265,8 +267,8 @@ abstract class controlSet{
 	public function getTableRowsHtml($key = null){
 		$h = '';
 		$this->setKey($key);
-		//var_dump($this->_classesMap); 
-		//var_dump(get_class($this)); 
+		//var_dump($this->_classesMap);
+		//var_dump(get_class($this));
 		foreach ($this->_classesMap as $controlName => $class){
 			if (!isset($this->_hiddenControls[$controlName])){
 				$control = $this->getControl($controlName);
