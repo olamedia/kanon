@@ -280,7 +280,7 @@ abstract class controlSet{
 			if (!isset($this->_hiddenControls[$controlName])){
 				$control = $this->getControl($controlName);
 				if (is_subclass_of($control, 'controlSet')){
-					$h .= '<tr><td style="padding-left: '.($level*30).'px"><h3>';
+					$h .= '<tr><td style="padding-left: '.($level*50).'px"><h3>';
 					$h .= ''.$control->getLegend().'';
 					$h .= '</h3></td><td></tr>';//<table width="100%">'; 
 					$h .= $control->getTableRowsHtml($key, $level + 1);
