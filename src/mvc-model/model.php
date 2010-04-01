@@ -97,7 +97,7 @@ class model implements ArrayAccess, IteratorAggregate{
 		}
 		return $this->_properties[$name];
 	}
-	protected function _makeValuesInitial(){
+	public function makeValuesInitial(){
 		foreach ($this->_properties as $property){
 			if ($property->isChangedValue()){
 				$property->setInitialValue($property->getValue());
