@@ -201,10 +201,10 @@ abstract class control{
 	public function getIdHtml(){
 		return $this->getId()?' id="'.$this->getId().'"':'';
 	}
-	public function getRowHtml(){
+	public function getRowHtml($level){
 		return '<tr><td valign="top" class="label">'.($this->getId()?'<label class="'.$this->getLabelCssClass().'" for="'.$this->getId().'">':'').
 		((strlen($this->getTitle()) || $this->isRequired())?
-		'<span'.($this->_required?' title="Обязательно к заполнению"':'').'>'.$this->getTitle().($this->_required?' <b style="color: #f00;">*</b>':'').$this->_afterTitle.'</span>':'')
+		'<span'.($this->_required?' title="Обязательно к заполнению"':'').'>'.str_repeat('&nbsp;', $level*2).$this->getTitle().($this->_required?' <b style="color: #f00;">*</b>':'').$this->_afterTitle.'</span>':'')
 		.'</td><td>'.$this->getHtml().$this->getNote().''.($this->getId()?'</label>':'').'</td></tr>';
 	}
 	public function getHtml(){

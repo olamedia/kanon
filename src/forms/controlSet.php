@@ -271,7 +271,7 @@ abstract class controlSet{
 	}
 
 	//===================================================================== output HTML
-	public function getTableRowsHtml($key = null){
+	public function getTableRowsHtml($key = null, $level = 0){
 		$h = '';
 		$this->setKey($key);
 		//var_dump($this->_classesMap);
@@ -280,13 +280,13 @@ abstract class controlSet{
 			if (!isset($this->_hiddenControls[$controlName])){
 				$control = $this->getControl($controlName);
 				if (is_subclass_of($control, 'controlSet')){
-					$h .= '<tr><td><h3>';
+					$h .= '<tr><td><h3>'.str_repeat('&nbsp;', $level*2);
 					$h .= ''.$control->getLegend().'';
 					$h .= '</h3></td><td><table width="100%">'; 
-					$h .= $control->getTableRowsHtml($key);
+					$h .= $control->getTableRowsHtml($key, $level + 1);
 					$h .= '</table></td></tr>';
 				}else{
-					$h .= $control->getRowHtml();
+					$h .= $control->getRowHtml($level + 1);
 				}
 			}
 		}
