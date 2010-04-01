@@ -218,10 +218,14 @@ abstract class controlSet{
 				}
 			}
 		}
+		echo ' after save2 ';
 		foreach ($this->_classesMap as $controlName => $class){
+			echo ' '.$class.' ';
 			if (is_subclass_of($class, 'controlSet')){
+				echo ' controlSet->process() ';
 				$controlSet = $this->getControl($controlName);
 				$controlSet->process();
+				die();
 				if ($controlSet->isUpdated()){
 					//?
 				}
@@ -233,6 +237,7 @@ abstract class controlSet{
 		if ($this->isValidValues()){
 			$this->beforeSave();
 			if ($this->save()){
+				echo ' after save ';
 				$this->afterSave();
 				$this->setItemUpdated(true);
 			}
