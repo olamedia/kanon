@@ -46,6 +46,7 @@ class modelStorage{
 	protected function _getWherePrimaryKeySql($model, $useAssignedValues = false){
 		$wherea = array();
 		$pk = $model->getPrimaryKey();
+		var_dump($pk);
 		if (count($pk)){
 			foreach ($pk as $propertyName){
 				$property = $item->{$propertyName};
