@@ -67,7 +67,7 @@ class controller extends controllerPrototype{
 		return $this;
 	}
 	public function getBreadcrumb(){
-		return $this->getRegistry()->breadcrumb;
+		return $this->getRegistry()->breadcrumb->toArray();
 	}
 	public function viewBreadcrumb(){
 		echo implode(" → ", $this->getBreadcrumb());

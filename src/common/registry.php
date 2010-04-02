@@ -56,4 +56,11 @@ class registry implements ArrayAccess, IteratorAggregate, Countable{
 	public function __toString(){
 		return implode('',$this->_vars); 
 	}
+	public function toArray(){
+		$a = array();
+		foreach ($this->_vars as $k => $v){
+			$a[$k] = is_object($v)?$v->toArray():$v;
+		}
+		return $a;
+	}
 }
