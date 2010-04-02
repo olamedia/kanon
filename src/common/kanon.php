@@ -143,6 +143,11 @@ class kanon{
 		return false;
 	}
 }
-function __autoload($name) {
-	kanon::autoload($name);
+
+if (function_exists('spl_autoload_register')){
+	spl_autoload_register(array('kanon', 'autoload'));
+}else{
+	function __autoload($name) {
+		kanon::autoload($name);
+	}
 }
