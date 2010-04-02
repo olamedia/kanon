@@ -67,9 +67,6 @@ class controller extends controllerPrototype{
 		return $this;
 	}
 	public function getBreadcrumb(){
-		if (!is_array($this->getRegistry()->breadcrumb)){
-			$this->getRegistry()->breadcrumb = array();
-		}
 		return $this->getRegistry()->breadcrumb;
 	}
 	public function viewBreadcrumb(){
