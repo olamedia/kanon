@@ -412,9 +412,8 @@ class controllerPrototype{
 			$this->_makeChildUri($actions);
 			if (method_exists($this, $methodName)){
 				$methodFound = true;
-				$args = $this->_getArgs($methodName, $pathArgs);
 				if ($this->getHttpMethod() == 'GET') $this->_header();
-				call_user_func_array(array($this, $methodName), $args);
+				call_user_func_array(array($this, $methodName), $this->_getArgs($methodName, $pathArgs));
 				if ($this->getHttpMethod() == 'GET') $this->_footer();
 				return;
 			}
@@ -454,9 +453,11 @@ class controllerPrototype{
 			if (method_exists($this, 'customIndex')){
 				$this->customIndex();
 			}else{
-				$this->_initIndex();
+				//$this->_initIndex();
+				call_user_func_array(array($this, '_initIndex'), $this->_getArgs('_initIndex'));
 				$this->_header();
-				$this->index();
+				call_user_func_array(array($this, 'index'), $this->_getArgs('index'));
+				//$this->index();
 				$this->_footer();
 			}
 		}
