@@ -115,9 +115,9 @@ class controllerPrototype{
 		//echo '<a href="'.$url.'">'.$url.'</a>';
 		//exit;
 		if ($url == $_GET['ref']){
-			echo '<pre>';
-			var_dump(debug_backtrace());
-			exit;
+			//echo '<pre>';
+			//var_dump(debug_backtrace());
+			die('Redirect loop');
 		}
 		$url = $url.'?ref='.urlencode($url);
 		$title = 'Переадресация';
@@ -402,8 +402,8 @@ class controllerPrototype{
 		$class = get_class($this);
 		if (strlen($this->_relativeUri) > 1){ // longer than "/"
 			if ($this->getCurrentUrl() != $this->getCanonicalUrl()){
-				echo $this->getCurrentUrl().'<br >';
-				echo $this->getCanonicalUrl().'<br >';
+				//echo $this->getCurrentUrl().'<br >';
+				//echo $this->getCanonicalUrl().'<br >';
 				$this->movedPermanently($this->getCanonicalUrl());
 			}
 		}
