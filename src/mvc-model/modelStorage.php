@@ -130,8 +130,12 @@ class modelStorage{
 	 */
 	public function saveModel($model){
 		if ($this->_getWhereSql($model)){
+			echo 'update '.get_class($model).' '.$this->_getWhereSql($model);
+			//exit;
 			$result = $model->update();
 		}else{
+			echo 'insert '.get_class($model).' '.$this->_getWhereSql($model);
+			//exit;
 			$result = $model->insert();
 		}
 		return $result;
