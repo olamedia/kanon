@@ -15,7 +15,7 @@ class imageFilenameProperty extends stringProperty{
 	}
 	public function tm($size, $method = 'fit'){
 		$path = $this->_path;
-		if (!is_file($path.$this->getValue())){
+		if (!is_file($this->_path.$this->getValue())){
 			return false;
 		}
 		$tm = 'tmm'.$size.'x'.$size.'_'.$this->getValue();//$img->tm($this->getValue(), $size, $method);
@@ -34,5 +34,11 @@ class imageFilenameProperty extends stringProperty{
 	// http://www.appelsiini.net/projects/lazyload
 	public function htmlLazyLoad($size = 100, $method="fit"){
 		return '<img src="/css/images/1x1.gif" original="'.$this->tm($size, $method).'"'.($this->_tmHeight?' height="'.$this->_tmHeight.'"':'').($this->_tmWidth?' width="'.$this->_tmWidth.'"':'').' class="preloader" />';
+	}
+	public function htmlSourceLazyLoad(){
+		$info = getimagesize($this->_path.$this->getValue());
+		$w = $info[0];
+		$h = $info[1];
+		return '<img src="/css/images/1x1.gif" original="'.$this->source().'"'.($h?' height="'.$h.'"':'').($w?' width="'.$w.'"':'').' class="preloader" />';
 	}
 }
