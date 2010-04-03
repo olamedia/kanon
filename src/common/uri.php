@@ -150,6 +150,10 @@ class uri{
 	 * @return string
 	 */
 	public function __toString(){
-		return '/'.implode('/',array_walk($this->_path, 'urlencode'));
+		$ep = array();
+		foreach ($this->_path as $d){
+			$ep[] = urlencode($d);
+		}
+		return '/'.implode('/',$ep);
 	}
 }
