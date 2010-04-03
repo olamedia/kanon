@@ -11,6 +11,9 @@ class modelExpression{
 		if ($this->_right instanceof modelProperty){
 			$this->_right = $this->_right->getValue();
 		}
+		if (is_array($this->_right)){
+			$this->_right = implode(",", $this->_right);
+		}
 	}
 	public function getArguments(){
 		return array($this->_left, $this->_right);
