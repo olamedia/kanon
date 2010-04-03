@@ -128,15 +128,15 @@ class modelStorage{
 	 *
 	 * @param model $model
 	 */
-	public function saveModel($model){
+	public function saveModel($model, $debug = false){
 		if ($this->_getWhereSql($model)){
-			echo 'update '.get_class($model).' '.$this->_getWhereSql($model);
+			//echo 'update '.get_class($model).' '.$this->_getWhereSql($model);
 			//exit;
-			$result = $model->update();
+			$result = $model->update($debug);
 		}else{
-			echo 'insert '.get_class($model).' '.$this->_getWhereSql($model);
+			//echo 'insert '.get_class($model).' '.$this->_getWhereSql($model);
 			//exit;
-			$result = $model->insert();
+			$result = $model->insert($debug);
 		}
 		return $result;
 	}
@@ -144,8 +144,9 @@ class modelStorage{
 	 *
 	 * @param model $model
 	 */
-	public function insertModel($model){
+	public function insertModel($model, $debug = false){
 		$sql = $this->_getInsertSql($model);
+		if ($debug) echo $sql;
 		if ($this->query($sql)){
 			$model->makeValuesInitial();
 			// Update AutoIncrement property
@@ -167,8 +168,9 @@ class modelStorage{
 	 *
 	 * @param model $model
 	 */
-	public function updateModel($model){
+	public function updateModel($model, $debug = false){
 		$sql = $this->_getUpdateSql($model);
+		if ($debug) echo $sql;
 		if ($this->query($sql)){
 			$model->makeValuesInitial();
 			return true;

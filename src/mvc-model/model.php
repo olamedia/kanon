@@ -144,7 +144,7 @@ class model implements ArrayAccess, IteratorAggregate{
 	public function getTableName(){
 		return storageRegistry::getInstance()->modelSettings[get_class($this)]['table'];
 	}
-	public function save(){
+	public function save($debug = false){
 		$this->preSave();
 		foreach ($this as $property){
 			$property->preSave();
@@ -153,7 +153,7 @@ class model implements ArrayAccess, IteratorAggregate{
 				$control->preSave();
 			}
 		}
-		$result = $this->getStorage()->saveModel($this);
+		$result = $this->getStorage()->saveModel($this, $debug);
 		$this->postSave();
 		foreach ($this as $property){
 			$property->postSave();
@@ -164,24 +164,24 @@ class model implements ArrayAccess, IteratorAggregate{
 		}
 		return $result;
 	}
-	public function insert(){
+	public function insert($debug = false){
 		$this->preInsert();
 		foreach ($this as $property){
 			$property->preInsert();
 		}
-		$result = $this->getStorage()->insertModel($this);
+		$result = $this->getStorage()->insertModel($this, $debug);
 		$this->postInsert();
 		foreach ($this as $property){
 			$property->postInsert();
 		}
 		return $result;
 	}
-	public function update(){
+	public function update($debug = false){
 		$this->preUpdate();
 		foreach ($this as $property){
 			$property->preUpdate();
 		}
-		$result = $this->getStorage()->updateModel($this);
+		$result = $this->getStorage()->updateModel($this, $debug);
 		$this->postUpdate();
 		foreach ($this as $property){
 			$property->postUpdate();
