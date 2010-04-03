@@ -43,6 +43,6 @@ class modelExpression{
 			}
 			$right = '('.$right.')';
 		}
-		return $this->getLeft().' '.$this->_operator.' '.$this->getRight();
+		return $this->getLeft().' '.$this->_operator.' '.$right;
 	}
 }
