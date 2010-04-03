@@ -30,6 +30,9 @@ class modelField{
 	public function is($value){
 		return new modelExpression($this, '=', $value);
 	}
+	public function not($value){
+		return new modelExpression($this, '!=', $value);
+	}
 	public function min(){
 		return new modelAggregation($this, 'MIN');
 	}
@@ -50,6 +53,9 @@ class modelField{
 	}
 	public function in($value){
 		return new modelExpression($this, 'IN', $value);
+	}
+	public function notIn($value){
+		return new modelExpression($this, 'NOT IN', $value);
 	}
 	public function like($value){
 		return new modelExpression($this, 'LIKE', $value);
