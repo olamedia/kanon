@@ -9,7 +9,7 @@ class modelCollection implements ArrayAccess{
 	protected $_filters = array();
 	protected $_filtersEnabled = true;
 	protected $_defaultValues = array();
-	public function setDefaultValue(){
+	public function setDefaultFieldValue(){
 		// @todo
 	}
 	public function addFilter($filter){
