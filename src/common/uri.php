@@ -103,7 +103,7 @@ class uri{
 		$geta = explode("&", $get);
 		$args = array();
 		foreach ($geta as $gv){
-			list($k, $v) = explode("=", $gv);
+			@list($k, $v) = explode("=", $gv);
 			$args[$k] = $v;
 		}
 		// cut index.php
