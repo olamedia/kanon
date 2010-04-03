@@ -14,15 +14,13 @@ class imageFilenameProperty extends stringProperty{
 		return $this->_uri.'/'.$this->getValue();
 	}
 	public function tm($size, $method = 'fit'){
-		if (!is_file($this->_path.$this->getValue())){
-			//echo $this->_path;
+		$path = $this->_path;
+		if (!is_file($path.$this->getValue())){
 			return false;
 		}
-		$img = new tImage();
-		$img->path = $this->_path;
-		$tm = $img->tm($this->getValue(), $size, $method);
-		if (is_file($img->path.'.thumb/'.$tm)){
-			$info = getimagesize($img->path.'.thumb/'.$tm);
+		$tm = 'tmm'.$size.'x'.$size.'_'.$this->getValue();//$img->tm($this->getValue(), $size, $method);
+		if (is_file($path.'.thumb/'.$tm)){
+			$info = getimagesize($path.'.thumb/'.$tm);
 			$this->_tmWidth = $info[0];
 			$this->_tmHeight = $info[1];
 		}else{
