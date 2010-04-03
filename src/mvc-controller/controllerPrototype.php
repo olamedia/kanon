@@ -114,6 +114,11 @@ class controllerPrototype{
 	protected function _redirect($url = null, $httpCode = 303){
 		//echo '<a href="'.$url.'">'.$url.'</a>';
 		//exit;
+		if ($url == $_GET['ref']){
+			var_dump(debug_backtrace());
+			exit;
+		}
+		$url = $url.'?ref='.$_SERVER['HTTP_REFERER'];
 		$title = 'Переадресация';
 		if (!preg_match("#^[a-z]+:#ims",$url)){
 			if (!preg_match("#^/#ims",$url)){
