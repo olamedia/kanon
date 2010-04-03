@@ -19,6 +19,9 @@ class modelExpression{
 		return $this->_left;
 	}
 	public function getRight(){
+		if ($this->_right instanceof modelField){
+			return (string) $this->_right;
+		}
 		if ($this->_escapeRight){
 			return "'".addslashes($this->_right)."'";
 		}
