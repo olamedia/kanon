@@ -100,6 +100,7 @@ class controllerPrototype{
 	 * @return uri
 	 */
 	public function rel($relativeUri = '', $includeAction = false){
+		if (is_object($relativeUri)) $relativeUri = strval($relativeUri);
 		if (is_string($relativeUri)) $relativeUri = uri::fromString($relativeUri);
 		$a = array();
 		if ($includeAction) $a[] = $this->_action;
