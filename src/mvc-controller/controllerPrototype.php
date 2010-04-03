@@ -402,6 +402,8 @@ class controllerPrototype{
 		$class = get_class($this);
 		if (strlen($this->_relativeUri) > 1){ // longer than "/"
 			if ($this->getCurrentUrl() != $this->getCanonicalUrl()){
+				echo $this->getCurrentUrl().'<br >';
+				echo $this->getCanonicalUrl().'<br >';
 				$this->movedPermanently($this->getCanonicalUrl());
 			}
 		}
