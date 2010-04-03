@@ -37,6 +37,7 @@ class modelExpression{
 		$right = $this->getRight();
 		if (in_array(strtoupper($this->_operator), array('IN','NOT IN'))){
 			if (is_array($this->_right)){
+				if (!count($this->_right)) return '';
 				$right = implode(",", $this->_right);
 			}else{
 				$right = $this->_right;
