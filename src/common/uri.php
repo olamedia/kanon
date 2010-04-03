@@ -150,6 +150,6 @@ class uri{
 	 * @return string
 	 */
 	public function __toString(){
-		return '/'.implode('/',$this->_path);
+		return '/'.implode('/',array_walk($this->_path, 'urlencode'));
 	}
 }
