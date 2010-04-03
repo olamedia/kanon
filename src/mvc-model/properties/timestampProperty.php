@@ -13,6 +13,6 @@ class timestampProperty extends integerProperty{
 		$ts = $this->getValue();
 		$wa = array('Вск','Пнд','Втр','Срд','Чтв','Птн','Сбт');
 		$ma = array(null,'Янв','Фев','Мар','Апр','Май','Июн','Июл','Авг','Сен','Окт','Ноя','Дек');
-		return $wa[date("w", $ts)].' '.date("d", $ts).' '.$ma[date("m", $ts)].' '.date("Y H:i:s", $ts);
+		return $wa[date("w", $ts)].' '.date("d", $ts).' '.$ma[date("n", $ts)].' '.date("Y H:i:s", $ts);
 	}
 }
