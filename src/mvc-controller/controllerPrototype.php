@@ -115,6 +115,7 @@ class controllerPrototype{
 		//echo '<a href="'.$url.'">'.$url.'</a>';
 		//exit;
 		if ($url == $_GET['ref']){
+			echo '<pre>';
 			var_dump(debug_backtrace());
 			exit;
 		}
