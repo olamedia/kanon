@@ -8,6 +8,10 @@ class modelCollection implements ArrayAccess{
 	protected $_uniqueId = null;
 	protected $_filters = array();
 	protected $_filtersEnabled = true;
+	protected $_defaultValues = array();
+	public function setDefaultValue(){
+		// @todo
+	}
 	public function addFilter($filter){
 		$this->_filters[] = $filter;
 		return $this;
