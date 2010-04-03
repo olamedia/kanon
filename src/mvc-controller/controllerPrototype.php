@@ -118,10 +118,10 @@ class controllerPrototype{
 			if ($url == $_GET['ref']){
 				//echo '<pre>';
 				//var_dump(debug_backtrace());
-				die('Redirect loop');
+			//	die('Redirect loop');
 			}
 		}
-		$url = $url.'?ref='.urlencode($url);
+		//$url = $url.'?ref='.urlencode($url);
 		$title = 'Переадресация';
 		if (!preg_match("#^[a-z]+:#ims",$url)){
 			if (!preg_match("#^/#ims",$url)){
