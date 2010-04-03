@@ -19,10 +19,11 @@ class registry implements ArrayAccess, IteratorAggregate, Countable{
 	}
 	/**
 	 * Get variable
-	 * @param mixed $index
+	 * @param mixed $key
 	 * @return mixed
 	 */
 	public function __get($key){
+		if (is_resource($key) || is_object($key)) $key = strval($key);
 		if (!isset($this->_vars[$key])){
 			$this->_vars[$key] = new registry();
 		}
