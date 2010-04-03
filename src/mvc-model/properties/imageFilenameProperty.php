@@ -6,9 +6,17 @@ class imageFilenameProperty extends stringProperty{
 	protected $_tmHeight = 0;
 	public function setPath($path){
 		$this->_path = $path;
+		return $this;
+	}
+	public function getPath(){
+		return $this->_path;
 	}
 	public function setUri($uri){
 		$this->_uri = $uri;
+		return $this;
+	}
+	public function getUri(){
+		return $this->_uri;
 	}
 	public function source(){
 		return $this->_uri.'/'.$this->getValue();
