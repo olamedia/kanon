@@ -12,6 +12,9 @@ class modelCollection implements ArrayAccess{
 	public function setDefaultFieldValue(){
 		// @todo
 	}
+	public function q($sql){
+		return $this->getStorage()->query($sql);
+	}
 	public function addFilter($filter){
 		$this->_filters[] = $filter;
 		return $this;
