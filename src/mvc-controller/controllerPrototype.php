@@ -118,7 +118,7 @@ class controllerPrototype{
 			var_dump(debug_backtrace());
 			exit;
 		}
-		$url = $url.'?ref='.$_SERVER['HTTP_REFERER'];
+		$url = $url.'?ref='.urlencode($url);
 		$title = 'Переадресация';
 		if (!preg_match("#^[a-z]+:#ims",$url)){
 			if (!preg_match("#^/#ims",$url)){
