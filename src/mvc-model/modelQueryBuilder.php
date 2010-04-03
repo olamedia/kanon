@@ -240,7 +240,13 @@ class modelQueryBuilder{
 	}
 	protected function getWhereSql(){
 		if (count($this->_where)){
-			return " WHERE ".implode(" AND ", $this->_where);
+			$wa = array();
+			foreach ($this->_where as $k => $condition){
+				if (strval($condition) != ''){
+					$wa[] = $condition;
+				}
+			}
+			return " WHERE ".implode(" AND ", $wa);
 		}
 		return '';
 	}
