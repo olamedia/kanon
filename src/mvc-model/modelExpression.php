@@ -22,6 +22,9 @@ class modelExpression{
 		if ($this->_right instanceof modelField){
 			return (string) $this->_right;
 		}
+		if (is_array($this->_right)){
+			return $this->_right;
+		}
 		if ($this->_escapeRight){
 			return "'".addslashes($this->_right)."'";
 		}
