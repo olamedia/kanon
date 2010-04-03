@@ -29,7 +29,7 @@ class modelExpression{
 	}
 	public function __toString(){
 		$right = $this->getRight();
-		if (strtoupper($this->_operator) == 'IN'){
+		if (in_array(strtoupper($this->_operator), array('IN','NOT IN'))){
 			if (is_array($right)){
 				$right = implode(",", $right);
 			}
