@@ -81,6 +81,8 @@ array(
 		'src/mvc-model',
 		'src/mvc-model/properties',
 		'src/mvc-model/storageDrivers',
+		'src/media',
+		'src/net',
 ),
 	'kanon-framework.php',
 false
