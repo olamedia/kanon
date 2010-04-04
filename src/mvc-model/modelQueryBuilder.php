@@ -12,6 +12,7 @@ class modelQueryBuilder{
 	protected $_limit = null;
 
 	protected $_joinOptions = array();
+	protected $_joinType = array();
 	protected $_join = array();
 	protected $_where = array();
 	protected $_having = array();
@@ -86,14 +87,11 @@ class modelQueryBuilder{
 		foreach ($this->_joinedTables as $tableUid => $table2){
 			if ($sourceTableUid !== $tableUid){ //
 				// Trying to join table
-				$on = '';
 				$joinType = 'INNER';
-				if (isset($this->_joinOptions[$table2->getUniqueId()])){
-					$options = $this->_joinOptions[$table2->getUniqueId()];
-					$on = $options['on'];
-					$joinType = $options['type'];
+				if (isset($this->_joinType[$table2->getUniqueId()])){
+					$joinType = $this->_joinType[$table2->getUniqueId()];
 				}
-				$joins = modelStorage::getIndirectTablesJoins($sourceTable, $table2, $this->_joinOptions);
+				$joins = modelStorage::getIndirectTablesJoins($sourceTable, $table2, $joinType);
 				if ($joins !== false){
 					foreach ($joins as $uid => $joinString){
 						if (!isset($joined[$uid])){
@@ -104,24 +102,21 @@ class modelQueryBuilder{
 				}
 			}
 		}
-		//var_dump($this->_join);
+		var_dump($this->_join);
 	}
 	/**
 	 * @return modelQueryBuilder
 	 */
-	public function &join($table2, $on = '', $joinType = 'INNER'){
-		$this->_joinOptions[$table2->getUniqueId()] = array(
-			'on' => $on,
-			'type' => $joinType
-		);
+	public function &join($table2, $joinType = 'INNER'){
+		$this->_joinType[$table2->getUniqueId()] = $joinType;
 		$this->_joinedTables[$table2->getUniqueId()] = $table2;
 		return $this;
 	}
 	/**
 	 * @return modelQueryBuilder
 	 */
-	public function &leftJoin($table2, $on = ''){
-		return $this->join($table2, $on, 'LEFT');
+	public function &leftJoin($table2){
+		return $this->join($table2, 'LEFT');
 	}
 	/**
 	 * @return modelQueryBuilder

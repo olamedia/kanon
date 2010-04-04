@@ -272,7 +272,7 @@ class modelStorage{
 	public static function getTableModel($collection){
 		return $collection->getModelClass();
 	}
-	public static function getIndirectTablesJoins($sourceTable, $targetTable, $joinOptions){
+	public static function getIndirectTablesJoins($sourceTable, $targetTable, $joinType){
 		$keys = &storageRegistry::getInstance()->foreignKeys;
 		$sourceClass = self::getTableModel($sourceTable);
 		$targetClass = self::getTableModel($targetTable);
@@ -299,7 +299,7 @@ class modelStorage{
 					}
 					return $joins;
 				}else{
-					$joinType = isset($joinOptions[$targetTable->getUniqueId()]['type'])?$joinOptions[$targetTable->getUniqueId()]['type']:'INNER';
+					//$joinType = isset($joinOptions[$targetTable->getUniqueId()]['type'])?$joinOptions[$targetTable->getUniqueId()]['type']:'INNER';
 					list($sourcePropertyName, $targetPropertyName) = $options;
 					$joinString = " ".$joinType." JOIN {$targetTable->getTableName()} AS $targetTable ON ({$sourceTable->$sourcePropertyName} = {$targetTable->$targetPropertyName})";
 					//$joins[$sourceTable->getUniqueId()] = true;
