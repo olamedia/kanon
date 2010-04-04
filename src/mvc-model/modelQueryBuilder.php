@@ -102,7 +102,7 @@ class modelQueryBuilder{
 				}
 			}
 		}
-		var_dump($this->_join);
+		//var_dump($this->_join);
 	}
 	/**
 	 * @return modelQueryBuilder
