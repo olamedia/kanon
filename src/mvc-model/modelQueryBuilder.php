@@ -116,6 +116,15 @@ class modelQueryBuilder{
 	/**
 	 * @return modelQueryBuilder
 	 */
+	public function &autoJoin($table2){
+		$joinType = isset($this->_joinType[$table2->getUniqueId()])?$this->_joinType[$table2->getUniqueId()]:'INNER';
+		$this->_joinType[$table2->getUniqueId()] = $joinType;
+		$this->_joinedTables[$table2->getUniqueId()] = $table2;
+		return $this;
+	}
+	/**
+	 * @return modelQueryBuilder
+	 */
 	public function &leftJoin($table2){
 		return $this->join($table2, 'LEFT');
 	}
@@ -143,11 +152,11 @@ class modelQueryBuilder{
 		if ($condition instanceof modelExpression){
 			$left = $condition->getLeft();
 			if ($left instanceof modelField){
-				$this->join($left->getCollection());
+				$this->autoJoin($left->getCollection());
 			}
 			$right = $condition->getLeft();
 			if ($right instanceof modelField){
-				$this->join($right->getCollection());
+				$this->autoJoin($right->getCollection());
 			}
 		}
 	}
@@ -176,7 +185,7 @@ class modelQueryBuilder{
 	public function &asc($field){
 		$this->_order[] = $field.' ASC';
 		if ($field instanceof modelField){
-			$this->join($field->getTable());
+			$this->autoJoin($field->getTable());
 		}
 		return $this;
 	}
@@ -186,7 +195,7 @@ class modelQueryBuilder{
 	public function &desc($field){
 		$this->_order[] = $field.' DESC';
 		if ($field instanceof modelField){
-			$this->join($field->getTable());
+			$this->autoJoin($field->getTable());
 		}
 		return $this;
 	}
