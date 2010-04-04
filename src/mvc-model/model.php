@@ -14,8 +14,21 @@ class model implements ArrayAccess, IteratorAggregate{
 	protected $_autoIncrement = null; // propertyName
 	protected $_foreignKeys = array(); // property => array(foreignClass, foreignProperty)
 	protected $_options = array(); // propertyName => options
+	protected $_joinOn = array();
 	//protected $_storage = null;
 	//protected $_storageClass = 'modelStorage';
+	/**
+	 * @return model
+	 */
+	public function &setJoinOn($table2, $on = ''){
+		if (strlen($on)){
+			$this->_joinOn[$table2->getUniqueId()] = $on;
+		}
+		return $this;
+	}
+	public function getJoinOn($table2){
+		return isset($this->_joinOn[$table2->getUniqueId()])?$this->_joinOn[$table2->getUniqueId()]:'';
+	}
 	public function getCreateSql(){
 		$t = $this->getTableName();
 		$sql = "CREATE TABLE IF NOT EXISTS `$t` (\r\n";

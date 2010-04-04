@@ -95,6 +95,8 @@ class modelQueryBuilder{
 				}
 				if (isset($this->_joinOn[$table2->getUniqueId()])){
 					$joinOn = $this->_joinOn[$table2->getUniqueId()];
+				}else{
+					$joinOn = $table2->getJoinOn($sourceTable);
 				}
 				$joins = modelStorage::getIndirectTablesJoins($sourceTable, $table2, $joinType, $joinOn);
 				if ($joins !== false){
