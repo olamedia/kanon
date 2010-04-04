@@ -9,6 +9,16 @@ class modelCollection implements ArrayAccess{
 	protected $_filters = array();
 	protected $_filtersEnabled = true;
 	protected $_defaultValues = array();
+	protected $_joinOn = array();
+	public function &setJoinOn($table2, $on = ''){
+		if (strlen($on)){
+			$this->_joinOn[$table2->getUniqueId()] = $on;
+		}
+		return $this;
+	}
+	public function getJoinOn($table2){
+		return isset($this->_joinOn[$table2->getUniqueId()])?$this->_joinOn[$table2->getUniqueId()]:'';
+	}
 	public function setDefaultFieldValue(){
 		// @todo
 	}
