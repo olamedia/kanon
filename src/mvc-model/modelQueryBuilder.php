@@ -108,6 +108,7 @@ class modelQueryBuilder{
 	 * @return modelQueryBuilder
 	 */
 	public function &join($table2, $joinType = 'INNER'){
+		echo $joinType;
 		$this->_joinType[$table2->getUniqueId()] = $joinType;
 		$this->_joinedTables[$table2->getUniqueId()] = $table2;
 		return $this;
