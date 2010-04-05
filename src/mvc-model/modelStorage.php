@@ -255,6 +255,7 @@ class modelStorage{
 		$collection = modelCollection::getInstance($modelName);
 		$fks = $collection->getForeignKeys();
 		foreach ($fks as $propertyName => $a){
+			var_dump($a);
 			list($foreignModel, $foreignPropertyName) = $a;
 			echo '+ '.$modelName.'.'.$propertyName.' => '.$a.' '.$foreignModel.'.'.$foreignPropertyName.':<br />';
 			$keys[$foreignModel][$modelName] = array($foreignPropertyName, $propertyName);
