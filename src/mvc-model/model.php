@@ -62,6 +62,9 @@ class model implements ArrayAccess, IteratorAggregate{
 		return modelCollection::getInstance(get_called_class()); // PHP 5 >= 5.3.0
 	}
 	public function getIterator(){
+		foreach ($this->_classes as $propertyName => $class){
+			$this->_getProperty($proeprtyName);
+		}
 		return new modelIterator($this, $this->_classes);
 	}
 	public function getPrimaryKey(){
