@@ -1,7 +1,7 @@
 <?php
 require_once dirname(__FILE__).'/fileInput.php';
 class imageFileInput extends fileInput{
-	protected $_filesPrefix = 'l_';
+	protected $_filesPrefix = '';
 	public function checkIsImage(){
 		if (!$this->isImage($this->getValue())){
 			$this->setValue('');
@@ -18,6 +18,8 @@ class imageFileInput extends fileInput{
 	}
 	public function afterSave(){
 		$files = $this->_files();
+		var_dump($files);
+		exit;
 		$name = $this->getPostName();
 		if (!isset($files[$name])) {
 			return;
