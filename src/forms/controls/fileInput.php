@@ -33,11 +33,11 @@ class fileInput extends control{
 	protected function _saveFile($tmpName, $name){
 		$ext = '.dat';
 		if ($dotpos = strrpos($name, ".")){
-			$ext = substr($name, $dotpos);
+			$ext = strtolower(substr($name, $dotpos));
 		}
 		$fileName = false;
 		if (!is_file($tmpName)) return false;
-		$path = realpath($this->_getPath());
+		$path = realpath(kanon::getBasePath().'/'.$this->_getPath());
 		if ($pk = $this->getItemPrimaryKey()){
 			$fileName = $path.'/'.$this->_filesPrefix.$pk.$ext;
 		}else{

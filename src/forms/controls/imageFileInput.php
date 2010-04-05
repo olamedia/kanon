@@ -29,8 +29,7 @@ class imageFileInput extends fileInput{
 			if (!isset($files[$name][$key])) return;
 			$file = $files[$name][$key];
 		}
-		var_dump($file);
-		exit;
+		
 		if (isset($file['tmp_name'])){
 			if ($this->isImage($file['tmp_name'])){
 				if ($fileName = $this->_saveFile($file['tmp_name'], $file['name'])){
@@ -46,5 +45,7 @@ class imageFileInput extends fileInput{
 				}
 			}
 		}
+		//var_dump($file);
+		//exit;
 	}
 }
