@@ -81,7 +81,7 @@ class model implements ArrayAccess, IteratorAggregate{
 	}
 	public function toArray($showInternal = false){
 		$a = array();
-		foreach ($this->_properties as $name => $property){
+		foreach ($this as $property){
 			if ($showInternal){
 				$a[$name] = $property->getInternalValue();
 			}else{

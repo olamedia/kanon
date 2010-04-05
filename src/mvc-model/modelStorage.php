@@ -164,7 +164,7 @@ class modelStorage{
 						throw new Exception('Autoincrement "'.print_r($autoIncrement, true).'" not defined in class "'.get_class($model).'"');
 					}
 					$property->setInitialValue($value);
-					$property->setValue($value);
+					//$property->setValue($value);
 					if (isset($_COOKIE['debug'])){
 						echo ' setValue='.$value.' ';
 					}
