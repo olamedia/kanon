@@ -69,7 +69,13 @@ abstract class controlSet{
 		}
 	}
 	/**
-	 * @return AControl
+	 * @return controlSet
+	 */
+	public function getControlSet($controlName){
+		return $this->getControl($controlName);
+	}
+	/**
+	 * @return control
 	 */
 	public function &getControl($controlName){
 		if (!isset($this->_controls[$controlName])){
