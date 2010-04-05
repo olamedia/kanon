@@ -249,14 +249,14 @@ class modelStorage{
 		return $this;
 	}
 	protected function _registerForeignKeys($modelName){
-		//echo '<div>+ '.$modelName.'</div>';
+		echo '<div>+ '.$modelName.'</div>';
 		$keys = &$this->getRegistry()->foreignKeys;
 		$reverseKeys = &$this->getRegistry()->reverseKeys;
 		$collection = modelCollection::getInstance($modelName);
 		$fks = $collection->getForeignKeys();
 		foreach ($fks as $propertyName => $a){
 			list($foreignModel, $foreignPropertyName) = $a;
-			//echo '+ '.$modelName.'.'.$propertyName.' => '.$foreignModel.'.'.$foreignPropertyName.':<br />';
+			echo '+ '.$modelName.'.'.$propertyName.' => '.$foreignModel.'.'.$foreignPropertyName.':<br />';
 			$keys[$foreignModel][$modelName] = array($foreignPropertyName, $propertyName);
 			$keys[$modelName][$foreignModel] = array($propertyName, $foreignPropertyName);
 		}
