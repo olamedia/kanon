@@ -165,6 +165,9 @@ class modelStorage{
 					}
 					$property->setInitialValue($value);
 					$property->setValue($value);
+					if (isset($_COOKIE['debug'])){
+						echo ' setValue='.$value.' ';
+					}
 				}else{
 					throw new Exception('Autoincrement error');
 				}
