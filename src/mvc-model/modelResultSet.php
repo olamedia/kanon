@@ -8,6 +8,7 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 	protected $_useCache = true;
 	public function useCache($use = true){
 		$this->_useCache = $use;
+		return $this;
 	}
 	protected function _makeModels($a){
 		$models = array();
