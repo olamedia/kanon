@@ -84,13 +84,12 @@ abstract class controlSet{
 			}
 			$class = $this->_classesMap[$controlName];
 			if (is_subclass_of($class, 'controlSet')){
-
 				$controlSet = new $class($controlName, true);
-				//$controlSet->setControlSet($this);
+				/** @var controlSet $controlSet */
 				$this->_controls[$controlName] = $controlSet;
 			}else{
-				/** @var AControl */
 				$control = new $class($controlName, true);
+				/** @var control $control */
 				$control->setControlSet($this);
 				$control->setPrefix($this->_prefix);
 				if (isset($this->_options[$controlName])) $control->setOptions($this->_options[$controlName]);

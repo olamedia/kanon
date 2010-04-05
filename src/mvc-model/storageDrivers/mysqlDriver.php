@@ -42,7 +42,7 @@ class mysqlDriver extends storageDriver{
 	 */
 	public function query($sql){
 		if (isset($_COOKIE['debug'])){
-			echo $sql;
+			echo $sql."<br />";
 		}
 		return mysql_query($sql, $this->getConnection());
 	}
