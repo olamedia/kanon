@@ -258,7 +258,7 @@ class modelStorage{
 			//var_dump($a);
 			foreach ($a as $foreignModel => $foreignPropertyName){
 				//list($foreignModel, $foreignPropertyName) = $a;
-				echo '+ '.$modelName.'.'.$propertyName.' => '.$a.' '.$foreignModel.'.'.$foreignPropertyName.':<br />';
+				//echo '+ '.$modelName.'.'.$propertyName.' => '.$a.' '.$foreignModel.'.'.$foreignPropertyName.':<br />';
 				$keys[$foreignModel][$modelName] = array($foreignPropertyName, $propertyName);
 				$keys[$modelName][$foreignModel] = array($propertyName, $foreignPropertyName);
 			}

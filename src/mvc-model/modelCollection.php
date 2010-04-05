@@ -29,6 +29,10 @@ class modelCollection implements ArrayAccess{
 		$this->_filters[] = $filter;
 		return $this;
 	}
+	public function resetFilters(){
+		$this->_filters = array();
+		return $this;
+	}
 	public function disableFilters(){
 		$this->_filtersEnabled = false;
 	}
