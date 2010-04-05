@@ -18,8 +18,6 @@ class imageFileInput extends fileInput{
 	}
 	public function afterSave(){
 		$files = $this->_files();
-		var_dump($files);
-		exit;
 		$name = $this->getPostName();
 		if (!isset($files[$name])) {
 			return;
@@ -31,6 +29,8 @@ class imageFileInput extends fileInput{
 			if (!isset($files[$name][$key])) return;
 			$file = $files[$name][$key];
 		}
+		var_dump($file);
+		exit;
 		if (isset($file['tmp_name'])){
 			if ($this->isImage($file['tmp_name'])){
 				if ($fileName = $this->_saveFile($file['tmp_name'], $file['name'])){
