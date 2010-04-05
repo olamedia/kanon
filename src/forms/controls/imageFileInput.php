@@ -56,7 +56,7 @@ class imageFileInput extends fileInput{
 				$h .= $property->html(100);
 			}
 		}
-		$h .= parent::html();
+		$h .= parent::getHtml();
 		return $h;
 	}
 }
