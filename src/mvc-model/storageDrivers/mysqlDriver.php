@@ -30,6 +30,9 @@ class mysqlDriver extends storageDriver{
 	 * @param string $sql
 	 */
 	public function execute($sql){
+		if (isset($_COOKIE['debug'])){
+			echo $sql;
+		}
 		mysql_query($sql, $this->getConnection());
 		return mysql_affected_rows($this->getConnection());
 	}
