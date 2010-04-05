@@ -145,6 +145,9 @@ class modelStorage{
 	 * @param model $model
 	 */
 	public function insertModel($model, $debug = false){
+		if (isset($_COOKIE['debug'])){
+			echo ' insertModel ';
+		}
 		$sql = $this->_getInsertSql($model);
 		if ($debug) echo $sql;
 		if ($this->query($sql)){
