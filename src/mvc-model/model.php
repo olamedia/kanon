@@ -84,7 +84,8 @@ class model implements ArrayAccess, IteratorAggregate{
 	}
 	public function toArray($showInternal = false){
 		$a = array();
-		foreach ($this as $property){
+		foreach ($this->_classes as $propertyName => $class){
+			$property = $this->_getProperty($propertyName);
 			if ($showInternal){
 				$a[$name] = $property->getInternalValue();
 			}else{
@@ -165,7 +166,8 @@ class model implements ArrayAccess, IteratorAggregate{
 	}
 	public function save($debug = false){
 		$this->preSave();
-		foreach ($this as $property){
+		foreach ($this->_classes as $propertyName => $class){
+			$property = $this->_getProperty($propertyName);
 			$property->preSave();
 			$control = $property->getControl();
 			if ($control !== null){
@@ -174,7 +176,8 @@ class model implements ArrayAccess, IteratorAggregate{
 		}
 		$result = $this->getStorage()->saveModel($this, $debug);
 		$this->postSave();
-		foreach ($this as $property){
+		foreach ($this->_classes as $propertyName => $class){
+			$property = $this->_getProperty($propertyName);
 			$property->postSave();
 			$control = $property->getControl();
 			if ($control !== null){
@@ -185,7 +188,8 @@ class model implements ArrayAccess, IteratorAggregate{
 	}
 	public function insert($debug = false){
 		$this->preInsert();
-		foreach ($this as $property){
+		foreach ($this->_classes as $propertyName => $class){
+			$property = $this->_getProperty($propertyName);
 			$property->preInsert();
 		}
 		$result = $this->getStorage()->insertModel($this, $debug);
@@ -197,24 +201,28 @@ class model implements ArrayAccess, IteratorAggregate{
 	}
 	public function update($debug = false){
 		$this->preUpdate();
-		foreach ($this as $property){
+		foreach ($this->_classes as $propertyName => $class){
+			$property = $this->_getProperty($propertyName);
 			$property->preUpdate();
 		}
 		$result = $this->getStorage()->updateModel($this, $debug);
 		$this->postUpdate();
-		foreach ($this as $property){
+		foreach ($this->_classes as $propertyName => $class){
+			$property = $this->_getProperty($propertyName);
 			$property->postUpdate();
 		}
 		return $result;
 	}
 	public function delete(){
 		$this->preDelete();
-		foreach ($this as $property){
+		foreach ($this->_classes as $propertyName => $class){
+			$property = $this->_getProperty($propertyName);
 			$property->preDelete();
 		}
 		$result = $this->getStorage()->deleteModel($this);
 		$this->postDelete();
-		foreach ($this as $property){
+		foreach ($this->_classes as $propertyName => $class){
+			$property = $this->_getProperty($propertyName);
 			$property->postDelete();
 		}
 		return $result;
