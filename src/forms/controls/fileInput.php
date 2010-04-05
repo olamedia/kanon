@@ -47,6 +47,8 @@ class fileInput extends control{
 			$fileName = $this->_tempnam($path, $this->_filesPrefix, $ext);
 		}
 		if ($fileName){
+			echo $fileName;
+			exit;
 			if (copy($tmpName, $fileName)){
 				
 				return basename($fileName);
