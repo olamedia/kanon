@@ -1,4 +1,5 @@
 <?php
+require_once dirname(__FILE__).'/fileInput.php';
 class imageFileInput extends fileInput{
 	protected $_filesPrefix = 'l_';
 	public function checkIsImage(){
