@@ -75,7 +75,7 @@ abstract class control{
 		if ($item = $this->getItem()){
 			if ($pk = $item->getPrimaryKey()){
 				if (count($pk) == 1){
-					return reset($pk); 
+					return $item->{reset($pk)}; 
 				}
 			}
 		}
