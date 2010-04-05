@@ -231,6 +231,9 @@ abstract class controlSet{
 		foreach ($this->_classesMap as $controlName => $class){
 			if (is_subclass_of($class, 'controlSet')){
 				$controlSet = $this->getControl($controlName);
+				if (isset($_COOKIE['debug'])){
+					echo ' process '.$controlName.' ';
+				}
 				$controlSet->process();
 				if ($controlSet->isUpdated()){
 					//?
@@ -285,7 +288,7 @@ abstract class controlSet{
 				if (is_subclass_of($control, 'controlSet')){
 					$h .= '<tr><td style="padding-left: '.($level*50).'px"><h3>';
 					$h .= ''.$control->getLegend().'';
-					$h .= '</h3></td><td></tr>';//<table width="100%">'; 
+					$h .= '</h3></td><td></tr>';//<table width="100%">';
 					$h .= $control->getTableRowsHtml($key, $level + 1);
 					//$h .= '</table></td></tr>';
 				}else{
