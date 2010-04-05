@@ -272,7 +272,13 @@ abstract class controlSet{
 		if ($keys = $this->getPostKeys()){
 			if (is_array($keys) && count($keys)){
 				foreach ($keys as $key){
+					if (isset($_COOKIE['debug'])){
+						echo ' process '.$controlName.' '.$key.' ';
+					}
 					if (is_object($this->_itemTemplate)){
+						if (isset($_COOKIE['debug'])){
+							echo ' process '.$controlName.' itemreset ';
+						}
 						$this->resetControls();
 						$this->setItem($this->getItemTemplate());
 					}
