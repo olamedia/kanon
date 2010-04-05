@@ -52,7 +52,7 @@ class imageFileInput extends fileInput{
 		$h = '';
 		if ($property = $this->getProperty()){
 			if ($property->getValue() != ''){
-				$h = $property->getValue();
+				//$h = $property->getValue();
 				$h .= $property->html(100);
 			}
 		}
