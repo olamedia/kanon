@@ -248,6 +248,11 @@ abstract class controlSet{
 	}
 	public function checkTest(){
 		if (isset($_COOKIE['debug'])){
+			if (is_object($this->getControl('branch')->getControl('phone'))){
+				if (!is_object($this->getControl('branch')->getControl('phone')->getItem())){
+					throw new Exception("item template for ".get_class($this->getControl('branch')->getControl('phone'))." not defined ");
+				}
+			}
 			if (is_object($this->getControl('phone'))){
 				if (!is_object($this->getControl('phone')->getItem())){
 					throw new Exception("item template for ".get_class($this->getControl('phone'))." not defined ");
