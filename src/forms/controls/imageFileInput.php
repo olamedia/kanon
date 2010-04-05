@@ -48,4 +48,12 @@ class imageFileInput extends fileInput{
 		//var_dump($file);
 		//exit;
 	}
+	public function html(){
+		if ($property = $this->getProperty()){
+			if ($property->getValue() !== ''){
+				echo $property->html(100);
+			}
+		}
+		parent::html();
+	}
 }
