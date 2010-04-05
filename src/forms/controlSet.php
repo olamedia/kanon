@@ -281,6 +281,10 @@ abstract class controlSet{
 						}
 						$this->resetControls();
 						$this->setItem($this->getItemTemplate());
+					}else{
+						var_dump($this->_item);
+						var_dump($this->_itemTemplate);
+						throw new Exception("item template for ".$controlName." not defined ");
 					}
 					$this->checkPost($key);
 				}
