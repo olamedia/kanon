@@ -38,7 +38,9 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 		);
 	}
 	public function execute(){
-		//echo $this->getSql();
+		if (isset($_COOKIE['debug'])){
+			echo $this->getSql();
+		}
 		if ($this->_result === null){
 			if ($this->_result = $this->getStorage()->query($this->getSql())){
 				return true;
