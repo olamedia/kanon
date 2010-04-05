@@ -71,7 +71,7 @@ abstract class controlSet{
 	/**
 	 * @return AControl
 	 */
-	public function getControl($controlName){
+	public function &getControl($controlName){
 		if (!isset($this->_controls[$controlName])){
 			if (!isset($this->_classesMap[$controlName])){
 				return null;
