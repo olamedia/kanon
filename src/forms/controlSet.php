@@ -246,13 +246,29 @@ abstract class controlSet{
 			}
 		}
 	}
+	public function checkTest(){
+		if (isset($_COOKIE['debug'])){
+			if (is_object($this->getControl('phone'))){
+				if (!is_object($this->getControl('phone')->getItem())){
+					throw new Exception("item template for ".get_class($this->getControl('phone'))." not defined ");
+				}
+			}
+		}
+	}
 	public function checkPost($key = null){
+		$this->checkTest();
 		$this->fillFromPost($key);
+		$this->checkTest();
 		if ($this->isValidValues()){
+			$this->checkTest();
 			$this->beforeSave();
+			$this->checkTest();
 			if ($this->save()){
+				$this->checkTest();
 				$this->afterSave();
+				$this->checkTest();
 				$this->setItemUpdated(true);
+				$this->checkTest();
 			}
 		}
 	}
