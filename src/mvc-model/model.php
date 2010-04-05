@@ -7,7 +7,7 @@ require_once dirname(__FILE__).'/properties/creationTimestampProperty.php';
 require_once dirname(__FILE__).'/properties/modificationTimestampProperty.php';
 require_once dirname(__FILE__).'/modelIterator.php';
 class model implements ArrayAccess, IteratorAggregate{
-	protected $_properties = array(); // array of modelProperty
+	protected $_properties = array(); // propertyName => modelProperty
 	protected $_classes = array(); // propertyName => className
 	protected $_fields = array(); // propertyName => fieldName
 	protected $_primaryKey = array(); // propertyNames
@@ -87,9 +87,9 @@ class model implements ArrayAccess, IteratorAggregate{
 		foreach ($this->_classes as $propertyName => $class){
 			$property = $this->_getProperty($propertyName);
 			if ($showInternal){
-				$a[$name] = $property->getInternalValue();
+				$a[$propertyName] = $property->getInternalValue();
 			}else{
-				$a[$name] = $property->getValue();
+				$a[$propertyName] = $property->getValue();
 			}
 		}
 		return $a;
@@ -98,7 +98,7 @@ class model implements ArrayAccess, IteratorAggregate{
 		foreach ($options as $k => $v) $this->_options[$k] = $v;
 		return $this;
 	}
-	protected function _getProperty($name){
+	protected function &_getProperty($name){
 		if (!isset($this->_properties[$name])){
 			$class = 'stringProperty';
 			if (isset($this->_classes[$name])){
