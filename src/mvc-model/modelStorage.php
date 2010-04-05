@@ -154,6 +154,9 @@ class modelStorage{
 			$model->makeValuesInitial();
 			// Update AutoIncrement property
 			$autoIncrement = $model->getAutoIncrement();
+			if (isset($_COOKIE['debug'])){
+				echo ' ai='.$autoIncrement.' ';
+			}
 			if ($autoIncrement !== null){
 				$property = $model->{$autoIncrement};
 				if ($value = $this->lastInsertId()){
@@ -332,7 +335,7 @@ class modelStorage{
 		$extension = reset(explode(":", $dsn));
 		/*if (extension_loaded('pdo')){
 			$extension = 'pdo';
-		}*/
+			}*/
 		$driverName = $extension.'Driver';
 		if (!extension_loaded($extension)){
 			$driverName = 'pdoDriver';
