@@ -16,34 +16,14 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 			if ($sa instanceof modelAggregation){
 				$models[] = $a[$sa->getAs()];
 			}else{
-				//reset($this->_selected);
-				//$sa = current($this->_selected);
 				list($table, $fields) = $sa;
 				if (!($modelClass = $table->getModelClass())){
 					$modelClass = 'model';
 				}
 				$model = new $modelClass();
 				foreach ($fields as $field){
-					//$k_fn = $field->getUniqueId();
 					$model[$field->getName()]->setInitialValue($a[$field->getUniqueId()]);
 				}
-				/*
-				$tid = $table->getUniqueId();
-				foreach ($a as $k => $v){
-					if (($p = strpos($k, "__")) !== FALSE){
-						$k_tid = substr($k, 0, $p);
-						$k_fn = substr($k,$p+2);
-						if ($tid == $k_tid){
-							if (!is_object($model[$k_fn]) && is_object($model)){
-								// throw new Exception("Property \"".htmlspecialchars($k_fn)."\" not exists in class \"".get_class($model).'"');
-							}else{
-								$model[$k_fn]->setInitialValue($v);
-							}
-						}
-					}else{
-						// aggregate?
-					}
-				}*/
 				$models[] = $model;
 			}
 		}
@@ -113,5 +93,7 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 			}
 		}
 	}
-
+	/*public function __destruct(){
+		unset($this->_result);
+	}*/
 }
