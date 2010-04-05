@@ -37,7 +37,8 @@ class fileInput extends control{
 		}
 		$fileName = false;
 		if (!is_file($tmpName)) return false;
-		var_dump($this->_options);
+		//var_dump($this->_options);
+		//var_dump($this->getControlSet()->getOptions());
 		echo kanon::getBasePath().' ';
 		echo $this->_getPath().' ';
 		$path = realpath(kanon::getBasePath().'/'.$this->_getPath());
@@ -50,8 +51,8 @@ class fileInput extends control{
 			$fileName = $this->_tempnam($path, $this->_filesPrefix, $ext);
 		}
 		if ($fileName){
-			echo $fileName;
-			exit;
+			//echo $fileName;
+			//exit;
 			if (copy($tmpName, $fileName)){
 				
 				return basename($fileName);

@@ -214,6 +214,9 @@ abstract class control{
 	public function getIdHtml(){
 		return $this->getId()?' id="'.$this->getId().'"':'';
 	}
+	public function getOptions(){
+		return $this->_options;
+	}
 	public function getRowHtml($level){
 		return '<tr><td valign="top" class="label" style="padding-left: '.($level*50).'px">'.($this->getId()?'<label class="'.$this->getLabelCssClass().'" for="'.$this->getId().'">':'').
 		((strlen($this->getTitle()) || $this->isRequired())?
