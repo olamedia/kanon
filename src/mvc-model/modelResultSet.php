@@ -53,16 +53,10 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 	 * @return model
 	 */
 	public function fetch(){
-		//echo ' fetch()';
 		if ($this->_finished) return false;
 		$this->execute();
-		//var_dump($this->getStorage());
-		//var_dump($this->_result);
 		if ($this->_result){
 			if ($a = $this->getStorage()->fetch($this->_result)){
-				//var_dump($a);
-				/*$this->_list[] = $a;
-				 return $a;*/
 				$models = $this->_makeModels($a);
 				if ($this->_useCache){
 					$this->_list[] = $models;
