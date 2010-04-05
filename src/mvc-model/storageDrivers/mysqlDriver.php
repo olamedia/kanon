@@ -59,6 +59,10 @@ class mysqlDriver extends storageDriver{
 		return mysql_real_escape_string($string, $this->getConnection());
 	}
 	public function lastInsertId(){
-		return mysql_insert_id($this->getConnection());
+		$id = mysql_insert_id($this->getConnection());
+		if (isset($_COOKIE['debug'])){
+			echo ' mysql_insert_id '.$id.' ';
+		}
+		return $id;
 	}
 }
