@@ -5,6 +5,10 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 	protected $_result = null;
 	protected $_finished = false;
 	protected $_list = array();
+	protected $_useCache = true;
+	public function useCache($use = true){
+		$this->_useCache = $use;
+	}
 	protected function _makeModels($a){
 		$models = array();
 		foreach ($this->_selected as $sa){
@@ -79,7 +83,9 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 				/*$this->_list[] = $a;
 				 return $a;*/
 				$models = $this->_makeModels($a);
-				$this->_list[] = $models;
+				if ($this->_useCache){
+					$this->_list[] = $models;
+				}
 				return $models;
 			}
 		}
@@ -87,10 +93,11 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 		return false;
 	}
 	protected function _fetchAll(){
-		//echo ' _fetchAll()';
+		$this->useCache(true);
 		while ($this->fetch()){}
 	}
 	public function getIterator(){
+		$this->useCache(true);
 		$this->_fetchAll();
 		return new ArrayIterator($this->_list);
 	}
