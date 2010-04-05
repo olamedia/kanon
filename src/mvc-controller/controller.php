@@ -67,7 +67,7 @@ class controller extends controllerPrototype{
 		return $this->getRegistry()->breadcrumb->toArray();
 	}
 	public function viewBreadcrumb(){
-		echo implode(" → ", $this->getBreadcrumb());
+		echo '<div class="app_breadcrumb">'.implode(" → ", $this->getBreadcrumb()).'</div>';
 	}
 	public function getUser(){
 		return isset($_SESSION['site_user'])?$_SESSION['site_user']:null;
