@@ -16,6 +16,11 @@ class model implements ArrayAccess, IteratorAggregate{
 	protected $_options = array(); // propertyName => options
 	//protected $_storage = null;
 	//protected $_storageClass = 'modelStorage';
+	public function __construct(){
+		foreach ($this->_classes as $propertyName => $class){
+			$this->_getProperty($propertyName);
+		}
+	}
 	public function isValid(){
 		foreach ($this as $property){
 			if (!$property->isValid()) return false;
