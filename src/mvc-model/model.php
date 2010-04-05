@@ -63,7 +63,7 @@ class model implements ArrayAccess, IteratorAggregate{
 	}
 	public function getIterator(){
 		foreach ($this->_classes as $propertyName => $class){
-			$this->_getProperty($proeprtyName);
+			$this->_getProperty($propertyName);
 		}
 		return new ArrayIterator($this->_properties);//, $this->_classes
 	}
