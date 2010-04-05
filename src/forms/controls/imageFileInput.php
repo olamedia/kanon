@@ -46,6 +46,6 @@ class imageFileInput extends fileInput{
 			}
 		}
 		//var_dump($file);
-		//exit;
+		exit;
 	}
 }
