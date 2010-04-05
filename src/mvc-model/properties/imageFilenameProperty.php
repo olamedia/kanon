@@ -25,11 +25,11 @@ class imageFilenameProperty extends stringProperty{
 		return kanon::getBaseUri().'/'.$this->_options['url'];
 	}
 	public function source(){
-		return $this->_uri.'/'.$this->getValue();
+		return $this->getUri().'/'.$this->getValue();
 	}
 	public function tm($size, $method = 'fit'){
-		$path = $this->_path;
-		if (!is_file($this->_path.$this->getValue())){
+		$path = $this->getPath();
+		if (!is_file($this->getPath().$this->getValue())){
 			return false;
 		}
 		$tm = 'tmm'.$size.'x'.$size.'_'.$this->getValue();//$img->tm($this->getValue(), $size, $method);
@@ -40,7 +40,7 @@ class imageFilenameProperty extends stringProperty{
 		}else{
 			//return false;
 		}
-		return $this->_uri.'.thumb/'.$tm;
+		return $this->getUri().'.thumb/'.$tm;
 	}
 	public function html($size = 100, $method="fit"){
 		return '<img src="'.$this->tm($size, $method).'"'.($this->_tmHeight?' height="'.$this->_tmHeight.'"':'').($this->_tmWidth?' width="'.$this->_tmWidth.'"':'').' />';
@@ -50,7 +50,7 @@ class imageFilenameProperty extends stringProperty{
 		return '<img src="/css/images/1x1.gif" original="'.$this->tm($size, $method).'"'.($this->_tmHeight?' height="'.$this->_tmHeight.'"':'').($this->_tmWidth?' width="'.$this->_tmWidth.'"':'').' class="preloader" />';
 	}
 	public function htmlSourceLazyLoad(){
-		$info = getimagesize($this->_path.$this->getValue());
+		$info = getimagesize($this->getPath().$this->getValue());
 		$w = $info[0];
 		$h = $info[1];
 		return '<img src="/css/images/1x1.gif" original="'.$this->source().'"'.($h?' height="'.$h.'"':'').($w?' width="'.$w.'"':'').' class="preloader" />';
