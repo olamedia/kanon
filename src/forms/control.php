@@ -73,7 +73,11 @@ abstract class control{
 	}
 	public function getItemPrimaryKey(){
 		if ($item = $this->getItem()){
-			return $item->getPrimaryKey();
+			if ($pk = $item->getPrimaryKey()){
+				if (count($pk) == 1){
+					return reset($pk); 
+				}
+			}
 		}
 		return false;
 	}
