@@ -189,12 +189,15 @@ abstract class controlSet{
 		}
 	}
 	public function isValidValues(){
+		return $this->isValid();
+	}
+	public function isValid(){
 		foreach ($this->_classesMap as $controlName => $class){
 			if (is_subclass_of($class, 'controlSet')){
 				// skip
 			}else{
 				if (!isset($this->_hiddenControls[$controlName])){
-					if (!$this->getControl($controlName)->isValidValue()) {
+					if (!$this->getControl($controlName)->isValid()) {
 						return false;
 					}
 				}

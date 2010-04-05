@@ -132,6 +132,15 @@ abstract class control{
 	}
 	// init
 	public function isValidValue(){
+		return $this->isValid();
+	}
+	public function isValid(){
+		if (is_object($this->_property)){
+			if (!$this->_property->isValid()){
+				$this->error('Не заполнено поле "'.$this->getTitle().'"');
+				return false;
+			}
+		}
 		if ($this->_required && ($this->getValue() == '')){
 			$this->error('Не заполнено поле "'.$this->getTitle().'"');
 			return false;

@@ -136,6 +136,12 @@ class modelProperty{
 	public function isValidValue($toSave = false){
 		return true;
 	}
+	public function isValid(){
+		return true;
+	}
+	public function isEmpty(){
+		return ($this->_value === null);
+	}
 	public function preSave(){
 		if (!$this->isValidValue()){
 			$this->setValue(null);
