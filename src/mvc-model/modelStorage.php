@@ -325,7 +325,8 @@ class modelStorage{
 				}
 			}
 		}
-		echo 'Connecting via FALSE<br />';
+		var_dump($keys[$sourceClass]);
+		throw new Exception('Connecting via FALSE');
 		return false;
 	}
 	/**
