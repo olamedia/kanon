@@ -37,6 +37,8 @@ class fileInput extends control{
 		}
 		$fileName = false;
 		if (!is_file($tmpName)) return false;
+		echo kanon::getBasePath().' ';
+		echo $this->_getPath().' ';
 		$path = realpath(kanon::getBasePath().'/'.$this->_getPath());
 		if ($pk = $this->getItemPrimaryKey()){
 			$fileName = $path.'/'.$this->_filesPrefix.$pk.$ext;
