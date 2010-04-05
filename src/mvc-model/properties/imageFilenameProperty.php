@@ -22,6 +22,7 @@ class imageFilenameProperty extends stringProperty{
 		if ($this->_uri !== null){
 			return $this->_uri;
 		}
+		return $this->_options['url'];
 		return kanon::getBaseUri().'/'.$this->_options['url'];
 	}
 	public function source(){
