@@ -50,7 +50,8 @@ class imageFileInput extends fileInput{
 	}
 	public function html(){
 		if ($property = $this->getProperty()){
-			if ($property->getValue() !== ''){
+			if ($property->getValue() != ''){
+				echo $property->getValue();
 				echo $property->html(100);
 			}
 		}
