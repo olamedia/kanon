@@ -119,14 +119,14 @@ abstract class controlSet{
 		return $this->_controls[$controlName];
 	}
 	public function resetControls(){
-		$items = array();
+		/*$items = array();
 		foreach ($this->_classesMap as $controlName => $class){
 			$items[$controlName] = $this->getControl($controlName)->getItem();
 		}
 		$this->_controls = array();
 		foreach ($this->_classesMap as $controlName => $class){
 			$this->getControl($controlName)->setItem($items[$controlName]); // controlSet->getControl()->setItem
-		}
+		}*/
 	}
 	public function save(){
 		if ($this->getItem() !== null){
