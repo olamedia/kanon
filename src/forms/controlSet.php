@@ -273,18 +273,18 @@ abstract class controlSet{
 			if (is_array($keys) && count($keys)){
 				foreach ($keys as $key){
 					if (isset($_COOKIE['debug'])){
-						echo ' process '.$controlName.' '.$key.' ';
+						echo ' process '.$key.' ';
 					}
 					if (is_object($this->_itemTemplate)){
 						if (isset($_COOKIE['debug'])){
-							echo ' process '.$controlName.' itemreset ';
+							echo ' process itemreset ';
 						}
 						$this->resetControls();
 						$this->setItem($this->getItemTemplate());
 					}else{
 						var_dump($this->_item);
 						var_dump($this->_itemTemplate);
-						throw new Exception("item template for ".$controlName." not defined ");
+						throw new Exception("item template for ".get_class($this)." not defined ");
 					}
 					$this->checkPost($key);
 				}
