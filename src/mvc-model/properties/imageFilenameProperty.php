@@ -1,7 +1,7 @@
 <?php
 class imageFilenameProperty extends stringProperty{
-	protected $_path = 'undefined';
-	protected $_uri = '';
+	protected $_path = null;
+	protected $_uri = null;
 	protected $_tmWidth = 0;
 	protected $_tmHeight = 0;
 	public function setPath($path){
@@ -9,14 +9,20 @@ class imageFilenameProperty extends stringProperty{
 		return $this;
 	}
 	public function getPath(){
-		return $this->_path;
+		if ($this->_path !== null){
+			return $this->_path;
+		}
+		return kanon::getBasePath().'/'.$this->_options['path'];
 	}
 	public function setUri($uri){
 		$this->_uri = $uri;
 		return $this;
 	}
 	public function getUri(){
-		return $this->_uri;
+		if ($this->_uri !== null){
+			return $this->_uri;
+		}
+		return kanon::getBaseUri().'/'.$this->_options['url'];
 	}
 	public function source(){
 		return $this->_uri.'/'.$this->getValue();
