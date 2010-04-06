@@ -288,6 +288,7 @@ class modelStorage{
 		return $collection->getModelClass();
 	}
 	public static function getIndirectTablesJoins($sourceTable, $targetTable, $joinType, $joinOn = ''){
+		$this->_registerForeignKeys(); 
 		$keys = &storageRegistry::getInstance()->foreignKeys;
 		$sourceClass = self::getTableModel($sourceTable);
 		$targetClass = self::getTableModel($targetTable);
