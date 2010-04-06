@@ -47,7 +47,11 @@ class mysqlDriver extends storageDriver{
 		if (isset($_COOKIE['debug'])){
 			echo $sql."<br />";
 		}
-		return mysql_query($sql, $this->getConnection());
+		$result = mysql_query($sql, $this->getConnection());
+		if (!$result){
+			throw new Exception(mysql_error());
+		}
+		return $result;
 	}
 	public function fetch($resultSet){
 		return mysql_fetch_assoc($resultSet);
