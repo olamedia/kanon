@@ -335,5 +335,8 @@ class modelQueryBuilder{
 		.$this->getLimitSql();
 		return $sql;
 	}
+	public function __toString(){
+		return $this->getSql();
+	}
 
 }
