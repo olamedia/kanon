@@ -307,6 +307,7 @@ class modelQueryBuilder{
 		}
 	}
 	public function getSql(){
+		$this->getStorage()->registerForeignKeys();
 		$this->applyFilters();
 		$sql = "SELECT ".$this->getWhatSql()
 		.$this->getFromSql()
@@ -321,6 +322,7 @@ class modelQueryBuilder{
 		return $sql;
 	}
 	public function getCountSql(){
+		$this->getStorage()->registerForeignKeys();
 		$this->applyFilters();
 		$sql = "SELECT COUNT(*)"
 		.$this->getFromSql()
