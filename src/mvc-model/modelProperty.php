@@ -17,12 +17,12 @@ class modelProperty{
 	 * @var IPropertyControl
 	 */
 	protected $_control = null;
-	public function __destruct(){
+	/*public function __destruct(){
 		unset($this->_model);
 		unset($this->_value);
 		unset($this->_initialValue);
 		unset($this->_options);
-	}
+	}*/
 	/*protected function _clone(&$var){
 		$var = is_object($var)?clone $var:$var;
 	}
