@@ -21,13 +21,14 @@ class model implements ArrayAccess, IteratorAggregate{
 			$this->_getProperty($propertyName);
 		}
 	}
-	/*public function __destruct(){
+	public function destroy(){
 		foreach ($this->_properties as $property){
-			$property->__destruct();
+			$property->destroy();
 		}
 		unset($this->_properties);
 		unset($this->_options);
-	}*/
+		unset($this);
+	}
 	public function isValid(){
 		foreach ($this as $property){
 			if (!$property->isValid()) return false;
