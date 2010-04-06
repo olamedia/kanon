@@ -121,7 +121,7 @@ class modelCollection implements ArrayAccess{
 		}
 		return $this->_helper;
 	}
-	public static function getInstance($modelName){
+	public static function &getInstance($modelName){
 		if (!isset(self::$_instances[$modelName])){
 			self::$_instances[$modelName] = new self($modelName);
 		}

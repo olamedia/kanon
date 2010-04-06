@@ -67,7 +67,7 @@ class model implements ArrayAccess, IteratorAggregate{
 		return array('_properties');//'_classesMap', '_fieldsMap', '_primaryKey', '_autoIncrement',
 	}
 	public function __wakeup(){}
-	public static function getCollection(){
+	public static function &getCollection(){
 		if (!function_exists('get_called_class')){
 			require_once dirname(__FILE__).'/../common/compat/get_called_class.php';
 			// PHP 5 >= 5.2.4
