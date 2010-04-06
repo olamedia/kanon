@@ -17,6 +17,7 @@ abstract class storageDriver{
 		}
 		return $this->_uniqueId;
 	}
+	abstract public function free($result);
 	abstract public function execute($sql);
 	abstract public function query($sql);
 	abstract public function lastInsertId();

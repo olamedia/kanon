@@ -4,6 +4,9 @@ class mysqlDriver extends storageDriver{
 	public function quoteFieldName($fieldName){
 		return '`'.$fieldName.'`';
 	}
+	public function free($result){
+		mysql_free_result($result);
+	}
 	protected function _makeConnection(){
 		if ($host = $this->get('host')){
 			if (!$port = $this->get('port')){

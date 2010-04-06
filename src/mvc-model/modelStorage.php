@@ -140,6 +140,9 @@ class modelStorage{
 		}
 		return $result;
 	}
+	public function free($result){
+		$this->_storageDriver->free($result);
+	}
 	/**
 	 *
 	 * @param model $model

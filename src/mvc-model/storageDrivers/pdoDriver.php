@@ -4,6 +4,9 @@ class pdoDriver extends storageDriver{
 	protected function _makeConnection(){
 		$this->_connection = new PDO($this->get('dsn'), $this->get('username'), $this->get('password'));
 	}
+	public function free($result){
+		unset($result);
+	}
 	/**
 	 * Execute an SQL statement and return the number of affected rows
 	 * @param string $sql

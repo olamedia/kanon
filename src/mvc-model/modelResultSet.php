@@ -71,6 +71,7 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 			}
 		}
 		$this->_finished = true;
+		$this->getStorage()->free($this->_result);
 		return false;
 	}
 	protected function _fetchAll(){
