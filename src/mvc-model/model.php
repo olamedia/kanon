@@ -167,7 +167,7 @@ class model implements ArrayAccess, IteratorAggregate{
 	/**
 	 * @return modelStorage
 	 */
-	public function getStorage(){
+	public function &getStorage(){
 		$storageId = storageRegistry::getInstance()->modelSettings[get_class($this)]['storage'];
 		$storage = storageRegistry::getInstance()->storages[$storageId];
 		return $storage;
