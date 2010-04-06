@@ -37,7 +37,7 @@ class modelQueryBuilder{
 	/**
 	 * @return modelQueryBuilder
 	 */
-	public function select(){
+	public function &select(){
 		$args = func_get_args();
 		if (!count($args)) return $this;
 		foreach ($args as $arg){
@@ -306,7 +306,7 @@ class modelQueryBuilder{
 			}
 		}
 	}
-	public function getSql(){
+	public function &getSql(){
 		$this->getStorage()->registerForeignKeys();
 		$this->applyFilters();
 		$sql = "SELECT ".$this->getWhatSql()
@@ -321,7 +321,7 @@ class modelQueryBuilder{
 		//echo '<b>'.$sql.'</b><br />';
 		return $sql;
 	}
-	public function getCountSql(){
+	public function &getCountSql(){
 		$this->getStorage()->registerForeignKeys();
 		$this->applyFilters();
 		$sql = "SELECT COUNT(*)"
