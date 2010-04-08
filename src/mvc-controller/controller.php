@@ -81,6 +81,15 @@ class controller extends controllerPrototype{
 	public function css($cssString){
 		$this->getRegistry()->plainCss[] = $cssString;
 	}
+	public function getCss(){
+		$h = '';
+		if (count($this->getRegistry()->plainCss)){
+			$h .= '<style type="text/css">';
+			$h .= $this->getRegistry()->plainCss;
+			$h .= '</style>';
+		}
+		return $h;
+	}
 	public function js($jsString, $scriptSlot = 'default'){
 		$this->getRegistry()->plainJs[$scriptSlot] .= $jsString;
 	}
@@ -96,11 +105,7 @@ class controller extends controllerPrototype{
 				$h .= '<link rel="stylesheet" type="text/css" href="'.$url.'" />';
 			}
 		}
-		if (count($this->getRegistry()->plainCss)){
-			$h .= '<style type="text/css">';
-			$h .= $this->getRegistry()->plainCss;
-			$h .= '</style>';
-		}
+		$h .= $this->getCss();
 		if (count($this->getRegistry()->javascriptIncludes)){
 			foreach ($this->getRegistry()->javascriptIncludes as $url){
 				$h .= '<script type="text/javascript" src="'.$url.'"></script>';
