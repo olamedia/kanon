@@ -26,9 +26,10 @@ class model implements ArrayAccess, IteratorAggregate{
 		foreach ($this->_primaryKey as $pk){
 			echo $pk.' ';
 			$key = $this->_getProperty($pk);
+			/** @var modelProperty */
 			$key->setValue(null);
+			$key->setInitialValue(null);
 		}
-		$this->makeValuesInitial();
 	}
 	public function destroy(){
 		foreach ($this->_properties as $property){
