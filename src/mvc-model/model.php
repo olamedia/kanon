@@ -23,9 +23,15 @@ class model implements ArrayAccess, IteratorAggregate{
 	}
 	public function __clone(){
 		//echo 'Clone ';
-		foreach ($this->_primaryKey as $pk){
+		foreach ($this->_classes as $propertyName => $class){
+			$property = $this->_getProperty($propertyName);
+			/** @var modelProperty $property */
+			$property->setValue($property->getInitialValue());
+			$property->setInitialValue(null);
+		}
+		foreach ($this->_primaryKey as $propertyName){
 			//echo $pk.' ';
-			$key = $this->_getProperty($pk);
+			$key = $this->_getProperty($propertyName);
 			/** @var modelProperty */
 			$key->setValue(null);
 			$key->setInitialValue(null);
