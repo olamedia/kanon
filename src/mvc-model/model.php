@@ -14,27 +14,45 @@ class model implements ArrayAccess, IteratorAggregate{
 	protected $_autoIncrement = null; // propertyName
 	protected $_foreignKeys = array(); // property => array(foreignClass, foreignProperty)
 	protected $_options = array(); // propertyName => options
+	protected $_templateMode = false;
 	//protected $_storage = null;
 	//protected $_storageClass = 'modelStorage';
+	/**
+	 * don't change properties on clone (for forms)
+	 * @return model
+	 */
+	public function enableTemplateMode(){
+		$this->_templateMode = true;
+		return $this;
+	}
+	/**
+	 * allow change properties on clone (for forms)
+	 * @return model
+	 */
+	public function disableTemplateMode(){
+		$this->_templateMode = false;
+		return $this;
+	}
 	public function __construct(){
 		foreach ($this->_classes as $propertyName => $class){
 			$this->_getProperty($propertyName);
 		}
 	}
 	public function __clone(){
-		//echo 'Clone ';
-		foreach ($this->_classes as $propertyName => $class){
-			$property = $this->_getProperty($propertyName);
-			/** @var modelProperty $property */
-			$property->setValue($property->getInitialValue());
-			$property->setInitialValue(null);
-		}
-		foreach ($this->_primaryKey as $propertyName){
-			//echo $pk.' ';
-			$key = $this->_getProperty($propertyName);
-			/** @var modelProperty */
-			$key->setValue(null);
-			$key->setInitialValue(null);
+		if (!$this->_templateMode){
+			foreach ($this->_classes as $propertyName => $class){
+				$property = $this->_getProperty($propertyName);
+				/** @var modelProperty $property */
+				$property->setValue($property->getInitialValue());
+				$property->setInitialValue(null);
+			}
+			foreach ($this->_primaryKey as $propertyName){
+				//echo $pk.' ';
+				$key = $this->_getProperty($propertyName);
+				/** @var modelProperty */
+				$key->setValue(null);
+				$key->setInitialValue(null);
+			}
 		}
 	}
 	public function destroy(){
@@ -60,7 +78,7 @@ class model implements ArrayAccess, IteratorAggregate{
 	/**
 	 * @return model
 	 */
-	
+
 	public function getCreateSql(){
 		$t = $this->getTableName();
 		$sql = "CREATE TABLE IF NOT EXISTS `$t` (\r\n";

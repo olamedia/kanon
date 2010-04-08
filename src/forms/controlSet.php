@@ -281,7 +281,9 @@ abstract class controlSet{
 		$this->_itemTemplate = $itemTemplate;
 	}
 	public function getItemTemplate(){
+		$this->_itemTemplate->enableTemplateMode(); // don't change properties on clone
 		$this->_item = clone $this->_itemTemplate;
+		$this->_itemTemplate->disableTemplateMode(); // allow change properties on clone
 		return $this->_item;
 	}
 	public function process(){
