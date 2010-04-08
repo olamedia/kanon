@@ -6,5 +6,5 @@ class controllerTest extends PHPUnit_Framework_TestCase{
 		$c = new controller();
 		$this->assertEquals('', $c->getCss());
 		$c->css('.class{text-align: center;}');
-	}
+	} 
 }
