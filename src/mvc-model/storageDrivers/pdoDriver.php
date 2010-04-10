@@ -86,7 +86,8 @@ class pdoDriver extends storageDriver{
 	 * @param PDOException $errorInfo
 	 */
 	protected function _repairCollection($errorInfo){
-		$errorCode = $errorInfo->getCode();
+		$errorCode = $this->getConnection()->errorCode();
+		$errorInfo = $this->getConnection()->errorInfo();
 		echo '_repairCollection()'."\r\n";
 		//var_dump($errorCode);
 		switch ($errorCode){
