@@ -70,21 +70,21 @@ class pdoDriver extends storageDriver{
 		return $result;
 	}
 	protected function _createCollection(){
-		echo 'Create collection()'."\r\n";
+		//echo 'Create collection()'."\r\n";
 		$models = $this->getStorage()->getModels();
 		foreach ($models as $model){
 			$collection = $model::getCollection();
 			/** @var modelCollection $collection */
 			if (!$collection->exists()){
-				echo $model.' collection  not exists'."\r\n";
+				//echo $model.' collection  not exists'."\r\n";
 				$this->disableAutoRepair();
 				$this->disableServiceMode();
-				echo $collection->getCreateSql();
+				//echo $collection->getCreateSql();
 				$collection->q($collection->getCreateSql());
 				$this->enableServiceMode();
 				$this->enableAutoRepair();
 			}else{
-				echo $model.' collection  exists'."\r\n";
+				//echo $model.' collection  exists'."\r\n";
 			}
 		}
 	}
