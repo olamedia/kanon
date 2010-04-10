@@ -2,11 +2,21 @@
 //  implements IControllableProperty
 require_once dirname(__FILE__).'/modelExpression.php';
 class modelProperty{
+	const TYPE_INTEGER = 'INTEGER';
+	const TYPE_FLOAT = 'FLOAT';
+	const TYPE_DOUBLE = 'DOUBLE';
+	const TYPE_VARCHAR = 'VARCHAR';
+	const TYPE_TEXT = 'TEXT';
+	const TYPE_BOOLEAN = 'BOOLEAN';
 	protected $_name = null;
-	
 	protected $_fieldName = null;
-	protected $_size = 255;
-	protected $_notNull = true;
+	/*
+	 * VARCHAR(255) NOT NULL
+	 */
+	protected $_dataType = modelProperty::TYPE_VARCHAR;
+	protected $_dataSize = 255;
+	protected $_dataUnsigned = false;
+	protected $_dataNotNull = true;
 	
 	protected $_defaultValue = null;
 	protected $_initialValue = null;

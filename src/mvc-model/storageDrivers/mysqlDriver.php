@@ -1,6 +1,33 @@
 <?php
 require_once dirname(__FILE__).'/../storageDriver.php';
 class mysqlDriver extends storageDriver{
+	public function getDataTypeSql($type, $size, $unsigned, $notNull){
+		$nn = $notNull?' NOT NULL':'';
+		$u = $unsigned?' UNSIGNED':'';
+		switch ($type){
+			case modelProperty::TYPE_VARCHAR:
+				return 'VARCHAR('.$size.')'.$nn;
+				break;
+			case modelProperty::TYPE_INTEGER:
+				if ($size>10){
+					return 'BIGINT('.$size.')'.$u.$nn; // BIGINT is an extension to the SQL
+				}elseif($size<=3){
+					return 'TINYINT('.$size.')'.$u.$nn; // TINYINT is an extension to the SQL
+				}else{
+					return 'INT('.$size.')'.$u.$nn;
+				}
+				break;
+			case modelProperty::TYPE_FLOAT:
+				return 'FLOAT'.$u.$nn;
+				break;
+			case modelProperty::TYPE_DOUBLE:
+				return 'DOUBLE'.$u.$nn;
+				break;
+			case modelProperty::TYPE_BOOLEAN:
+				return 'TINYINT(1)'.$u.$nn;
+				break;
+		}
+	}
 	public function quoteFieldName($fieldName){
 		return '`'.$fieldName.'`';
 	}

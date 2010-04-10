@@ -3,7 +3,12 @@ require_once dirname(__FILE__).'/../common/kanon.php';
 require_once dirname(__FILE__).'/storageRegistry.php';
 abstract class storageDriver{
 	protected $_uniqueId = null;
+	protected $_databaseType = '';
 	protected $_connection = null;
+	public function setDatabaseType($type){
+		$this->_databaseType = $type;
+		return $this;
+	}
 	public function getConnection(){
 		if ($this->_connection === null){
 			$this->_makeConnection();
@@ -17,6 +22,7 @@ abstract class storageDriver{
 		}
 		return $this->_uniqueId;
 	}
+	abstract public function getDataTypeSql($type, $size, $unsigned, $notNull);
 	abstract public function free($result);
 	abstract public function execute($sql);
 	abstract public function query($sql);

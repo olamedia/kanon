@@ -1,6 +1,54 @@
 <?php
 require_once dirname(__FILE__).'/../storageDriver.php';
 class pdoDriver extends storageDriver{
+	public function getDataTypeSql($type, $size, $unsigned, $notNull){
+		$nn = $notNull?' NOT NULL':'';
+		$u = $unsigned?' UNSIGNED':'';
+		switch ($type){
+			case modelProperty::TYPE_VARCHAR:
+				switch ($this->_databaseType){
+					case 'sqlite':
+						return 'VARCHAR';
+					default:
+						return 'VARCHAR('.$size.')';
+				}
+			case modelProperty::TYPE_INTEGER:
+				// $size - display width of integer
+				switch ($this->_databaseType){
+					case 'sqlite':
+						return 'INTEGER'.$nn;
+					default:
+						if ($size>10){
+							return 'BIGINT('.$size.')'.$u.$nn; // BIGINT is an extension to the SQL
+						}elseif($size<=3){
+							return 'TINYINT('.$size.')'.$u.$nn; // TINYINT is an extension to the SQL
+						}else{
+							return 'INT('.$size.')'.$u.$nn;
+						}
+				}
+			case modelProperty::TYPE_FLOAT:
+				switch ($this->_databaseType){
+					case 'sqlite':
+						return 'FLOAT'.$nn;
+					default:
+						return 'FLOAT'.$u.$nn;
+				}
+			case modelProperty::TYPE_DOUBLE:
+				switch ($this->_databaseType){
+					case 'sqlite':
+						return 'DOUBLE'.$nn;
+					default:
+						return 'DOUBLE'.$u.$nn;
+				}
+			case modelProperty::TYPE_BOOLEAN:
+				switch ($this->_databaseType){
+					case 'sqlite':
+						return 'INTEGER'.$nn;
+					default:
+						return 'TINYINT(1)'.$u.$nn;
+				}
+		}
+	}
 	protected function _makeConnection(){
 		$this->_connection = new PDO($this->get('dsn'), $this->get('username'), $this->get('password'));
 	}
