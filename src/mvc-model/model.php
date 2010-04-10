@@ -82,17 +82,17 @@ class model implements ArrayAccess, IteratorAggregate{
 	public function getCreateSql(){
 		$t = $this->getTableName();
 		// IF NOT EXISTS
-		$sql = 'CREATE TABLE "'.$t.'" (\r\n';
+		$sql = 'CREATE TABLE "'.$t.'" ('."\r\n";
 		$set = array();
 		foreach ($this->_fields as $propertyName => $fieldName){
 			$property = $this->_getProperty($propertyName);
-			$set[] = '\t'.$property->getCreateSql().
+			$set[] = "\t".$property->getCreateSql().
 			($property->getName() == $this->_autoIncrement?' AUTO_INCREMENT':'');
 		}
 		if (count($this->_primaryKey)){
 			$a = array();
 			foreach ($this->_primaryKey as $c) $a[] = "`".$c."`";
-			$set[] = '\tPRIMARY KEY ('.implode(',', $a).')'."\r\n";
+			$set[] = "\t".'PRIMARY KEY ('.implode(',', $a).')'."\r\n";
 		}
 		$sql .= implode(",\r\n", $set);
 		$sql .= ")";
