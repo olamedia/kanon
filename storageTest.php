@@ -86,7 +86,10 @@ $storage->registerCollection('helpKeyword', 'help_keyword');
 
 
 $categories = helpCategory::getCollection();
-echo $categories->getCreateSql();
+foreach ($categories->select() as $category){
+	
+}
+//echo $categories->getCreateSql();
 //$topics = helpTopic::getCollection();
 /*$categories = helpRelation::getCollection();*/
 /*$keywords = helpKeyword::getCollection();
