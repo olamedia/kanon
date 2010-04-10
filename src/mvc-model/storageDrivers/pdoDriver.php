@@ -87,6 +87,7 @@ class pdoDriver extends storageDriver{
 	 */
 	protected function _repairCollection($errorInfo){
 		$errorCode = $errorInfo->getCode();
+		echo '_repairCollection()'."\r\n";
 		var_dump($errorCode);
 		switch ($errorCode[0]){
 			case 'HY000': // General error
