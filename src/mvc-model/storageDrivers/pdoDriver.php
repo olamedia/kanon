@@ -70,6 +70,7 @@ class pdoDriver extends storageDriver{
 		return $result;
 	}
 	protected function _createCollection(){
+		echo 'Create collection()'."\r\n";
 		$models = $this->getStorage()->getModels();
 		foreach ($models as $model){
 			$collection = $model::getCollection();
@@ -90,7 +91,7 @@ class pdoDriver extends storageDriver{
 		switch ($errorCode[0]){
 			case 'HY000': // General error
 				switch ($errorCode[1]){
-					case '1': // sqlite: no such table
+					case 1: // sqlite: no such table
 						$this->_createCollection();
 						break;
 				}
