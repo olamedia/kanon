@@ -71,7 +71,8 @@ class groupImage extends model{
 ->connect('mysql:host=localhost;port=3307;dbname=db', 'root', 'password')
 ;*/
 $storage = kanon::getModelStorage()
-->connect('mysql:unix_socket=/usr/KANOJO/mysqld.sock;dbname=mysql', 'root', '')
+//->connect('mysql:unix_socket=/usr/KANOJO/mysqld.sock;dbname=mysql', 'root', '')
+->connect('sqlite:'.dirname(__FILE__).'/test.sqlite', 'root', '')
 ;
 $storage->registerCollection('helpCategory', 'help_category');
 $storage->registerCollection('helpTopic', 'help_topic');

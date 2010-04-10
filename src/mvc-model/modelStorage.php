@@ -350,14 +350,19 @@ class modelStorage{
 	 */
 	public function connect($dsn, $username = 'root', $password = '', $charset = 'UTF8'){
 		$extension = reset(explode(":", $dsn));
-		/*if (extension_loaded('pdo')){
-			$extension = 'pdo';
-			}*/
-		$driverName = $extension.'Driver';
-		if (!extension_loaded($extension)){
-			$driverName = 'pdoDriver';
-			if (!extension_loaded('pdo')){
-				return $this;
+		$driverName = null;
+		if ($extension == 'sqlite'){ // prefer pdo (sqlite2,sqlite3)
+			if (extension_loaded('pdo')){
+				$driverName = 'pdoDriver';
+			}
+		}
+		if ($driverName === null){
+			$driverName = $extension.'Driver';
+			if (!extension_loaded($extension)){ // prefer native, but fallback to pdo
+				$driverName = 'pdoDriver';
+				if (!extension_loaded('pdo')){
+					return $this;
+				}
 			}
 		}
 		$dsne = substr($dsn, strlen($extension)+1);
