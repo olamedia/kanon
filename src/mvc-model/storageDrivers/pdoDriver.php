@@ -90,8 +90,10 @@ class pdoDriver extends storageDriver{
 		var_dump($errorCode);
 		switch ($errorCode[0]){
 			case 'HY000': // General error
+				echo 'General error'."\r\n";
 				switch ($errorCode[1]){
 					case 1: // sqlite: no such table
+						echo 'no such table'."\r\n";
 						$this->_createCollection();
 						break;
 				}
