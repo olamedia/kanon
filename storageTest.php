@@ -88,6 +88,7 @@ $storage->registerCollection('helpKeyword', 'help_keyword');
 $categories = helpCategory::getCollection();
 echo 'start foreach'."\r\n";
 echo $categories->select()->getSql();
+var_dump($categories->getStorage->getConnection()->errorInfo());
 foreach ($categories->select() as $category){
 	
 }
