@@ -114,10 +114,14 @@ class pdoDriver extends storageDriver{
 			$result = false;
 			if ($this->_autoRepair){
 				//$this->disableAutoRepair();
+				$this->enableServiceMode(); // don't throw exceptions
 				$this->_repairCollection($e); // CREATE/ALTER
+				$this->disableServiceMode();
 				//$this->enableAutoRepair();
 			}else{
-				throw $e;
+				if (!$this->_serviceMode){
+					throw $e;
+				}
 			}
 		}
 		return $result;
