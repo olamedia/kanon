@@ -51,7 +51,8 @@ class modelProperty{
 		return $this;
 	}
 	public function getCreateSql(){
-		return '`'.$this->_fieldName.'` varchar('.$this->_size.') CHARACTER SET utf8'.($this->_notNull?' NOT NULL':'');
+		return $this->getStorage()->getDriver()->getDataTypeSql($this->_dataType, $this->_dataSize, $this->_dataUnsigned, $this->_dataNotNull);
+		//return '`'.$this->_fieldName.'` varchar('.$this->_size.') CHARACTER SET utf8'.($this->_notNull?' NOT NULL':'');
 	}
 	public function setOptions($options = array()){
 		foreach ($options as $k => $v) $this->_options[$k] = $v;

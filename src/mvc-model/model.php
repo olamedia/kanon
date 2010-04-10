@@ -81,7 +81,7 @@ class model implements ArrayAccess, IteratorAggregate{
 
 	public function getCreateSql(){
 		$t = $this->getTableName();
-		$sql = "CREATE TABLE IF NOT EXISTS `$t` (\r\n";
+		$sql = 'CREATE TABLE IF NOT EXISTS "$t" (\r\n';
 		$set = array();
 		foreach ($this->_fields as $propertyName => $fieldName){
 			$property = $this->_getProperty($propertyName);
@@ -145,6 +145,11 @@ class model implements ArrayAccess, IteratorAggregate{
 		foreach ($options as $k => $v) $this->_options[$k] = $v;
 		return $this;
 	}
+	/**
+	 * 
+	 * @param string $name
+	 * @return modelProperty
+	 */
 	protected function &_getProperty($name){
 		if (!isset($this->_properties[$name])){
 			$class = 'stringProperty';

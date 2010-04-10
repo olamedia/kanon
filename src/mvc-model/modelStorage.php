@@ -203,6 +203,12 @@ class modelStorage{
 	private function __construct(){
 
 	}
+	/**
+	 * @return storageDriver
+	 */
+	public function getDriver(){
+		return $this->_storageDriver;
+	}
 	public function getConnection(){
 		return $this->_storageDriver->getConnection();
 	}
