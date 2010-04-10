@@ -250,6 +250,13 @@ class modelStorage{
 		$this->_unregisteredForeignKeys[] = $modelName;
 		return $this;
 	}
+	public function getModels(){
+		$collections = array();
+		foreach ($this->getRegistry()->modelSettings as $model => $setting){
+			$collections[] = $model;
+		}
+		return $collections;
+	}
 	public function registerForeignKeys(){
 		foreach ($this->_unregisteredForeignKeys as $modelName){
 			$this->_registerForeignKeys($modelName);

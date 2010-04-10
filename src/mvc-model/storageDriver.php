@@ -6,6 +6,15 @@ abstract class storageDriver{
 	protected $_databaseType = '';
 	protected $_connection = null;
 	protected $_storage = null; // back reference to storage
+	protected $_autoRepair = true;
+	public function enableAutoRepair(){
+		$this->_autoRepair = true;
+		return $this;
+	}
+	public function disableAutoRepair(){
+		$this->_autoRepair = false;
+		return $this;
+	}
 	public function setStorage($storage){
 		$this->_storage = $storage;
 		return $this;

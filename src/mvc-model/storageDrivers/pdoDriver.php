@@ -70,7 +70,13 @@ class pdoDriver extends storageDriver{
 		return $result;
 	}
 	protected function _createCollection($class){
-		//$this->getStorage()->get
+		$models = $this->getStorage()->getModels();
+		foreach ($models as $model){
+			$collection = $model::getCollection();
+			if (!$collection->exists()){
+				echo $model.' collection  not exists'."\r\n";
+			}
+		}
 	}
 	/**
 	 *
@@ -98,7 +104,9 @@ class pdoDriver extends storageDriver{
 			$result = $this->getConnection()->query($sql);
 		}catch(PDOException $e){
 			$result = false;
-			$this->_repairCollection($e); // CREATE/ALTER
+			if ($this->_autoRepair){
+				$this->_repairCollection($e); // CREATE/ALTER
+			}
 		}
 		return $result;
 	}

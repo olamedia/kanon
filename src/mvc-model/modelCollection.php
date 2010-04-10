@@ -10,6 +10,16 @@ class modelCollection implements ArrayAccess{
 	protected $_filtersEnabled = true;
 	protected $_defaultValues = array();
 	protected $_joinOn = array();
+	public function exists(){
+		$exists = false;
+		$this->getStorage()->getDriver()->disableAutoRepair();
+		// "select * from tablename where 1=2"
+		if ($this->q('SELECT * from "'.$this->getTableName().'" WHERE 1=2')){
+			$exists = true;
+		}
+		$this->getStorage()->getDriver()->enableAutoRepair();
+		return $exists;
+	}
 	public function &setJoinOn($table2, $on = ''){
 		if (strlen($on)){
 			$this->_joinOn[$table2->getUniqueId()] = $on;
