@@ -86,13 +86,13 @@ $storage->registerCollection('helpKeyword', 'help_keyword');
 
 
 $categories = helpCategory::getCollection();
-echo 'start foreach'."\r\n";
-echo $categories->select()->getSql();
+//echo 'start foreach'."\r\n";
+//echo $categories->select()->getSql();
 foreach ($categories->select() as $category){
 	
 }
-var_dump($categories->getStorage()->getConnection()->errorInfo());
-echo 'finish foreach'."\r\n";
+//var_dump($categories->getStorage()->getConnection()->errorInfo());
+//echo 'finish foreach'."\r\n";
 //echo $categories->getCreateSql();
 //$topics = helpTopic::getCollection();
 /*$categories = helpRelation::getCollection();*/
