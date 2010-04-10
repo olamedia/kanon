@@ -88,11 +88,11 @@ class pdoDriver extends storageDriver{
 	protected function _repairCollection($errorInfo){
 		$errorCode = $errorInfo->getCode();
 		echo '_repairCollection()'."\r\n";
-		var_dump($errorCode);
+		//var_dump($errorCode);
 		switch ($errorCode){
 			case 'HY000': // General error
 				echo 'General error'."\r\n";
-				switch ($errorCode[1]){
+				switch ($errorInfo[1]){
 					case 1: // sqlite: no such table
 						echo 'no such table'."\r\n";
 						$this->_createCollection();
