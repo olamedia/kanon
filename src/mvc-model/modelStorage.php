@@ -367,6 +367,7 @@ class modelStorage{
 		}
 		$dsne = substr($dsn, strlen($extension)+1);
 		$this->_storageDriver = new $driverName;
+		$this->_storageDriver->setStorage($this);
 		$this->_storageDriver->setDatabaseType($extension);
 		$this->_storageDriver->setup('dsn',$dsn);
 		$this->_storageDriver->setup('username',$username);

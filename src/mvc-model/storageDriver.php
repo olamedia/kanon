@@ -5,6 +5,17 @@ abstract class storageDriver{
 	protected $_uniqueId = null;
 	protected $_databaseType = '';
 	protected $_connection = null;
+	protected $_storage = null; // back reference to storage
+	public function setStorage($storage){
+		$this->_storage = $storage;
+		return $this;
+	}
+	/**
+	 * @return modelStorage
+	 */
+	public function getStorage(){
+		return $this->_storage;
+	}
 	public function setDatabaseType($type){
 		$this->_databaseType = $type;
 		return $this;

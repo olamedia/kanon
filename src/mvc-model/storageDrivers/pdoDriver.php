@@ -61,10 +61,24 @@ class pdoDriver extends storageDriver{
 	 * @param string $sql
 	 */
 	public function execute($sql){
-		$this->getConnection()->exec($sql);
+		try{
+			$result = $this->getConnection()->exec($sql);
+		}catch(PDOException $e){
+			$result = false;
+			$this->_repairCollection($e);
+		}
+		return $result;
 	}
-	protected function _repairCollection($errorInfo){
-		var_dump($errorInfo);
+	protected function _createCollection($class){
+		//$this->getStorage()->get
+	}
+	protected function _repairCollection(PDOException $errorInfo){
+		var_dump($errorInfo->getCode());
+		/*switch ($errorInfo->getCode()){
+			case 'HY000': // sqlite: no such table
+				$this->_createCollection();
+				break;
+		}*/
 	}
 	/**
 	 * Executes an SQL statement, returning a result set
