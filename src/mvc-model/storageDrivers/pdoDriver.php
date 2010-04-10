@@ -74,9 +74,10 @@ class pdoDriver extends storageDriver{
 		$models = $this->getStorage()->getModels();
 		foreach ($models as $model){
 			$collection = $model::getCollection();
+			/** @var modelCollection $collection */
 			if (!$collection->exists()){
 				echo $model.' collection  not exists'."\r\n";
-				$collection->q($collection->getCreateSql());
+				$collection->q($collection->getCreateTableSql());
 			}else{
 				echo $model.' collection  exists'."\r\n";
 			}
