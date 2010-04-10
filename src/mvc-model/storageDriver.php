@@ -9,6 +9,7 @@ abstract class storageDriver{
 		$this->_databaseType = $type;
 		return $this;
 	}
+	abstract protected function _repairCollection($errorInfo);
 	public function getConnection(){
 		if ($this->_connection === null){
 			$this->_makeConnection();

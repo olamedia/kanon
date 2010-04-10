@@ -51,6 +51,7 @@ class pdoDriver extends storageDriver{
 	}
 	protected function _makeConnection(){
 		$this->_connection = new PDO($this->get('dsn'), $this->get('username'), $this->get('password'));
+		$this->_connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	}
 	public function free($result){
 		unset($result);
@@ -62,12 +63,21 @@ class pdoDriver extends storageDriver{
 	public function execute($sql){
 		$this->getConnection()->exec($sql);
 	}
+	protected function _repairCollection($errorInfo){
+		var_dump($errorInfo);
+	}
 	/**
 	 * Executes an SQL statement, returning a result set
 	 * @param string $sql
 	 */
 	public function query($sql){
-		return $this->getConnection()->query($sql);
+		try{
+			$result = $this->getConnection()->query($sql);
+		}catch(PDOException $e){
+			$result = false;
+			$this->_repairCollection($e);
+		}
+		return $result;
 	}
 	public function fetch($resultSet){
 		return $resultSet->fetch();

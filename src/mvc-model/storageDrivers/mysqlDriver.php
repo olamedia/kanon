@@ -28,6 +28,9 @@ class mysqlDriver extends storageDriver{
 				break;
 		}
 	}
+	protected function _repairCollection($errorInfo){
+		var_dump($errorInfo);
+	}
 	public function quoteFieldName($fieldName){
 		return '`'.$fieldName.'`';
 	}
