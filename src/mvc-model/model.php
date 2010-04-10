@@ -91,7 +91,7 @@ class model implements ArrayAccess, IteratorAggregate{
 		}
 		if (count($this->_primaryKey)){
 			$a = array();
-			foreach ($this->_primaryKey as $c) $a[] = "`".$c."`";
+			foreach ($this->_primaryKey as $c) $a[] = '"'.$c.'"';
 			$set[] = "\t".'PRIMARY KEY ('.implode(',', $a).')'."\r\n";
 		}
 		$sql .= implode(",\r\n", $set);
