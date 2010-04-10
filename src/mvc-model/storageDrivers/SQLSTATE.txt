@@ -13,6 +13,7 @@ SQLSTATE	Short Description
 01000	General warning
 01001	Cursor operation conflict
 01002	Disconnect error
+01003	NULL value eliminated in set function
 01004	Data truncated
 01005	Insufficient item descriptor areas
 01006	Privilege not revoked
@@ -20,6 +21,10 @@ SQLSTATE	Short Description
 01S00	Invalid connection string attribute
 01S01	Error in row
 01S02	Option value changed
+01S06	Attempt to fetch before the result set returned the first rowset
+01S07	Fractional truncation
+01S08	Error saving File DSN
+01S09	Invalid keyword
 
 02000	No data found
 
@@ -32,12 +37,13 @@ SQLSTATE	Short Description
 07006	Restricted data type attribute violation
 07008	Invalid descriptor count
 07009	Invalid descriptor index
+07S01	Invalid use of default parameter
 
 08000	Connection exception
-08001	Unable to connect to the data source, e.g. invalid license key
+08001	Unable to connect to the data source / Client unable to establish connection
 08002	Connection already in use
-08003	Connection not open
-08004	Data source rejected establishment of connection
+08003	Connection not open / Connection does not exist
+08004	Data source rejected establishment of connection / Server rejected the connection
 08006	Transaction rolled back 
 08007	Connection failure during transaction / Transaction state unknown
 08900	Server lookup failed
@@ -56,10 +62,13 @@ SQLSTATE	Short Description
 22003	Numeric value out of range
 22005	Error in assignment 
 22007	Invalid datetime format
+22008	Datetime field overflow
 22012	Division by zero
+22015	Interval field overflow
 22018	Error in assignment
 22019	Invalid escape character 
 22024	Unterminated string
+22025	Invalid escape sequence
 22026	String data, length mismatch
 22027	Data exception trim error
 
@@ -68,6 +77,7 @@ SQLSTATE	Short Description
 24000	Invalid cursor state
 
 25000	Invalid transaction state
+25S01	Transaction state
 25S02	Transaction is still active
 25S03	Transaction has been rolled back
 
@@ -79,8 +89,14 @@ SQLSTATE	Short Description
 
 3C000	Duplicate cursor name
 
+3D000	Invalid catalog name
+
+3F000	Invalid schema name
+
 40000	Commit transaction resulted in rollback transaction
 40001	Serialization failure, e.g. timeout or deadlock
+40002	Integrity constraint violation
+40003	Statement completion unknown
 
 42000	Syntax error or access rule violation
 42S01	Base table or view already exists
@@ -98,13 +114,22 @@ HY001	Storage allocation failure
 HY002	Invalid column number
 HY003	Invalid application buffer type
 HY004	Invalid SQL Data type
+HY007	Associated statement is not prepared
 HY008	Operation cancelled
 HY009	Invalid use of null pointer
 HY010	Function sequence error
 HY011	Operation invalid at this time
 HY012	Invalid transaction operation code
+HY013	Memory management error
+HY014	Limit on the number of handles exceeded
 HY015	No cursor name avilable
+HY016	Cannot modify an implementation row descriptor
+HY017	Invalid use of an automatically allocated descriptor handle
 HY018	Server declined cancel request
+HY019	Non-character and non-binary data sent in pieces
+HY020	Attempt to concatenate a null value
+HY021	Inconsistent descriptor information
+HY024	Invalid attribute value
 HY090	Invalid string or buffer length
 HY091	Descriptor type out of range
 HY092	Attribute or Option type out of range
@@ -127,6 +152,7 @@ HY110	Invalid driver completion
 HY111	Invalid bookmark value
 HYC00	Driver not capable
 HYT00	Timeout expired
+HYT01	Connection timeout expired
 
 HZ010	RDA error: Access control violation
 HZ020	RDA error: Bad repetition count
@@ -148,3 +174,5 @@ IM010	Data source name too long
 IM011	Driver name too long
 IM012	DRIVER keyword syntax error
 IM013	Trace file error
+IM014	Invalid name of File DSN
+IM015	Corrupt file data source
