@@ -78,8 +78,10 @@ class pdoDriver extends storageDriver{
 			if (!$collection->exists()){
 				echo $model.' collection  not exists'."\r\n";
 				$this->disableAutoRepair();
+				$this->disableServiceMode();
 				echo $collection->getCreateSql();
 				$collection->q($collection->getCreateSql());
+				$this->enableServiceMode();
 				$this->enableAutoRepair();
 			}else{
 				echo $model.' collection  exists'."\r\n";
