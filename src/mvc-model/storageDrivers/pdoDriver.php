@@ -76,6 +76,7 @@ class pdoDriver extends storageDriver{
 			$collection = $model::getCollection();
 			if (!$collection->exists()){
 				echo $model.' collection  not exists'."\r\n";
+				$collection->q($collection->getCreateSql());
 			}else{
 				echo $model.' collection  exists'."\r\n";
 			}
@@ -88,14 +89,10 @@ class pdoDriver extends storageDriver{
 	protected function _repairCollection($errorInfo){
 		$errorCode = $this->getConnection()->errorCode();
 		$errorInfo = $this->getConnection()->errorInfo();
-		echo '_repairCollection()'."\r\n";
-		//var_dump($errorCode);
 		switch ($errorCode){
 			case 'HY000': // General error
-				echo 'General error'."\r\n";
 				switch ($errorInfo[1]){
-					case 1: // sqlite: no such table
-						echo 'no such table'."\r\n";
+					case 1: // no such table (Storage allocation failure)
 						$this->_createCollection();
 						break;
 				}
