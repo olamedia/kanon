@@ -113,7 +113,11 @@ class pdoDriver extends storageDriver{
 		}catch(PDOException $e){
 			$result = false;
 			if ($this->_autoRepair){
+				$this->disableAutoRepair();
 				$this->_repairCollection($e); // CREATE/ALTER
+				$this->enableAutoRepair();
+			}else{
+				throw $e;
 			}
 		}
 		return $result;
