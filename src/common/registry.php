@@ -60,7 +60,7 @@ class registry implements ArrayAccess, IteratorAggregate, Countable{
 	public function toArray(){
 		$a = array();
 		foreach ($this->_vars as $k => $v){
-			$a[$k] = is_object($v)?$v->toArray():$v;
+			$a[$k] = (is_object($v) && method_exists($v, 'toArray'))?$v->toArray():$v;
 		}
 		return $a;
 	}
