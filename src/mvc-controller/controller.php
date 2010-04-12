@@ -75,8 +75,8 @@ class controller extends controllerPrototype{
 	public function getUserId(){
 		return is_object($this->getUser())?$this->getUser()->id->getValue():0;
 	}
-	public function requireCss($uri){
-		$this->getRegistry()->cssIncludes[] = $uri;
+	public function requireCss($uri, $order = 0){
+		$this->getRegistry()->cssIncludes->{'order'.$order}[] = $uri;
 	}
 	public function css($cssString){
 		$this->getRegistry()->plainCss[] = $cssString;
@@ -101,8 +101,12 @@ class controller extends controllerPrototype{
 		$h .= '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
 		$h .= '<title>'.$this->getTitle().'</title>';
 		if (count($this->getRegistry()->cssIncludes)){
-			foreach ($this->getRegistry()->cssIncludes as $url){
-				$h .= '<link rel="stylesheet" type="text/css" href="'.$url.'" />';
+			$includes = $this->getRegistry()->cssIncludes->toArray();
+			sort($includes);
+			foreach ($includes as $order => $urls){
+				foreach ($urls as $url){
+					$h .= '<link rel="stylesheet" type="text/css" href="'.$url.'" />';
+				}
 			}
 		}
 		$h .= $this->getCss();
