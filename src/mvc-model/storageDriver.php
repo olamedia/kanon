@@ -36,7 +36,7 @@ abstract class storageDriver{
 		//echo 'Create collection()'."\r\n";
 		$models = $this->getStorage()->getModels();
 		foreach ($models as $model){
-			$collection = $model::getCollection();
+			$collection = call_user_func(array($model, 'getCollection'));
 			/** @var modelCollection $collection */
 			if (!$collection->exists()){
 				//echo $model.' collection  not exists'."\r\n";
