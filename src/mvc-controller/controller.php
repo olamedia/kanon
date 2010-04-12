@@ -90,11 +90,70 @@ class controller extends controllerPrototype{
 		}
 		return $h;
 	}
-	public function js($jsString, $scriptSlot = 'default'){
-		$this->getRegistry()->plainJs[$scriptSlot] .= $jsString;
+	public function js($jsString, $alias = 'default', $require = ''){
+		$this->getRegistry()->plainJs->{$alias} .= $jsString;
+		$this->getRegistry()->plainJsRequire->{$alias} = $require;
 	}
-	public function requireJs($uri){
-		$this->getRegistry()->javascriptIncludes[] = $uri;
+	public function requireJs($uri, $alias = 'default', $require = ''){
+		$this->getRegistry()->javascriptIncludes->{$alias}[] = $uri;
+		$this->getRegistry()->javascriptIncludesRequire->{$alias} = $require;
+	}
+	protected function _getJsPart($requiredPart, $parts = array()){
+		$includes =  $this->getRegistry()->javascriptIncludes->toArray();
+		$includesRequire = $this->getRegistry()->javascriptIncludesRequire->toArray();
+		$plainJs = $this->getRegistry()->plainJs->toArray();
+		$plainJsRequire = $this->getRegistry()->plainJsRequire->toArray();
+		$parts = array();
+		$js = '';
+		if (is_array($requiredPart) || $requiredPart != ''){
+			if (is_array($requiredPart)){
+				foreach ($requiredPart as $alias){
+					list($xjs, $xparts) = $this->_getJsPart($alias, $parts);
+					$parts = array_merge($parts, $xparts);
+					$js .= $xjs;
+				}
+			}elseif(!in_array($requiredPart, $parts)){
+				$urls = array();
+				$plain = '';
+				if (isset($includes[$requiredPart])){
+					$urls = $includes[$requiredPart];
+					$includeRequire = $includesRequire[$alias];
+				}
+				if (isset($plainJs[$requiredPart])){
+					$plain = $plainJs[$requiredPart];
+					$includeRequire = $plainJsRequire[$alias];
+				}
+				if (is_array($includeRequire) || $includeRequire != ''){
+					list($xjs, $xparts) = $this->_getJsPart($includeRequire, $parts);
+					$parts = array_merge($parts, $xparts);
+					$js .= $xjs;
+				}
+				$js .= '<!-- '.$requiredPart.' -->';
+				foreach ($urls as $url){
+					$js .= '<script type="text/javascript" src="'.$url.'"></script>';
+				}
+				$js .= '<script type="text/javascript">'.$plain.'</script>';
+			}
+		}
+		$parts[] = $requiredPart;
+		return array($js, $parts);
+	}
+	protected function _getJs(){
+		$js = '';
+		$includes =  $this->getRegistry()->javascriptIncludes->toArray();
+		$plainJs = $this->getRegistry()->plainJs->toArray();
+		$parts = array();
+		foreach ($includes as $alias => $urls){
+			list($xjs, $xparts) = $this->_getJsPart($alias, $parts);
+			$parts = array_merge($parts, $xparts);
+			$js .= $xjs;
+		}
+		foreach ($plainJs as $alias => $pjs){
+			list($xjs, $xparts) = $this->_getJsPart($alias, $parts);
+			$parts = array_merge($parts, $xparts);
+			$js .= $xjs;
+		}
+		return $js;
 	}
 	public function getHeadContents(){
 		$h = '<!DOCTYPE html>'; // html5
@@ -110,7 +169,8 @@ class controller extends controllerPrototype{
 			}
 		}
 		$h .= $this->getCss();
-		if (count($this->getRegistry()->javascriptIncludes)){
+		$h .= $this->_getJs();
+		/*if (count($this->getRegistry()->javascriptIncludes)){
 			foreach ($this->getRegistry()->javascriptIncludes as $url){
 				$h .= '<script type="text/javascript" src="'.$url.'"></script>';
 			}
@@ -121,7 +181,7 @@ class controller extends controllerPrototype{
 				$h .= $plainJs;
 				$h .= '</script>';
 			}
-		}
+		}*/
 		$h .= '<link rel="shortcut icon" href="/favicon.ico" />';
 		return $h;
 	}
