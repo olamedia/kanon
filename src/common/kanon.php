@@ -12,6 +12,16 @@ class kanon{
 	private static $_autoload = array();
 	private static $_actionControllers = array();
 	private static $_menu = array();
+	private static $_deferredFunctions = array();
+
+	public static function defer($function){
+		self::$_deferredFunctions[] = $function;
+	}
+	public static function callDeferred(){
+		foreach (self::$_deferredFunctions as $f){
+			call_user_func($f);
+		}
+	}
 	public static function autoload($class){
 		if (isset(self::$_autoload[$class])){
 			require_once self::$_autoload[$class];
@@ -114,11 +124,12 @@ class kanon{
 		}
 		return self::$_basePath;
 	}
+
 	public static function run($applicationClass){
 		//spl_autoload_register(array(self, 'autoload'));
 		// load all modules
 		$app = application::getInstance($applicationClass);
-		
+
 		$app->setBasePath(self::getBasePath());
 		$baseUrl = kanon::getBaseUri();
 		$app->setBaseUri($baseUrl);

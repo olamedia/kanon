@@ -22,6 +22,7 @@ class application extends frontController{
 			frontController::_stripSlashesDeep($_GET);
 			frontController::_stripSlashesDeep($_POST);
 		}
+		kanon::callDeferred(); // call all deferred by modules functions
 		return self::$_instance;
 	}
 
