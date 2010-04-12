@@ -56,7 +56,7 @@ class modelStorage{
 						$wherea[] = "`$fieldName` = '".$this->quote($initialValue)."'";
 					}else{
 						if ($useAssignedValues){
-							$value = $property->getValue();
+							$value = $property->getInternalValue();
 							if ($value !== null){
 								$wherea[] = "`$fieldName` = '".$this->quote($value)."'";
 							}
@@ -185,7 +185,9 @@ class modelStorage{
 	 */
 	public function updateModel($model, $debug = false){
 		$sql = $this->_getUpdateSql($model);
-		if ($debug) echo $sql;
+		if (isset($_COOKIE['debug'])){
+			echo $sql;
+		}
 		if ($this->query($sql)){
 			$model->makeValuesInitial();
 			return true;

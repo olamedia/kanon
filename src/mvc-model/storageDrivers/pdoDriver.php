@@ -69,25 +69,7 @@ class pdoDriver extends storageDriver{
 		}
 		return $result;
 	}
-	protected function _createCollection(){
-		//echo 'Create collection()'."\r\n";
-		$models = $this->getStorage()->getModels();
-		foreach ($models as $model){
-			$collection = $model::getCollection();
-			/** @var modelCollection $collection */
-			if (!$collection->exists()){
-				//echo $model.' collection  not exists'."\r\n";
-				$this->disableAutoRepair();
-				$this->disableServiceMode();
-				//echo $collection->getCreateSql();
-				$collection->q($collection->getCreateSql());
-				$this->enableServiceMode();
-				$this->enableAutoRepair();
-			}else{
-				//echo $model.' collection  exists'."\r\n";
-			}
-		}
-	}
+
 	/**
 	 *
 	 * @param PDOException $errorInfo
@@ -99,11 +81,12 @@ class pdoDriver extends storageDriver{
 			case 'HY000': // General error
 				switch ($errorInfo[1]){
 					case 1: // no such table (Storage allocation failure)
-						$this->_createCollection();
+						return $this->_createCollection();
 						break;
 				}
 				break;
 		}
+		return false;
 	}
 	/**
 	 * Executes an SQL statement, returning a result set
@@ -117,8 +100,11 @@ class pdoDriver extends storageDriver{
 			if ($this->_autoRepair){
 				//$this->disableAutoRepair();
 				$this->enableServiceMode(); // don't throw exceptions
-				$this->_repairCollection($e); // CREATE/ALTER
+				$repaired = $this->_repairCollection($e); // CREATE/ALTER
 				$this->disableServiceMode();
+				if ($repaired){
+					return $this->query($sql);
+				}
 				//$this->enableAutoRepair();
 			}else{
 				if (!$this->_serviceMode){
