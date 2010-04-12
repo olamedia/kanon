@@ -7,7 +7,7 @@ class timestampProperty extends integerProperty{
 	 * @return string Human presentation
 	 */
 	public function format($format = "d.m.Y H:i:s"){
-		return date($format, $this->value());
+		return date($format, $this->getValue());
 	}
 	public function chanFormat(){//Вск 06 Дек 2009
 		$ts = $this->getValue();
