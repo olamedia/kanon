@@ -132,7 +132,9 @@ class controller extends controllerPrototype{
 				foreach ($urls as $url){
 					$js .= '<script type="text/javascript" src="'.$url.'"></script>';
 				}
-				$js .= '<script type="text/javascript">'.$plain.'</script>';
+				if (strlen($plain)){
+					$js .= '<script type="text/javascript">'.$plain.'</script>';
+				}
 			}
 		}
 		$parts[] = $requiredPart;
@@ -172,16 +174,16 @@ class controller extends controllerPrototype{
 		$h .= $this->_getJs();
 		/*if (count($this->getRegistry()->javascriptIncludes)){
 			foreach ($this->getRegistry()->javascriptIncludes as $url){
-				$h .= '<script type="text/javascript" src="'.$url.'"></script>';
+			$h .= '<script type="text/javascript" src="'.$url.'"></script>';
 			}
-		}
-		if (count($this->getRegistry()->plainJs)){
+			}
+			if (count($this->getRegistry()->plainJs)){
 			foreach ($this->getRegistry()->plainJs as $plainJs){
-				$h .= '<script type="text/javascript">';
-				$h .= $plainJs;
-				$h .= '</script>';
+			$h .= '<script type="text/javascript">';
+			$h .= $plainJs;
+			$h .= '</script>';
 			}
-		}*/
+			}*/
 		$h .= '<link rel="shortcut icon" href="/favicon.ico" />';
 		return $h;
 	}
