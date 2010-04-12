@@ -117,8 +117,8 @@ class kanon{
 	public static function run($applicationClass){
 		//spl_autoload_register(array(self, 'autoload'));
 		// load all modules
-		self::loadAllModules();
 		$app = application::getInstance($applicationClass);
+		
 		$app->setBasePath(self::getBasePath());
 		$baseUrl = kanon::getBaseUri();
 		$app->setBaseUri($baseUrl);
