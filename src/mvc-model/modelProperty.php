@@ -136,10 +136,10 @@ class modelProperty{
 		$this->_initialValue = $value;
 	}
 	public function isChangedValue(){
-		return (($this->getValue() !== null) && ($this->getValue() != $this->getInitialValue()));
+		return (($this->getInternalValue() !== null) && ($this->getInternalValue() != $this->getInitialValue()));
 	}
 	public function hasChangedValue(){
-		return (($this->getValue() !== null) && ($this->getValue() != $this->getInitialValue()));
+		return (($this->getInternalValue() !== null) && ($this->getInternalValue() != $this->getInitialValue()));
 	}
 	public function __toString(){
 		return strval($this->getValue());
