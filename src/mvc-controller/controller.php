@@ -102,9 +102,9 @@ class controller extends controllerPrototype{
 		$h .= '<title>'.$this->getTitle().'</title>';
 		if (count($this->getRegistry()->cssIncludes)){
 			var_dump($this->getRegistry()->cssIncludes);
-			exit;
 			$includes = $this->getRegistry()->cssIncludes->toArray();
 			sort($includes);
+			exit;
 			foreach ($includes as $order => $urls){
 				foreach ($urls as $url){
 					$h .= '<link rel="stylesheet" type="text/css" href="'.$url.'" />';
