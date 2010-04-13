@@ -128,7 +128,9 @@ class controller extends controllerPrototype{
 					$parts = array_merge($parts, $xparts);
 					$js .= $xjs;
 				}
-				$js .= '<!-- '.$requiredPart.' -->';
+				$includeRequireString = is_array($includeRequire)?implode(",",$includeRequire):$includeRequire;
+
+				$js .= '<!-- '.$requiredPart.' ('.$includeRequireString.') -->';
 				foreach ($urls as $url){
 					$js .= '<script type="text/javascript" src="'.$url.'"></script>';
 				}
