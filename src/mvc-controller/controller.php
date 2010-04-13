@@ -123,20 +123,22 @@ class controller extends controllerPrototype{
 					$plain = $plainJs[$requiredPart];
 					$includeRequire = $plainJsRequire[$alias];
 				}
+				$includeRequireString = is_array($includeRequire)?implode(",",$includeRequire):$includeRequire;
+				$js .= '<!-- start '.$requiredPart.' ('.$includeRequireString.') -->';
+				
 				if (is_array($includeRequire) || $includeRequire != ''){
 					list($xjs, $xparts) = $this->_getJsPart($includeRequire, $parts);
 					$parts = array_merge($parts, $xparts);
 					$js .= $xjs;
 				}
-				$includeRequireString = is_array($includeRequire)?implode(",",$includeRequire):$includeRequire;
 
-				$js .= '<!-- '.$requiredPart.' ('.$includeRequireString.') -->';
 				foreach ($urls as $url){
 					$js .= '<script type="text/javascript" src="'.$url.'"></script>';
 				}
 				if (strlen($plain)){
 					$js .= '<script type="text/javascript">'.$plain.'</script>';
 				}
+				$js .= '<!-- finish '.$requiredPart.' ('.$includeRequireString.') -->';
 			}
 		}
 		$parts[] = $requiredPart;
