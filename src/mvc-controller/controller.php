@@ -119,6 +119,7 @@ class controller extends controllerPrototype{
 			}elseif(!in_array($requiredPart, $parts)){
 				$urls = array();
 				$plain = '';
+				$includeRequire = 'none';
 				if (isset($includes[$requiredPart])){
 					$urls = $includes[$requiredPart];
 					$includeRequire = $includesRequire[$alias];
