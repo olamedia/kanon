@@ -104,6 +104,7 @@ class controller extends controllerPrototype{
 		var_dump($includesRequire);
 		$plainJs = $this->getRegistry()->plainJs->toArray();
 		$plainJsRequire = $this->getRegistry()->plainJsRequire->toArray();
+		var_dump($plainJsRequire);
 		$parts = array();
 		$js = '';
 		if (is_array($requiredPart) || $requiredPart != ''){
