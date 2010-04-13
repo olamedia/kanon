@@ -122,11 +122,11 @@ class controller extends controllerPrototype{
 				$includeRequire = 'none';
 				if (isset($includes[$requiredPart])){
 					$urls = $includes[$requiredPart];
-					$includeRequire = $includesRequire[$alias];
+					$includeRequire = $includesRequire[$requiredPart];
 				}
 				if (isset($plainJs[$requiredPart])){
 					$plain = $plainJs[$requiredPart];
-					$includeRequire = $plainJsRequire[$alias];
+					$includeRequire = $plainJsRequire[$requiredPart];
 				}
 				var_dump($includeRequire);
 				$includeRequireString = is_array($includeRequire)?implode(",",$includeRequire):$includeRequire;
