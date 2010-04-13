@@ -201,7 +201,7 @@ class modelQueryBuilder{
 	public function &asc($field){
 		$this->_order[] = $field.' ASC';
 		if ($field instanceof modelField){
-			$this->autoJoin($field->getTable());
+			$this->autoJoin($field->getCollection());
 		}
 		return $this;
 	}
@@ -211,7 +211,7 @@ class modelQueryBuilder{
 	public function &desc($field){
 		$this->_order[] = $field.' DESC';
 		if ($field instanceof modelField){
-			$this->autoJoin($field->getTable());
+			$this->autoJoin($field->getCollection());
 		}
 		return $this;
 	}
