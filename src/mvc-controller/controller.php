@@ -128,6 +128,7 @@ class controller extends controllerPrototype{
 					$plain = $plainJs[$requiredPart];
 					$includeRequire = $plainJsRequire[$alias];
 				}
+				var_dump($includeRequire);
 				$includeRequireString = is_array($includeRequire)?implode(",",$includeRequire):$includeRequire;
 				$js .= '<!-- start '.$requiredPart.' ('.$includeRequireString.') -->';
 				
