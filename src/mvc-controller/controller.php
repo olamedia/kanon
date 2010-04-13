@@ -101,6 +101,7 @@ class controller extends controllerPrototype{
 	protected function _getJsPart($requiredPart, $parts = array()){
 		$includes =  $this->getRegistry()->javascriptIncludes->toArray();
 		$includesRequire = $this->getRegistry()->javascriptIncludesRequire->toArray();
+		var_dump($includesRequire);
 		$plainJs = $this->getRegistry()->plainJs->toArray();
 		$plainJsRequire = $this->getRegistry()->plainJsRequire->toArray();
 		$parts = array();
