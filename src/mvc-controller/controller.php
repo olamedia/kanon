@@ -101,13 +101,13 @@ class controller extends controllerPrototype{
 	protected function _getJsPart($requiredPart, $parts = array()){
 		$includes =  $this->getRegistry()->javascriptIncludes->toArray();
 		$includesRequire = $this->getRegistry()->javascriptIncludesRequire->toArray();
-		var_dump($includes);
-		var_dump($includesRequire);
+		//var_dump($includes);
+		//var_dump($includesRequire);
 		$plainJs = $this->getRegistry()->plainJs->toArray();
 		$plainJsRequire = $this->getRegistry()->plainJsRequire->toArray();
-		var_dump($plainJs);
-		var_dump($plainJsRequire);
-		$parts = array();
+		//var_dump($plainJs);
+		//var_dump($plainJsRequire);
+		//$parts = array();
 		$js = '';
 		if (is_array($requiredPart) || $requiredPart != ''){
 			if (is_array($requiredPart)){
@@ -128,7 +128,7 @@ class controller extends controllerPrototype{
 					$plain = $plainJs[$requiredPart];
 					$includeRequire = $plainJsRequire[$requiredPart];
 				}
-				var_dump($includeRequire);
+				//var_dump($includeRequire);
 				$includeRequireString = is_array($includeRequire)?implode(",",$includeRequire):$includeRequire;
 				$js .= '<!-- start '.$requiredPart.' ('.$includeRequireString.') -->';
 				
