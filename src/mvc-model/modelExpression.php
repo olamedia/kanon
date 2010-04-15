@@ -29,6 +29,7 @@ class modelExpression{
 			return $this->_right;
 		}
 		if ($this->_escapeRight){
+			/* FIXME */
 			return "'".addslashes($this->_right)."'";
 		}
 		return $this->_right;
