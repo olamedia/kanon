@@ -14,7 +14,7 @@ class modelCollection implements ArrayAccess{
 		$exists = false;
 		$this->getStorage()->getDriver()->disableAutoRepair();
 		// "select * from tablename where 1=2"
-		if ($this->q('SELECT * from "'.$this->getTableName().'" WHERE 1=2')){
+		if ($this->q('SELECT * FROM "'.$this->getTableName().'" WHERE 1=2')){
 			$exists = true;
 		}
 		$this->getStorage()->getDriver()->enableAutoRepair();

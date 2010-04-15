@@ -93,7 +93,7 @@ class mysqlDriver extends storageDriver{
 		return mysql_num_rows($resultSet);
 	}
 	public function quote($string){
-		return mysql_real_escape_string($string, $this->getConnection());
+		return "'".mysql_real_escape_string($string, $this->getConnection())."'";
 	}
 	public function lastInsertId(){
 		$id = mysql_insert_id($this->getConnection());

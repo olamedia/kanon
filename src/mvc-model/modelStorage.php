@@ -30,7 +30,7 @@ class modelStorage{
 			$property = $model[$fieldName];
 			if ($property){
 				if ($property->hasChangedValue()){
-					$seta[] = "`$fieldName` = '".$this->quote($property->getInternalValue())."'";
+					$seta[] = "`$fieldName` = ".$this->quote($property->getInternalValue());
 				}
 			}
 		}
@@ -53,12 +53,12 @@ class modelStorage{
 				if (is_object($property)){
 					$initialValue = $property->getInitialValue();
 					if ($initialValue !== null){
-						$wherea[] = "`$fieldName` = '".$this->quote($initialValue)."'";
+						$wherea[] = "`$fieldName` = ".$this->quote($initialValue);
 					}else{
 						if ($useAssignedValues){
 							$value = $property->getInternalValue();
 							if ($value !== null){
-								$wherea[] = "`$fieldName` = '".$this->quote($value)."'";
+								$wherea[] = "`$fieldName` = ".$this->quote($value);
 							}
 						}
 					}
@@ -86,7 +86,7 @@ class modelStorage{
 			if ($property){
 				$initialValue = $property->getInitialValue();
 				if ($initialValue !== null){
-					$wherea[] = "`$fieldName` = '".$this->quote($initialValue)."'";
+					$wherea[] = "`$fieldName` = ".$this->quote($initialValue);
 				}
 			}
 		}
