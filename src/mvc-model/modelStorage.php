@@ -184,13 +184,14 @@ class modelStorage{
 	 * @param model $model
 	 */
 	public function updateModel($model, $debug = false){
-		$sql = $this->_getUpdateSql($model);
-		if (isset($_COOKIE['debug'])){
-			echo $sql;
-		}
-		if ($this->query($sql)){
-			$model->makeValuesInitial();
-			return true;
+		if ($sql = $this->_getUpdateSql($model)){
+			if (isset($_COOKIE['debug'])){
+				echo $sql;
+			}
+			if ($this->query($sql)){
+				$model->makeValuesInitial();
+				return true;
+			}
 		}
 		return false;
 	}
