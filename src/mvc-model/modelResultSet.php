@@ -43,7 +43,7 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 		$result = $this->getStorage()->query($this->getCountSql());
 		$count = 0;
 		if ($result){
-			foreach ($result as $a){
+			while ($a = $this->getStorage()->fetch($result)){
 				$count += array_shift($a);
 			} 
 		}
