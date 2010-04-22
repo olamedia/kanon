@@ -35,7 +35,7 @@ class modelExpression{
 			return $this->_right;
 		}
 		if ($this->_escapeRight){
-			return $this->quote($this->_right)."'";
+			return $this->quote($this->_right);
 		}
 		return $this->_right;
 	}
