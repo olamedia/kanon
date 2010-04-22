@@ -1,5 +1,8 @@
 <?php
 class modelExpression{
+	/**
+	 * @var modelField
+	 */
 	protected $_left = null;
 	protected $_operator = '=';
 	protected $_right = null;
@@ -21,6 +24,9 @@ class modelExpression{
 	public function getLeft(){
 		return $this->_left;
 	}
+	public function quote($string){
+		return $this->_left->getCollection()->getStorage()->quote($string);
+	}
 	public function getRight(){
 		if ($this->_right instanceof modelField){
 			return (string) $this->_right;
@@ -29,8 +35,7 @@ class modelExpression{
 			return $this->_right;
 		}
 		if ($this->_escapeRight){
-			/* FIXME */
-			return "'".addslashes($this->_right)."'";
+			return $this->quote($this->_right)."'";
 		}
 		return $this->_right;
 	}

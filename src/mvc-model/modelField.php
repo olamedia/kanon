@@ -2,6 +2,9 @@
 require_once dirname(__FILE__).'/modelExpression.php';
 require_once dirname(__FILE__).'/modelAggregation.php';
 class modelField{
+	/**
+	 * @var modelCollection
+	 */
 	protected $_collection = null;
 	protected $_fieldName = null;
 	protected $_uniqueId = null;
@@ -21,6 +24,9 @@ class modelField{
 	public function getName(){
 		return $this->_fieldName;
 	}
+	/**
+	 * @return modelCollection
+	 */
 	public function getCollection(){
 		return $this->_collection;
 	}
