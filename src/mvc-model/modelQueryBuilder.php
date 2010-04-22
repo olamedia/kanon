@@ -170,7 +170,7 @@ class modelQueryBuilder{
 			if ($left instanceof modelField){
 				$this->autoJoin($left->getCollection());
 			}
-			$right = $condition->getLeft();
+			$right = $condition->getRight();
 			if ($right instanceof modelField){
 				$this->autoJoin($right->getCollection());
 			}
