@@ -79,7 +79,9 @@ class mysqlDriver extends storageDriver{
 		}
 		$result = mysql_query($sql, $this->getConnection());
 		if (!$result){
-			var_dump(debug_backtrace());
+			foreach (debug_backtrace() as $d){
+				var_dump($d['file'].':'.$d['line']);
+			}
 			throw new Exception(mysql_error().' SQL:'.htmlspecialchars($sql));
 		}
 		return $result;
