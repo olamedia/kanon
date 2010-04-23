@@ -167,6 +167,9 @@ class controller extends controllerPrototype{
 		}
 		return $js;
 	}
+	public function head(){
+		echo $this->getHeadContents();
+	}
 	public function getHeadContents(){
 		$h = '<!DOCTYPE html>'; // html5
 		$h .= '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
