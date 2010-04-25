@@ -118,7 +118,7 @@ class controllerPrototype{
 			if ($url == $_GET['ref']){
 				//echo '<pre>';
 				//var_dump(debug_backtrace());
-			//	die('Redirect loop');
+				//	die('Redirect loop');
 			}
 		}
 		//$url = $url.'?ref='.urlencode($url);
@@ -288,7 +288,7 @@ class controllerPrototype{
 	 * @param string $relativePath
 	 * @param array $options
 	 */
-	public function forwardTo($controllerClass, $relativePath = '', $options = array()){
+	public function forwardTo($controllerClass, $relativePath = '', $options = array(), $methodToRun = null){
 		$controller = new $controllerClass();
 		$controller->setParent($this);
 		$controller->setBaseUri($this->rel($relativePath), false);
@@ -297,7 +297,10 @@ class controllerPrototype{
 		if (method_exists($controller, 'customRun')){
 			$controller->customRun();
 		}else{
-			$controller->run();
+			$controller->run($methodToRun);
+			if ($methodToRun !== null){
+				return; // continue execution of parent controller
+			}
 		}
 		exit;
 	}
@@ -399,7 +402,7 @@ class controllerPrototype{
 	/**
 	 * Run controller - select methods and run them
 	 */
-	public function run(){
+	public function run($methodToRun = null){
 		$methodFound = false;
 		$class = get_class($this);
 		if (strlen($this->_relativeUri) > 1){ // longer than "/"
@@ -413,63 +416,68 @@ class controllerPrototype{
 			$this->_action = $action;
 		}
 		$this->onConstruct();
-		if (list($actions, $methodName, $pathArgs) = $this->_getRouteMethod($this->_relativeUri, '!RouteInit')){
-			$this->_makeChildUri($actions);
-			if (method_exists($this, $methodName)){
-				call_user_func_array(array($this, $methodName), $this->_getArgs($methodName, $pathArgs));
+		if ($methodToRun !== null){
+			if (method_exists($this, $methodToRun)){
+				call_user_func_array(array($this, $methodToRun), $this->_getArgs($methodToRun));
 			}
-		}
-		if (list($actions, $methodName, $pathArgs) = $this->_getRouteMethod($this->_relativeUri, '!Route')){
-			$this->_makeChildUri($actions);
-			if (method_exists($this, $methodName)){
-				$methodFound = true;
-				if ($this->getHttpMethod() == 'GET') $this->_header();
-				call_user_func_array(array($this, $methodName), $this->_getArgs($methodName, $pathArgs));
-				if ($this->getHttpMethod() == 'GET') $this->_footer();
-				return;
-			}
-		}
-
-		if ($this->_action){
-				
-			$uc = ucfirst($this->_action);
-			$this->_makeChildUri(array($action));
-			$initFunction = 'init'.$uc;
-				
-			if ($controller = kanon::getActionController(get_class($this), $this->_action)){
-				$this->runController($controller);
-				return;
-			}
-				
-			if (method_exists($this, $initFunction)){
-				$methodFound = true;
-				call_user_func_array(array($this, $initFunction), $this->_getArgs($initFunction));
-			}
-			$actionFunction = 'action'.$uc;
-			if (method_exists($this, $actionFunction)){
-				$methodFound = true;
-				call_user_func_array(array($this, $actionFunction), $this->_getArgs($actionFunction));
-			}
-			$showFunction = 'show'.$uc;
-			if (method_exists($this, $showFunction)){
-				$methodFound = true;
-				$this->_header();
-				call_user_func_array(array($this, $showFunction), $this->_getArgs($showFunction));
-				$this->_footer();
-			}
-			if (!$methodFound){
-				return $this->_action($action);
-			}
+			return;
 		}else{
-			if (method_exists($this, 'customIndex')){
-				$this->customIndex();
+			if (list($actions, $methodName, $pathArgs) = $this->_getRouteMethod($this->_relativeUri, '!RouteInit')){
+				$this->_makeChildUri($actions);
+				if (method_exists($this, $methodName)){
+					call_user_func_array(array($this, $methodName), $this->_getArgs($methodName, $pathArgs));
+				}
+			}
+			if (list($actions, $methodName, $pathArgs) = $this->_getRouteMethod($this->_relativeUri, '!Route')){
+				$this->_makeChildUri($actions);
+				if (method_exists($this, $methodName)){
+					$methodFound = true;
+					if ($this->getHttpMethod() == 'GET') $this->_header();
+					call_user_func_array(array($this, $methodName), $this->_getArgs($methodName, $pathArgs));
+					if ($this->getHttpMethod() == 'GET') $this->_footer();
+					return;
+				}
+			}
+			if ($this->_action){
+				$uc = ucfirst($this->_action);
+				$this->_makeChildUri(array($action));
+				$initFunction = 'init'.$uc;
+
+				if ($controller = kanon::getActionController(get_class($this), $this->_action)){
+					$this->runController($controller);
+					return;
+				}
+
+				if (method_exists($this, $initFunction)){
+					$methodFound = true;
+					call_user_func_array(array($this, $initFunction), $this->_getArgs($initFunction));
+				}
+				$actionFunction = 'action'.$uc;
+				if (method_exists($this, $actionFunction)){
+					$methodFound = true;
+					call_user_func_array(array($this, $actionFunction), $this->_getArgs($actionFunction));
+				}
+				$showFunction = 'show'.$uc;
+				if (method_exists($this, $showFunction)){
+					$methodFound = true;
+					$this->_header();
+					call_user_func_array(array($this, $showFunction), $this->_getArgs($showFunction));
+					$this->_footer();
+				}
+				if (!$methodFound){
+					return $this->_action($action);
+				}
 			}else{
-				//$this->_initIndex();
-				call_user_func_array(array($this, '_initIndex'), $this->_getArgs('_initIndex'));
-				$this->_header();
-				call_user_func_array(array($this, 'index'), $this->_getArgs('index'));
-				//$this->index();
-				$this->_footer();
+				if (method_exists($this, 'customIndex')){
+					$this->customIndex();
+				}else{
+					//$this->_initIndex();
+					call_user_func_array(array($this, '_initIndex'), $this->_getArgs('_initIndex'));
+					$this->_header();
+					call_user_func_array(array($this, 'index'), $this->_getArgs('index'));
+					//$this->index();
+					$this->_footer();
+				}
 			}
 		}
 	}
