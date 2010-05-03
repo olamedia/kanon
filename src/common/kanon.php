@@ -115,6 +115,7 @@ class kanon{
 		if ($loaded) return;
 		$loaded = true;
 		$path = self::getBasePath();
+		echo $path.'/modules/*';
 		foreach (glob($path.'/modules/*') as $d){
 			if (is_dir($d)){
 				if (is_file($d.'/module.php')){
