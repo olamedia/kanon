@@ -90,6 +90,7 @@ class kanon{
 		exit;
 	}
 	public static function getModules(){
+		self::loadAllModules();
 		return array_keys(self::$_loadedModules);
 	}
 	public static function loadModule($module){
@@ -110,6 +111,9 @@ class kanon{
 		return false;
 	}
 	public static function loadAllModules(){
+		static $loaded = false;
+		if ($loaded) return;
+		$loaded = true;
 		$path = self::getBasePath();
 		foreach (glob($path.'/modules/*') as $d){
 			if (is_dir($d)){
