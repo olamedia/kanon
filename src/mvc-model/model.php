@@ -34,6 +34,14 @@ class model implements ArrayAccess, IteratorAggregate{
 		return $this;
 	}
 	public function __construct(){
+		// Compatibility with zenMysql2 ORM
+		if (isset($this->_classesMap)){
+			$this->_classes = $this->_classesMap; 
+		}
+		if (isset($this->_fieldsMap)){
+			$this->_fields = $this->_fieldsMap; 
+		}
+		
 		foreach ($this->_classes as $propertyName => $class){
 			$this->_getProperty($propertyName);
 		}

@@ -10,6 +10,15 @@ class controller extends controllerPrototype{
 		$this->_startTime = microtime(true);
 		parent::__construct();
 	}
+	public function getTable($tableName){ // Compatibility with zenMysql2 ORM
+		$storage = kanon::getModelStorage();
+		foreach ($storage->getRegistry()->modelSettings as $modelName => $settings){
+			if ($settings['table'] == $tableName){
+				return kanon::getCollection($modelName);
+			}
+		}
+		return false;
+	}
 	public function getRegistry(){
 		return applicationRegistry::getInstance();
 	}
