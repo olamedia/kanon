@@ -19,7 +19,7 @@ class passwordHashProperty extends stringProperty{
 				$hash = md5(md5($value).$key);
 				$this->_value = $hash;
 			}else{
-				var_dump($this->_options['salt']);
+				var_dump($this->_options);//['salt']
 				throw new Exception('salt is not set in passwordHashProperty');
 			}
 		}
