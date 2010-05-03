@@ -1,4 +1,5 @@
 <?php
+require_once dirname(__FILE__).'/stringProperty.php';
 class passwordHashProperty extends stringProperty{
 	public function getValue(){
 		return '';
