@@ -127,6 +127,7 @@ class kanon{
 	public static function getBasePath(){
 		if (self::$_basePath === null){
 			$trace = debug_backtrace();
+			var_dump($trace);
 			$file = $trace[1]['file'];
 			self::$_basePath = dirname($file);
 		}
