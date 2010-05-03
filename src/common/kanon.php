@@ -89,6 +89,9 @@ class kanon{
 		echo '</body>';
 		exit;
 	}
+	public static function getModules(){
+		return array_keys(self::$_loadedModules);
+	}
 	public static function loadModule($module){
 		if (isset(self::$_loadedModules[$module])) return true;
 		$modulePath = self::getBasePath().'/modules/'.$module.'/';
