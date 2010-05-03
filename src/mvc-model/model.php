@@ -45,6 +45,10 @@ class model implements ArrayAccess, IteratorAggregate{
 		foreach ($this->_classes as $propertyName => $class){
 			$this->_getProperty($propertyName);
 		}
+		$this->onConstruct();
+	}
+	public function onConstruct(){
+		
 	}
 	public function __clone(){
 		if (!$this->_templateMode){
