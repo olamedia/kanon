@@ -45,7 +45,7 @@ class kanon{
 			}
 		}
 		self::$_uniqueId++;
-		return '_'.$id;
+		return $id.'_';
 	}
 	public static function getStorage($storageName = 'default'){
 		return fileStorage::getStorage($storageName);
