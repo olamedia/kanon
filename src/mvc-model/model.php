@@ -75,6 +75,9 @@ class model implements ArrayAccess, IteratorAggregate{
 		unset($this->_options);
 		unset($this);
 	}
+	public function __destruct(){
+		$this->destroy();
+	}
 	public function isValid(){
 		foreach ($this as $property){
 			if (!$property->isValid()) return false;
