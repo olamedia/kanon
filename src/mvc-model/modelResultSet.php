@@ -6,11 +6,14 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 	protected $_list = array();
 	protected $_useCache = false;
 	public function destroy(){
+		$this->_result = null;
 		foreach ($this->_list as $m){
 			if (is_subclass_of($m, 'model')) $m->destroy();
 		}
 		unset($this->_list);
-		unset($this);
+	}
+	public function __destruct(){
+		$this->destroy();
 	}
 	public function useCache($use = true){
 		$this->_useCache = $use;
