@@ -28,6 +28,11 @@ class modelProperty{
 	 */
 	protected $_control = null;
 	public function destroy(){
+		$this->_value = null;
+		$this->_defaultValue = null;
+		$this->_initialValue = null;
+		$this->_options = null;
+		$this->_model = null;
 		unset($this->_model);
 		unset($this->_value);
 		unset($this->_initialValue);
