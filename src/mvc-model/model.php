@@ -69,20 +69,8 @@ class model implements ArrayAccess, IteratorAggregate{
 	}
 	public function destroy(){
 		foreach ($this->_properties as $property){
-			$property->destroy();
+			$property->destroy(); // destroy backlinks to model
 		}
-		//$this->_properties = null;
-		//$this->_classes = null;
-		//$this->_fields = null;
-		//$this->_options = null;
-		unset($this->_properties);
-		unset($this->_classes);
-		unset($this->_fields);
-		unset($this->_options);
-		unset($this->_primaryKey);
-		unset($this->_autoIncrement);
-		unset($this->_foreignKeys);
-		unset($this->_templateMode);
 	}
 	public function __destruct(){
 		$this->destroy();
