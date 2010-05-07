@@ -37,6 +37,11 @@ class modelProperty{
 		unset($this->_value);
 		unset($this->_initialValue);
 		unset($this->_options);
+		unset($this->_dataType);
+		unset($this->_dataSize);
+		unset($this->_dataUnsigned);
+		unset($this->_dataNotNull);
+		unset($this->_control);
 		unset($this);
 	}
 	/*protected function _clone(&$var){
