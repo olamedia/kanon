@@ -36,19 +36,19 @@ class model implements ArrayAccess, IteratorAggregate{
 	public function __construct(){
 		// Compatibility with zenMysql2 ORM
 		if (isset($this->_classesMap)){
-			$this->_classes = $this->_classesMap; 
+			$this->_classes = $this->_classesMap;
 		}
 		if (isset($this->_fieldsMap)){
-			$this->_fields = $this->_fieldsMap; 
+			$this->_fields = $this->_fieldsMap;
 		}
-		
+
 		foreach ($this->_classes as $propertyName => $class){
 			$this->_getProperty($propertyName);
 		}
 		$this->onConstruct();
 	}
 	public function onConstruct(){
-		
+
 	}
 	public function __clone(){
 		if (!$this->_templateMode){
@@ -71,9 +71,14 @@ class model implements ArrayAccess, IteratorAggregate{
 		foreach ($this->_properties as $property){
 			$property->destroy();
 		}
+		$this->_properties = null;
+		$this->_classes = null;
+		$this->_fields = null;
+		$this->_options = null;
 		unset($this->_properties);
+		unset($this->_classes);
+		unset($this->_fields);
 		unset($this->_options);
-		unset($this);
 	}
 	public function __destruct(){
 		$this->destroy();
@@ -162,7 +167,7 @@ class model implements ArrayAccess, IteratorAggregate{
 		return $this;
 	}
 	/**
-	 * 
+	 *
 	 * @param string $name
 	 * @return modelProperty
 	 */

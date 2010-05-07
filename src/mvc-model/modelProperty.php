@@ -45,7 +45,7 @@ class modelProperty{
 		unset($this->_control);
 		unset($this->_name);
 		unset($this->_fieldName);
-		unset($this);
+		//unset($this);
 	}
 	/*protected function _clone(&$var){
 		$var = is_object($var)?clone $var:$var;
