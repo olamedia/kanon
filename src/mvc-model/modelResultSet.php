@@ -10,7 +10,14 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 		foreach ($this->_list as $m){
 			if (is_subclass_of($m, 'model')) $m->destroy();
 		}
+		$this->free();
 		unset($this->_list);
+	}
+	public function free(){
+		if ($this->_result !== null){
+			$this->getStorage()->getDriver()->free($this->_result);
+			$this->_result = null;
+		}
 	}
 	public function __destruct(){
 		$this->destroy();
@@ -48,12 +55,12 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 		if ($result){
 			while ($a = $this->getStorage()->fetch($result)){
 				$count += array_shift($a);
-			} 
+			}
 		}
 		return $count;
 	}
 	public function execute(){
-		
+
 		if ($this->_result === null){
 			if ($this->_result = $this->getStorage()->query($this->getSql())){
 				return true;
@@ -79,7 +86,7 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 			}
 		}
 		$this->_finished = true;
-		$this->getStorage()->free($this->_result);
+		$this->free();
 		return false;
 	}
 	protected function _fetchAll(){
@@ -104,5 +111,5 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 	}
 	/*public function __destruct(){
 		unset($this->_result);
-	}*/
+		}*/
 }

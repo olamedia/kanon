@@ -35,7 +35,7 @@ class mysqlDriver extends storageDriver{
 		return '`'.$fieldName.'`';
 	}
 	public function free($result){
-		mysql_free_result($result);
+		return mysql_free_result($result);
 	}
 	protected function _makeConnection(){
 		if ($host = $this->get('host')){
