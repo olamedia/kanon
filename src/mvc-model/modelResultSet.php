@@ -11,7 +11,7 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 			if (is_subclass_of($m, 'model')) $m->destroy();
 		}
 		$this->free();
-		unset($this->_list);
+		$this->_list = array();
 	}
 	public function free(){
 		if ($this->_result !== null){
