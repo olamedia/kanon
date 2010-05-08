@@ -27,25 +27,15 @@ class modelProperty{
 	 * @var IPropertyControl
 	 */
 	protected $_control = null;
-	public function destroy(){
+	public function __destruct(){
+		static $isDestroyed = false;
+		if ($isDestroyed) return;
+		$isDestroyed = true;
 		$this->_value = null;
 		$this->_defaultValue = null;
 		$this->_initialValue = null;
 		$this->_options = null;
 		$this->_model = null;
-		unset($this->_model);
-		unset($this->_value);
-		unset($this->_defaultValue);
-		unset($this->_initialValue);
-		unset($this->_options);
-		unset($this->_dataType);
-		unset($this->_dataSize);
-		unset($this->_dataUnsigned);
-		unset($this->_dataNotNull);
-		unset($this->_control);
-		unset($this->_name);
-		unset($this->_fieldName);
-		//unset($this);
 	}
 	/*protected function _clone(&$var){
 		$var = is_object($var)?clone $var:$var;

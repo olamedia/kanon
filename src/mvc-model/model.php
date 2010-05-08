@@ -67,14 +67,13 @@ class model implements ArrayAccess, IteratorAggregate{
 			}
 		}
 	}
-	public function destroy(){
-		foreach ($this->_properties as $property){
-			$property->destroy(); // destroy backlinks to model
-		}
-	}
 	public function __destruct(){
-		$this->destroy();
-		//echo ' model::__destruct() ';
+		static $isDestroyed = false;
+		if ($isDestroyed) return;
+		$isDestroyed = true;
+		foreach ($this->_properties as $property){
+			destroy($property); // destroy backlinks to model
+		}
 	}
 	public function isValid(){
 		foreach ($this as $property){
