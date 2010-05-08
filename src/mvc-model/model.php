@@ -74,6 +74,7 @@ class model implements ArrayAccess, IteratorAggregate{
 	}
 	public function __destruct(){
 		$this->destroy();
+		echo ' model::__destruct() ';
 	}
 	public function isValid(){
 		foreach ($this as $property){
