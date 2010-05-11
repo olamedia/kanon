@@ -27,10 +27,14 @@ class modelProperty{
 	 * @var IPropertyControl
 	 */
 	protected $_control = null;
+	public function keep(){ // protect from destroying after script ends (to allow saving in $_SESSION)
+		$this->isDestroyed = true;
+	}
+	protected $isDestroyed = false;
 	public function __destruct(){
-		static $isDestroyed = false;
-		if ($isDestroyed) return;
-		$isDestroyed = true;
+		//static $isDestroyed = false;
+		if ($this->isDestroyed) return;
+		$this->isDestroyed = true;
 		$this->_value = null;
 		$this->_defaultValue = null;
 		$this->_initialValue = null;

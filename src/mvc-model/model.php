@@ -17,6 +17,9 @@ class model implements ArrayAccess, IteratorAggregate{
 	protected $_templateMode = false;
 	public function keep(){ // protect from destroying after script ends (to allow saving in $_SESSION)
 		$this->isDestroyed = true;
+		foreach ($this->_properties as $property){
+			keep($property); // destroy backlinks to model
+		}
 	}
 	//protected $_storage = null;
 	//protected $_storageClass = 'modelStorage';

@@ -7,7 +7,7 @@ function keep(){
 			}
 		}elseif(is_array($var)){
 			foreach ($var as $k => $v){
-				echo 'keep '.$k;
+				//echo 'keep '.$k;
 				keep($v);
 			}
 		}
