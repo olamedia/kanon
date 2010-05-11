@@ -98,7 +98,9 @@ class modelCollection implements ArrayAccess{
 		$fields = false;
 		foreach ($args as $arg){
 			if ($arg instanceof modelField){
-				$fields = true;
+				if ($arg->getCollection()->getTableName() == $this->getTableName()){
+					$fields = true;
+				}
 			}
 		}
 		if (!$fields) array_unshift($args, $this);
