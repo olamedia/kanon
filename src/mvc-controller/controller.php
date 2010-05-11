@@ -79,7 +79,9 @@ class controller extends controllerPrototype{
 		echo '<div class="app_breadcrumb">'.implode(" → ", $this->getBreadcrumb()).'</div>';
 	}
 	public function getUser(){
-		return isset($_SESSION['site_user'])?$_SESSION['site_user']:null;
+		static $user;
+		$user = isset($_SESSION['site_user'])?$_SESSION['site_user']:null;
+		return $user;
 	}
 	public function getUserId(){
 		return is_object($this->getUser())?$this->getUser()->id->getValue():0;
