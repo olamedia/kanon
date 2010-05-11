@@ -15,6 +15,9 @@ class model implements ArrayAccess, IteratorAggregate{
 	protected $_foreignKeys = array(); // property => array(foreignClass, foreignProperty)
 	protected $_options = array(); // propertyName => options
 	protected $_templateMode = false;
+	public function keep(){ // protect from destroying after script ends (to allow saving in $_SESSION)
+		$this->isDestroyed = true;
+	}
 	//protected $_storage = null;
 	//protected $_storageClass = 'modelStorage';
 	/**
@@ -67,10 +70,11 @@ class model implements ArrayAccess, IteratorAggregate{
 			}
 		}
 	}
+	protected $isDestroyed = false;
 	public function __destruct(){
-		static $isDestroyed = false;
-		if ($isDestroyed) return;
-		$isDestroyed = true;
+		//static $isDestroyed = false;
+		if ($this->isDestroyed) return;
+		$this->isDestroyed = true;
 		foreach ($this->_properties as $property){
 			destroy($property); // destroy backlinks to model
 		}
