@@ -95,7 +95,13 @@ class modelCollection implements ArrayAccess{
 	}
 	public function select(){
 		$args = func_get_args();
-		array_unshift($args, $this);
+		$fields = false;
+		foreach ($args as $arg){
+			if ($arg instanceof modelField){
+				$fields = true;
+			}
+		}
+		if (!$fields) array_unshift($args, $this);
 		$result = new modelResultSet();
 		call_user_func_array(array($result, 'select'), $args);
 		return $result;
