@@ -8,7 +8,7 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 	public function destroy(){
 		$this->_result = null;
 		foreach ($this->_list as $m){
-			if (is_subclass_of($m, 'model')) $m->destroy();
+			if (is_subclass_of($m, 'model')) destroy($m);
 		}
 		$this->free();
 		$this->_list = array();
