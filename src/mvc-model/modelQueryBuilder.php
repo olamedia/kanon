@@ -55,7 +55,7 @@ class modelQueryBuilder{
 					$table = $arg;
 				}
 				if ($arg instanceof modelField){
-					$table = $arg->getTable();
+					$table = $arg->getCollection();
 					$field = $arg;
 				}
 
