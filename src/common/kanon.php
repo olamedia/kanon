@@ -13,7 +13,9 @@ class kanon{
 	private static $_actionControllers = array();
 	private static $_menu = array();
 	private static $_deferredFunctions = array();
-
+	public static function onShutdown(){
+		keep($_SESSION); // do not destroy models
+	}
 	public static function defer($function){
 		self::$_deferredFunctions[] = $function;
 	}
@@ -163,6 +165,8 @@ class kanon{
 		return false;
 	}
 }
+
+register_shutdown_function(array('kanon', 'onShutdown'));
 
 if (function_exists('spl_autoload_register')){
 	spl_autoload_register(array('kanon', 'autoload'));
