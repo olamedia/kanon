@@ -153,7 +153,7 @@ class modelStorage{
 		}
 		$sql = $this->_getInsertSql($model);
 		if ($debug) echo $sql;
-		if ($this->query($sql)){
+		if ($this->execute($sql)){
 			$model->makeValuesInitial();
 			// Update AutoIncrement property
 			$autoIncrement = $model->getAutoIncrement();
@@ -188,7 +188,7 @@ class modelStorage{
 			if (isset($_COOKIE['debug'])){
 				echo $sql;
 			}
-			if ($this->query($sql)){
+			if ($this->execute($sql)){
 				$model->makeValuesInitial();
 				return true;
 			}
