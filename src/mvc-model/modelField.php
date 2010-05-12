@@ -37,7 +37,7 @@ class modelField{
 		return new modelExpression($this, '=', $value);
 	}
 	public function not($value){
-		return new modelExpression($this, '!=', $value);
+		return new modelExpression($this, '<>', $value);
 	}
 	public function min(){
 		return new modelAggregation($this, 'MIN');
