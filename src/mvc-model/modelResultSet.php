@@ -1,5 +1,6 @@
 <?php
 require_once dirname(__FILE__).'/modelQueryBuilder.php';
+require_once dirname(__FILE__).'/modelResultSetIterator.php';
 class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Countable{
 	protected $_result = null;
 	protected $_finished = false;
@@ -69,6 +70,9 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 		}
 		return true;
 	}
+	public function reset(){
+		
+	}
 	/**
 	 * Fetch a result row
 	 * @return model
@@ -94,9 +98,10 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 		while ($this->fetch()){}
 	}
 	public function getIterator(){
-		$this->useCache(true);
-		$this->_fetchAll();
-		return new ArrayIterator($this->_list);
+		//$this->useCache(true);
+		//$this->_fetchAll();
+		//return new ArrayIterator($this->_list);
+		return new modelResultSetIterator($this);
 	}
 	public function delete(){ // Properly delete models
 		foreach ($this as $result){
