@@ -15,6 +15,16 @@ class model implements ArrayAccess, IteratorAggregate{
 	protected $_foreignKeys = array(); // property => array(foreignClass, foreignProperty)
 	protected $_options = array(); // propertyName => options
 	protected $_templateMode = false;
+	/*protected static function getId(){
+		static $id = 0;
+		$id++;
+		return $id;
+	}
+	public function getModelId(){
+		static $id = null;
+		if ($id === null) $id = self::getId();
+		return $id;
+	}*/
 	public function keep(){ // protect from destroying after script ends (to allow saving in $_SESSION)
 		$this->isDestroyed = true;
 		foreach ($this->_properties as $property){
@@ -77,7 +87,7 @@ class model implements ArrayAccess, IteratorAggregate{
 	public function __destruct(){
 		//static $isDestroyed = false;
 		if ($this->isDestroyed) return;
-		echo ' destruct ';
+		//echo ' destruct ';
 		$this->isDestroyed = true;
 		foreach ($this->_properties as $k => &$property){
 			destroy($property); // destroy backlinks to model

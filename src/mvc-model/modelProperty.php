@@ -32,7 +32,7 @@ class modelProperty{
 	}
 	protected $isDestroyed = false;
 	public function __destruct(){
-		echo ' destruct ';
+		//echo ' destruct ';
 		//static $isDestroyed = false;
 		if ($this->isDestroyed) return;
 		$this->isDestroyed = true;
@@ -40,7 +40,7 @@ class modelProperty{
 		$this->_defaultValue = null;
 		$this->_initialValue = null;
 		$this->_options = null;
-		unset($this->_model);
+		$this->_model = null;
 	}
 	/*protected function _clone(&$var){
 		$var = is_object($var)?clone $var:$var;
