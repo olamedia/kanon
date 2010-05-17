@@ -82,6 +82,12 @@ class model implements ArrayAccess, IteratorAggregate{
 			destroy($property); // destroy backlinks to model
 			unset($this->_properties[$k]);
 		}
+		foreach ($this->_classes as $k => $v){
+			unset($this->_classes[$k]);
+		}
+		foreach ($this->_fields as $k => $v){
+			unset($this->_fields[$k]);
+		}
 	}
 	public function isValid(){
 		foreach ($this as $property){
