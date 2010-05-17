@@ -275,6 +275,17 @@ class model implements ArrayAccess, IteratorAggregate{
 				$control->postSave();
 			}
 		}
+		//$changed = false;
+		foreach ($this->_classes as $propertyName => $class){
+			$property = $this->_getProperty($propertyName);
+			if ($property->isChangedValue()){
+				//$changed = true;
+				return $this->save();
+			}
+		}
+		//if ($changed){
+		//	return $this->save();
+		//}
 		return $result;
 	}
 	public function insert($debug = false){
