@@ -18,6 +18,7 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 		if ($this->_result !== null){
 			$this->getStorage()->getDriver()->free($this->_result);
 			$this->_result = null;
+			$this->_finished = false;
 		}
 	}
 	public function __destruct(){
@@ -71,7 +72,7 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 		return true;
 	}
 	public function reset(){
-		
+		$this->free();
 	}
 	/**
 	 * Fetch a result row
@@ -83,9 +84,9 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 		if ($this->_result){
 			if ($a = $this->getStorage()->fetch($this->_result)){
 				$models = $this->_makeModels($a);
-				if ($this->_useCache){
-					$this->_list[] = $models;
-				}
+				//if ($this->_useCache){
+				//	$this->_list[] = $models;
+				//}
 				return $models;
 			}
 		}
