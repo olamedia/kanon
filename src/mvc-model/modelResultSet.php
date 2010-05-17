@@ -28,7 +28,7 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 		$this->_useCache = $use;
 		return $this;
 	}
-	protected function _makeModels($a){
+	protected function &_makeModels(&$a){
 		$models = array();
 		foreach ($this->_selected as $sa){
 			if ($sa instanceof modelAggregation){

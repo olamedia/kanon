@@ -9,9 +9,13 @@ class modelResultSetIterator implements Iterator{
 	public function __construct($resultSet){
 		$this->_resultSet = $resultSet;
 	}
+	protected function _fetch(){
+		$this->_current = $this->_resultSet->fetch();
+		return $this->_current;
+	}
 	public function rewind(){
 		$this->_resultSet->reset();
-		$this->_current = $this->_resultSet->fetch();
+		return $this->_fetch();
 	}
 	public function current(){
 		return $this->_current;
@@ -21,8 +25,7 @@ class modelResultSetIterator implements Iterator{
 	}
 	public function next(){
 		$this->_key++;
-		$this->_current = $this->_resultSet->fetch();
-		return $this->_current;
+		return $this->_fetch();
 	}
 	public function valid(){
 		return ($this->current() !== false);
