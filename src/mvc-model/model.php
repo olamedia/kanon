@@ -77,6 +77,7 @@ class model implements ArrayAccess, IteratorAggregate{
 	public function __destruct(){
 		//static $isDestroyed = false;
 		if ($this->isDestroyed) return;
+		echo ' destruct ';
 		$this->isDestroyed = true;
 		foreach ($this->_properties as $k => &$property){
 			destroy($property); // destroy backlinks to model
