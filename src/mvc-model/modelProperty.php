@@ -92,8 +92,8 @@ class modelProperty{
 			$this->_control->setProperty($this);
 		}
 	}
-	public function setModel($model){
-		$this->_model = $model;
+	public function setModel(&$model){
+		$this->_model = &$model;
 	}
 	/**
 	 * @return model
