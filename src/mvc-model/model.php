@@ -189,7 +189,7 @@ class model implements ArrayAccess, IteratorAggregate{
 			if (isset($this->_fields[$name])){
 				$this->_properties[$name]->setFieldName($this->_fields[$name]);
 			}
-			$this->_properties[$name]->setModel($this);
+			//$this->_properties[$name]->setModel($this);
 			if (isset($this->_options[$name]) && is_array($this->_options[$name])){
 				$this->_properties[$name]->setOptions($this->_options[$name]);
 			}
