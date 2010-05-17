@@ -14,7 +14,7 @@ class model implements ArrayAccess, IteratorAggregate{
 	protected $_autoIncrement = null; // propertyName
 	protected $_foreignKeys = array(); // property => array(foreignClass, foreignProperty)
 	protected $_options = array(); // propertyName => options
-	protected $_templateMode = false;
+	protected $_templateMode = false; 
 	/*protected static function getId(){
 		static $id = 0;
 		$id++;
