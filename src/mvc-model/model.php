@@ -268,6 +268,7 @@ class model implements ArrayAccess, IteratorAggregate{
 			}
 		}
 		$result = $this->getStorage()->saveModel($this, $debug);
+		
 		$this->postSave();
 		foreach ($this->_classes as $propertyName => $class){
 			$property = $this->_getProperty($propertyName);
@@ -310,6 +311,7 @@ class model implements ArrayAccess, IteratorAggregate{
 			$property->preUpdate();
 		}
 		$result = $this->getStorage()->updateModel($this, $debug);
+		$this->makeValuesInitial();
 		$this->postUpdate();
 		foreach ($this->_classes as $propertyName => $class){
 			$property = $this->_getProperty($propertyName);
