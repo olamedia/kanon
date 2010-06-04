@@ -137,6 +137,9 @@ class modelProperty{
 		}
 		return $this->_calc($this->_value);
 	}
+	public function forceSetValue($value){
+		$this->_value = $value;
+	}
 	public function setValue($value){
 		$this->_value = $value;
 	}

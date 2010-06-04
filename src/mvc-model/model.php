@@ -214,7 +214,7 @@ class model implements ArrayAccess, IteratorAggregate{
 			$property = $this->_getProperty($propertyName);
 			if ($property->isChangedValue()){
 				$property->setInitialValue($property->getValue());
-				$property->setValue(null);
+				$property->forceSetValue(null);
 			}
 		}
 	}
