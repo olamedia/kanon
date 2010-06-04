@@ -16,7 +16,7 @@ class modelField{
 	}
 	/*public function getUniqueId(){
 		return $this->_collection->getUniqueId().'__'.$this->_fieldName;
-	}*/
+		}*/
 	public function __construct($collection, $fieldname){
 		$this->_collection = $collection;
 		$this->_fieldName = $fieldname;
@@ -60,7 +60,7 @@ class modelField{
 		return new modelAggregation($this, 'AVG');
 	}
 	/**
-	 * < $value 
+	 * < $value
 	 * @param $value
 	 */
 	public function lt($value){
@@ -95,5 +95,8 @@ class modelField{
 	}
 	public function like($value){
 		return new modelExpression($this, 'LIKE', $value);
+	}
+	public function notLike($value){
+		return new modelExpression($this, 'NOT LIKE', $value);
 	}
 }
