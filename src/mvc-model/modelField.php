@@ -33,9 +33,17 @@ class modelField{
 	public function __toString(){
 		return $this->_collection->getUniqueId().'.`'.$this->_fieldName.'`';
 	}
+	/**
+	 * = $value
+	 * @param $value
+	 */
 	public function is($value){
 		return new modelExpression($this, '=', $value);
 	}
+	/**
+	 * != $value
+	 * @param $value
+	 */
 	public function not($value){
 		return new modelExpression($this, '<>', $value);
 	}
@@ -51,11 +59,33 @@ class modelField{
 	public function avg(){
 		return new modelAggregation($this, 'AVG');
 	}
+	/**
+	 * < $value 
+	 * @param $value
+	 */
 	public function lt($value){
 		return new modelExpression($this, '<', $value);
 	}
+	/**
+	 * <= $value
+	 * @param $value
+	 */
+	public function lte($value){
+		return new modelExpression($this, '<=', $value);
+	}
+	/**
+	 * > $value
+	 * @param $value
+	 */
 	public function gt($value){
 		return new modelExpression($this, '>', $value);
+	}
+	/**
+	 * >= $value
+	 * @param $value
+	 */
+	public function gte($value){
+		return new modelExpression($this, '>=', $value);
 	}
 	public function in($value){
 		return new modelExpression($this, 'IN', $value);
