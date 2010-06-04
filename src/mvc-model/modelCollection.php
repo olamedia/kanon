@@ -139,6 +139,18 @@ class modelCollection implements ArrayAccess{
 		}
 		return $this->_helper;
 	}
+	public function getPrimaryKey(){
+		return $this->getHelper()->getPrimaryKey();
+	}
+	public function find(){
+		$args = func_get_args();
+		$pk = $this->getPrimaryKey();
+		$list = $this->select();
+		foreach ($pk as $fieldName){
+			$list->where($this->{$fieldName}->is(array_shift($args)));
+		}
+		return $list;
+	}
 	public static function &getInstance($modelName){
 		if (!isset(self::$_instances[$modelName])){
 			self::$_instances[$modelName] = new self($modelName);

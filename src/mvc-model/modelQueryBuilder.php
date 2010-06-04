@@ -91,14 +91,14 @@ class modelQueryBuilder{
 				$joinType = 'INNER';
 				$joinOn = '';
 				if (isset($this->_joinType[$table2->getUniqueId()])){
-					//$joinType = $this->_joinType[$table2->getUniqueId()];
+					$joinType = $this->_joinType[$table2->getUniqueId()];
 				}
 				if (isset($this->_joinOn[$table2->getUniqueId()])){
 					$joinOn = $this->_joinOn[$table2->getUniqueId()];
 				}else{
 					$joinOn = $table2->getJoinOn($sourceTable);
 				}
-				$joins = modelStorage::getIndirectTablesJoins($sourceTable, $table2, $joinType, $joinOn,$this->_joinType);
+				$joins = modelStorage::getIndirectTablesJoins($sourceTable, $table2, $joinType, $joinOn);
 				if ($joins !== false){
 					foreach ($joins as $uid => $joinString){
 						if (!isset($joined[$uid])){
@@ -109,6 +109,7 @@ class modelQueryBuilder{
 				}
 			}
 		}
+		//var_dump($this->_join);
 	}
 	/**
 	 * @return modelQueryBuilder

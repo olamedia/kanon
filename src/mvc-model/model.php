@@ -144,6 +144,8 @@ class model implements ArrayAccess, IteratorAggregate{
 			require_once dirname(__FILE__).'/../common/compat/get_called_class.php';
 			// PHP 5 >= 5.2.4
 		}
+		//echo get_called_class();
+		//var_dump(debug_backtrace());
 		return modelCollection::getInstance(get_called_class()); // PHP 5 >= 5.3.0
 	}
 	public function getIterator(){

@@ -306,14 +306,12 @@ class modelStorage{
 	public static function getTableModel($collection){
 		return $collection->getModelClass();
 	}
-	public static function getIndirectTablesJoins($sourceTable, $targetTable, $joinType, $joinOn = '',$joinTypes){
-		//echo 'getIndirectTablesJoins('.$sourceTable.','.$targetTable.','.$joinType.') ';
+	public static function getIndirectTablesJoins($sourceTable, $targetTable, $joinType, $joinOn = ''){
 		$keys = &storageRegistry::getInstance()->foreignKeys;
 		$sourceClass = self::getTableModel($sourceTable);
 		$targetClass = self::getTableModel($targetTable);
 		$joins = array();
 		$joinedTables = array();
-		$joinType = isset($joinTypes[$targetTable->getUniqueId()])?$joinTypes[$targetTable->getUniqueId()]:'INNER';
 		//echo 'Connecting from '.$sourceClass.' to '.$targetClass.'<br />';
 		foreach ($keys[$sourceClass] as $foreignClass => $options){
 			if ($foreignClass == $targetClass){
@@ -321,15 +319,13 @@ class modelStorage{
 					$viaClass = $options;
 					//echo 'Connecting via '.$viaClass.'<br />';
 					$viaTable = modelCollection::getInstance($viaClass);
-					$joinType = isset($joinTypes[$viaTable->getUniqueId()])?$joinTypes[$viaTable->getUniqueId()]:'INNER';
-					$subJoins = self::getIndirectTablesJoins($sourceTable, $viaTable, '','',$joinTypes);
+					$subJoins = self::getIndirectTablesJoins($sourceTable, $viaTable, $joinOptions);
 					if ($subJoins !== false){
 						foreach ($subJoins as $uid => $joinString){
 							$joins[$uid] = $joinString;
 						}
 					}
-					$joinType = isset($joinTypes[$targetTable->getUniqueId()])?$joinTypes[$targetTable->getUniqueId()]:'INNER';
-					$subJoins = self::getIndirectTablesJoins($viaTable, $targetTable, '','',$joinTypes);
+					$subJoins = self::getIndirectTablesJoins($viaTable, $targetTable, $joinOptions);
 					if ($subJoins !== false){
 						foreach ($subJoins as $uid => $joinString){
 							$joins[$uid] = $joinString;
