@@ -48,6 +48,8 @@ class modelQueryBuilder{
 				}
 				$field = $arg;
 				$this->_selected[] = $arg;
+			}elseif(is_array($arg)){
+				$this->_selected[] = $arg;
 			}else{
 				$table = null;
 				$field = null;
@@ -70,9 +72,13 @@ class modelQueryBuilder{
 				if ($arg instanceof modelField){
 					$a["$field"] = $field;
 				}
-				$this->_selected[] = array($table, $a);
-				$this->_selectedTables[$table->getUniqueId()] = $table;
-				$this->_joinedTables[$table->getUniqueId()] = $table;
+				if ($table instanceof modelCollection){
+					$this->_selected[] = array($table, $a);
+					$this->_selectedTables[$table->getUniqueId()] = $table;
+					$this->_joinedTables[$table->getUniqueId()] = $table;
+				}else{
+					
+				}
 			}
 		}
 		//var_dump($this->_selected);
@@ -91,14 +97,14 @@ class modelQueryBuilder{
 				$joinType = 'INNER';
 				$joinOn = '';
 				if (isset($this->_joinType[$table2->getUniqueId()])){
-					$joinType = $this->_joinType[$table2->getUniqueId()];
+					//$joinType = $this->_joinType[$table2->getUniqueId()];
 				}
 				if (isset($this->_joinOn[$table2->getUniqueId()])){
 					$joinOn = $this->_joinOn[$table2->getUniqueId()];
 				}else{
 					$joinOn = $table2->getJoinOn($sourceTable);
 				}
-				$joins = modelStorage::getIndirectTablesJoins($sourceTable, $table2, $joinType, $joinOn);
+				$joins = modelStorage::getIndirectTablesJoins($sourceTable, $table2, $joinType, $joinOn,$this->_joinType);
 				if ($joins !== false){
 					foreach ($joins as $uid => $joinString){
 						if (!isset($joined[$uid])){
@@ -128,7 +134,8 @@ class modelQueryBuilder{
 	 */
 	public function &autoJoin($table2){
 		$joinType = isset($this->_joinType[$table2->getUniqueId()])?$this->_joinType[$table2->getUniqueId()]:'INNER';
-		$this->_joinType[$table2->getUniqueId()] = $joinType;
+		//if (!isset($this->_joinType[$table2->getUniqueId()]))
+			//$this->_joinType[$table2->getUniqueId()] = $joinType;
 		$this->_joinedTables[$table2->getUniqueId()] = $table2;
 		return $this;
 	}
@@ -234,11 +241,17 @@ class modelQueryBuilder{
 		foreach ($this->_selected as $sa){
 			if (is_array($sa)){
 				list($table, $fields) = $sa;
-				foreach ($fields as $fid => $field){
-					$wa[] = $field." as ".$field->getUniqueId();
+				if ($table instanceof modelCollection){
+					foreach ($fields as $fid => $field){
+						$wa[] = $field." as ".$field->getUniqueId();
+					}
+				}else{
+					list($k,$v) = each($sa);
+					$wa[] = "$v as $k";
 				}
 			}else{
-				$wa[] = "$sa";
+				list($k,$v) = each($sa);
+				$wa[] = "$v as $k";
 			}
 		}
 		return implode(", ", $wa);
