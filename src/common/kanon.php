@@ -7,6 +7,7 @@ require_once dirname(__FILE__).'/../mvc-model/modelCollection.php';
 require_once dirname(__FILE__).'/fileStorage.php';
 class kanon{
 	private static $_uniqueId = 0;
+	private static $_uniqueIdMap = array(); 
 	private static $_basePath = null;
 	private static $_loadedModules = array();
 	private static $_autoload = array();
@@ -34,7 +35,10 @@ class kanon{
 	 * @param string $storageName
 	 * @return fileStorage
 	 */
-	public static function getUniqueId(){
+	public static function getUniqueId($uniqueString = null){
+		if ($uniqueString !== null && isset(self::$_uniqueIdMap[$uniqueString])){
+			return self::$_uniqueIdMap[$uniqueString];
+		}
 		$id = self::$_uniqueId;
 		$id = strval(base_convert($id, 10, 26));
 		$shift = ord("a") - ord("0");
@@ -47,6 +51,9 @@ class kanon{
 			}
 		}
 		self::$_uniqueId++;
+		if ($uniqueString !== null){
+			self::$_uniqueIdMap[$uniqueString] = $id.'_';
+		}
 		return $id.'_';
 	}
 	public static function getStorage($storageName = 'default'){

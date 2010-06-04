@@ -10,7 +10,7 @@ class modelField{
 	protected $_uniqueId = null;
 	public function getUniqueId(){
 		if ($this->_uniqueId === null){
-			$this->_uniqueId = kanon::getUniqueId();
+			$this->_uniqueId = kanon::getUniqueId('modelField:'.$this->_collection->getUniqueId().'.'.$this->_fieldName);
 		}
 		return $this->_uniqueId;
 	}
