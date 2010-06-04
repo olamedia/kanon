@@ -283,6 +283,9 @@ class model implements ArrayAccess, IteratorAggregate{
 			$property = $this->_getProperty($propertyName);
 			if ($property->isChangedValue()){
 				//$changed = true;
+				if (isset($_COOKIE['debug'])){
+					echo ' changed '.$property->getName().' ';
+				}
 				return $this->save();
 			}
 		}
