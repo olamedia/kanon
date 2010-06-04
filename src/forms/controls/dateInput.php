@@ -12,6 +12,7 @@ class dateInput extends textInput{
 	}
 	public function getValue(){
 		$value = parent::getValue();
+		if (!$value) return '';
 		return date("d.m.Y", $value); 
 	}
 }
