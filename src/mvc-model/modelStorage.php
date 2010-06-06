@@ -333,7 +333,7 @@ class modelStorage{
 					}
 					return $joins;
 				}else{
-					//$joinType = isset($joinOptions[$targetTable->getUniqueId()]['type'])?$joinOptions[$targetTable->getUniqueId()]['type']:'INNER';
+					// FIXED JOIN TYPE & ON() SELECTION
 					$joinType = isset($joinTypes[$targetTable->getUniqueId()])?$joinTypes[$targetTable->getUniqueId()]:'INNER';
 					$joinOn = $sourceTable->getJoinOn($targetTable);
 					if ($joinOn === null){
