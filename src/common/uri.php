@@ -127,9 +127,9 @@ class uri{
 	public static function fromRequestUri(){
 		$uri = $_SERVER['REQUEST_URI'];
 		if (isset($_SERVER['DOCUMENT_URI'])){
-			$uri = $_SERVER['DOCUMENT_URI']; // nginx ssi include fix (REQUEST_URI = /)
+			$uri = $_SERVER['DOCUMENT_URI']; // nginx SSI include fix (REQUEST_URI = /)
 		}
-		return uri::fromString($_SERVER['REQUEST_URI']);
+		return uri::fromString($uri);
 	}
 	/**
 	 * Subtract $baseUri from left part of URI
