@@ -108,6 +108,13 @@ class controllerPrototype{
 		return $relativeUri;
 	}
 	/**
+	 * Returns SSI Include instruction <!--# include virtual="$uri" -->
+	 * @param string $uri
+	 */
+	public function ssi($uri){
+		return '<!--# include virtual="'.$uri.'" -->';
+	}
+	/**
 	 * Redirect with custom HTTP code
 	 * @param string $message
 	 */
