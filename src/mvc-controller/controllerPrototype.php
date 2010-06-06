@@ -416,7 +416,8 @@ class controllerPrototype{
 			if ($this->getCurrentUrl() != $this->getCanonicalUrl()){
 				//echo $this->getCurrentUrl().'<br >';
 				//echo $this->getCanonicalUrl().'<br >';
-				$this->movedPermanently($this->getCanonicalUrl());
+				// TODO FIX INCORRECT REDIRECTS
+				//$this->movedPermanently($this->getCanonicalUrl());
 			}
 		}
 		if ($action = $this->_relativeUri->getBasePath()){
