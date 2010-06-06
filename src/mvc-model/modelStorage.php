@@ -335,6 +335,13 @@ class modelStorage{
 				}else{
 					//$joinType = isset($joinOptions[$targetTable->getUniqueId()]['type'])?$joinOptions[$targetTable->getUniqueId()]['type']:'INNER';
 					$joinType = isset($joinTypes[$targetTable->getUniqueId()])?$joinTypes[$targetTable->getUniqueId()]:'INNER';
+					$joinOn = $sourceTable->getJoinOn($targetTable);
+					if ($joinOn === null){
+						$joinOn = $targetTable->getJoinOn($sourceTable);
+						if ($joinOn === null){
+							$joinOn = '';
+						}
+					}
 					list($sourcePropertyName, $targetPropertyName) = $options;
 					$joinString = " ".$joinType." JOIN {$targetTable->getTableName()} AS $targetTable ON ({$sourceTable->$sourcePropertyName} = {$targetTable->$targetPropertyName}";
 					if (strlen($joinOn)){

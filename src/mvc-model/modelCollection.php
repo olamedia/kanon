@@ -27,7 +27,7 @@ class modelCollection implements ArrayAccess{
 		return $this;
 	}
 	public function getJoinOn($table2){
-		return isset($this->_joinOn[$table2->getUniqueId()])?$this->_joinOn[$table2->getUniqueId()]:'';
+		return isset($this->_joinOn[$table2->getUniqueId()])?$this->_joinOn[$table2->getUniqueId()]:null;
 	}
 	public function setDefaultFieldValue(){
 		// @todo
