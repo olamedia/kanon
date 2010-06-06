@@ -125,6 +125,10 @@ class uri{
 	 * @return uri
 	 */
 	public static function fromRequestUri(){
+		$uri = $_SERVER['REQUEST_URI'];
+		if (isset($_SERVER['DOCUMENT_URI'])){
+			$uri = $_SERVER['DOCUMENT_URI']; // nginx ssi include fix (REQUEST_URI = /)
+		}
 		return uri::fromString($_SERVER['REQUEST_URI']);
 	}
 	/**
