@@ -306,7 +306,7 @@ class modelStorage{
 	public static function getTableModel($collection){
 		return $collection->getModelClass();
 	}
-	public static function getIndirectTablesJoins($sourceTable, $targetTable, $joinType, $joinOn = ''){
+	public static function getIndirectTablesJoins($sourceTable, $targetTable, $joinTypes){
 		$keys = &storageRegistry::getInstance()->foreignKeys;
 		$sourceClass = self::getTableModel($sourceTable);
 		$targetClass = self::getTableModel($targetTable);
@@ -319,13 +319,13 @@ class modelStorage{
 					$viaClass = $options;
 					//echo 'Connecting via '.$viaClass.'<br />';
 					$viaTable = modelCollection::getInstance($viaClass);
-					$subJoins = self::getIndirectTablesJoins($sourceTable, $viaTable, $joinOptions);
+					$subJoins = self::getIndirectTablesJoins($sourceTable, $viaTable, $joinTypes);
 					if ($subJoins !== false){
 						foreach ($subJoins as $uid => $joinString){
 							$joins[$uid] = $joinString;
 						}
 					}
-					$subJoins = self::getIndirectTablesJoins($viaTable, $targetTable, $joinOptions);
+					$subJoins = self::getIndirectTablesJoins($viaTable, $targetTable, $joinTypes);
 					if ($subJoins !== false){
 						foreach ($subJoins as $uid => $joinString){
 							$joins[$uid] = $joinString;
@@ -334,6 +334,7 @@ class modelStorage{
 					return $joins;
 				}else{
 					//$joinType = isset($joinOptions[$targetTable->getUniqueId()]['type'])?$joinOptions[$targetTable->getUniqueId()]['type']:'INNER';
+					$joinType = isset($joinTypes[$targetTable->getUniqueId()])?$joinTypes[$targetTable->getUniqueId()]:'INNER';
 					list($sourcePropertyName, $targetPropertyName) = $options;
 					$joinString = " ".$joinType." JOIN {$targetTable->getTableName()} AS $targetTable ON ({$sourceTable->$sourcePropertyName} = {$targetTable->$targetPropertyName}";
 					if (strlen($joinOn)){

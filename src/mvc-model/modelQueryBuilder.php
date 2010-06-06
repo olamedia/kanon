@@ -104,7 +104,7 @@ class modelQueryBuilder{
 				}else{
 					$joinOn = $table2->getJoinOn($sourceTable);
 				}
-				$joins = modelStorage::getIndirectTablesJoins($sourceTable, $table2, $joinType, $joinOn,$this->_joinType);
+				$joins = modelStorage::getIndirectTablesJoins($sourceTable, $table2, $this->_joinType);
 				if ($joins !== false){
 					foreach ($joins as $uid => $joinString){
 						if (!isset($joined[$uid])){
