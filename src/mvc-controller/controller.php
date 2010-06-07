@@ -65,10 +65,14 @@ class controller extends controllerPrototype{
 		return $this->getRegistry()->title;
 	}
 	public function appendToBreadcrumb($links = array()){
-		if (count($links)){
-			foreach ($links as $link){
-				$this->getRegistry()->breadcrumb[] = $link;
+		if (is_array($links)){
+			if (count($links)){
+				foreach ($links as $link){
+					$this->getRegistry()->breadcrumb[] = $link;
+				}
 			}
+		}else{
+			$this->getRegistry()->breadcrumb[] = $links;
 		}
 		return $this;
 	}
