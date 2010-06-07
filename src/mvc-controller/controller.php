@@ -76,7 +76,9 @@ class controller extends controllerPrototype{
 		return $this->getRegistry()->breadcrumb->toArray();
 	}
 	public function viewBreadcrumb(){
-		echo '<div class="app_breadcrumb">'.implode(" → ", $this->getBreadcrumb()).'</div>';
+		if (count($this->getBreadcrumb()) > 1){
+			echo '<div class="app_breadcrumb">'.implode(" → ", $this->getBreadcrumb()).'</div>';
+		}
 	}
 	public function getUser(){
 		static $user;
