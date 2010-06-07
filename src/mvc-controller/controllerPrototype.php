@@ -410,6 +410,7 @@ class controllerPrototype{
 	 * Run controller - select methods and run them
 	 */
 	public function run($methodToRun = null){
+		kanon::setFinalController($this);
 		$methodFound = false;
 		$class = get_class($this);
 		if (strlen($this->_relativeUri) > 1){ // longer than "/"

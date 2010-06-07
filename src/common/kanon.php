@@ -14,6 +14,13 @@ class kanon{
 	private static $_actionControllers = array();
 	private static $_menu = array();
 	private static $_deferredFunctions = array();
+	private static $_finalController = null;
+	public static function setFinalController($controller){
+		self::$_finalController = $controller;
+	}
+	public static function getFinalController(){
+		return self::$_finalController;
+	}
 	public static function onShutdown(){
 		keep($_SESSION); // do not destroy models
 	}
