@@ -127,12 +127,13 @@ class model implements ArrayAccess, IteratorAggregate{
 
 	public function getCreateSql(){
 		$t = $this->getTableName();
+		$driver = $this->getStorage()->getDriver();
 		// IF NOT EXISTS
 		$sql = 'CREATE TABLE "'.$t.'" ('."\r\n";
 		$set = array();
 		foreach ($this->_fields as $propertyName => $fieldName){
 			$property = $this->_getProperty($propertyName);
-			$set[] = "\t".$property->getCreateSql().
+			$set[] = "\t".$property->getCreateSql($driver).
 			($property->getName() == $this->_autoIncrement?' AUTO_INCREMENT':'');
 		}
 		if (count($this->_primaryKey)){
