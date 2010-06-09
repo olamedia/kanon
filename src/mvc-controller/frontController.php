@@ -5,7 +5,6 @@
 require_once dirname(__FILE__).'/controller.php';
 class frontController extends controller{
 	public static function startSession($domain, $expire = 360000) {
-		echo 'Session start';
 		ini_set("session.gc_maxlifetime", $expire);
 		session_set_cookie_params($expire, '/', $domain);
 		if (!session_start()){
@@ -15,6 +14,7 @@ class frontController extends controller{
 		if (isset($_COOKIE[session_name()])){
 			setcookie(session_name(), $_COOKIE[session_name()], time() + $expire, "/", $domain);
 		}
+		echo 'Session start';
 	}
 	public static function _stripSlashesDeep(&$value){
 		$value = is_array($value) ?
