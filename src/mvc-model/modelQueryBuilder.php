@@ -20,6 +20,9 @@ class modelQueryBuilder{
 	protected $_order = array();
 	protected $_group = array();
 	protected $_filters = array();
+	public function chunk($chunkLength){
+		// TODO
+	}
 	public function addFilter($filter){
 		$this->_filters[] = $filter;
 		return $this;
@@ -48,6 +51,10 @@ class modelQueryBuilder{
 				}
 				$field = $arg;
 				$this->_selected[] = $arg;
+			}elseif($arg instanceof modelExpression){
+				$this->where($arg);
+			//}elseif(is_integer($arg)){
+				//$this->limit($arg);
 			}elseif(is_array($arg)){
 				$this->_selected[] = $arg;
 			}else{
