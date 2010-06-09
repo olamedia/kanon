@@ -100,6 +100,9 @@ class modelProperty{
 	 * @return model
 	 */
 	public function getModel(){
+		if ($this->_model === null){
+			throw new Exception('model is not set');
+		}
 		return $this->_model;
 	}
 	public function getName(){

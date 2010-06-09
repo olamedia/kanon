@@ -145,9 +145,21 @@ class modelCollection implements ArrayAccess{
 	public function find(){
 		$args = func_get_args();
 		$pk = $this->getPrimaryKey();
+		$pkValues = array();
+		$expressions = array();
+		foreach ($args as $arg){
+			if ($arg instanceof modelExpression){
+				$expressions[] = $arg;
+			}else{
+				$pkValues[] = $arg;
+			}
+		}
 		$list = $this->select();
 		foreach ($pk as $fieldName){
-			$list->where($this->{$fieldName}->is(array_shift($args)));
+			$list->where($this->{$fieldName}->is(array_shift($pkValues)));
+		}
+		foreach ($expressions as $expression){
+			$list->where($expression);
 		}
 		return $list;
 	}
