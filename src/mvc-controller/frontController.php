@@ -14,7 +14,7 @@ class frontController extends controller{
 		if (isset($_COOKIE[session_name()])){
 			setcookie(session_name(), $_COOKIE[session_name()], time() + $expire, "/", $domain);
 		}
-		echo 'Session start';
+		//echo 'Session start';
 	}
 	public static function _stripSlashesDeep(&$value){
 		$value = is_array($value) ?
