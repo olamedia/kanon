@@ -18,6 +18,12 @@ class modelExpression{
 			$this->_right = implode(",", $this->_right);
 		}*/
 	}
+	public function setLeft($left){
+		$this->_left = $left;
+	}
+	public function setRight($right){
+		$this->_right = $right;
+	}
 	public function getArguments(){
 		return array($this->_left, $this->_right);
 	}

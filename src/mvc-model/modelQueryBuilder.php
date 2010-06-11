@@ -53,7 +53,7 @@ class modelQueryBuilder{
 				$this->_selected[] = $arg;
 			}elseif($arg instanceof modelExpression){
 				$this->where($arg);
-			//}elseif(is_integer($arg)){
+				//}elseif(is_integer($arg)){
 				//$this->limit($arg);
 			}elseif(is_array($arg)){
 				$this->_selected[] = $arg;
@@ -84,7 +84,7 @@ class modelQueryBuilder{
 					$this->_selectedTables[$table->getUniqueId()] = $table;
 					$this->_joinedTables[$table->getUniqueId()] = $table;
 				}else{
-					
+						
 				}
 			}
 		}
@@ -142,7 +142,7 @@ class modelQueryBuilder{
 	public function &autoJoin($table2){
 		$joinType = isset($this->_joinType[$table2->getUniqueId()])?$this->_joinType[$table2->getUniqueId()]:'INNER';
 		//if (!isset($this->_joinType[$table2->getUniqueId()]))
-			//$this->_joinType[$table2->getUniqueId()] = $joinType;
+		//$this->_joinType[$table2->getUniqueId()] = $joinType;
 		$this->_joinedTables[$table2->getUniqueId()] = $table2;
 		return $this;
 	}
@@ -178,14 +178,38 @@ class modelQueryBuilder{
 		}
 		return $this;
 	}
-	protected function _joinCondition($condition){
+	/**
+	 *
+	 * @param modelField $field
+	 */
+	protected function _fixJoinField(&$field){
+		$collection = $field->getCollection();
+		$foreignKeys = $collection->getForeignKeys();
+		$fieldName = $field->getName();
+		if (isset($foreignKeys[$fieldName])){
+			foreach ($foreignKeys[$fieldName] as $foreignModel => $foreignKey){
+				foreach ($this->_joinedTables as $table){
+					/** modelCollection $table */
+					if ($foreignModel == $table->getModelClass()){
+						$field = $table->{$foreignKey};
+						return;
+					}
+				}
+			}
+		}
+	}
+	protected function _joinCondition(&$condition){
 		if ($condition instanceof modelExpression){
 			$left = $condition->getLeft();
 			if ($left instanceof modelField){
+				$this->_fixJoinField($left);
+				$condition->setLeft($left);
 				$this->autoJoin($left->getCollection());
 			}
 			$right = $condition->getRight();
 			if ($right instanceof modelField){
+				$this->_fixJoinField($right);
+				$condition->setRight($right);
 				$this->autoJoin($right->getCollection());
 			}
 		}
@@ -196,8 +220,8 @@ class modelQueryBuilder{
 	public function &where(){
 		$conditions = func_num_args()?func_get_args():array();
 		foreach ($conditions as $condition){
-			$this->_where[] = $condition;
 			$this->_joinCondition($condition);
+			$this->_where[] = $condition;
 		}
 		return $this;
 	}
@@ -205,8 +229,8 @@ class modelQueryBuilder{
 	 * @return modelQueryBuilder
 	 */
 	public function &having($condition){
-		$this->_having[] = $condition;
 		$this->_joinCondition($condition);
+		$this->_having[] = $condition;
 		return $this;
 	}
 	/**
