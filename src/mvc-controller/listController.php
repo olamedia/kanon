@@ -32,7 +32,7 @@ class listController extends controller{
 			$parentItem = $item;
 			$bc = array();
 			while ($parentItem){
-				$bc[] = '<a href="'.$this->rel($item->id).'">'.$item->{$this->_title}->html().'</a>';
+				$bc[] = '<a href="'.$this->rel($parentItem->id).'">'.$parentItem->{$this->_title}->html().'</a>';
 				$parentItem = $parentItem->getParent();
 			}
 			$this->appendToBreadcrumb(array_reverse($bc));

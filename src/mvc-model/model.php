@@ -19,7 +19,7 @@ class model implements ArrayAccess, IteratorAggregate{
 	public function getParent(){
 		if ($this->_parentKey === null) return false;
 		$models = modelCollection::getInstance(get_class($this));
-		return $models->select()->where($models->{$this->_primaryKey[0]}->is($this->{$this->_parentKey}));
+		return $models->select()->where($models->{$this->_primaryKey[0]}->is($this->{$this->_parentKey}))->fetch();
 	}
 	public function getChildren($modelClass = null){
 		$models = modelCollection::getInstance(get_class($this));
