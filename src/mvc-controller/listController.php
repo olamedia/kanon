@@ -29,7 +29,14 @@ class listController extends controller{
 		$items = modelCollection::getInstance($model);
 		$item = $items->select()->where("$items->id = '$modelId'")->fetch();
 		if ($item){
-			$this->appendToBreadcrumb(array('<a href="'.$this->rel($modelId).'">'.$item->{$this->_title}->html().'</a>'));
+			$parentItem = $item;
+			$bc = array();
+			while ($parentItem){
+				$bc[] = '<a href="'.$this->rel($item->id).'">'.$item->{$this->_title}->html().'</a>';
+				$parentItem = $parentItem->getParent();
+			}
+			$this->appendToBreadcrumb(array_reverse($bc));
+			
 			$this->runController($subController, array($model => $item));
 		}
 	}
