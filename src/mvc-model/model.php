@@ -15,6 +15,15 @@ class model implements ArrayAccess, IteratorAggregate{
 	protected $_foreignKeys = array(); // property => array(foreignClass, foreignProperty)
 	protected $_options = array(); // propertyName => options
 	protected $_templateMode = false; 
+	protected $_parentKey = null;
+	public function getParent(){
+		$models = modelCollection::getInstance(get_class($this));
+		return $models->select()->where($models->{$this->_primaryKey[0]}->is($this->{$this->_parentKey}));
+	}
+	public function getChildren(){
+		$models = modelCollection::getInstance(get_class($this));
+		return $models->select()->where($models->{$this->_parentKey}->is($this->{$this->_primaryKey[0]}));
+	}
 	/*protected static function getId(){
 		static $id = 0;
 		$id++;
