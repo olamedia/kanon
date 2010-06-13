@@ -262,6 +262,7 @@ abstract class controlSet{
 	}
 	public function checkPost($key = null){
 		$this->checkTest();
+		$this->_key = $key;
 		$this->fillFromPost($key);
 		$this->checkTest();
 		if ($this->isValidValues()){
