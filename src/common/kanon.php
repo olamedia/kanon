@@ -75,7 +75,7 @@ class kanon{
 		return modelStorage::getInstance($storageName);
 	}
 	public static function getCollection($modelName){
-		return modelCollection::getCollection($modelName);
+		return modelCollection::getInstance($modelName);
 	}
 	public static function getBaseUri(){
 		$requestUri = $_SERVER['REQUEST_URI'];
