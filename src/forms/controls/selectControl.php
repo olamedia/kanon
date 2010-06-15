@@ -85,7 +85,16 @@ class selectControl extends control{
 					break;
 				case 'select':
 				default:
-					$options[] = '<option value="'.$optionId.'"'.($selectedId==$optionId?' selected="selected"':'').'>'.htmlspecialchars($optionTitle).'</option>';
+					if (is_array($optionTitle)){
+						$optgroup = '<optgroup label='.htmlspecialchars($optionId).'>';
+						foreach ($optionTitle as $optId => $optTitle){
+							$optgroup .= '<option value="'.$optId.'"'.($selectedId==$optId?' selected="selected"':'').'>'.htmlspecialchars($optTitle).'</option>';
+						}
+						$optgroup .= '</optgroup>';
+						$options[] = $optgroup;
+					}else{
+						$options[] = '<option value="'.$optionId.'"'.($selectedId==$optionId?' selected="selected"':'').'>'.htmlspecialchars($optionTitle).'</option>';
+					}
 					break;
 			}
 		}
