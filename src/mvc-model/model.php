@@ -40,6 +40,15 @@ class model implements ArrayAccess, IteratorAggregate{
 		if ($id === null) $id = self::getId();
 		return $id;
 	}*/
+	public static function findOne(){
+		$args = func_get_args();
+		if (!function_exists('get_called_class')){
+			require_once dirname(__FILE__).'/../common/compat/get_called_class.php';
+			// PHP 5 >= 5.2.4
+		}
+		$collection = modelCollection::getInstance(get_called_class());
+		return call_user_func_array(array($collection, 'findOne'), $args);
+	}
 	public static function find(){
 		$args = func_get_args();
 		if (!function_exists('get_called_class')){

@@ -142,6 +142,11 @@ class modelCollection implements ArrayAccess{
 	public function getPrimaryKey(){
 		return $this->getHelper()->getPrimaryKey();
 	}
+	public function findOne(){
+		$args = func_get_args();
+		$list = call_user_func_array(array($this, 'find'), $args);
+		return $list->fetch();
+	}
 	public function find(){
 		$args = func_get_args();
 		$pk = $this->getPrimaryKey();
