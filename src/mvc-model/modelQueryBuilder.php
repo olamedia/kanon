@@ -101,6 +101,7 @@ class modelQueryBuilder{
 		foreach ($this->_joinedTables as $tableUid => $table2){
 			if ($sourceTableUid !== $tableUid){ //
 				// Trying to join table
+				echo '<div><b>JOIN '.$table2->getName().'</b></div>';
 				$joinType = 'INNER';
 				$joinOn = '';
 				if (isset($this->_joinType[$table2->getUniqueId()])){
