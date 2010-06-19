@@ -277,7 +277,7 @@ class modelStorage{
 			//var_dump($a);
 			foreach ($a as $foreignModel => $foreignPropertyName){
 				//list($foreignModel, $foreignPropertyName) = $a;
-				echo '+ '.$modelName.'.'.$propertyName.' => '.$a.' '.$foreignModel.'.'.$foreignPropertyName.':<br />';
+				echo '+ '.$modelName.'.'.$propertyName.' =>  '.$foreignModel.'.'.$foreignPropertyName.':<br />';//'.$a.'
 				$keys[$foreignModel][$modelName] = array($foreignPropertyName, $propertyName);
 				$keys[$modelName][$foreignModel] = array($propertyName, $foreignPropertyName);
 			}
@@ -302,6 +302,8 @@ class modelStorage{
 			}
 			echo '</div>';
 		}
+		var_dump($keys);
+		var_dump($reverseKeys);
 	}
 	public static function getTableModel($collection){
 		return $collection->getModelClass();
