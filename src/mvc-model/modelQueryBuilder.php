@@ -84,7 +84,7 @@ class modelQueryBuilder{
 					$this->_selectedTables[$table->getUniqueId()] = $table;
 					$this->_joinedTables[$table->getUniqueId()] = $table;
 				}else{
-						
+
 				}
 			}
 		}
@@ -115,10 +115,12 @@ class modelQueryBuilder{
 				$min = null;
 				$minJoins = false;
 				foreach ($this->_joinedTables as $table1Uid => $table1){
-					$joins = modelStorage::getIndirectTablesJoins($table1, $table2, $this->_joinType);
-					if (($joins !== false) && (($min === null) || (count($joins) < $min))){
-						$minJoins = $joins;
-						$min = count($joins);
+					if ($table1Uid !== $table2->getUniqueId()){
+						$joins = modelStorage::getIndirectTablesJoins($table1, $table2, $this->_joinType);
+						if (($joins !== false) && (($min === null) || (count($joins) < $min))){
+							$minJoins = $joins;
+							$min = count($joins);
+						}
 					}
 				}
 				if ($minJoins !== false){
@@ -364,7 +366,7 @@ class modelQueryBuilder{
 		$sql = htmlspecialchars($this->getSql());
 		$m = array("FROM","INNER JOIN","WHERE","AND","OR","GROUP BY");
 		$pattern = '#( '.implode(" | ", $m).' )#imsu';
-		echo $pattern;
+		//echo $pattern;
 		$sql = preg_replace($pattern, '<br /><b style="color: red;">\1</b> ', $sql);
 		return '<div style="padding: 3px;" onClick="$(this).children(\'div\').show();"><b style="color: #24659B">SQL</b><div style="display: none; background: #FFE5BF; padding: 7px;">'.($sql).'</div></div>';
 	}
