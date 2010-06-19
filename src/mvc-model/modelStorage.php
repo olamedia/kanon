@@ -291,7 +291,7 @@ class modelStorage{
 					foreach ($keys[$viaModel] as $foreignModel => $options2){
 						if ($foreignModel !== $model){
 							if (!isset($keys[$model][$foreignModel])){
-								echo $model.'=>'.$foreignModel.' via '.$viaModel.'.<br />';
+								//echo $model.'=>'.$foreignModel.' via '.$viaModel.'.<br />';
 								//echo $indirectForeignClass2.'<br />';
 								$keys[$model][$foreignModel] = $viaModel;
 								$reverseKeys[$foreignModel][$model] = $viaModel;
@@ -302,10 +302,10 @@ class modelStorage{
 			}
 			//echo '</div>';
 		}
-		echo '<pre>';
-		var_dump($keys);
-		var_dump($reverseKeys);
-		echo '</pre>';
+		//echo '<pre>';
+		//var_dump($keys);
+		//var_dump($reverseKeys);
+		//echo '</pre>';
 	}
 	public static function getTableModel($collection){
 		return $collection->getModelClass();
