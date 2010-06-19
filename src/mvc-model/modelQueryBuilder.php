@@ -115,6 +115,7 @@ class modelQueryBuilder{
 				$joins = modelStorage::getIndirectTablesJoins($sourceTable, $table2, $this->_joinType);
 				if ($joins !== false){
 					foreach ($joins as $uid => $joinString){
+						echo $joinString;
 						if (!isset($joined[$uid])){
 							$this->_join[] = $joinString;
 							$joined[$uid] = true;
