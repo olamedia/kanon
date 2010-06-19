@@ -116,7 +116,7 @@ class modelQueryBuilder{
 				$minJoins = false;
 				foreach ($this->_joinedTables as $table1Uid => $table1){
 					$joins = modelStorage::getIndirectTablesJoins($sourceTable, $table2, $this->_joinType);
-					if (($min === null) || (count($joins) < $min)){
+					if (($joins !== false) && (($min === null) || (count($joins) < $min))){
 						$minJoins = $joins;
 						$min = count($joins);
 					}
