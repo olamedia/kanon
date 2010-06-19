@@ -16,6 +16,15 @@ class model implements ArrayAccess, IteratorAggregate{
 	protected $_options = array(); // propertyName => options
 	protected $_templateMode = false; 
 	protected $_parentKey = null;
+	public function getRelative($relativeModelClass){
+		$relativeModels = modelCollection::getInstance(get_class($relativeModelClass));
+		$models = modelCollection::getInstance(get_class($this));
+		$list = $relativeModels->select();
+		foreach ($this->_primaryKey as $propertyName){
+			$list->where($models->{$propertyName}->is($this->{$propertyName}));
+		}
+		return $list;
+	}
 	public function getParent(){
 		if ($this->_parentKey === null) return false;
 		$models = modelCollection::getInstance(get_class($this));
