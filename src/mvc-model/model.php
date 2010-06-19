@@ -25,6 +25,9 @@ class model implements ArrayAccess, IteratorAggregate{
 		}
 		return $list;
 	}
+	public function getOneRelative($relativeModelClass){
+		return $this->getRelative($relativeModelClass)->fetch();
+	}
 	public function getParent(){
 		if ($this->_parentKey === null) return false;
 		$models = modelCollection::getInstance(get_class($this));
