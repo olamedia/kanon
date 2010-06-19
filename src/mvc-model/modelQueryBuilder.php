@@ -364,7 +364,7 @@ class modelQueryBuilder{
 		$sql = htmlspecialchars($this->getSql());
 		$m = "INNER JOIN";
 		$r = "<br />INNER JOIN";
-		//$sql = strtr($sql, $m, $r);
+		$sql = str_replace($m, $r, $sql);
 		$m = "WHERE";
 		$r = "<br />WHERE";
 		//$sql = strtr($sql, $m, $r);
