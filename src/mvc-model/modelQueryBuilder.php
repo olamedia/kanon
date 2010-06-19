@@ -371,7 +371,7 @@ class modelQueryBuilder{
 		$m = "AND";
 		$r = "<br />AND";
 		//$sql = strtr($sql, $m, $r);
-		return '<div style="padding: 3px;" onClick="$(this).children(\'div\').show();"><b style="color: #24659B">SQL</b><div style="display: none;">'.($sql).'</div></div>';
+		return '<div style="padding: 3px;" onClick="$(this).children(\'div\').show();"><b style="color: #24659B">SQL</b><div style="display: none; background: #FFE5BF; padding: 7px;">'.($sql).'</div></div>';
 	}
 	public function &getSql(){
 		$this->getStorage()->registerForeignKeys();
