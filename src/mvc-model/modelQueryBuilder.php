@@ -118,6 +118,7 @@ class modelQueryBuilder{
 					$joins = modelStorage::getIndirectTablesJoins($sourceTable, $table2, $this->_joinType);
 					if (($min === null) || (count($joins) < $min)){
 						$minJoins = $joins;
+						$min = count($joins);
 					}
 				}
 				if ($minJoins !== false){
