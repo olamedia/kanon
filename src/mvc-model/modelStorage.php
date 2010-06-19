@@ -268,7 +268,7 @@ class modelStorage{
 		return $this;
 	}
 	protected function _registerForeignKeys($modelName){
-		echo '<div>+ '.$modelName.'</div>';
+		//echo '<div>+ '.$modelName.'</div>';
 		$keys = &$this->getRegistry()->foreignKeys;
 		$reverseKeys = &$this->getRegistry()->reverseKeys;
 		$collection = modelCollection::getInstance($modelName);
@@ -277,13 +277,13 @@ class modelStorage{
 			//var_dump($a);
 			foreach ($a as $foreignModel => $foreignPropertyName){
 				//list($foreignModel, $foreignPropertyName) = $a;
-				echo '+ '.$modelName.'.'.$propertyName.' =>  '.$foreignModel.'.'.$foreignPropertyName.':<br />';//'.$a.'
+				//echo '+ '.$modelName.'.'.$propertyName.' =>  '.$foreignModel.'.'.$foreignPropertyName.':<br />';//'.$a.'
 				$keys[$foreignModel][$modelName] = array($foreignPropertyName, $propertyName);
 				$keys[$modelName][$foreignModel] = array($propertyName, $foreignPropertyName);
 			}
 		}
 		foreach ($keys as $model => $connections){
-			echo '<div>Test '.$model.' ';
+			//echo '<div>Test '.$model.' ';
 			foreach ($connections as $viaModel => $options){
 				//echo 'using '.$viaModel.' ';
 				if ($keys->offsetExists($viaModel)){
@@ -300,10 +300,12 @@ class modelStorage{
 					}
 				}
 			}
-			echo '</div>';
+			//echo '</div>';
 		}
+		echo '<pre>';
 		var_dump($keys);
 		var_dump($reverseKeys);
+		echo '</pre>';
 	}
 	public static function getTableModel($collection){
 		return $collection->getModelClass();
