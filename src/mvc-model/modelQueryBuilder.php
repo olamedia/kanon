@@ -101,7 +101,7 @@ class modelQueryBuilder{
 		foreach ($this->_joinedTables as $tableUid => $table2){
 			if ($sourceTableUid !== $tableUid){ //
 				// Trying to join table
-				echo '<div><b>'.$sourceTable->getTableName().' JOIN '.$table2->getTableName().'</b></div>';
+				//echo '<div><b>'.$sourceTable->getTableName().' JOIN '.$table2->getTableName().'</b></div>';
 				$joinType = 'INNER';
 				$joinOn = '';
 				if (isset($this->_joinType[$table2->getUniqueId()])){
@@ -123,7 +123,7 @@ class modelQueryBuilder{
 				}
 				if ($minJoins !== false){
 					foreach ($minJoins as $uid => $joinString){
-						echo '!!!!'.$joinString;
+						//echo '!!!!'.$joinString;
 						if (!isset($joined[$uid])){
 							$this->_join[] = $joinString;
 							$joined[$uid] = true;
