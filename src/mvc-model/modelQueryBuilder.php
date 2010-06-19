@@ -364,13 +364,13 @@ class modelQueryBuilder{
 		$sql = htmlspecialchars($this->getSql());
 		$m = "INNER JOIN";
 		$r = "<br />INNER JOIN";
-		$sql = strtr($sql, $m, $r);
+		//$sql = strtr($sql, $m, $r);
 		$m = "WHERE";
 		$r = "<br />WHERE";
-		$sql = strtr($sql, $m, $r);
+		//$sql = strtr($sql, $m, $r);
 		$m = "AND";
 		$r = "<br />AND";
-		$sql = strtr($sql, $m, $r);
+		//$sql = strtr($sql, $m, $r);
 		return '<div style="padding: 3px;" onClick="$(this).children(\'div\').show();"><b style="color: #24659B">SQL</b><div style="display: none;">'.($sql).'</div></div>';
 	}
 	public function &getSql(){
