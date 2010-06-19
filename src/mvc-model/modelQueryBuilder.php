@@ -112,9 +112,16 @@ class modelQueryBuilder{
 				}else{
 					$joinOn = $table2->getJoinOn($sourceTable);
 				}
-				$joins = modelStorage::getIndirectTablesJoins($sourceTable, $table2, $this->_joinType);
-				if ($joins !== false){
-					foreach ($joins as $uid => $joinString){
+				$min = null;
+				$minJoins = false;
+				foreach ($this->_joinedTables as $table1Uid => $table1){
+					$joins = modelStorage::getIndirectTablesJoins($sourceTable, $table2, $this->_joinType);
+					if (($min === null) || (count($joins) < $min)){
+						$minJoins = $joins;
+					}
+				}
+				if ($minJoins !== false){
+					foreach ($minJoins as $uid => $joinString){
 						echo '!!!!'.$joinString;
 						if (!isset($joined[$uid])){
 							$this->_join[] = $joinString;
