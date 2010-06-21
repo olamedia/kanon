@@ -19,7 +19,7 @@ class listController extends controller{
 			}
 		}
 		$model = $this->_model;
-		if ($subController === null){
+		if ($this->_subController === null){
 			$this->_subController = $model.'Controller';
 			if (!class_exists($this->_subController)){
 				throw new Exception('setup $_subController in '.get_class($this));
