@@ -14,11 +14,14 @@ class kanon{
 	private static $_actionControllers = array();
 	private static $_menu = array();
 	private static $_deferredFunctions = array();
-	private static $_finalController = null;
+	private static $_finalController = array();
 	public static function setFinalController($controller){
-		self::$_finalController = $controller;
+		self::$_finalController[] = $controller;
 	}
 	public static function getFinalController(){
+		return end(self::$_finalController);
+	}
+	public static function getFinalControllers(){
 		return self::$_finalController;
 	}
 	public static function onShutdown(){
