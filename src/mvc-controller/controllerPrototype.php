@@ -230,8 +230,8 @@ class controllerPrototype{
 	}
 	protected function _header(){
 		if ($c = $this->getParent()){
-			if ($this->getParent()) echo "\r\n".'<div class="'.get_class($c).'_wrapper">';
 			$c->_header();
+			if ($this->getParent()) echo "\r\n".'<div class="'.get_class($c).'_wrapper">';
 		}
 		$this->header();
 		echo "\r\n".'<div class="'.get_class($this).'_content">';
@@ -240,8 +240,8 @@ class controllerPrototype{
 		echo "\r\n".'</div>';
 		$this->footer();
 		if ($c = $this->getParent()){
-			$c->_footer();
 			if ($this->getParent()) echo "\r\n".'</div>';
+			$c->_footer();
 		}
 	}
 	public function header(){
