@@ -43,6 +43,12 @@ class imageFilenameProperty extends stringProperty{
 		}
 		return $this->getUri().'.thumb/'.$tm;
 	}
+	public function preUpdate(){
+		$path = $this->getPath().'.thumb/';
+		foreach (glob($path.'tm*_'.$this->getValue()) as $filename){
+			unlink($filename);
+		}
+	}
 	public function html($size = 100, $method="fit"){
 		return '<img src="'.$this->tm($size, $method).'"'.($this->_tmHeight?' height="'.$this->_tmHeight.'"':'').($this->_tmWidth?' width="'.$this->_tmWidth.'"':'').' />';
 	}
