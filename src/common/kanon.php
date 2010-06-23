@@ -6,6 +6,7 @@ require_once dirname(__FILE__).'/handlers/kanonExceptionHandler.php';
 require_once dirname(__FILE__).'/../mvc-controller/application.php';
 require_once dirname(__FILE__).'/../mvc-model/modelCollection.php';
 require_once dirname(__FILE__).'/fileStorage.php';
+require_once dirname(__FILE__).'/keep.func.php';
 class kanon{
 	private static $_uniqueId = 0;
 	private static $_uniqueIdMap = array(); 

@@ -100,10 +100,10 @@ class thumbnailer{
 		return false;
 	}
 	public function run(){
-		/*echo 'Filename: '.$this->_filename.'<br />';
+		echo 'Filename: '.$this->_filename.'<br />';
 		 echo 'Base path: '.$this->_basePath.'<br />';
 		 echo 'Base url: '.$this->_baseUrl.'<br />';
-		 echo 'Relative: '.$this->_rel.'<br />';*/
+		 echo 'Relative: '.$this->_rel.'<br />';
 		//var_dump($this);
 		if (strpos($this->_filename, '_') !== false){
 			if (basename($this->_rel) == '.thumb'){
@@ -119,6 +119,8 @@ class thumbnailer{
 							$this->prepareShutdown($path);
 							kanon::redirect($_SERVER['REQUEST_URI']);
 						}
+					}else{
+						throw new Exception('can\'t create directory'');
 					}
 				}
 			}
