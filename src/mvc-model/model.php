@@ -16,7 +16,14 @@ class model implements ArrayAccess, IteratorAggregate{
 	protected $_options = array(); // propertyName => options
 	protected $_templateMode = false;
 	protected $_parentKey = null;
+	protected $_titleKey = null;
 	protected $_values = array(); // temporary storage for initial values
+	public function __toString(){
+		if ($this->_titleKey !== null){
+			return (string) $this->{$this->_titleKey};
+		}
+		return '';
+	}
 	public function __construct(){
 		// Compatibility with zenMysql2 ORM
 		if (isset($this->_classesMap)){
