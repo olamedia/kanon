@@ -16,6 +16,59 @@ class model implements ArrayAccess, IteratorAggregate{
 	protected $_options = array(); // propertyName => options
 	protected $_templateMode = false; 
 	protected $_parentKey = null;
+	protected $_values = array(); // temporary storage for initial values
+	public function __construct(){
+		// Compatibility with zenMysql2 ORM
+		if (isset($this->_classesMap)){
+			$this->_classes = $this->_classesMap;
+		}
+		if (isset($this->_fieldsMap)){
+			$this->_fields = $this->_fieldsMap;
+		}
+		/*foreach ($this->_classes as $propertyName => $class){
+			$this->_getProperty($propertyName);
+		}*/
+		$this->onConstruct();
+	}
+	public function onConstruct(){
+
+	}
+	public function setInitialFieldValue($fieldName, $value){
+		if (($propertyName = array_search($fieldName, $this->_fields)) !== false){
+			if (!isset($this->_properties[$propertyName])){
+				$this->_values[$propertyName] = $value;
+			}else{
+				$this->_getProperty($propertyName)->setInitialValue($value);
+			}
+		}
+	}
+	/**
+	 *
+	 * @param string $name
+	 * @return modelProperty
+	 */
+	protected function &_getProperty($name){
+		if (!isset($this->_properties[$name])){
+			$class = 'stringProperty';
+			if (isset($this->_classes[$name])){
+				if (class_exists($this->_classes[$name])){
+					$class = $this->_classes[$name];
+				}
+			}
+			$this->_properties[$name] = new $class($name);
+			if (isset($this->_fields[$name])){
+				$this->_properties[$name]->setFieldName($this->_fields[$name]);
+			}
+			//$this->_properties[$name]->setModel($this);
+			if (isset($this->_options[$name]) && is_array($this->_options[$name])){
+				$this->_properties[$name]->setOptions($this->_options[$name]);
+			}
+			if (isset($this->_values[$name])){
+				$this->_properties[$name]->setInitialValue($this->_values[$name]);
+			}
+		}
+		return $this->_properties[$name];
+	}
 	public function getRelative($relativeModelClass){
 		$relativeModels = modelCollection::getInstance(get_class($relativeModelClass));
 		$models = modelCollection::getInstance(get_class($this));
@@ -93,23 +146,6 @@ class model implements ArrayAccess, IteratorAggregate{
 	public function disableTemplateMode(){
 		$this->_templateMode = false;
 		return $this;
-	}
-	public function __construct(){
-		// Compatibility with zenMysql2 ORM
-		if (isset($this->_classesMap)){
-			$this->_classes = $this->_classesMap;
-		}
-		if (isset($this->_fieldsMap)){
-			$this->_fields = $this->_fieldsMap;
-		}
-
-		foreach ($this->_classes as $propertyName => $class){
-			$this->_getProperty($propertyName);
-		}
-		$this->onConstruct();
-	}
-	public function onConstruct(){
-
 	}
 	public function __clone(){
 		if (!$this->_templateMode){
@@ -231,30 +267,7 @@ class model implements ArrayAccess, IteratorAggregate{
 		foreach ($options as $k => $v) $this->_options[$k] = $v;
 		return $this;
 	}
-	/**
-	 *
-	 * @param string $name
-	 * @return modelProperty
-	 */
-	protected function &_getProperty($name){
-		if (!isset($this->_properties[$name])){
-			$class = 'stringProperty';
-			if (isset($this->_classes[$name])){
-				if (class_exists($this->_classes[$name])){
-					$class = $this->_classes[$name];
-				}
-			}
-			$this->_properties[$name] = new $class($name);
-			if (isset($this->_fields[$name])){
-				$this->_properties[$name]->setFieldName($this->_fields[$name]);
-			}
-			//$this->_properties[$name]->setModel($this);
-			if (isset($this->_options[$name]) && is_array($this->_options[$name])){
-				$this->_properties[$name]->setOptions($this->_options[$name]);
-			}
-		}
-		return $this->_properties[$name];
-	}
+
 	public function makeValuesInitial(){
 		foreach ($this->_classes as $propertyName => $class){
 			$property = $this->_getProperty($propertyName);
