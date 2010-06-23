@@ -56,6 +56,8 @@ class model implements ArrayAccess, IteratorAggregate{
 				}
 			}
 			$this->_properties[$name] = new $class($name);
+			$collection = modelCollection::getInstance($class);
+			$this->_properties[$name]->fieldConstruct($collection, $this->_fields[$name]);
 			if (isset($this->_fields[$name])){
 				$this->_properties[$name]->setFieldName($this->_fields[$name]);
 			}

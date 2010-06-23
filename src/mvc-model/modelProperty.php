@@ -1,7 +1,8 @@
 <?php
 //  implements IControllableProperty
 require_once dirname(__FILE__).'/modelExpression.php';
-class modelProperty{
+require_once dirname(__FILE__).'/modelField.php';
+class modelProperty extends modelField{
 	const TYPE_INTEGER = 'INTEGER';
 	const TYPE_FLOAT = 'FLOAT';
 	const TYPE_DOUBLE = 'DOUBLE';
@@ -27,6 +28,9 @@ class modelProperty{
 	 * @var IPropertyControl
 	 */
 	protected $_control = null;
+	public function fieldConstruct($collection, $fieldName){
+		parent::__construct($collection, $fieldName);
+	}
 	public function keep(){ // protect from destroying after script ends (to allow saving in $_SESSION)
 		$this->isDestroyed = true;
 	}
