@@ -2,6 +2,7 @@
 /**
  * $Id$
  */
+require_once dirname(__FILE__).'/handler/kanonExceptionHandler.php';
 require_once dirname(__FILE__).'/../mvc-controller/application.php';
 require_once dirname(__FILE__).'/../mvc-model/modelCollection.php';
 require_once dirname(__FILE__).'/fileStorage.php';
@@ -192,3 +193,4 @@ if (function_exists('spl_autoload_register')){
 		kanon::autoload($name);
 	}
 }
+set_exception_handler(array('kanonExceptionHandler','handle'));
