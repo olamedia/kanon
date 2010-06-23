@@ -120,7 +120,7 @@ class thumbnailer{
 							kanon::redirect($_SERVER['REQUEST_URI']);
 						}
 					}else{
-						throw new Exception('can\'t create directory'');
+						throw new Exception('can\'t create directory');
 					}
 				}
 			}
