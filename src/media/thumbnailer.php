@@ -53,6 +53,8 @@ class thumbnailer{
 		//echo $filePath.'?!!! ';
 		if (is_file($filePath)){
 			return $filePath;
+		}else{
+			throw new Exception('source file not found in directory');
 		}
 		return false;
 	}
