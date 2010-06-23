@@ -15,8 +15,8 @@ class model implements ArrayAccess, IteratorAggregate{
 	protected $_foreignKeys = array(); // property => array(foreignClass, foreignProperty)
 	protected $_options = array(); // propertyName => options
 	protected $_templateMode = false;
-	protected $_parentKey = null;
-	protected $_titleKey = null;
+	protected $_parentKey = null; // ->getParent();
+	protected $_titleKey = null; // ->__toString();
 	protected $_values = array(); // temporary storage for initial values
 	public function __toString(){
 		if ($this->_titleKey !== null){
