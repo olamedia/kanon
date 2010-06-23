@@ -5,7 +5,6 @@ class modelField{
 	/**
 	 * @var modelCollection
 	 */
-	//protected $_collection = null; // FIXME remove collection
 	protected $_collectionId = null;
 	protected $_fieldString = null;
 	protected $_fieldName = null;
@@ -17,19 +16,13 @@ class modelField{
 		return modelCollection::getInstanceById($this->getCollectionId());
 	}
 	public function getUniqueId(){
-		//if ($this->_uniqueId === null){
-			//$this->_uniqueId = kanon::getUniqueId('modelField:'.$this->_collection->getUniqueId().'.'.$this->_fieldName);
-		//}
 		return $this->_uniqueId;
 	}
-	/*public function getUniqueId(){
-		return $this->_collection->getUniqueId().'__'.$this->_fieldName;
-		}*/
 	public function __construct($collection, $fieldName){
 		$this->_collectionId = $collection->getUniqueId();
-		$this->_fieldString = $collection->getUniqueId().'.`'.$fieldName.'`';
-		$this->_uniqueId = kanon::getUniqueId('modelField:'.$collection->getUniqueId().'.'.$fieldName);
 		$this->_fieldName = $fieldName;
+		$this->_fieldString = $this->_collectionId.'.`'.$this->_fieldName.'`';
+		$this->_uniqueId = kanon::getUniqueId('modelField:'.$this->_collectionId.'.'.$this->_fieldName);
 	}
 	public function getName(){
 		return $this->_fieldName;
