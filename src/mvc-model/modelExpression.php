@@ -31,7 +31,8 @@ class modelExpression{
 		return $this->_left;
 	}
 	public function quote($string){
-		return $this->_left->getCollection()->getStorage()->quote($string);
+		$collection = modelCollection::getInstanceById($left->getCollectionId());
+		return $collection->getStorage()->quote($string);
 	}
 	public function getRight(){
 		if ($this->_right instanceof modelField){
