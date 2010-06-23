@@ -13,6 +13,9 @@ class modelField{
 	public function getCollectionId(){
 		return $this->_collectionId;
 	}
+	public function getCollection(){
+		return modelCollection::getInstanceById($this->getCollectionId());
+	}
 	public function getUniqueId(){
 		//if ($this->_uniqueId === null){
 			//$this->_uniqueId = kanon::getUniqueId('modelField:'.$this->_collection->getUniqueId().'.'.$this->_fieldName);
