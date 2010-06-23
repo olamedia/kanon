@@ -122,6 +122,8 @@ class thumbnailer{
 					}else{
 						throw new Exception('can\'t create directory');
 					}
+				}else{
+					throw new Exception('source file not found in directory');
 				}
 			}
 		}
