@@ -8,7 +8,7 @@ class modelField{
 	protected $_collectionId = null;
 	protected $_fieldString = null;
 	protected $_fieldName = null;
-	protected $_uniqueId = null;
+	protected $_fieldUniqueId = null;
 	public function getCollectionId(){
 		return $this->_collectionId;
 	}
@@ -16,13 +16,13 @@ class modelField{
 		return modelCollection::getInstanceById($this->getCollectionId());
 	}
 	public function getUniqueId(){
-		return $this->_uniqueId;
+		return $this->_fieldUniqueId;
 	}
 	public function __construct($collection, $fieldName){
 		$this->_collectionId = $collection->getUniqueId();
 		$this->_fieldName = $fieldName;
 		$this->_fieldString = $this->_collectionId.'.`'.$this->_fieldName.'`';
-		$this->_uniqueId = kanon::getUniqueId('modelField:'.$this->_collectionId.'.'.$this->_fieldName);
+		$this->_fieldUniqueId = kanon::getUniqueId('modelField:'.$this->_collectionId.'.'.$this->_fieldName);
 	}
 	public function getName(){
 		return $this->_fieldName;
