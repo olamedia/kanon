@@ -263,7 +263,8 @@ class modelQueryBuilder{
 	public function &desc($field){
 		$this->_order[] = $field.' DESC';
 		if ($field instanceof modelField){
-			$this->autoJoin($field->getCollection());
+			$collection = modelCollection::getInstanceById($field->getCollectionId());
+			$this->autoJoin($collection);
 		}
 		return $this;
 	}
