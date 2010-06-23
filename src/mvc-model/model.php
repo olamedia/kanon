@@ -14,7 +14,7 @@ class model implements ArrayAccess, IteratorAggregate{
 	protected $_autoIncrement = null; // propertyName
 	protected $_foreignKeys = array(); // property => array(foreignClass, foreignProperty)
 	protected $_options = array(); // propertyName => options
-	protected $_templateMode = false; 
+	protected $_templateMode = false;
 	protected $_parentKey = null;
 	protected $_values = array(); // temporary storage for initial values
 	public function __construct(){
@@ -27,7 +27,7 @@ class model implements ArrayAccess, IteratorAggregate{
 		}
 		/*foreach ($this->_classes as $propertyName => $class){
 			$this->_getProperty($propertyName);
-		}*/
+			}*/
 		$this->onConstruct();
 	}
 	public function onConstruct(){
@@ -101,19 +101,24 @@ class model implements ArrayAccess, IteratorAggregate{
 		static $id = 0;
 		$id++;
 		return $id;
-	}
-	public function getModelId(){
+		}
+		public function getModelId(){
 		static $id = null;
 		if ($id === null) $id = self::getId();
 		return $id;
-	}*/
+		}*/
 	public static function findOne(){
-		$args = func_get_args();
-		if (!function_exists('get_called_class')){
-			require_once dirname(__FILE__).'/../common/compat/get_called_class.php';
-			// PHP 5 >= 5.2.4
+		if (isset($this)){
+			$class = get_class($this);
+		}else{
+			$args = func_get_args();
+			if (!function_exists('get_called_class')){
+				require_once dirname(__FILE__).'/../common/compat/get_called_class.php';
+				// PHP 5 >= 5.2.4
+			}
+			$class = get_called_class();
 		}
-		$collection = modelCollection::getInstance(get_called_class());
+		$collection = modelCollection::getInstance($class);
 		return call_user_func_array(array($collection, 'findOne'), $args);
 	}
 	public static function find(){
@@ -329,7 +334,7 @@ class model implements ArrayAccess, IteratorAggregate{
 			}
 		}
 		$result = $this->getStorage()->saveModel($this, $debug);
-		
+
 		$this->postSave();
 		foreach ($this->_classes as $propertyName => $class){
 			$property = $this->_getProperty($propertyName);
