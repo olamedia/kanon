@@ -3,6 +3,7 @@ require_once dirname(__FILE__).'/modelResultSet.php';
 require_once dirname(__FILE__).'/modelField.php';
 class modelCollection implements ArrayAccess{
 	private static $_instances = array();
+	private static $_idInstances = array();
 	protected $_modelName = null; // helper
 	//protected $_helper = null; // model instance
 	protected $_uniqueId = null;
@@ -10,6 +11,15 @@ class modelCollection implements ArrayAccess{
 	protected $_filtersEnabled = true;
 	protected $_defaultValues = array();
 	protected $_joinOn = array();
+	public static function setIdInstance($id, &$instance){
+		self::$_idInstances[$id] = $instance;
+	}
+	public static function &getInstanceById($id){
+		if (isset(self::$_idInstances[$id])){
+			return self::$_idInstances[$id];
+		}
+		return false;
+	}
 	public function exists(){
 		$exists = false;
 		$this->getStorage()->getDriver()->disableAutoRepair();
@@ -171,6 +181,7 @@ class modelCollection implements ArrayAccess{
 	public static function &getInstance($modelName){
 		if (!isset(self::$_instances[$modelName])){
 			self::$_instances[$modelName] = new self($modelName);
+			self::setIdInstance(self::$_instances[$modelName]->getUniqueId(),self::$_instances[$modelName]);
 		}
 		return self::$_instances[$modelName];
 	}

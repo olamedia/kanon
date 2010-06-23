@@ -195,7 +195,7 @@ class modelQueryBuilder{
 	 * @param modelField $field
 	 */
 	protected function _fixJoinField(&$field){
-		$collection = $field->getCollection();
+		$collection = modelCollection::getInstanceById($field->getCollectionId());
 		$foreignKeys = $collection->getForeignKeys();
 		$fieldName = $field->getName();
 		if (isset($foreignKeys[$fieldName])){
