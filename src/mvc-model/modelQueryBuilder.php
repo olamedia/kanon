@@ -216,13 +216,15 @@ class modelQueryBuilder{
 			if ($left instanceof modelField){
 				$this->_fixJoinField($left);
 				$condition->setLeft($left);
-				$this->autoJoin($left->getCollection());
+				$collection = modelCollection::getInstanceById($left->getCollectionId());
+				$this->autoJoin($collection);
 			}
 			$right = $condition->getRight();
 			if ($right instanceof modelField){
 				$this->_fixJoinField($right);
 				$condition->setRight($right);
-				$this->autoJoin($right->getCollection());
+				$collection = modelCollection::getInstanceById($right->getCollectionId());
+				$this->autoJoin($collection);
 			}
 		}
 	}
