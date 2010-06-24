@@ -290,6 +290,7 @@ abstract class controlSet{
 	public function process(){
 		//echo 'Process<br />';
 		$this->processPost();
+		return $this->isUpdated();
 	}
 	public function processPost(){
 		if ($keys = $this->getPostKeys()){

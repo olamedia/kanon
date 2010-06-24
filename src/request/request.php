@@ -1,5 +1,5 @@
 <?php
-class request{
+class request{ // TODO
 	protected $_method = null;
 	protected $_instance = null;
 	public static function getInstance(){
