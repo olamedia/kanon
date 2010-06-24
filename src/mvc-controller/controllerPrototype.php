@@ -420,11 +420,15 @@ class controllerPrototype{
 			if ($this->getCurrentUrl() != $this->getCanonicalUrl()){
 				//echo $this->getCurrentUrl().'<br >';
 				//echo $this->getCanonicalUrl().'<br >';
-				// TODO FIX INCORRECT REDIRECTS
+				// TODO FIX INCORRECT REDIRECTS (resulted in loops)
 				//$this->movedPermanently($this->getCanonicalUrl());
 			}
 		}
 		if ($action = $this->_relativeUri->getBasePath()){
+			if (strpos($action,'.') !== false){
+				$ext = end(explode('.',$action));
+				$action = substr($action,0,strlen($action)-strlen($ext)-1); // cut .html, .js etc
+			}
 			$this->_action = $action;
 		}
 		$this->onConstruct();
