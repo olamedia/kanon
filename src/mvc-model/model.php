@@ -19,8 +19,9 @@ class model implements ArrayAccess, IteratorAggregate{
 	protected $_titleKey = null; // ->__toString();
 	protected $_values = array(); // temporary storage for initial values
 	public function select(){
+		$args = func_get_args();
 		$collection = modelCollection::getInstance(get_class($this));
-		return call_user_func_array(array($collection,'select'), func_get_args());
+		return call_user_func_array(array($collection,'select'), $args);
 	}
 	public function __toString(){
 		if ($this->_titleKey !== null){
