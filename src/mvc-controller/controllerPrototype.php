@@ -10,6 +10,7 @@ class controllerPrototype{
 	protected $_relativeUri = null;
 	protected $_childUri = '';
 	protected $_action = '';
+	protected $_type = 'html';
 	protected $_actionControllers = array();
 	protected $_options = array();
 	public function __construct(){
@@ -427,8 +428,8 @@ class controllerPrototype{
 		if ($action = $this->_relativeUri->getBasePath()){
 			$this->_action = $action;
 			if (strpos($action,'.') !== false){
-				$ext = end(explode('.',$action));
-				$action = substr($action,0,strlen($action)-strlen($ext)-1); // cut .html, .js etc
+				$this->_type = end(explode('.',$action));
+				$action = substr($action,0,strlen($action)-strlen($this->_type)-1); // cut .html, .js etc
 			}
 		}
 		$this->onConstruct();

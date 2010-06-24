@@ -18,6 +18,10 @@ class model implements ArrayAccess, IteratorAggregate{
 	protected $_parentKey = null; // ->getParent();
 	protected $_titleKey = null; // ->__toString();
 	protected $_values = array(); // temporary storage for initial values
+	public function select(){
+		$collection = modelCollection::getInstance(get_class($this));
+		return $collection->select();
+	}
 	public function __toString(){
 		if ($this->_titleKey !== null){
 			return (string) $this->{$this->_titleKey};
