@@ -69,7 +69,7 @@ class modelProperty extends modelField{
 	public function setOptions($options = array()){
 		foreach ($options as $k => $v) $this->_options[$k] = $v;
 	}
-	public function __construct($propertyName){
+	public function __construct($propertyName = ''){
 		$this->_name = $propertyName;
 		$this->onConstruct();
 	}
