@@ -425,11 +425,11 @@ class controllerPrototype{
 			}
 		}
 		if ($action = $this->_relativeUri->getBasePath()){
+			$this->_action = $action;
 			if (strpos($action,'.') !== false){
 				$ext = end(explode('.',$action));
 				$action = substr($action,0,strlen($action)-strlen($ext)-1); // cut .html, .js etc
 			}
-			$this->_action = $action;
 		}
 		$this->onConstruct();
 		if ($methodToRun !== null){
@@ -454,12 +454,12 @@ class controllerPrototype{
 					return;
 				}
 			}
-			if ($this->_action){
-				$uc = ucfirst($this->_action);
-				$this->_makeChildUri(array($action));
+			if ($action){
+				$uc = ucfirst($action);
+				$this->_makeChildUri(array($this->_action));
 				$initFunction = 'init'.$uc;
 
-				if ($controller = kanon::getActionController(get_class($this), $this->_action)){
+				if ($controller = kanon::getActionController(get_class($this), $action)){
 					$this->runController($controller);
 					return;
 				}
