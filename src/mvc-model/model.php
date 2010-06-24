@@ -20,7 +20,7 @@ class model implements ArrayAccess, IteratorAggregate{
 	protected $_values = array(); // temporary storage for initial values
 	public function select(){
 		$collection = modelCollection::getInstance(get_class($this));
-		return $collection->select();
+		return call_user_func_array(array($collection,'select'), func_get_args());
 	}
 	public function __toString(){
 		if ($this->_titleKey !== null){
