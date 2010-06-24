@@ -354,6 +354,6 @@ abstract class controlSet{
 	public function getFormHtml($key = null){
 		return
 		(count($this->getErrors())?'<div class="errors"><ul><li>'.implode("</li><li>", $this->getErrors()).'</li></ul></div>':'').
-		'<form method="post" enctype="multipart/form-data" action="">'.$this->getHtml($key).'<input type="submit" value="Сохранить" /></form>';
+		'<form method="post" enctype="multipart/form-data" action="">'.$this->getHtml($key).'<div style="margin-top: 14px;"><input type="submit" value="Сохранить" /></div></form>';
 	}
 }
