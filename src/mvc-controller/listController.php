@@ -33,11 +33,11 @@ class listController extends controller{
 			$this->runController($subController, array($model => $item));
 		}
 	}
-	public function onValidItem($modelId, $item){
+	public function onValidItem($modelId, $item, $rel = ''){
 		$parentItem = $item;
 		$bc = array();
 		while ($parentItem){
-			$bc[] = '<a href="'.$this->rel($parentItem->id).'">'.$parentItem->{$this->_title}->html().'</a>';
+			$bc[] = '<a href="'.$this->rel($rel.$parentItem->id).'">'.$parentItem->{$this->_title}->html().'</a>';
 			$parentItem = $parentItem->getParent();
 		}
 		$this->appendToBreadcrumb(array_reverse($bc));
