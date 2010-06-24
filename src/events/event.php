@@ -29,30 +29,27 @@ class event implements ArrayAccess{
 		return $this->_value;
 	}
 	public function hasParameter($name){
-		return ($this->_parameters[$name] !== null);
+		return array_key_exists($this->_parameters,$name);
 	}
 	public function setParameter($name, $value){
 		$this->_parameters[$name] = $value;
 	}
 	public function getParameter($name){
-		if ($this->_parameters[$name] === null){
+		if (!array_key_exists($this->_parameters,$name)){
 			throw new InvalidArgumentException(sprintf('The event "%s" has no "%s" parameter.', $this->_name, $name));
 		}
 		return $this->_parameters[$name];
 	}
-	public function offsetExists(string $name){
-		return ($this->_parameters[$name] !== null); // faster than array_key_exists or isset
+	public function offsetExists($name){
+		return $this->hasParameter($name);
 	}
 	public function offsetSet($name, $value){
-		$this->_parameters[$name] = $value;
+		$this->setParameter($name, $value);
 	}
 	public function offsetUnset($name){
 		unset($this->_parameters[$name]);
 	}
 	public function offsetGet($name){
-		if ($this->_parameters[$name] === null){
-			throw new InvalidArgumentException(sprintf('The event "%s" has no "%s" parameter.', $this->_name, $name));
-		}
-		return $this->_parameters[$name];
+		return $this->getParameter($name);
 	}
 }

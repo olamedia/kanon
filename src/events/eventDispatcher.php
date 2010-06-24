@@ -1,6 +1,6 @@
 <?php
 require_once dirname(__FILE__).'/event.php';
-class eventDispatcher{
+class eventDispatcher implements ArrayAccess{
 	protected $_listeners = array();
 	public function attach(string $name, $listener){
 		if (is_callable($listener)){
@@ -40,5 +40,17 @@ class eventDispatcher{
 			}
 		}
 		return $event;
+	}
+	public function offsetExists($name){
+		return $this->hasListeners($name);
+	}
+	public function offsetSet($name, $value){
+		$this->attach($name, $value);
+	}
+	public function offsetUnset($name){
+		unset($this->_listeners[$name]); // detach all
+	}
+	public function offsetGet($name){
+		return $this->getListeners($name);
 	}
 }
