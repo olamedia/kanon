@@ -4,6 +4,7 @@ class event{
 	protected $_name = '';
 	protected $_parameters = array();
 	protected $_processed = false;
+	protected $_value = null;
 	public function __construct($subject, $name, $parameters = array()){
 		$this->_subject = $subject;
 		$this->_name = $name;
@@ -20,5 +21,11 @@ class event{
 	}
 	public function isProcessed(){
 		return $this->_processed;
+	}
+	public function setReturnValue($value){
+		$this->_value = $value;
+	}
+	public function getReturnValue(){
+		return $this->_value;
 	}
 }
