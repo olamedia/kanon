@@ -29,7 +29,7 @@ class modelProperty{// extends modelField
 	 */
 	protected $_control = null;
 	public function fieldConstruct($collection, $fieldName){
-		parent::__construct($collection, $fieldName);
+		//parent::__construct($collection, $fieldName);
 	}
 	public function keep(){ // protect from destroying after script ends (to allow saving in $_SESSION)
 		$this->isDestroyed = true;
