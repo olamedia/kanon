@@ -143,6 +143,9 @@ class modelCollection implements ArrayAccess{
 	 * @return model
 	 */
 	public function getHelper(){
+		if (!class_exists($this->_modelName)){
+			throw new Exception('class "'.$this->_modelName.'" not exists');
+		}
 		return new $this->_modelName;
 		if ($this->_helper === null){
 			$this->_helper = new $this->_modelName;
