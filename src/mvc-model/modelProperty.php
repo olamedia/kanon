@@ -2,7 +2,7 @@
 //  implements IControllableProperty
 require_once dirname(__FILE__).'/modelExpression.php';
 require_once dirname(__FILE__).'/modelField.php';
-class modelProperty extends modelField{
+class modelProperty{// extends modelField
 	const TYPE_INTEGER = 'INTEGER';
 	const TYPE_FLOAT = 'FLOAT';
 	const TYPE_DOUBLE = 'DOUBLE';
