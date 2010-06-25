@@ -193,6 +193,9 @@ class model implements ArrayAccess, IteratorAggregate{
 	}
 	public function __clone(){
 		if (!$this->_templateMode){
+			if (isset($_COOKIE['debug'])){
+				echo ' clone, reset primary key ';
+			}
 			foreach ($this->_classes as $propertyName => $class){
 				$property = $this->_getProperty($propertyName);
 				/** @var modelProperty $property */
