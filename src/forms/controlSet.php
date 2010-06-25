@@ -121,13 +121,13 @@ abstract class controlSet{
 	}
 	public function resetControls(){
 		/*$items = array();
-		foreach ($this->_classesMap as $controlName => $class){
+		 foreach ($this->_classesMap as $controlName => $class){
 			$items[$controlName] = $this->getControl($controlName)->getItem();
-		}
-		$this->_controls = array();
-		foreach ($this->_classesMap as $controlName => $class){
+			}
+			$this->_controls = array();
+			foreach ($this->_classesMap as $controlName => $class){
 			$this->getControl($controlName)->setItem($items[$controlName]); // controlSet->getControl()->setItem
-		}*/
+			}*/
 	}
 	public function save(){
 		if ($this->getItem() !== null){
@@ -262,8 +262,8 @@ abstract class controlSet{
 		}
 	}
 	/*public function getProcessedModels(){
-		return $this->_processedItems; 
-	}*/
+		return $this->_processedItems;
+		}*/
 	public function checkPost($key = null){
 		$this->checkTest();
 		$this->_key = $key;
@@ -298,7 +298,12 @@ abstract class controlSet{
 		return $this->isUpdated();
 	}
 	public function processPost(){
-		if ($keys = $this->getPostKeys()){
+		$keys = $this->getPostKeys();
+		if (isset($_COOKIE['debug'])){
+			echo 'KEYS: ';
+			var_dump($keys);
+		}
+		if ($keys){
 			if (is_array($keys) && count($keys)){
 				foreach ($keys as $key){
 					if (isset($_COOKIE['debug'])){
