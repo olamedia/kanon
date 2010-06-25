@@ -312,18 +312,18 @@ abstract class controlSet{
 					if (is_object($this->_itemTemplate)){
 						if (isset($_COOKIE['debug'])){
 							echo ' process itemreset ';
-							var_dump($this->_itemTemplate);
+							var_dump($this->_item->id);
 						}
 						$this->resetControls();
 						$this->prepareItemTemplate();
 					}else{
-						var_dump($this->_item);
-						var_dump($this->_itemTemplate);
+						var_dump($this->_item->id);
+						//var_dump($this->_itemTemplate);
 						throw new Exception("item template for ".get_class($this)." not defined ");
 					}
 					if (isset($_COOKIE['debug'])){
 						echo ' process checkPost ';
-						var_dump($this->_item);
+						var_dump($this->_item->id);
 					}
 					$this->checkPost($key);
 				}
