@@ -312,6 +312,7 @@ abstract class controlSet{
 					if (is_object($this->_itemTemplate)){
 						if (isset($_COOKIE['debug'])){
 							echo ' process itemreset ';
+							var_dump($this->_itemTemplate);
 						}
 						$this->resetControls();
 						$this->prepareItemTemplate();
