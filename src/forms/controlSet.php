@@ -51,7 +51,6 @@ abstract class controlSet{
 	public function setItem(&$item){
 		$this->setItemTemplate($item);
 		$this->_item = $item;
-		$item = &$this->_item; // set $item to last processed item template
 	}
 	public function getItem(){
 		return $this->_item;
@@ -290,7 +289,7 @@ abstract class controlSet{
 	public function prepareItemTemplate(){
 		$this->_itemTemplate->enableTemplateMode(); // don't change properties on clone
 		$item = clone $this->_itemTemplate;
-		$this->_item = &$item;
+		$this->_item->syncWith($item);
 		$this->_itemTemplate->disableTemplateMode(); // allow change properties on clone
 	}
 	public function process(){
