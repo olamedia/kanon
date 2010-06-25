@@ -103,7 +103,8 @@ class model implements ArrayAccess, IteratorAggregate{
 		return $this->_properties[$name];
 	}
 	public function getRelative($relativeModelClass){
-		$relativeModels = modelCollection::getInstance(get_class($relativeModelClass));
+		//get_class
+		$relativeModels = modelCollection::getInstance(($relativeModelClass));
 		$models = modelCollection::getInstance(get_class($this));
 		$list = $relativeModels->select();
 		foreach ($this->_primaryKey as $propertyName){
