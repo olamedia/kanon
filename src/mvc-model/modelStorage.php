@@ -161,7 +161,7 @@ class modelStorage{
 				echo ' ai='.$autoIncrement.' ';
 			}
 			if ($autoIncrement !== null){
-				$property = $model->{$autoIncrement};
+				$property = &$model->{$autoIncrement};
 				if ($value = $this->lastInsertId()){
 					if (!is_object($property)){
 						throw new Exception('Autoincrement "'.print_r($autoIncrement, true).'" not defined in class "'.get_class($model).'"');
