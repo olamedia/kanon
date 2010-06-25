@@ -13,6 +13,7 @@ abstract class controlSet{
 	protected $_legend = '';
 	protected $_item = null;
 	protected $_itemTemplate = null;
+	protected $_processedItems = array();
 	protected $_hiddenControls = array();
 	protected $_repeat = false;
 	protected $_isUpdated = false;
@@ -47,9 +48,10 @@ abstract class controlSet{
 	public function setItemUpdated($updated = true){
 		$this->_isUpdated = true;
 	}
-	public function setItem($item){
+	public function setItem(&$item){
 		$this->setItemTemplate($item);
 		$this->_item = $item;
+		$item = &$this->_item; // set $item to last processed item template
 	}
 	public function getItem(){
 		return $this->_item;
@@ -260,6 +262,9 @@ abstract class controlSet{
 			}
 		}
 	}
+	/*public function getProcessedModels(){
+		return $this->_processedItems; 
+	}*/
 	public function checkPost($key = null){
 		$this->checkTest();
 		$this->_key = $key;
@@ -275,6 +280,7 @@ abstract class controlSet{
 				$this->checkTest();
 				$this->setItemUpdated(true);
 				$this->checkTest();
+				//$this->_processedItems[] = $this->_item;
 			}
 		}
 	}
