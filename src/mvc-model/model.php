@@ -18,6 +18,25 @@ class model implements ArrayAccess, IteratorAggregate{
 	protected $_parentKey = null; // ->getParent();
 	protected $_titleKey = null; // ->__toString();
 	protected $_values = array(); // temporary storage for initial values
+	public function syncWith(model $model){
+		foreach ($model->export as $k => $v){
+			$this->{'_'.$k} = $v;
+		}
+	}
+	public function export(){
+		return array(
+		'properties' => $this->_properties,
+		'classes' => $this->_classes,
+		'fields' => $this->_fields,
+		'primaryKey' => $this->_primaryKey,
+		'autoIncrement' => $this->_autoIncrement,
+		'foreignKeys' => $this->_foreignKeys,
+		'options' => $this->_options,
+		'parentKey' => $this->_parentKey,
+		'titleKey' => $this->_titleKey,
+		'values' => $this->_values,
+		);
+	}
 	public function select(){
 		$args = func_get_args();
 		$collection = modelCollection::getInstance(get_class($this));
