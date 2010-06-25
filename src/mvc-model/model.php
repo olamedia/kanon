@@ -121,8 +121,10 @@ class model implements ArrayAccess, IteratorAggregate{
 	}
 	public function getChildren($modelClass = null){
 		if ($modelClass == get_class($this)){
-			$models = modelCollection::getInstance(get_class($this));
-			return $models->select()->where($models->{$this->_parentKey}->is($this->{$this->_primaryKey[0]}))->fetch();
+			if ($this->_parentKey !== null){
+				$models = modelCollection::getInstance(get_class($this));
+				return $models->select()->where($models->{$this->_parentKey}->is($this->{$this->_primaryKey[0]}));
+			}
 		}
 		$models = modelCollection::getInstance(get_class($this));
 		if ($modelClass !== null){
