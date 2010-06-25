@@ -287,11 +287,11 @@ abstract class controlSet{
 	public function setItemTemplate($itemTemplate){
 		$this->_itemTemplate = $itemTemplate;
 	}
-	public function getItemTemplate(){
+	public function prepareItemTemplate(){
 		$this->_itemTemplate->enableTemplateMode(); // don't change properties on clone
-		$this->_item = clone $this->_itemTemplate;
+		$item = clone $this->_itemTemplate;
+		$this->_item = &$item;
 		$this->_itemTemplate->disableTemplateMode(); // allow change properties on clone
-		return $this->_item;
 	}
 	public function process(){
 		//echo 'Process<br />';
@@ -310,7 +310,7 @@ abstract class controlSet{
 							echo ' process itemreset ';
 						}
 						$this->resetControls();
-						$this->setItem($this->getItemTemplate());
+						$this->prepareItemTemplate();
 					}else{
 						var_dump($this->_item);
 						var_dump($this->_itemTemplate);
