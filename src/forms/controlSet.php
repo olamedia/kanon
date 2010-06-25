@@ -321,6 +321,10 @@ abstract class controlSet{
 						var_dump($this->_itemTemplate);
 						throw new Exception("item template for ".get_class($this)." not defined ");
 					}
+					if (isset($_COOKIE['debug'])){
+						echo ' process checkPost ';
+						var_dump($this->_item);
+					}
 					$this->checkPost($key);
 				}
 			}
