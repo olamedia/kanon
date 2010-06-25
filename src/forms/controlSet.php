@@ -310,11 +310,11 @@ abstract class controlSet{
 						echo ' process '.$key.' ';
 					}
 					if (is_object($this->_itemTemplate)){
+						$this->resetControls();
 						if (isset($_COOKIE['debug'])){
 							echo ' process itemreset ';
 							var_dump($this->_item->id);
 						}
-						$this->resetControls();
 						$this->prepareItemTemplate();
 					}else{
 						var_dump($this->_item->id);
