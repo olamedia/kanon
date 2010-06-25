@@ -1,12 +1,10 @@
 <?php
 /**
  * java.awt.Point port
- * 
- * @todo point.setLocation(int, int)
- * @todo point.setLocation(point)
+ *
  * @todo point.hashCode()
  * @todo point.toString()
- *  
+ *
  * @author olamedia
  *
  */
@@ -38,11 +36,28 @@ class point{ // java.awt.Point
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @param point $point
 	 */
 	public function equals($point){
 		return ($this->_x == $point->getX() && $this->_y == $point->getY());
+	}
+	public function setLocation(){
+		$args = func_get_args();
+		switch (func_num_args()){
+			case 1:
+				$point = array_shift($args);
+				$this->_x = $x->getX();
+				$this->_y = $x->getY();
+				break;
+			case 2:
+				$x = array_shift($args);
+				$y = array_shift($args);
+				$this->_x = $x;
+				$this->_y = $y;
+				break;
+		}
+		return $this;
 	}
 	public function getLocation(){
 		return $this;

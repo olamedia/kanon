@@ -1,5 +1,6 @@
 <?php
-class request{ // TODO
+// TODO
+class request{
 	protected $_method = null;
 	protected $_instance = null;
 	public static function getInstance(){
@@ -7,6 +8,12 @@ class request{ // TODO
 			self::$_instance = new self();
 		}
 		return self::$_instance;
+	}
+	public function isXmlHttpRequest(){
+		return 'XMLHttpRequest' == $this->getHttpHeader('X-Requested-With');
+	}
+	public function getHttpHeader($name, $default = null){
+		return $this->getServerParameter('HTTP_'.strtoupper(strtr($name, '-', '_')), $default);
 	}
 	public function getServerParameter($name, $default = null){
 		return isset($_SERVER[$name])?$_SERVER[$name]:$default;
