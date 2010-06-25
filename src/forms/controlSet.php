@@ -287,10 +287,10 @@ abstract class controlSet{
 		$this->_itemTemplate = $itemTemplate;
 	}
 	public function prepareItemTemplate(){
-		$this->_itemTemplate->enableTemplateMode(); // don't change properties on clone
-		$item = clone $this->_itemTemplate;
-		$this->_item->syncWith($item);
-		$this->_itemTemplate->disableTemplateMode(); // allow change properties on clone
+		//$this->_itemTemplate->enableTemplateMode(); // don't change properties on clone
+		//$item = clone $this->_itemTemplate;
+		$this->_item->syncWith($this->_itemTemplate);
+		//$this->_itemTemplate->disableTemplateMode(); // allow change properties on clone
 	}
 	public function process(){
 		//echo 'Process<br />';
