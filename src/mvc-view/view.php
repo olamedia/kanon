@@ -1,5 +1,7 @@
 <?php
 /**
+ * MVC: View
+ * Modelled after symfony 2.0
  * $Id$
  * @author olamedia
  *
