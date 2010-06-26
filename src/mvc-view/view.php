@@ -64,8 +64,9 @@ class view{
 			$parameters = $this->_layoutParameters;
 			$this->_layoutParameters = null;
 			$this->show($parameters);
+		}else{
+			echo $this->get('_content');
 		}
-		echo $this->get('_content');
 	}
 	public function __set($name, $value){
 		$this->set($name, $value);
