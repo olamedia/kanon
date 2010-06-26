@@ -1,4 +1,5 @@
 <?php
+require_once dirname(__FILE__).'/simpleStorageInput.php';
 class inputResource implements simpleStorageInput{
 	protected $_resource = null;
 	protected $_bufferSize = 0;
