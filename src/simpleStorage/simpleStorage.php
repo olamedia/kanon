@@ -4,7 +4,7 @@ class simpleStorage{
 	private $_driver = null;
 	private static $_instances = array();
 	private $_buckets = array();
-	protected function __construct($driver){
+	public function __construct($driver){
 		$this->_driver = $driver;
 	}
 	//	public static function getInstance($name){
