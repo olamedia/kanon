@@ -42,6 +42,7 @@ class kanon{
 		//echo $rel;
 		$moduleName = array_shift(explode('/',$rel));
 		//echo ' module='.$moduleName;
+		echo array_shift(explode('/',$rel));
 		if ('views' == array_shift(explode('/',$rel))){
 			$rel = substr($rel,5,strlen($rel)-5); 
 		}
