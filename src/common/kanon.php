@@ -41,7 +41,7 @@ class kanon{
 		$rel = substr($filename, strlen($modulesPath), strlen($filename) - strlen($modulesPath));
 		//echo $rel;
 		$a = explode('/',$rel);
-		$moduleName = array_shift();
+		$moduleName = array_shift($a);
 		//echo ' module='.$moduleName;
 		//echo array_shift($a);
 		if ('views' == array_shift($a)){
