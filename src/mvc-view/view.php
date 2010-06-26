@@ -12,7 +12,8 @@ class view{
 	}
 	public function end(){
 		$name = array_pop($this->_openedSlots);
-		$this->_slots[$name] = ob_get_clean();
+		$this->_slots[$name] = ob_get_contents();
+		ob_end_clean();
 	}
 	public function set($name, $value){
 		$this->_slots[$name] = $value;
@@ -58,8 +59,9 @@ class view{
 		$this->end();
 		if ($this->_layout !== null){
 			$this->_filename = dirname($this->_filename).'/'.$this->_layout;
+			$this->_layout = null;
 			$parameters = $this->_layoutParameters;
-			$this->extend(null, array());
+			$this->_layoutParameters = null;
 			$this->show($parameters);
 		}
 		echo $this->get('_content');
