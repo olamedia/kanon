@@ -25,6 +25,7 @@ class controllerPrototype{
 	protected function _view($filename, $parameters, $uri = null){
 		if ($uri === null) $uri = $this->rel();
 		$view = new view();
+		echo $filename;
 		$view->setFilename($filename);
 		$view->setUri($uri);
 		$view->show($parameters);
