@@ -109,10 +109,10 @@ class kanon{
 		return $id.'_';
 	}
 	public static function getStorage($name){
-		return self::$_fileStorage[$name];
+		return self::$_fileStorages[$name];
 	}
 	public static function setStorage($name,$storage){
-		self::$_fileStorage[$name] = $storage;
+		self::$_fileStorages[$name] = $storage;
 	}
 	/**
 	 *
