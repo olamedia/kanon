@@ -20,8 +20,8 @@ class view{
 	public function get($name){
 		return $this->_slots[$name];
 	}
-	public function extend($viewName, $parameters = array()){
-		$this->_layout = $viewName;
+	public function extend($filename, $parameters = array()){
+		$this->_layout = $filename;
 		$this->_layoutParameters = $parameters;
 	}
 	public function setFilename($filename){
@@ -55,10 +55,10 @@ class view{
 		}
 		include kanon::getThemedViewFilename($this->_filename);
 		$this->end();
-		if ($this->_layout !== null){
-			$this->setView($this->_layout);
+		/*if ($this->_layout !== null){
+			$this->_filename $this->_layout);
 			$this->show($this->_layoutParameters);
-		}
+		}*/
 		echo $this->get('_content');
 	}
 	public function __set($name, $value){
