@@ -4,7 +4,11 @@
  */
 require_once dirname(__FILE__).'/../common/uri.php';
 class controllerPrototype{
-	protected $_me = null; // ReflectionClass
+	/**
+	 *
+	 * @var ReflectionClass
+	 */
+	protected $_me = null;
 	protected $_parent = null;
 	protected $_baseUri = null;
 	protected $_relativeUri = null;
@@ -17,6 +21,20 @@ class controllerPrototype{
 		$this->_baseUri = uri::fromString('/');
 		$this->_relativeUri = uri::fromRequestUri();
 		$this->_me = new ReflectionClass(get_class($this));
+	}
+	protected function _view($filename, $parameters, $uri = null){
+		if ($uri === null) $uri = $this->rel();
+		$view = new view();
+		$view->setFilename($filename);
+		$view->setUri($uri);
+		$view->render($parameters);
+		//include($filename);
+	}
+	public function view($filename, $parameters, $uri = null){
+		$this->_view(realpath(dirname($this->_me->getFileName()).$filename), $parameters, $uri);
+	}
+	public function moduleView($moduleName, $filename, $parameters, $uri = null){
+		$this->_view(kanon::getBasePath().'/modules/'.$moduleName.'/views/'.$filename, $parameters, $uri);
 	}
 	public function registerActionController($action, $controller){
 		$this->_actionControllers[$action] = $controller;
@@ -101,7 +119,7 @@ class controllerPrototype{
 	 * @return uri
 	 */
 	public function rel($relativeUri = '', $includeAction = false){
-		$relativeUri = strval($relativeUri);//if (is_object($relativeUri)) 
+		$relativeUri = strval($relativeUri);//if (is_object($relativeUri))
 		if (is_string($relativeUri)) $relativeUri = uri::fromString($relativeUri);
 		$a = array();
 		if ($includeAction) $a[] = $this->_action;
