@@ -36,8 +36,12 @@ class view{
 	}
 	public function setView($viewName){
 	}
-	public function render($viewName, $parameters){
-		
+	public function render($filename, $parameters, $uri = null){
+		if ($uri === null) $uri = $this->_uri;
+		$view = new view();
+		$view->setFilename(dirname($this->_filename).'/'.$filename);
+		$view->setUri($uri);
+		$view->show($parameters);
 	}
 	public function show($parameters){
 		foreach($parameters as $k => $v){
