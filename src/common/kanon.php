@@ -18,6 +18,39 @@ class kanon{
 	private static $_menu = array();
 	private static $_deferredFunctions = array();
 	private static $_finalController = array();
+	private static $_preferredThemes = array();
+	public static function setTheme(){
+		$args = func_get_args();
+		foreach ($args as $arg){
+			if (is_array($arg)){
+				foreach ($arg as $theme){
+					self::$_preferredThemes[] = $theme;
+				}
+			}else{
+				self::$_preferredThemes[] = $arg;
+			}
+		}
+	}
+	public static function getThemedViewFilename($filename){
+		$basePath = self::getBasePath();
+		$themesPath = $basePath.'/themes/';
+		$modulesPath = $basePath.'/modules/';
+		if (substr($filename,0,strlen($modulesPath)) != $modulesPath){
+			return $filename; // not in modules
+		}
+		$rel = substr($filename, strlen($modulesPath), strlen($filename) - strlen($modulesPath));
+		echo $rel;
+		$moduleName = array_shift(explode('/',$rel));
+		echo ' module='.$moduleName;
+		foreach (self::$_preferredThemes as $themeName){
+			$themedFilename = $themesPath.$themeName.$rel;
+			echo ' themed='.$themedFilename;
+			if (is_file($themedFilename)){
+				return $themedFilename;
+			} 
+		}
+		return $filename;
+	} 
 	public static function setFinalController($controller){
 		self::$_finalController[] = $controller;
 	}

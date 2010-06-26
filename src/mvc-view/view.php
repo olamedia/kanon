@@ -47,7 +47,7 @@ class view{
 		if (!is_file($this->_filename)){
 			throw new Exception($this->_filename." not found");
 		}
-		include $this->_filename;
+		include kanon::getThemedViewFilename($this->_filename);
 		$this->end();
 		if ($this->_layout !== null){
 			$this->setView($this->_layout);
