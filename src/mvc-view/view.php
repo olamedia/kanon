@@ -55,10 +55,12 @@ class view{
 		}
 		include kanon::getThemedViewFilename($this->_filename);
 		$this->end();
-		/*if ($this->_layout !== null){
-			$this->_filename $this->_layout);
-			$this->show($this->_layoutParameters);
-		}*/
+		if ($this->_layout !== null){
+			$this->_filename = $this->_layout;
+			$parameters = $this->_layoutParameters;
+			$this->extend(null, array());
+			$this->show($parameters);
+		}
 		echo $this->get('_content');
 	}
 	public function __set($name, $value){
