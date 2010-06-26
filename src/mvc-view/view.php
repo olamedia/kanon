@@ -1,4 +1,9 @@
 <?php
+/**
+ * $Id$
+ * @author olamedia
+ *
+ */
 class view{
 	protected $_filename = null;
 	protected $_uri = null;
