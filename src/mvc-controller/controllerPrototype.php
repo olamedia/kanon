@@ -32,6 +32,7 @@ class controllerPrototype{
 		//include($filename);
 	}
 	public function view($filename, $parameters, $uri = null){
+		echo dirname($this->_me->getFileName());
 		$this->_view(realpath(dirname($this->_me->getFileName()).$filename), $parameters, $uri);
 	}
 	public function moduleView($moduleName, $filename, $parameters, $uri = null){
