@@ -39,12 +39,12 @@ class kanon{
 			return $filename; // not in modules
 		}
 		$rel = substr($filename, strlen($modulesPath), strlen($filename) - strlen($modulesPath));
-		echo $rel;
+		//echo $rel;
 		$moduleName = array_shift(explode('/',$rel));
-		echo ' module='.$moduleName;
+		//echo ' module='.$moduleName;
 		foreach (self::$_preferredThemes as $themeName){
 			$themedFilename = $themesPath.$themeName.'/'.$rel;
-			echo ' themed='.$themedFilename;
+			//echo ' themed='.$themedFilename;
 			if (is_file($themedFilename)){
 				return $themedFilename;
 			} 
