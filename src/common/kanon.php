@@ -40,10 +40,11 @@ class kanon{
 		}
 		$rel = substr($filename, strlen($modulesPath), strlen($filename) - strlen($modulesPath));
 		//echo $rel;
-		$moduleName = array_shift(explode('/',$rel));
+		$a = explode('/',$rel);
+		$moduleName = array_shift();
 		//echo ' module='.$moduleName;
-		echo array_shift(explode('/',$rel));
-		if ('views' == array_shift(explode('/',$rel))){
+		//echo array_shift($a);
+		if ('views' == array_shift($a)){
 			$rel = substr($rel,5,strlen($rel)-5); 
 		}
 		foreach (self::$_preferredThemes as $themeName){
