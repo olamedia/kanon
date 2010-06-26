@@ -27,7 +27,7 @@ class controllerPrototype{
 		$view = new view();
 		$view->setFilename($filename);
 		$view->setUri($uri);
-		$view->render($parameters);
+		$view->show($parameters);
 		//include($filename);
 	}
 	public function view($filename, $parameters, $uri = null){
