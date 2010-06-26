@@ -17,6 +17,6 @@ class simpleStorageObject{
 		
 	}
 	public function __toString(){
-		return $this->getUrl();
+		return (string) $this->getUrl();
 	}
 }
