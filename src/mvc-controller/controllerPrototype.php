@@ -25,15 +25,15 @@ class controllerPrototype{
 	protected function _view($filename, $parameters, $uri = null){
 		if ($uri === null) $uri = $this->rel();
 		$view = new view();
-		echo $filename;
+		//echo $filename;
 		$view->setFilename($filename);
 		$view->setUri($uri);
 		$view->show($parameters);
 		//include($filename);
 	}
 	public function view($filename, $parameters, $uri = null){
-		echo dirname($this->_me->getFileName());
-		$this->_view(realpath(dirname($this->_me->getFileName()).$filename), $parameters, $uri);
+		//echo dirname($this->_me->getFileName());
+		$this->_view(realpath(dirname($this->_me->getFileName()).'/'.$filename), $parameters, $uri);
 	}
 	public function moduleView($moduleName, $filename, $parameters, $uri = null){
 		$this->_view(kanon::getBasePath().'/modules/'.$moduleName.'/views/'.$filename, $parameters, $uri);
