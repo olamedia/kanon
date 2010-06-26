@@ -45,7 +45,7 @@ class kanon{
 		//echo ' module='.$moduleName;
 		//echo array_shift($a);
 		if ('views' == array_shift($a)){
-			$rel = substr($rel,5,strlen($rel)-5); 
+			$rel = $moduleName.'/'.implode('/',$a); 
 		}
 		foreach (self::$_preferredThemes as $themeName){
 			$themedFilename = $themesPath.$themeName.'/'.$rel;
