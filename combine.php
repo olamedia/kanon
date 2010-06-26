@@ -76,6 +76,7 @@ phpCombinator::combine(
 array(
 		'src/common', 
 		'src/simpleStorage', 
+		'src/simpleStorage/drivers', 
 		'src/forms',
 		'src/forms/controls',
 		'src/mvc-controller',
