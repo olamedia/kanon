@@ -56,6 +56,7 @@ class view{
 		}
 		$view = &$this;
 		include kanon::getThemedViewFilename($this->_filename);
+		$this->_content = '';
 		$this->end();
 		if ($this->_layout !== null){
 			$this->_filename = dirname($this->_filename).'/'.$this->_layout;
