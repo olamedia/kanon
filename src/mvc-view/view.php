@@ -4,8 +4,8 @@ class view{
 	protected $_uri = null;
 	protected $_slots = array();
 	protected $_openedSlots = array();
+	protected $_layout = null;
 	public function start($name){
-		$this->_slots[$name] = '';
 		$this->_openedSlots[] = $name;
 		ob_start();
 	}
@@ -19,11 +19,8 @@ class view{
 	public function get($name){
 		return $this->_slots[$name];
 	}
-	public function extendWithFile($filename){
-
-	}
-	public function extend(){
-
+	public function extend($viewName){
+		$this->_layout = $viewName;
 	}
 	public function setFilename($filename){
 		$this->_filename = $filename;
@@ -37,16 +34,22 @@ class view{
 	public function setUri($uri){
 		$this->_uri = $uri;
 	}
-	public function render($parameters){
+	public function setView($viewName){
+	}
+	public function render($viewName, $parameters){
+		
+	}
+	public function show($parameters){
 		foreach($parameters as $k => $v){
 			$$k = $v;
 		}
-		include $this->_filename;
-	}
-	protected function _renderFile(){
 		$this->start('_content');
-
+		include $this->_filename;
 		$this->end();
+		if ($this->_layout !== null){
+			$this->setView($this->_layout);
+			$this->show();
+		}
 	}
 	public function __set($name, $value){
 		$this->set($name, $value);
