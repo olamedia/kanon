@@ -1,6 +1,10 @@
 <?php
 class simpleStorage{
 	private $_name = null;
+	/**
+	 * 
+	 * @var simpleStorageLocalDriver
+	 */
 	private $_driver = null;
 	private static $_instances = array();
 	private $_buckets = array();
@@ -16,18 +20,38 @@ class simpleStorage{
 	public function getDriver(){
 		return $this->_driver;
 	}
+	/**
+	 * Get list of bucket names
+	 * @return array
+	 */
 	public function getBuckets(){
+		return $this->_driver->getBuckets();
 	}
-	public function getBucket($name = ''){
-		if (!isset($this->_buckets[$name])){
-			$this->_buckets[$name] = new simpleStorageBucket($this,$name);
+	/**
+	 * Get a bucket
+	 * @param string $bucketName
+	 * @return simpleStorageBucket
+	 */
+	public function getBucket($bucketName = ''){
+		if (!isset($this->_buckets[$bucketName])){
+			$this->_buckets[$bucketName] = new simpleStorageBucket($this,$bucketName);
 		}
-		return $this->_buckets[$name];
+		return $this->_buckets[$bucketName];
 	}
-	public function putBucket($name){
-
+	/**
+	 * Creates a bucket and applies ACLs to a bucket.
+	 * @param string $bucketName
+	 * @return boolean
+	 */
+	public function putBucket($bucketName){
+		return $this->_driver->putBucket($bucketName);
 	}
-	public function deleteBucket($name){
-
+	/**
+	 * Deletes an empty bucket.
+	 * @param string $bucketName
+	 * @return boolean
+	 */
+	public function deleteBucket($bucketName){
+		return $this->_driver->deleteBucket($bucketName);
 	}
 }

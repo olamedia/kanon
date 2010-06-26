@@ -1,5 +1,5 @@
 <?php
-class inputResource{
+class inputResource implements simpleStorageInput{
 	protected $_resource = null;
 	protected $_bufferSize = 0;
 	public function __construct(&$resource, $bufferSize){
@@ -11,5 +11,8 @@ class inputResource{
 	}
 	public function getBufferSize(){
 		return $this->_bufferSize;
+	}
+	public function getContents(){
+
 	}
 }
