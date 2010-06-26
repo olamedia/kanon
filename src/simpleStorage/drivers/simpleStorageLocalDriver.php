@@ -51,7 +51,7 @@ class simpleStorageLocalDriver{
 	 */
 	public function putObject($bucketName, $input, $uri){
 		$filename = $this->_path.$bucketName.'/'.$uri;
-		if ($input instanceof inputFile){
+		if ($input instanceof simpleStorageInput){
 			return file_put_contents($filename, $input->getContents());
 		}
 		return false;
