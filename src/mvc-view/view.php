@@ -5,6 +5,7 @@ class view{
 	protected $_slots = array();
 	protected $_openedSlots = array();
 	protected $_layout = null;
+	protected $_layoutParameters = array();
 	public function start($name){
 		$this->_openedSlots[] = $name;
 		ob_start();
@@ -19,8 +20,9 @@ class view{
 	public function get($name){
 		return $this->_slots[$name];
 	}
-	public function extend($viewName){
+	public function extend($viewName, $parameters = array()){
 		$this->_layout = $viewName;
+		$this->_layoutParameters = $parameters;
 	}
 	public function setFilename($filename){
 		$this->_filename = $filename;
@@ -55,7 +57,7 @@ class view{
 		$this->end();
 		if ($this->_layout !== null){
 			$this->setView($this->_layout);
-			$this->show();
+			$this->show($this->_layoutParameters);
 		}
 		echo $this->get('_content');
 	}
