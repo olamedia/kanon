@@ -79,6 +79,7 @@ array(
 		'src/forms/controls',
 		'src/mvc-controller',
 		'src/mvc-model',
+		'src/mvc-view',
 		'src/mvc-model/properties',
 		'src/mvc-model/storageDrivers',
 		'src/media',
