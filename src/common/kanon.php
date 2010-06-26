@@ -12,6 +12,7 @@ class kanon{
 	private static $_uniqueId = 0;
 	private static $_uniqueIdMap = array(); 
 	private static $_basePath = null;
+	private static $_fileStorages = array();
 	private static $_loadedModules = array();
 	private static $_autoload = array();
 	private static $_actionControllers = array();
@@ -107,8 +108,11 @@ class kanon{
 		}
 		return $id.'_';
 	}
-	public static function getStorage($storageName = 'default'){
-		return fileStorage::getStorage($storageName);
+	public static function getStorage($name){
+		return self::$_fileStorage[$name];
+	}
+	public static function setStorage($name,$storage){
+		self::$_fileStorage[$name] = $storage;
 	}
 	/**
 	 *

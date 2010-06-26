@@ -6,6 +6,9 @@ class simpleStorageBucket{
 		$this->_storage = $storage;
 		$this->_name = $name;
 	}
+	/**
+	 * @return simpleStorage
+	 */
 	public function getStorage(){
 		return $this->_storage;
 	}
@@ -13,7 +16,7 @@ class simpleStorageBucket{
 		return $this->_name;
 	}
 	public function getObject($uri){
-		
+		return new simpleStorageObject($this, $uri);
 	}
 	public function putObject($input, $uri){
 		
