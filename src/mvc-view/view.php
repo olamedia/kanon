@@ -53,6 +53,7 @@ class view{
 			$this->setView($this->_layout);
 			$this->show();
 		}
+		echo $this->get('_content');
 	}
 	public function __set($name, $value){
 		$this->set($name, $value);
