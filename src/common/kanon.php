@@ -47,7 +47,7 @@ class kanon{
 		}
 		foreach (self::$_preferredThemes as $themeName){
 			$themedFilename = $themesPath.$themeName.'/'.$rel;
-			//echo ' themed='.$themedFilename;
+			echo ' themed='.$themedFilename;
 			if (is_file($themedFilename)){
 				return $themedFilename;
 			} 
