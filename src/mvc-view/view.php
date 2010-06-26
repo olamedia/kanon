@@ -44,6 +44,9 @@ class view{
 			$$k = $v;
 		}
 		$this->start('_content');
+		if (!is_file($this->_filename)){
+			throw new Exception($this->_filename." not found");
+		}
 		include $this->_filename;
 		$this->end();
 		if ($this->_layout !== null){
