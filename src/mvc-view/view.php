@@ -28,7 +28,7 @@ class view{
 	public function rel($relativeUri){
 		$relativeUri = ($relativeUri instanceof uri)?$relativeUri:uri::fromString(strval($relativeUri));
 		$rel = new uri();
-		$rel->setPath(array_merge($this->_uri->getPath(),$relativeUri));
+		$rel->setPath(array_merge($this->_uri->getPath(),$relativeUri->getPath()));
 		return $rel;
 	}
 	public function setUri($uri){
