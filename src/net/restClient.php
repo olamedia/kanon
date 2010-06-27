@@ -46,6 +46,7 @@ class restClient{
 	}
 	public function reset(){
 		$this->_temporaryHeaders = array();
+		$this->_headers = array();
 	}
 	public function put($uri, $headers = array(), $get = array(), $post = array()){
 		$this->reset();
@@ -94,7 +95,7 @@ class restClient{
 		}
 		$this->_eventDispatcher->notify(new event($this,'rest:before',array()));
 		curl_setopt($ch, CURLOPT_URL, $uri);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array_merge($this->_headers,$this->_temporaryHeaders));
+		curl_setopt($ch, CURLOPT_HTTPHEADER, $this->_headers);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $body);
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
