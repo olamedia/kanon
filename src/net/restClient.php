@@ -17,6 +17,9 @@ class restClient{
 	public function __construct(){
 		$this->_eventDispatcher = new eventDispatcher();
 	}
+	public function getMethod(){
+		return $this->_method;
+	}
 	public function setHeader($headerString){
 		$this->_headers[strtolower(array_shift(explode(':',$header)))] = $headerString;
 	}
