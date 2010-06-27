@@ -1,11 +1,42 @@
 <?php
+require_once realpath(dirname(__FILE__).'/../').'/simpleStorageDriver.php';
 // bucket.commondatastorage.googleapis.com/object
 // commondatastorage.googleapis.com/bucket/object
-class simpleStorageGoogleStorageDriver{
-	protected $_path = null;
+class simpleStorageGoogleStorageDriver implements simpleStorageDriver{
+	protected $_restClient = null;
+	protected $_publicKey = '';
+	protected $_privateKey = '';
+	protected $_bucketName = '';
 	protected $_uri = null;
-	public function __construct($path, $uri){
-		
+	public function signRequest(){
+		$method = $this->_restClient->getMethod();
+		$bucketName = $this->_bucketName;
+		$uri = $this->_uri;
+		// MessageToBeSigned = UTF-8-Encoding-Of(CanonicalHeaders + CanonicalExtensionHeaders + CanonicalResource)
+		// You construct the CanonicalHeaders portion of the message by concatenating several header values and adding a newline (U+000A) after each header value.
+		$date = date('r', $this->_restClient->getDate());
+		$contentType = $this->_restClient->getHeader('content-type');
+		if ($contentType === false) $contentType = '';
+		$contentMd5 = $this->_restClient->getHeader('Content-MD5');
+		if ($contentMd5 === false) $contentMd5 = '';
+		$canonicalHeaders = $method."\n". 
+			$contentMd5."\n".
+			$contentType."\n".
+			$date."\n";
+		$canonicalResource = '';
+		if ($bucketName != '') $canonicalResource .= '/'.$bucketName;
+		$canonicalResource .= '/'.$uri;
+		$message = $canonicalHeaders.$canonicalExtensionHeaders.$canonicalResource;
+		// Signature = Base64-Encoding-Of(HMAC-SHA1(UTF-8-Encoding-Of(YourGoogleStorageSecretKey, MessageToBeSigned)))
+		$signature = base64_encode(hash_hmac('sha1', $message, $this->_privateKey, true));
+		// Authorization: GOOG1 google_storage_access_key:signature
+		$this->_restClient->addTemporaryHeader('Authorization: GOOG1 '.$this->_publicKey.':'.$signature);
+	}
+	public function __construct($publicKey, $privateKey){
+		$this->_publicKey = $publicKey;
+		$this->_privateKey = $privateKey;
+		$this->_restClient = new restClient();
+		$this->_restClient->getEventDispatcher()->attach('rest:before', array($this,'signRequest'));
 	}
 	public function getUri($bucket, $uri){
 		return 'http://'.$bucket.'.commondatastorage.googleapis.com/'.$uri;
@@ -51,6 +82,10 @@ class simpleStorageGoogleStorageDriver{
 	 * @return boolean
 	 */
 	public function deleteObject($bucketName, $uri){
-		
+		$this->_bucketName = $bucketName;
+		$this->_uri = $uri;
+		// Date: Wed, 16 Jun 2010 11:11:11 GMT
+		// Authorization: GOOG1 GOOGTS7C7FUP3AIRVJTE:Y9gBLAEInIlFv5zlAm9ts=
+		$this->_restClient->delete('http://'.$bucketName.'.commondatastorage.googleapis.com/'.$uri);
 	}
 }
