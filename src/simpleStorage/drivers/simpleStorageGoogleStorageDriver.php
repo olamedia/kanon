@@ -16,10 +16,10 @@ class simpleStorageGoogleStorageDriver implements simpleStorageDriver{
 		// MessageToBeSigned = UTF-8-Encoding-Of(CanonicalHeaders + CanonicalExtensionHeaders + CanonicalResource)
 		// You construct the CanonicalHeaders portion of the message by concatenating several header values and adding a newline (U+000A) after each header value.
 		//$date = date('r', $this->_restClient->getDate());
-		$date = $this->_restClient->getHeader('Date', '');
+		$date = $this->_restClient->getHeaderValue('Date', '');
 		var_dump($this->_restClient->getHeaders());
-		$contentType = $this->_restClient->getHeader('Content-Type', '');
-		$contentMd5 = $this->_restClient->getHeader('Content-MD5', '');
+		$contentType = $this->_restClient->getHeaderValue('Content-Type', '');
+		$contentMd5 = $this->_restClient->getHeaderValue('Content-MD5', '');
 		$canonicalHeaders = $method."\n". 
 			$contentMd5."\n".
 			$contentType."\n".

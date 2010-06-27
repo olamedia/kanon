@@ -35,6 +35,15 @@ class restClient{
 		$name = strtolower($name);
 		return isset($this->_headers[$name])?$this->_headers[$name]:$default;
 	}
+	public function getHeaderValue($name, $default = false){
+		$name = strtolower($name);
+		if (isset($this->_headers[$name])){
+			$a = explode(':',$this->_headers[$name]);
+			array_shift($a);
+			return trim(implode(':',$a));
+		}
+		return $default;
+	}
 	public function getDate(){
 		if ($this->_date === null){
 			$this->_date = time();
