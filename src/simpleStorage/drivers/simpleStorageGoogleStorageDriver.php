@@ -33,7 +33,9 @@ class simpleStorageGoogleStorageDriver implements simpleStorageDriver{
 		// Signature = Base64-Encoding-Of(HMAC-SHA1(UTF-8-Encoding-Of(YourGoogleStorageSecretKey, MessageToBeSigned)))
 		$signature = base64_encode(hash_hmac('sha1', $message, $this->_privateKey, true));
 		// Authorization: GOOG1 google_storage_access_key:signature
-		$this->_restClient->addTemporaryHeader('Authorization: GOOG1 '.$this->_publicKey.':'.$signature);
+		$header = 'Authorization: GOOG1 '.$this->_publicKey.':'.$signature;
+		echo ' header='.$header;
+		$this->_restClient->addHeader($header);
 	}
 	public function __construct($publicKey, $privateKey){
 		$this->_publicKey = $publicKey;
