@@ -5,7 +5,7 @@ class event implements ArrayAccess{
 	protected $_parameters = array();
 	protected $_processed = false;
 	protected $_value = null;
-	public function __construct($subject, string $name, $parameters = array()){
+	public function __construct($subject, $name, $parameters = array()){
 		$this->_subject = $subject;
 		$this->_name = $name;
 		$this->_parameters = $parameters;
