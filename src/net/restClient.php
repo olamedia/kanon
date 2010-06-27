@@ -8,6 +8,7 @@ class restClient{
 	protected $_headers = array();
 	protected $_date = null;
 	protected $_eventDispatcher = null;
+	protected $_response = null;
 	/**
 	 * @return eventDispatcher
 	 */
@@ -113,33 +114,33 @@ class restClient{
 		if ($method != 'POST' && $method != 'GET'){
 			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
 		}
-		$response = curl_exec($ch);
+		$this->_response = curl_exec($ch);
 		$info = curl_getinfo($ch);
 		$this->_responseCode = $info['http_code'];
 		curl_close($ch);
-		return $response;//$this->getObject($response);
+		return $this->getObject();
 	}
 	public function setFormat($format){
 		$this->_format = $format;
 	}
-	public function getObject($response){
-		if ($response === false) return false;
+	public function getObject(){
+		if ($this->_response === false) return false;
 		if (!preg_match('/^2[0-9]{2}$/', $this->_responseCode)) return false;
 		switch ($this->_format){
 			case 'json':
 			case 'js':
-				return json_decode($response);
+				return json_decode($this->_response);
 				break;
 			case 'xml':
 			case 'atom':
 			case 'rss':
-				return simplexml_load_string($response);
+				return simplexml_load_string($this->_response);
 				break;
 			case 'php':
 			case 'php_serial':
-				return unserialize($response);
+				return unserialize($this->_response);
 			default:
-				return $response;
+				return $this->_response;
 		}
 	}
 }
