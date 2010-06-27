@@ -86,7 +86,7 @@ class simpleStorageGoogleStorageDriver implements simpleStorageDriver{
 		$this->_bucketName = $bucketName;
 		$this->_uri = $uri;
 		$response = $this->_restClient->get('http://'.$bucketName.'.commondatastorage.googleapis.com/'.$uri, array(
-		'Content-Type: image/gif'
+		'Content-Type: application/x-www-form-urlencoded'
 		));
 		echo $this->_restClient->getResponseCode();
 		return $response;
