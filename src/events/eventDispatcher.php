@@ -27,14 +27,16 @@ class eventDispatcher implements ArrayAccess{
 		return $this->_listeners[$name];
 	}
 	public function notify(event $event){
+		$args = func_get_args();
 		foreach ($this->getListeners($event->getName()) as $listener){
-			call_user_func_array($listener, func_get_args());
+			call_user_func_array($listener, $args);
 		}
 		return $event;
 	}
 	public function notifyUntil(event $event){
+		$args = func_get_args();
 		foreach ($this->getListeners($event->getName()) as $listener){
-			if (call_user_func_array($listener, func_get_args())){
+			if (call_user_func_array($listener, $args)){
 				$event->setProcessed(true);
 				break;
 			}
