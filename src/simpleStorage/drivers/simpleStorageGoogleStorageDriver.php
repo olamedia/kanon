@@ -73,8 +73,14 @@ class simpleStorageGoogleStorageDriver implements simpleStorageDriver{
 	 * @param string $uri
 	 * @return boolean
 	 */
-	public function putObject($bucketName, $input, $uri){
-
+	public function putObject($bucketName, inputFile $input, $uri){
+		$this->_bucketName = $bucketName;
+		$this->_uri = $uri;
+		$response = $this->_restClient->get('http://'.$bucketName.'.commondatastorage.googleapis.com/'.$uri, array(
+		'Content-Type: application/x-www-form-urlencoded'
+		), array(), $input->getContents());
+		echo $this->_restClient->getResponseCode();
+		return $response;
 	}
 	public function getObject($bucketName, $uri){
 		$this->_bucketName = $bucketName;
