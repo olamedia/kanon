@@ -88,8 +88,9 @@ class simpleStorageGoogleStorageDriver implements simpleStorageDriver{
 	public function deleteObject($bucketName, $uri){
 		$this->_bucketName = $bucketName;
 		$this->_uri = $uri;
-		$this->_restClient->setHeader('Content-Type: application/x-www-form-urlencoded');
-		$response = $this->_restClient->delete('http://'.$bucketName.'.commondatastorage.googleapis.com/'.$uri);
+		$response = $this->_restClient->delete('http://'.$bucketName.'.commondatastorage.googleapis.com/'.$uri, array(
+		'Content-Type: application/x-www-form-urlencoded'
+		));
 		var_dump($response);
 	}
 }
