@@ -48,19 +48,19 @@ class restClient{
 		$this->_temporaryHeaders = array();
 		$this->_headers = array();
 	}
-	public function put($uri, $headers = array(), $get = array(), $post = array()){
+	public function put($uri, $headers = array(), $get = array(), $post = ''){
 		$this->reset();
 		return $this->_request('PUT', $uri, $headers, $get, $post);
 	}
-	public function delete($uri, $headers = array(), $get = array(), $post = array()){
+	public function delete($uri, $headers = array(), $get = array(), $post = ''){
 		$this->reset();
 		return $this->_request('DELETE', $uri, $headers, $get, $post);
 	}
-	public function post($uri, $headers = array(), $get = array(), $post = array()){
+	public function post($uri, $headers = array(), $get = array(), $post = ''){
 		$this->reset();
 		return $this->_request('POST', $uri, $headers, $get, $post);
 	}
-	public function get($uri, $headers = array(), $get = array(), $post = array()){
+	public function get($uri, $headers = array(), $get = array(), $post = ''){
 		$this->reset();
 		return $this->_request('GET', $uri, $headers, $get, $post);
 	}
