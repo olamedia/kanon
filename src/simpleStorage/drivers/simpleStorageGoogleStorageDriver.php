@@ -82,6 +82,11 @@ class simpleStorageGoogleStorageDriver implements simpleStorageDriver{
 		echo $this->_restClient->getResponseCode();
 		return $response;
 	}
+	/**
+	 * Downloads an object or lists an object's ACLs.
+	 * @param string $bucketName
+	 * @param string $uri
+	 */
 	public function getObject($bucketName, $uri){
 		$this->_bucketName = $bucketName;
 		$this->_uri = $uri;
