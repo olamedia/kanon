@@ -31,9 +31,9 @@ class restClient{
 	public function getHeaders(){
 		return $this->_headers;
 	}
-	public function getHeader($name){
+	public function getHeader($name, $default = false){
 		$name = strtolower($name);
-		return isset($this->_headers[$name])?$this->_headers[$name]:false;
+		return isset($this->_headers[$name])?$this->_headers[$name]:$default;
 	}
 	public function getDate(){
 		if ($this->_date === null){

@@ -15,11 +15,10 @@ class simpleStorageGoogleStorageDriver implements simpleStorageDriver{
 		$uri = $this->_uri;
 		// MessageToBeSigned = UTF-8-Encoding-Of(CanonicalHeaders + CanonicalExtensionHeaders + CanonicalResource)
 		// You construct the CanonicalHeaders portion of the message by concatenating several header values and adding a newline (U+000A) after each header value.
-		$date = date('r', $this->_restClient->getDate());
-		$contentType = $this->_restClient->getHeader('Content-Type');
-		if ($contentType === false) $contentType = '';
-		$contentMd5 = $this->_restClient->getHeader('Content-MD5');
-		if ($contentMd5 === false) $contentMd5 = '';
+		//$date = date('r', $this->_restClient->getDate());
+		$date = $this->_restClient->getHeader('Date', '');
+		$contentType = $this->_restClient->getHeader('Content-Type', '');
+		$contentMd5 = $this->_restClient->getHeader('Content-MD5', '');
 		$canonicalHeaders = $method."\n". 
 			$contentMd5."\n".
 			$contentType."\n".
@@ -89,7 +88,7 @@ class simpleStorageGoogleStorageDriver implements simpleStorageDriver{
 	public function deleteObject($bucketName, $uri){
 		$this->_bucketName = $bucketName;
 		$this->_uri = $uri;
-		$this->_restClient->setHeader('Content-Type: text/html');
+		$this->_restClient->setHeader('Content-Type: application/x-www-form-urlencoded');
 		$response = $this->_restClient->delete('http://'.$bucketName.'.commondatastorage.googleapis.com/'.$uri);
 		var_dump($response);
 	}
