@@ -100,9 +100,12 @@ class restClient{
 		}else{
 			$body = $post;
 		}
-		if ($method == 'POST' || $method != 'PUT'){
+		if ($method == 'POST' || $method == 'PUT'){
 			// This is required for all PUT and POST requests.
 			$this->setHeader("Content-Length: ".strlen($postFields));
+		}
+		if ($method == 'PUT'){
+			curl_setopt($ch, CURLOPT_PUT, true);
 		}
 		$this->_eventDispatcher->notify(new event($this,'rest:before',array()));
 		curl_setopt($ch, CURLOPT_URL, $uri);
@@ -112,7 +115,7 @@ class restClient{
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 4);
 		curl_setopt($ch, CURLOPT_TIMEOUT, 8);
-		if ($method != 'POST' && $method != 'GET'){
+		if ($method != 'POST' && $method != 'GET' && $method != 'PUT'){
 			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
 		}
 		$this->_response = curl_exec($ch);

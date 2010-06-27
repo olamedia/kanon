@@ -4,8 +4,8 @@ require_once realpath(dirname(__FILE__).'/../').'/simpleStorageDriver.php';
 // commondatastorage.googleapis.com/bucket/object
 class simpleStorageGoogleStorageDriver implements simpleStorageDriver{
 	protected $_restClient = null;
-	protected $_publicKey = '';
-	protected $_privateKey = '';
+	protected $_publicKey = ''; // Google Access Key
+	protected $_privateKey = ''; // Google Access Key Secret
 	protected $_bucketName = '';
 	protected $_uri = null;
 	public function signRequest(){
