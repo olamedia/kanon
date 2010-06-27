@@ -57,6 +57,9 @@ class simpleStorageLocalDriver implements simpleStorageDriver{
 		}
 		return false;
 	}
+	public function getObject($bucketName, $uri){
+		
+	}
 	/**
 	 * Deletes an object.
 	 * @param string $bucketName

@@ -1,7 +1,7 @@
 <?php
 class simpleStorageBucket{
 	/**
-	 * 
+	 *
 	 * @var simpleStorage
 	 */
 	protected $_storage = null;
@@ -23,10 +23,11 @@ class simpleStorageBucket{
 		return $this->_name;
 	}
 	public function getObjects(){
-		
+
 	}
 	public function getObject($uri){
-		return new simpleStorageObject($this, $uri);
+		//return new simpleStorageObject($this, $uri);
+		return $this->getDriver()->getObject($this->getName(), $uri);
 	}
 	/**
 	 * Uploads an object or applies object ACLs.
