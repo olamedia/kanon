@@ -75,6 +75,7 @@ header("Content-type: text/plain; charset=UTF-8");
 phpCombinator::combine(
 array(
 		'src/common', 
+		'src/events', 
 		'src/simpleStorage', 
 		'src/simpleStorage/drivers', 
 		'src/forms',
