@@ -64,7 +64,7 @@ class restClient{
 		$this->_method = $method;
 		$this->setHeaders($headers);
 		$this->_date = $this->getDate();
-		$headers[] = 'Date: '.date('r', $this->_date);
+		$this->setHeader('Date: '.date('r', $this->_date));
 		$ch = curl_init($url);
 		$getFields = array();
 		foreach ($get as $k => $v){
@@ -87,11 +87,11 @@ class restClient{
 		}
 		if ($method == 'POST' || $method != 'PUT'){
 			// This is required for all PUT and POST requests.
-			$headers[] = "Content-Length: ".strlen($postFields);
+			$this->setHeader("Content-Length: ".strlen($postFields));
 		}
 		$this->_eventDispatcher->notify(new event($this,'rest:before',array()));
 		curl_setopt($ch, CURLOPT_URL, $uri);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array_merge($this->_headers,$this->_temporaryHeaders));
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $body);
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
