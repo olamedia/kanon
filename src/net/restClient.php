@@ -107,7 +107,7 @@ class restClient{
 		$info = curl_getinfo($ch);
 		$this->_responseCode = $info['http_code'];
 		curl_close($ch);
-		return $this->getObject($response);
+		return $response;//$this->getObject($response);
 	}
 	public function setFormat($format){
 		$this->_format = $format;
