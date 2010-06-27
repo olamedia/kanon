@@ -35,7 +35,7 @@ class simpleStorageGoogleStorageDriver implements simpleStorageDriver{
 		// Authorization: GOOG1 google_storage_access_key:signature
 		$header = 'Authorization: GOOG1 '.$this->_publicKey.':'.$signature;
 		echo ' header='.$header;
-		$this->_restClient->addHeader($header);
+		$this->_restClient->setHeader($header);
 	}
 	public function __construct($publicKey, $privateKey){
 		$this->_publicKey = $publicKey;
