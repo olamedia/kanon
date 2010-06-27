@@ -28,7 +28,7 @@ class simpleStorageGoogleStorageDriver implements simpleStorageDriver{
 		if ($bucketName != '') $canonicalResource .= '/'.$bucketName;
 		$canonicalResource .= '/'.$uri;
 		$message = $canonicalHeaders.$canonicalExtensionHeaders.$canonicalResource;
-		echo ' message='.$message;
+		echo ' <StringToSign>'.$message.'</StringToSign>';
 		// Signature = Base64-Encoding-Of(HMAC-SHA1(UTF-8-Encoding-Of(YourGoogleStorageSecretKey, MessageToBeSigned)))
 		$signature = base64_encode(hash_hmac('sha1', $message, $this->_privateKey, true));
 		// Authorization: GOOG1 google_storage_access_key:signature
