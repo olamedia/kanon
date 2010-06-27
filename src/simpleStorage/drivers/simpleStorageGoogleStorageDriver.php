@@ -90,6 +90,7 @@ class simpleStorageGoogleStorageDriver implements simpleStorageDriver{
 		$this->_bucketName = $bucketName;
 		$this->_uri = $uri;
 		$this->_restClient->setHeader('Content-Type: text/html');
-		$this->_restClient->delete('http://'.$bucketName.'.commondatastorage.googleapis.com/'.$uri);
+		$response = $this->_restClient->delete('http://'.$bucketName.'.commondatastorage.googleapis.com/'.$uri);
+		var_dump($response);
 	}
 }
