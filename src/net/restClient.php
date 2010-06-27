@@ -9,6 +9,7 @@ class restClient{
 	protected $_date = null;
 	protected $_eventDispatcher = null;
 	protected $_response = null;
+	protected $_responseInfo = null;
 	/**
 	 * @return eventDispatcher
 	 */
@@ -115,10 +116,13 @@ class restClient{
 			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
 		}
 		$this->_response = curl_exec($ch);
-		$info = curl_getinfo($ch);
-		$this->_responseCode = $info['http_code'];
+		$this->_responseInfo = curl_getinfo($ch);
+		$this->_responseCode = $this->_responseInfo['http_code'];
 		curl_close($ch);
 		return $this->getObject();
+	}
+	public function getResponseCode(){
+		return $this->_responseCode;
 	}
 	public function setFormat($format){
 		$this->_format = $format;
