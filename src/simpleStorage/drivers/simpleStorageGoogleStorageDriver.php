@@ -17,6 +17,7 @@ class simpleStorageGoogleStorageDriver implements simpleStorageDriver{
 		// You construct the CanonicalHeaders portion of the message by concatenating several header values and adding a newline (U+000A) after each header value.
 		//$date = date('r', $this->_restClient->getDate());
 		$date = $this->_restClient->getHeader('Date', '');
+		var_dump($this->_restClient->getHeaders());
 		$contentType = $this->_restClient->getHeader('Content-Type', '');
 		$contentMd5 = $this->_restClient->getHeader('Content-MD5', '');
 		$canonicalHeaders = $method."\n". 
