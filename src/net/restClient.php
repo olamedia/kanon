@@ -119,7 +119,7 @@ class restClient{
 		$this->_responseInfo = curl_getinfo($ch);
 		$this->_responseCode = $this->_responseInfo['http_code'];
 		curl_close($ch);
-		return $this->getObject();
+		return $this->_response;//$this->getObject();
 	}
 	public function getResponseCode(){
 		return $this->_responseCode;
