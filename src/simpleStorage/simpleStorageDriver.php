@@ -11,7 +11,8 @@ interface simpleStorageDriver{
 	 * Get list of bucket names
 	 * @return array
 	 */
-	public function getBuckets();
+	public function listBuckets();
+	public function listObjects($bucketName);
 	/**
 	 * Deletes an empty bucket.
 	 * @param string $bucketName

@@ -25,12 +25,15 @@ class simpleStorageLocalDriver implements simpleStorageDriver{
 	 * Get list of bucket names
 	 * @return array
 	 */
-	public function getBuckets(){
+	public function listBuckets(){
 		$buckets = array();
 		foreach (glob($this->_path.'*',GLOB_ONLYDIR) as $name){
 			$buckets[] = basename($name);
 		}
 		return $buckets;
+	}
+	public function listObjects($bucketName){
+		
 	}
 	/**
 	 * Deletes an empty bucket.

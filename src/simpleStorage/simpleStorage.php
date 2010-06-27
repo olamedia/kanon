@@ -24,8 +24,8 @@ class simpleStorage{
 	 * Get list of bucket names
 	 * @return array
 	 */
-	public function getBuckets(){
-		return $this->_driver->getBuckets();
+	public function listBuckets(){
+		return $this->_driver->listBuckets();
 	}
 	/**
 	 * Get a bucket
