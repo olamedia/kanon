@@ -25,6 +25,10 @@ class simpleStorageBucket{
 	public function getObjects(){
 
 	}
+	/**
+	 * Downloads an object or lists an object's ACLs.
+	 * @param string $uri
+	 */
 	public function getObject($uri){
 		//return new simpleStorageObject($this, $uri);
 		return $this->getDriver()->getObject($this->getName(), $uri);
