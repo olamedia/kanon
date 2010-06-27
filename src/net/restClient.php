@@ -21,7 +21,7 @@ class restClient{
 		return $this->_method;
 	}
 	public function setHeader($headerString){
-		$this->_headers[strtolower(array_shift(explode(':',$header)))] = $headerString;
+		$this->_headers[strtolower(array_shift(explode(':',$headerString)))] = $headerString;
 	}
 	public function setHeaders($headers){
 		foreach ($headers as $headerString){
