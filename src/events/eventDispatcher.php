@@ -10,8 +10,8 @@ class eventDispatcher implements ArrayAccess{
 	}
 	public function detach($name, $listener){
 		if (!isset($this->_listeners[$name])) return false;
-		foreach ($this->_listeners[$name] as $k => $xlistener){
-			if ($listener === $xlistener){
+		foreach ($this->_listeners[$name] as $k => $attachedListener){
+			if ($listener === $attachedListener){
 				unset($this->_listeners[$name][$k]);
 			}
 		}
