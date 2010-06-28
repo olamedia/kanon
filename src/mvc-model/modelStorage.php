@@ -310,7 +310,7 @@ class modelStorage{
 	public static function getTableModel($collection){
 		return $collection->getModelClass();
 	}
-	public static function getIndirectTablesJoins($sourceTable, $targetTable, $joinTypes){
+	public static function getIndirectTablesJoins($sourceTable, $targetTable, $joinTypes, $joinWhere){
 		$keys = &storageRegistry::getInstance()->foreignKeys;
 		$sourceClass = self::getTableModel($sourceTable);
 		$targetClass = self::getTableModel($targetTable);
@@ -323,13 +323,13 @@ class modelStorage{
 					$viaClass = $options;
 					//echo 'Connecting via '.$viaClass.'<br />';
 					$viaTable = modelCollection::getInstance($viaClass);
-					$subJoins = self::getIndirectTablesJoins($sourceTable, $viaTable, $joinTypes);
+					$subJoins = self::getIndirectTablesJoins($sourceTable, $viaTable, $joinTypes, $joinWhere);
 					if ($subJoins !== false){
 						foreach ($subJoins as $uid => $joinString){
 							$joins[$uid] = $joinString;
 						}
 					}
-					$subJoins = self::getIndirectTablesJoins($viaTable, $targetTable, $joinTypes);
+					$subJoins = self::getIndirectTablesJoins($viaTable, $targetTable, $joinTypes, $joinWhere);
 					if ($subJoins !== false){
 						foreach ($subJoins as $uid => $joinString){
 							$joins[$uid] = $joinString;
@@ -348,6 +348,9 @@ class modelStorage{
 					}
 					list($sourcePropertyName, $targetPropertyName) = $options;
 					$joinString = " ".$joinType." JOIN {$targetTable->getTableName()} AS $targetTable ON ({$sourceTable->$sourcePropertyName} = {$targetTable->$targetPropertyName}";
+					if (isset($joinWhere[$targetTable->getUniqueId()])){
+						$joinString .= " AND ".implode(" AND ", $joinWhere[$targetTable->getUniqueId()]);
+					}
 					if (strlen($joinOn)){
 						$joinString .= " AND ".$joinOn;
 					}

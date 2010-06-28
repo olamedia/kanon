@@ -14,6 +14,7 @@ class modelQueryBuilder{
 	protected $_joinOptions = array();
 	protected $_joinType = array();
 	protected $_joinOn = array();
+	protected $_joinWhere = array();
 	protected $_join = array();
 	protected $_where = array();
 	protected $_having = array();
@@ -116,7 +117,7 @@ class modelQueryBuilder{
 				$minJoins = false;
 				foreach ($this->_joinedTables as $table1Uid => $table1){
 					if ($table1Uid !== $table2->getUniqueId()){
-						$joins = modelStorage::getIndirectTablesJoins($table1, $table2, $this->_joinType);
+						$joins = modelStorage::getIndirectTablesJoins($table1, $table2, $this->_joinType, $this->_joinWhere);
 						if (($joins !== false) && (($min === null) || (count($joins) < $min))){
 							$minJoins = $joins;
 							$min = count($joins);
@@ -360,8 +361,14 @@ class modelQueryBuilder{
 	protected function applyFilters(){
 		foreach ($this->_joinedTables as $tableUid => $table){
 			$filters = $table->getFilters();
-			foreach ($filters as $filter){
-				$this->where($filter);
+			if (count($filters)){
+				if ($this->_storageSource->getUniqueId() == $tableUid){
+					foreach ($filters as $filter){
+						$this->where($filter);
+					}
+				}else{
+					$this->_joinWhere[$tableUid] = $filters;
+				}
 			}
 		}
 	}
