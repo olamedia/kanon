@@ -348,7 +348,7 @@ class modelStorage{
 					}
 					list($sourcePropertyName, $targetPropertyName) = $options;
 					$joinString = " ".$joinType." JOIN {$targetTable->getTableName()} AS $targetTable ON ({$sourceTable->$sourcePropertyName} = {$targetTable->$targetPropertyName}";
-					if (isset($joinWhere[$targetTable->getUniqueId()])){
+					if (isset($joinWhere[$targetTable->getUniqueId()])){ // apply filters
 						$joinString .= " AND ".implode(" AND ", $joinWhere[$targetTable->getUniqueId()]);
 					}
 					if (strlen($joinOn)){
