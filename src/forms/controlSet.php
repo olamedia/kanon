@@ -49,6 +49,9 @@ abstract class controlSet{
 		$this->_isUpdated = true;
 	}
 	public function setItem(&$item){
+		if ($item instanceof modelResultSet){
+			throw new InvalidArgumentException('item instance of modelResultSet'); // common error
+		}
 		$this->setItemTemplate($item);
 		$this->_item = $item;
 	}
