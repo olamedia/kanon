@@ -234,7 +234,7 @@ abstract class control{
 
 	public function setProperty($property){
 		if (!is_object($property)){
-			throw new Exception($property);
+			throw new Exception('Given property is not an object');
 		}
 		$this->_property = $property;
 		if ($this->_value !== null){
