@@ -88,9 +88,9 @@ class mysqlDriver extends storageDriver{
 			if ($errorNumber == 1146){
 				//mysql_query("SET sql_mode='ANSI'", $this->getConnection());
 				$this->_createCollection();
-				$result = mysql_query($sql, $this->getConnection());
+				//$result = mysql_query($sql, $this->getConnection());
 			}
-			$errorNumber = mysql_errno($this->getConnection());
+			//$errorNumber = mysql_errno($this->getConnection());
 			if (!$result){
 				throw new Exception(
 				'Mysql Error #'.$errorNumber.
