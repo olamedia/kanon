@@ -33,6 +33,9 @@ abstract class storageDriver{
 	 */
 	protected function _createCollection(){
 		if ($this->_autoRepair){
+			throw new Exception(
+							'Trying to _createCollection()'
+						);
 			$created = false;
 			//echo 'Create collection()'."\r\n";
 			$models = $this->getStorage()->getModels();
