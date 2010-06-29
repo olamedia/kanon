@@ -63,7 +63,7 @@ class modelProperty{// extends modelField
 		return $this;
 	}
 	public function getCreateSql($driver){
-		return '"'.$this->getFieldName().'" '.$driver->getDataTypeSql($this->_dataType, $this->_dataSize, $this->_dataUnsigned, $this->_dataNotNull);
+		return $driver->quoteField($this->getFieldName()).' '.$driver->getDataTypeSql($this->_dataType, $this->_dataSize, $this->_dataUnsigned, $this->_dataNotNull);
 		//return '`'.$this->_fieldName.'` varchar('.$this->_size.') CHARACTER SET utf8'.($this->_notNull?' NOT NULL':'');
 	}
 	public function setOptions($options = array()){

@@ -249,7 +249,7 @@ class model implements ArrayAccess, IteratorAggregate{
 		$t = $this->getTableName();
 		$driver = $this->getStorage()->getDriver();
 		// IF NOT EXISTS
-		$sql = 'CREATE TABLE "'.$t.'" ('."\r\n";
+		$sql = 'CREATE TABLE '.$driver->quoteField($t).' ('."\r\n";
 		$set = array();
 		foreach ($this->_fields as $propertyName => $fieldName){
 			$property = $this->_getProperty($propertyName);
@@ -258,7 +258,7 @@ class model implements ArrayAccess, IteratorAggregate{
 		}
 		if (count($this->_primaryKey)){
 			$a = array();
-			foreach ($this->_primaryKey as $c) $a[] = '"'.$this->_fields[$c].'"';
+			foreach ($this->_primaryKey as $c) $a[] = $driver->quoteField($this->_fields[$c]);
 			$set[] = "\t".'PRIMARY KEY ('.implode(',', $a).')'."\r\n";
 		}
 		$sql .= implode(",\r\n", $set);
