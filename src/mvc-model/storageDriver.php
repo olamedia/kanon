@@ -46,32 +46,26 @@ abstract class storageDriver{
 		foreach ($models as $model){
 			$collection = modelCollection::getInstance($model);
 			/** @var modelCollection $collection */
-			echo ' $collection->exists('.$model.')? ';
-			flush();
 			if (!$collection->exists()){
-				echo ' NO ';
-				flush();
 				//echo $model.' collection  not exists'."\r\n";
 				//$this->disableAutoRepair();
 				//$this->disableServiceMode();
 				//echo $collection->getCreateSql();
-				throw new Exception(
+				/*throw new Exception(
 						'Trying to create table '.$collection->getTableName().' SQL:'.$collection->getCreateSql()
-				);
+				);*/
 				if ($collection->internalQuery($collection->getCreateSql())){
 					$created = true;
 				}
 				//$this->enableServiceMode();
 				//$this->enableAutoRepair();
 			}else{
-				echo ' YES ';
-				flush();
 				//echo $model.' collection  exists'."\r\n";
 			}
 		}
-		throw new Exception(
+		/*throw new Exception(
 		 'Trying to _createCollection() - end'
-		 );
+		 );*/
 		 return $created;
 			//}
 			//return false;
