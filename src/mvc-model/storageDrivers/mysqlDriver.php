@@ -86,7 +86,7 @@ class mysqlDriver extends storageDriver{
 			// Error: 1146 SQLSTATE: 42S02 (ER_NO_SUCH_TABLE)
 			// Message: Table '%s.%s' doesn't exist
 			if ($errorNumber == 1146){
-				mysql_query("SET sql_mode='ANSI'", $this->getConnection());
+				//mysql_query("SET sql_mode='ANSI'", $this->getConnection());
 				$this->_createCollection();
 				$result = mysql_query($sql, $this->getConnection());
 			}
