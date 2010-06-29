@@ -29,44 +29,45 @@ abstract class storageDriver{
 		return $this;
 	}
 	public function internalQuery($sql){
-		
+
 	}
 	/**
 	 * Create collections if not exists
 	 */
 	protected function _createCollection(){
-		if ($this->_autoRepair){
-			/*throw new Exception(
-				'Trying to _createCollection()'
+		//if ($this->_autoRepair){
+		/*throw new Exception(
+		 'Trying to _createCollection()'
 			);*/
-			$created = false;
-			//echo 'Create collection()'."\r\n";
-			$models = $this->getStorage()->getModels();
-			foreach ($models as $model){
-				$collection = call_user_func(array($model, 'getCollection'));
-				/** @var modelCollection $collection */
-				if (!$collection->exists()){
-					//echo $model.' collection  not exists'."\r\n";
-					$this->disableAutoRepair();
-					$this->disableServiceMode();
-					//echo $collection->getCreateSql();
-					if ($collection instanceof modelCollection){
-						throw new Exception(
-							'Trying to create table '.$collection->getTableName()
-						);
-					}
-					if ($collection->internalQuery($collection->getCreateSql())){
-						$created = true;
-					}
-					$this->enableServiceMode();
-					$this->enableAutoRepair();
-				}else{
-					//echo $model.' collection  exists'."\r\n";
+		$created = false;
+		//echo 'Create collection()'."\r\n";
+		$models = $this->getStorage()->getModels();
+		foreach ($models as $model){
+			$collection = call_user_func(array($model, 'getCollection'));
+			/** @var modelCollection $collection */
+			echo ' $collection->exists()? ';
+			if (!$collection->exists()){
+				echo ' NO ';
+				//echo $model.' collection  not exists'."\r\n";
+				//$this->disableAutoRepair();
+				//$this->disableServiceMode();
+				//echo $collection->getCreateSql();
+				throw new Exception(
+						'Trying to create table '.$collection->getTableName()
+				);
+				if ($collection->internalQuery($collection->getCreateSql())){
+					$created = true;
 				}
+				//$this->enableServiceMode();
+				//$this->enableAutoRepair();
+			}else{
+				echo ' YES ';
+				//echo $model.' collection  exists'."\r\n";
 			}
-			return $created;
 		}
-		return false;
+		return $created;
+		//}
+		//return false;
 	}
 	/**
 	 * @return modelStorage
