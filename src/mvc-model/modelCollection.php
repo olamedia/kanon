@@ -22,13 +22,16 @@ class modelCollection implements ArrayAccess{
 	}
 	public function exists(){
 		$exists = false;
-		$this->getStorage()->getDriver()->disableAutoRepair();
+		//$this->getStorage()->getDriver()->disableAutoRepair();
 		// "select * from tablename where 1=2"
-		if ($this->q('SELECT * FROM "'.$this->getTableName().'" WHERE 1=2')){
+		if ($this->internalQuery('SELECT * FROM "'.$this->getTableName().'" WHERE 1=2')){
 			$exists = true;
 		}
-		$this->getStorage()->getDriver()->enableAutoRepair();
+		//$this->getStorage()->getDriver()->enableAutoRepair();
 		return $exists;
+	}
+	public function internalQuery($sql){
+		return $this->getStorage()->internalQuery($sql);
 	}
 	public function &setJoinOn($table2, $on = ''){
 		if (strlen($on)){

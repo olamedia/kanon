@@ -28,14 +28,17 @@ abstract class storageDriver{
 		$this->_storage = $storage;
 		return $this;
 	}
+	public function internalQuery($sql){
+		
+	}
 	/**
 	 * Create collections if not exists
 	 */
 	protected function _createCollection(){
 		if ($this->_autoRepair){
-			throw new Exception(
-							'Trying to _createCollection()'
-						);
+			/*throw new Exception(
+				'Trying to _createCollection()'
+			);*/
 			$created = false;
 			//echo 'Create collection()'."\r\n";
 			$models = $this->getStorage()->getModels();
@@ -52,7 +55,7 @@ abstract class storageDriver{
 							'Trying to create table '.$collection->getTableName()
 						);
 					}
-					if ($collection->q($collection->getCreateSql())){
+					if ($collection->internalQuery($collection->getCreateSql())){
 						$created = true;
 					}
 					$this->enableServiceMode();

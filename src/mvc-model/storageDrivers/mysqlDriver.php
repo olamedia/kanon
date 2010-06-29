@@ -37,6 +37,9 @@ class mysqlDriver extends storageDriver{
 	public function free($result){
 		return mysql_free_result($result);
 	}
+	public function internalQuery($sql){
+		return mysql_query($sql, $this->_connection);
+	}
 	protected function _makeConnection(){
 		if ($host = $this->get('host')){
 			if (!$port = $this->get('port')){

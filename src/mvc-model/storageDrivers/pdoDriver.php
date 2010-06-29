@@ -56,6 +56,9 @@ class pdoDriver extends storageDriver{
 	public function free($result){
 		unset($result);
 	}
+	public function internalQuery($sql){
+		return $this->getConnection()->query($sql);;
+	}
 	/**
 	 * Execute an SQL statement and return the number of affected rows
 	 * @param string $sql

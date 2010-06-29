@@ -16,6 +16,9 @@ class modelStorage{
 		}
 		return $this->_uniqueId;
 	}
+	public function internalQuery($sql){
+		return $this->_storageDriver->internalQuery($sql);
+	}
 	protected function _getWhatSql($item){
 		return '*';
 	}
