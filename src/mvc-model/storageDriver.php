@@ -44,6 +44,11 @@ abstract class storageDriver{
 					$this->disableAutoRepair();
 					$this->disableServiceMode();
 					//echo $collection->getCreateSql();
+					if ($collection instanceof modelCollection){
+						throw new Exception(
+							'Trying to create table '.$collection->getTableName()
+						);
+					}
 					if ($collection->q($collection->getCreateSql())){
 						$created = true;
 					}
