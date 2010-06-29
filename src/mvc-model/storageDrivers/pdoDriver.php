@@ -129,6 +129,9 @@ class pdoDriver extends storageDriver{
 	public function rowCount($resultSet){
 		return $resultSet->rowCount();
 	}
+	public function quoteField($string){
+		return '"'.$string.'"';
+	}
 	public function quote($string){
 		return $this->getConnection()->quote($string);
 	}

@@ -29,6 +29,9 @@ abstract class storageDriver{
 		return $this;
 	}
 	abstract public function internalQuery($sql);
+	public function quoteField($string){
+		return '"'.$string.'"'; // ANSI
+	}
 	/**
 	 * Create collections if not exists
 	 */
@@ -69,7 +72,7 @@ abstract class storageDriver{
 		throw new Exception(
 		 'Trying to _createCollection() - end'
 		 );
-		return $created;
+		 return $created;
 			//}
 			//return false;
 	}

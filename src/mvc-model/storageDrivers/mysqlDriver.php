@@ -40,6 +40,9 @@ class mysqlDriver extends storageDriver{
 	public function internalQuery($sql){
 		return mysql_query($sql, $this->_connection);
 	}
+	public function quoteField($string){
+		return '`'.$string.'`';
+	}
 	protected function _makeConnection(){
 		if ($host = $this->get('host')){
 			if (!$port = $this->get('port')){
@@ -84,7 +87,7 @@ class mysqlDriver extends storageDriver{
 		if (!$result){
 			/*foreach (debug_backtrace() as $d){
 				var_dump($d['file'].':'.$d['line']);
-			}*/
+				}*/
 			$errorNumber = mysql_errno($this->getConnection());
 			// Error: 1146 SQLSTATE: 42S02 (ER_NO_SUCH_TABLE)
 			// Message: Table '%s.%s' doesn't exist
