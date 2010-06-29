@@ -43,7 +43,7 @@ abstract class storageDriver{
 		foreach ($models as $model){
 			$collection = modelCollection::getInstance($model);
 			/** @var modelCollection $collection */
-			echo ' $collection->exists()? ';
+			echo ' $collection->exists('.$model.')? ';
 			flush();
 			if (!$collection->exists()){
 				echo ' NO ';
