@@ -79,15 +79,25 @@ class mysqlDriver extends storageDriver{
 		}
 		$result = mysql_query($sql, $this->getConnection());
 		if (!$result){
-			foreach (debug_backtrace() as $d){
+			/*foreach (debug_backtrace() as $d){
 				var_dump($d['file'].':'.$d['line']);
+			}*/
+			$errorNumber = mysql_errno($this->getConnection());
+			// Error: 1146 SQLSTATE: 42S02 (ER_NO_SUCH_TABLE)
+			// Message: Table '%s.%s' doesn't exist
+			if ($errorNumber == 1146){
+				mysql_query("SET sql_mode='ANSI'", $this->getConnection());
+				$this->_createCollection();
+				$result = mysql_query($sql, $this->getConnection());
 			}
-			
-			throw new Exception(
-				'Mysql Error #'.mysql_errno($this->getConnection()).
+			$errorNumber = mysql_errno($this->getConnection());
+			if (!$result){
+				throw new Exception(
+				'Mysql Error #'.$errorNumber.
 				' - '.mysql_error($this->getConnection()).
 				' SQL:'.htmlspecialchars($sql)
-			);
+				);
+			}
 		}
 		return $result;
 	}
