@@ -32,27 +32,30 @@ abstract class storageDriver{
 	 * Create collections if not exists
 	 */
 	protected function _createCollection(){
-		$created = false;
-		//echo 'Create collection()'."\r\n";
-		$models = $this->getStorage()->getModels();
-		foreach ($models as $model){
-			$collection = call_user_func(array($model, 'getCollection'));
-			/** @var modelCollection $collection */
-			if (!$collection->exists()){
-				//echo $model.' collection  not exists'."\r\n";
-				$this->disableAutoRepair();
-				$this->disableServiceMode();
-				//echo $collection->getCreateSql();
-				if ($collection->q($collection->getCreateSql())){
-					$created = true;
+		if ($this->_autoRepair){
+			$created = false;
+			//echo 'Create collection()'."\r\n";
+			$models = $this->getStorage()->getModels();
+			foreach ($models as $model){
+				$collection = call_user_func(array($model, 'getCollection'));
+				/** @var modelCollection $collection */
+				if (!$collection->exists()){
+					//echo $model.' collection  not exists'."\r\n";
+					$this->disableAutoRepair();
+					$this->disableServiceMode();
+					//echo $collection->getCreateSql();
+					if ($collection->q($collection->getCreateSql())){
+						$created = true;
+					}
+					$this->enableServiceMode();
+					$this->enableAutoRepair();
+				}else{
+					//echo $model.' collection  exists'."\r\n";
 				}
-				$this->enableServiceMode();
-				$this->enableAutoRepair();
-			}else{
-				//echo $model.' collection  exists'."\r\n";
 			}
+			return $created;
 		}
-		return $created;
+		return false;
 	}
 	/**
 	 * @return modelStorage
