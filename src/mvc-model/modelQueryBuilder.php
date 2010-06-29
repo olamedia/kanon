@@ -367,7 +367,19 @@ class modelQueryBuilder{
 						$this->where($filter);
 					}
 				}else{
-					$this->_joinWhere[$tableUid] = $filters;
+					foreach ($filters as $filter){
+						if ($filter instanceof modelExpression){
+							$left = $filter->getLeft();
+							$right = $filter->getRight();
+							if ($left instanceof modelField){
+								$this->_joinWhere[$left->getCollectionId()][] = $filter;
+							}elseif($right instanceof modelField){
+								$this->_joinWhere[$right->getCollectionId()][] = $filter;
+							}else{
+								$this->where($filter);
+							}
+						}
+					}
 				}
 			}
 		}
