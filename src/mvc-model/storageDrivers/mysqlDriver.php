@@ -87,7 +87,7 @@ class mysqlDriver extends storageDriver{
 			// Message: Table '%s.%s' doesn't exist
 			if ($errorNumber == 1146){
 				//mysql_query("SET sql_mode='ANSI'", $this->getConnection());
-				//$this->_createCollection();
+				$this->_createCollection();
 				//$result = mysql_query($sql, $this->getConnection());
 			}
 			//$errorNumber = mysql_errno($this->getConnection());
