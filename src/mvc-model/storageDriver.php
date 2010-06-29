@@ -28,9 +28,7 @@ abstract class storageDriver{
 		$this->_storage = $storage;
 		return $this;
 	}
-	public function internalQuery($sql){
-
-	}
+	abstract public function internalQuery($sql);
 	/**
 	 * Create collections if not exists
 	 */
@@ -43,11 +41,13 @@ abstract class storageDriver{
 		//echo 'Create collection()'."\r\n";
 		$models = $this->getStorage()->getModels();
 		foreach ($models as $model){
-			$collection = call_user_func(array($model, 'getCollection'));
+			$collection = modelCollection::getInstance($model);
 			/** @var modelCollection $collection */
 			echo ' $collection->exists()? ';
+			flush();
 			if (!$collection->exists()){
 				echo ' NO ';
+				flush();
 				//echo $model.' collection  not exists'."\r\n";
 				//$this->disableAutoRepair();
 				//$this->disableServiceMode();
@@ -62,12 +62,16 @@ abstract class storageDriver{
 				//$this->enableAutoRepair();
 			}else{
 				echo ' YES ';
+				flush();
 				//echo $model.' collection  exists'."\r\n";
 			}
 		}
+		throw new Exception(
+		 'Trying to _createCollection() - end'
+		 );
 		return $created;
-		//}
-		//return false;
+			//}
+			//return false;
 	}
 	/**
 	 * @return modelStorage
