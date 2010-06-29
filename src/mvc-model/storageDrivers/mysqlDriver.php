@@ -82,7 +82,12 @@ class mysqlDriver extends storageDriver{
 			foreach (debug_backtrace() as $d){
 				var_dump($d['file'].':'.$d['line']);
 			}
-			throw new Exception(mysql_error().' SQL:'.htmlspecialchars($sql));
+			
+			throw new Exception(
+				'Mysql Error #'.mysql_errno($this->getConnection()).
+				' - '.mysql_error($this->getConnection()).
+				' SQL:'.htmlspecialchars($sql)
+			);
 		}
 		return $result;
 	}
