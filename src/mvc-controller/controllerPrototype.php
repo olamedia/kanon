@@ -17,6 +17,9 @@ class controllerPrototype{
 	protected $_type = 'html';
 	protected $_actionControllers = array();
 	protected $_options = array();
+	public function isAjax(){
+		return 'XMLHttpRequest' == $this->getHttpHeader('X-Requested-With');
+	}
 	public function __construct(){
 		$this->_baseUri = uri::fromString('/');
 		$this->_relativeUri = uri::fromRequestUri();
