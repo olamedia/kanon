@@ -266,7 +266,7 @@ class model implements ArrayAccess, IteratorAggregate{
 		return $sql;
 	}
 	public function __sleep(){
-		return array('_properties');//'_classesMap', '_fieldsMap', '_primaryKey', '_autoIncrement',
+		return array('_properties', '_values');//'_classesMap', '_fieldsMap', '_primaryKey', '_autoIncrement',
 	}
 	public function __wakeup(){}
 	public static function &getCollection(){
