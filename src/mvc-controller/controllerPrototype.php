@@ -462,6 +462,7 @@ class controllerPrototype{
 			if (list($actions, $methodName, $pathArgs) = $this->_getRouteMethod($this->_relativeUri, '!RouteInit')){
 				$this->_makeChildUri($actions);
 				if (method_exists($this, $methodName)){
+					$methodFound = true;
 					call_user_func_array(array($this, $methodName), $this->_getArgs($methodName, $pathArgs));
 				}
 			}
