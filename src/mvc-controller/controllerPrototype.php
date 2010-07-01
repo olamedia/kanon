@@ -20,6 +20,12 @@ class controllerPrototype{
 	public function isAjax(){
 		return 'XMLHttpRequest' == $this->getHttpHeader('X-Requested-With');
 	}
+	public function getHttpHeader($name, $default = null){
+		return $this->getServerParameter('HTTP_'.strtoupper(strtr($name, '-', '_')), $default);
+	}
+	public function getServerParameter($name, $default = null){
+		return isset($_SERVER[$name])?$_SERVER[$name]:$default;
+	}
 	public function __construct(){
 		$this->_baseUri = uri::fromString('/');
 		$this->_relativeUri = uri::fromRequestUri();
