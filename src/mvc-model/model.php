@@ -56,6 +56,12 @@ class model implements ArrayAccess, IteratorAggregate{
 		if (isset($this->_fieldsMap)){
 			$this->_fields = $this->_fieldsMap;
 		}
+		foreach ($this->_fieldsMap as $propertyName => $fieldName){
+			$default = modelCollection::getDefaultValue(get_class($this), $propertyName, null);
+			if ($default !== null){
+				$this->_values[$propertyName] = $default;
+			}
+		}
 		/*foreach ($this->_classes as $propertyName => $class){
 			$this->_getProperty($propertyName);
 			}*/

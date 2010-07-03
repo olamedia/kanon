@@ -85,7 +85,7 @@ class modelStorage{
 		$wherea = array();
 		$fields = $model->getFieldNames();
 		foreach ($fields as $fieldName){
-			$property = $item[$fieldName];
+			$property = $model[$fieldName];
 			if ($property){
 				$initialValue = $property->getInitialValue();
 				if ($initialValue !== null){

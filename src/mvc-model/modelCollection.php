@@ -9,7 +9,7 @@ class modelCollection implements ArrayAccess{
 	protected $_uniqueId = null;
 	protected $_filters = array();
 	protected $_filtersEnabled = true;
-	protected $_defaultValues = array();
+	protected static $_defaultValues = array();
 	protected $_joinOn = array();
 	public static function setIdInstance($id, &$instance){
 		self::$_idInstances[$id] = $instance;
@@ -103,8 +103,16 @@ class modelCollection implements ArrayAccess{
 		}
 		return null;
 	}
-	public function __set($name, $value){
-
+	public static function getDefaultValue($modelName, $propertyName, $default = null){
+		if (isset($this->_defaultValues[$modelName])){
+			if (isset($this->_defaultValues[$modelName][$propertyName])){
+				return $this->_defaultValues[$modelName][$propertyName];
+			}
+		}
+		return $default;
+	}
+	public function __set($name, $value){ // Set default value
+		$this->_defaultValues[$this->_modelName][$name] = $value;
 	}
 	public function select(){
 		$args = func_get_args();
