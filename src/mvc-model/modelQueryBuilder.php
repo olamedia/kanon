@@ -132,7 +132,7 @@ class modelQueryBuilder{
 			}
 		}
 		foreach ($this->_joinedTables as $targetId => $table2){
-			if (($rootTableId !== $targetId) && (!$alreadyJoined[$targetId])){ //
+			if ($rootTableId !== $targetId){ // && (!$alreadyJoined[$targetId]
 				$min = null;
 				$minJoins = false;
 				// Trying to join table
