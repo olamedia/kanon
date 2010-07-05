@@ -109,14 +109,22 @@ class modelQueryBuilder{
 		$sourceTableUid = $sourceTable->getUniqueId();
 		$joined = array();
 		$joined[$sourceTable->getUniqueId()] = true;
+		$allJoins = array(); // [target][source] = joinId
+		$joinContent = array();
+		$joinId = 0;
 		if (count($this->_joinWith)){
 			foreach ($this->_joinWith as $tableId1 => $tableId2){
+				$joinId++;
 				$table1 = modelCollection::getInstanceById($tableId1);
 				$table2 = modelCollection::getInstanceById($tableId2);
 				$joins = modelStorage::getIndirectTablesJoins($table1, $table2, $this->_joinType, $this->_joinWhere);
-				foreach ($joins as $uid => $joinString){
-					if (!isset($joined[$uid])){
-						$this->_join[] = $joinString;
+				//if (!in_array($sourceTableUid, array($tableId1,$tableId2))){
+				if ($joins !== false){
+					$joinContent[$joinId] = $joins;
+					//$allJoins[$tableId1][$tableId2] = $joinId;
+					$allJoins[$tableId2][$tableId1] = $joinId;
+					$allJoins[$tableId1][$tableId2] = $joinId;
+					foreach ($joins as $uid => $joinString){
 						$joined[$uid] = true;
 					}
 				}
@@ -126,39 +134,41 @@ class modelQueryBuilder{
 			if ($sourceTableUid !== $tableUid){ //
 				// Trying to join table
 				//echo '<div><b>'.$sourceTable->getTableName().' JOIN '.$table2->getTableName().'</b></div>';
-				$joinType = 'INNER';
-				$joinOn = '';
-				if (isset($this->_joinType[$table2->getUniqueId()])){
-					//$joinType = $this->_joinType[$table2->getUniqueId()];
-				}
-				if (isset($this->_joinOn[$table2->getUniqueId()])){
-					$joinOn = $this->_joinOn[$table2->getUniqueId()];
-				}else{
-					$joinOn = $table2->getJoinOn($sourceTable);
-				}
 				$min = null;
 				$minJoins = false;
-				foreach ($this->_joinedTables as $table1Uid => $table1){
-					if ($table1Uid !== $table2->getUniqueId()){
+				foreach ($this->_joinedTables as $sourceId => $table1){
+					$joinId++;
+					$targetId = $table2->getUniqueId();
+					if ($sourceId !== $targetId){
 						$joins = modelStorage::getIndirectTablesJoins($table1, $table2, $this->_joinType, $this->_joinWhere);
 						if (($joins !== false) && (($min === null) || (count($joins) < $min))){
 							$minJoins = $joins;
 							$min = count($joins);
 						}
 					}
-				}
-				if ($minJoins !== false){
-					foreach ($minJoins as $uid => $joinString){
-						//echo '!!!!'.$joinString;
-						if (!isset($joined[$uid])){
-							$this->_join[] = $joinString;
-							$joined[$uid] = true;
-						}
+					if ($minJoins !== false){
+						$joinContent[$joinId] = $minJoins;
+						$allJoins[$targetId][$sourceId] = $joinId;
+						$allJoins[$sourceId][$targetId] = $joinId;
 					}
 				}
 			}
 		}
+		$this->_orderJoins($allJoins, $joinContent, $sourceTableUid);
 		//var_dump($this->_join);
+	}
+	protected function _orderJoins($allJoins, $joinContent, $id){
+		if (isset($allJoins[$id])){
+			foreach ($allJoins[$id] as $id2 => $joinId){
+				$this->_join[] = $joinContent[$joinId];
+				unset($allJoins[$id2]);
+				foreach ($allJoins as $xid => $b){
+					unset($allJoins[$xid][$id2]);
+				}
+				unset($joinContent[$joinId]);
+				$this->_orderJoins($allJoins, $joinContent, $id);
+			}
+		}
 	}
 	/**
 	 * @return modelQueryBuilder
