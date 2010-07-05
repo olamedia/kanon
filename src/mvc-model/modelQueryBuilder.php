@@ -45,7 +45,10 @@ class modelQueryBuilder{
 	 * @param modelCollection $table2
 	 */
 	public function joinWith($table1, $table2){
+		$this->autoJoin($table1);
+		$this->autoJoin($table2);
 		$this->_joinWith[$table1->getUniqueId()] = $table2->getUniqueId();
+		$this->_joinWith[$table2->getUniqueId()] = $table1->getUniqueId();
 		return $this;
 	}
 	/**
@@ -102,43 +105,43 @@ class modelQueryBuilder{
 		//var_dump($this->_selected);
 		return $this;
 	}
-	protected function _constructJoins(){
-		$this->getStorage()->registerForeignKeys();
-		$this->_join = array(); // reset joins
-		$rootTable = $this->_storageSource;
-		$rootTableId = $rootTable->getUniqueId();
-		$alreadyJoined = array();
-		$alreadyJoined[$rootTableId] = true;
-		$allJoins = array(); // [target][source] = joinId
-		$joinContent = array();
-		$joinId = 0;
-		if (count($this->_joinWith)){
-			foreach ($this->_joinWith as $tableId1 => $tableId2){
-				$table1 = modelCollection::getInstanceById($tableId1);
-				$table2 = modelCollection::getInstanceById($tableId2);
-				$joins = modelStorage::getIndirectTablesJoins($table1, $table2, $this->_joinType, $this->_joinWhere);
-				echo '<div><b>'.$table1->getTableName().' JOIN WITH '.$table2->getTableName().'</b></div>';
-				if ($joins !== false){
-					$joinId++;
-					$joinContent[$joinId] = $joins;
-					//$allJoins[$tableId1][$tableId2] = $joinId;
-					$allJoins[$tableId2][$tableId1] = $joinId;
-					$allJoins[$tableId1][$tableId2] = $joinId;
-					//foreach ($joins as $uid => $joinString){
-					//$alreadyJoined[$tableId1] = true;
-					//$alreadyJoined[$tableId2] = true;
-					//}
+	protected $_alreadyJoined = array();
+	protected function _constructJoins($sourceTable = null){
+		if ($sourceTable === null){
+			$this->getStorage()->registerForeignKeys();
+			$this->_join = array(); // reset joins
+			$sourceTable = $this->_storageSource;
+			$this->_alreadyJoined = array();
+		}
+		$rootId = $this->_storageSource->getUniqueId();
+		$sourceId = $sourceTable->getUniqueId();
+		$this->_alreadyJoined[$sourceId] = true;
+		//$allJoins = array(); // [target][source] = joinId
+		//$joinContent = array();
+		//$joinId = 0;
+
+		// JOIN WITH
+		if (isset($this->_joinWith[$sourceId])){
+			foreach ($this->_joinWith[$sourceId] as $targetId){
+				$targetTable = modelCollection::getInstanceById($targetId);
+				$joins = modelStorage::getIndirectTablesJoins($sourceTable, $targetTable, $this->_joinType, $this->_joinWhere);
+				foreach ($joins as $id => $joinString){
+					$this->_join[$id] = $joinString;
+					$this->_alreadyJoined[$id] = true;
 				}
+				$this->_alreadyJoined[$targetId] = true;
+				unset($this->_joinWith[$targetId]);
 			}
 		}
+		// JOIN OTHER
 		foreach ($this->_joinedTables as $targetId => $targetTable){
-			if ($rootTableId !== $targetId){ // && (!$alreadyJoined[$targetId]
+			if ($rootId !== $targetId){ // && (!$alreadyJoined[$targetId]
 				$min = null;
 				$minJoins = false;
 				// Trying to join table
 				//echo '<div><b>'.$sourceTable->getTableName().' JOIN '.$table2->getTableName().'</b></div>';
-				foreach ($this->_joinedTables as $sourceId => $sourceTable){
-					if ($sourceId !== $targetId){
+				foreach ($this->_joinedTables as $xSourceId => $sourceTable){
+					if ($xSourceId !== $targetId){
 						$joins = modelStorage::getIndirectTablesJoins($sourceTable, $targetTable, $this->_joinType, $this->_joinWhere);
 						if (($joins !== false) && (($min === null) || (count($joins) < $min))){
 							$minJoins = $joins;
@@ -147,16 +150,10 @@ class modelQueryBuilder{
 					}
 				}
 				if ($minJoins !== false){
-					$joinId++;
-					$joinContent[$joinId] = $minJoins;
-					if (!isset($allJoins[$targetId][$sourceId])){
-						$allJoins[$targetId][$sourceId] = $joinId;
+					foreach ($minJoins as $id => $joinString){
+						$this->_join[$id] = $joinString;
+						$this->_alreadyJoined[$id] = true;
 					}
-					if (!isset($allJoins[$sourceId][$targetId])){
-						$allJoins[$sourceId][$targetId] = $joinId;
-					}
-					//$alreadyJoined[$targetId] = true;
-					//$alreadyJoined[$targetId] = true;
 				}
 			}
 		}
