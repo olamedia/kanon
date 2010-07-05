@@ -46,6 +46,7 @@ class modelQueryBuilder{
 	 */
 	public function joinWith($table1, $table2){
 		$this->_joinWith[$table1->getUniqueId()] = $table2->getUniqueId();
+		return $this;
 	}
 	/**
 	 * @return modelQueryBuilder
