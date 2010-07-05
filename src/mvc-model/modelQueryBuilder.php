@@ -114,19 +114,19 @@ class modelQueryBuilder{
 		$joinId = 0;
 		if (count($this->_joinWith)){
 			foreach ($this->_joinWith as $tableId1 => $tableId2){
-				$joinId++;
 				$table1 = modelCollection::getInstanceById($tableId1);
 				$table2 = modelCollection::getInstanceById($tableId2);
 				$joins = modelStorage::getIndirectTablesJoins($table1, $table2, $this->_joinType, $this->_joinWhere);
 				echo '<div><b>'.$table1->getTableName().' JOIN WITH '.$table2->getTableName().'</b></div>';
 				if ($joins !== false){
+					$joinId++;
 					$joinContent[$joinId] = $joins;
 					//$allJoins[$tableId1][$tableId2] = $joinId;
 					$allJoins[$tableId2][$tableId1] = $joinId;
 					$allJoins[$tableId1][$tableId2] = $joinId;
 					//foreach ($joins as $uid => $joinString){
-					$alreadyJoined[$tableId1] = true;
-					$alreadyJoined[$tableId2] = true;
+					//$alreadyJoined[$tableId1] = true;
+					//$alreadyJoined[$tableId2] = true;
 					//}
 				}
 			}
@@ -155,8 +155,8 @@ class modelQueryBuilder{
 					if (!isset($allJoins[$sourceId][$targetId])){
 						$allJoins[$sourceId][$targetId] = $joinId;
 					}
-					$alreadyJoined[$targetId] = true;
-					$alreadyJoined[$targetId] = true;
+					//$alreadyJoined[$targetId] = true;
+					//$alreadyJoined[$targetId] = true;
 				}
 			}
 		}
