@@ -162,7 +162,7 @@ class modelQueryBuilder{
 			foreach ($allJoins[$id] as $id2 => $joinId){
 				$joins = $joinContent[$joinId];
 				foreach ($joins as $uid => $joinString){
-					$this->_join[] = $joinString;
+					$this->_join[$uid] = $joinString;
 				}
 				unset($allJoins[$id2]);
 				foreach ($allJoins as $xid => $b){
