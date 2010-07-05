@@ -160,7 +160,10 @@ class modelQueryBuilder{
 	protected function _orderJoins($allJoins, $joinContent, $id){
 		if (isset($allJoins[$id])){
 			foreach ($allJoins[$id] as $id2 => $joinId){
-				$this->_join[] = $joinContent[$joinId];
+				$joins = $joinContent[$joinId];
+				foreach ($joins as $uid => $joinString){
+					$this->_join[] = $joinString;
+				}
 				unset($allJoins[$id2]);
 				foreach ($allJoins as $xid => $b){
 					unset($allJoins[$xid][$id2]);
