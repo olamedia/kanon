@@ -118,7 +118,7 @@ class modelQueryBuilder{
 				$table1 = modelCollection::getInstanceById($tableId1);
 				$table2 = modelCollection::getInstanceById($tableId2);
 				$joins = modelStorage::getIndirectTablesJoins($table1, $table2, $this->_joinType, $this->_joinWhere);
-				//if (!in_array($sourceTableUid, array($tableId1,$tableId2))){
+				echo '<div><b>'.$table1->getTableName().' JOIN WITH '.$table2->getTableName().'</b></div>';
 				if ($joins !== false){
 					$joinContent[$joinId] = $joins;
 					//$allJoins[$tableId1][$tableId2] = $joinId;
