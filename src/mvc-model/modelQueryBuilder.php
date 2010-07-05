@@ -175,7 +175,7 @@ class modelQueryBuilder{
 					unset($allJoins[$xid][$id2]);
 				}
 				unset($joinContent[$joinId]);
-				$this->_orderJoins($allJoins, $joinContent, $id);
+				$this->_orderJoins($allJoins, $joinContent, $id2);
 			}
 		}
 	}
