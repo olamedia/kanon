@@ -124,9 +124,9 @@ class modelQueryBuilder{
 					//$allJoins[$tableId1][$tableId2] = $joinId;
 					$allJoins[$tableId2][$tableId1] = $joinId;
 					$allJoins[$tableId1][$tableId2] = $joinId;
-					foreach ($joins as $uid => $joinString){
+					/*foreach ($joins as $uid => $joinString){
 						$alreadyJoined[$uid] = true;
-					}
+					}*/
 				}
 			}
 		}
@@ -148,9 +148,13 @@ class modelQueryBuilder{
 					}
 					if ($minJoins !== false){
 						$joinContent[$joinId] = $minJoins;
-						$allJoins[$targetId][$sourceId] = $joinId;
-						$allJoins[$sourceId][$targetId] = $joinId;
-						$alreadyJoined[$targetId] = true;
+						if (!isset($allJoins[$targetId][$sourceId])){
+							$allJoins[$targetId][$sourceId] = $joinId;
+						}
+						if (!isset($allJoins[$sourceId][$targetId])){
+							$allJoins[$sourceId][$targetId] = $joinId;
+						}
+						//$alreadyJoined[$targetId] = true;
 					}
 				}
 			}
