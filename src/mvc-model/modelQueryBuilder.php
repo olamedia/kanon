@@ -161,7 +161,7 @@ class modelQueryBuilder{
 			}
 		}
 		$this->_orderJoins($allJoins, $joinContent, $rootTableId);
-		//var_dump($this->_join);
+		var_dump($this->_join);
 	}
 	protected function _orderJoins($allJoins, $joinContent, $id){
 		if (isset($allJoins[$id])){
