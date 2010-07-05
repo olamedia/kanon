@@ -161,7 +161,7 @@ class modelQueryBuilder{
 			}
 		}
 		var_dump($allJoins);
-		var_dump($joinContent);
+		var_dump($rootTableId);
 		$this->_orderJoins($allJoins, $joinContent, $rootTableId);
 		var_dump($this->_join);
 	}
