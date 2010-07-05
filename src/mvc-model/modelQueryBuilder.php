@@ -105,10 +105,10 @@ class modelQueryBuilder{
 	protected function _constructJoins(){
 		$this->getStorage()->registerForeignKeys();
 		$this->_join = array(); // reset joins
-		$sourceTable = $this->_storageSource;
-		$sourceTableUid = $sourceTable->getUniqueId();
+		$rootTable = $this->_storageSource;
+		$rootTableId = $rootTable->getUniqueId();
 		$alreadyJoined = array();
-		$alreadyJoined[$sourceTable->getUniqueId()] = true;
+		$alreadyJoined[$rootTableId] = true;
 		$allJoins = array(); // [target][source] = joinId
 		$joinContent = array();
 		$joinId = 0;
@@ -124,21 +124,19 @@ class modelQueryBuilder{
 					//$allJoins[$tableId1][$tableId2] = $joinId;
 					$allJoins[$tableId2][$tableId1] = $joinId;
 					$allJoins[$tableId1][$tableId2] = $joinId;
-					/*foreach ($joins as $uid => $joinString){
+					foreach ($joins as $uid => $joinString){
 						$alreadyJoined[$uid] = true;
-					}*/
+					}
 				}
 			}
 		}
-		foreach ($this->_joinedTables as $tableUid => $table2){
-			if (($sourceTableUid !== $tableUid) && (!$alreadyJoined[$tableUid])){ //
-				// Trying to join table
-				//echo '<div><b>'.$sourceTable->getTableName().' JOIN '.$table2->getTableName().'</b></div>';
+		foreach ($this->_joinedTables as $targetId => $table2){
+			if (($rootTableId !== $targetId) && (!$alreadyJoined[$targetId])){ //
 				$min = null;
 				$minJoins = false;
+				// Trying to join table
+				//echo '<div><b>'.$sourceTable->getTableName().' JOIN '.$table2->getTableName().'</b></div>';
 				foreach ($this->_joinedTables as $sourceId => $table1){
-					$joinId++;
-					$targetId = $table2->getUniqueId();
 					if ($sourceId !== $targetId){
 						$joins = modelStorage::getIndirectTablesJoins($table1, $table2, $this->_joinType, $this->_joinWhere);
 						if (($joins !== false) && (($min === null) || (count($joins) < $min))){
@@ -146,16 +144,18 @@ class modelQueryBuilder{
 							$min = count($joins);
 						}
 					}
-					if ($minJoins !== false){
-						$joinContent[$joinId] = $minJoins;
-						if (!isset($allJoins[$targetId][$sourceId])){
-							$allJoins[$targetId][$sourceId] = $joinId;
-						}
-						if (!isset($allJoins[$sourceId][$targetId])){
-							$allJoins[$sourceId][$targetId] = $joinId;
-						}
-						//$alreadyJoined[$targetId] = true;
+				}
+				$joinId++;
+				if ($minJoins !== false){
+					$joinContent[$joinId] = $minJoins;
+					if (!isset($allJoins[$targetId][$sourceId])){
+						$allJoins[$targetId][$sourceId] = $joinId;
 					}
+					if (!isset($allJoins[$sourceId][$targetId])){
+						$allJoins[$sourceId][$targetId] = $joinId;
+					}
+					$alreadyJoined[$targetId] = true;
+					$alreadyJoined[$targetId] = true;
 				}
 			}
 		}
