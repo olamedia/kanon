@@ -15,6 +15,7 @@ class modelQueryBuilder{
 	protected $_joinType = array();
 	protected $_joinOn = array();
 	protected $_joinWhere = array();
+	protected $_joinWith = array();
 	protected $_join = array();
 	protected $_where = array();
 	protected $_having = array();
@@ -37,6 +38,14 @@ class modelQueryBuilder{
 	}
 	public function e($unescapedString){
 		return $this->getStorage()->quote($unescapedString);
+	}
+	/**
+	 * use join table1 with table2
+	 * @param modelCollection $table1
+	 * @param modelCollection $table2
+	 */
+	public function joinWith($table1, $table2){
+		$this->_joinWith[$table1->getUniqueId()] = $table2->getUniqueId();
 	}
 	/**
 	 * @return modelQueryBuilder
@@ -99,6 +108,19 @@ class modelQueryBuilder{
 		$sourceTableUid = $sourceTable->getUniqueId();
 		$joined = array();
 		$joined[$sourceTable->getUniqueId()] = true;
+		if (count($this->_joinWith)){
+			foreach ($this->_joinWith as $tableId1 => $tableId2){
+				$table1 = modelCollection::getInstanceById($tableId1);
+				$table2 = modelCollection::getInstanceById($tableId2);
+				$joins = modelStorage::getIndirectTablesJoins($table1, $table2, $this->_joinType, $this->_joinWhere);
+				foreach ($joins as $uid => $joinString){
+					if (!isset($joined[$uid])){
+						$this->_join[] = $joinString;
+						$joined[$uid] = true;
+					}
+				}
+			}
+		}
 		foreach ($this->_joinedTables as $tableUid => $table2){
 			if ($sourceTableUid !== $tableUid){ //
 				// Trying to join table

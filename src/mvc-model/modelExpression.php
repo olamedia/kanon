@@ -7,6 +7,8 @@ class modelExpression{
 	protected $_operator = '=';
 	protected $_right = null;
 	protected $_escapeRight = true;
+	protected $_or = array();
+	protected $_and = array();
 	public function __construct($left, $operator, $right, $escapeRight = true){
 		$this->_left = $left;
 		$this->_operator = $operator;
@@ -16,7 +18,13 @@ class modelExpression{
 		}
 		/*if (is_array($this->_right)){
 			$this->_right = implode(",", $this->_right);
-		}*/
+			}*/
+	}
+	public function _or($expression){
+		$this->_or[] = $expression;
+	}
+	public function _and($expression){
+		$this->_and[] = $expression;
 	}
 	public function setLeft($left){
 		$this->_left = $left;
