@@ -107,8 +107,8 @@ class modelQueryBuilder{
 		$this->_join = array(); // reset joins
 		$sourceTable = $this->_storageSource;
 		$sourceTableUid = $sourceTable->getUniqueId();
-		$joined = array();
-		$joined[$sourceTable->getUniqueId()] = true;
+		$alreadyJoined = array();
+		$alreadyJoined[$sourceTable->getUniqueId()] = true;
 		$allJoins = array(); // [target][source] = joinId
 		$joinContent = array();
 		$joinId = 0;
@@ -125,13 +125,13 @@ class modelQueryBuilder{
 					$allJoins[$tableId2][$tableId1] = $joinId;
 					$allJoins[$tableId1][$tableId2] = $joinId;
 					foreach ($joins as $uid => $joinString){
-						$joined[$uid] = true;
+						$alreadyJoined[$uid] = true;
 					}
 				}
 			}
 		}
 		foreach ($this->_joinedTables as $tableUid => $table2){
-			if ($sourceTableUid !== $tableUid){ //
+			if (($sourceTableUid !== $tableUid) && (!$alreadyJoined[$tableUid])){ //
 				// Trying to join table
 				//echo '<div><b>'.$sourceTable->getTableName().' JOIN '.$table2->getTableName().'</b></div>';
 				$min = null;
@@ -150,6 +150,7 @@ class modelQueryBuilder{
 						$joinContent[$joinId] = $minJoins;
 						$allJoins[$targetId][$sourceId] = $joinId;
 						$allJoins[$sourceId][$targetId] = $joinId;
+						$alreadyJoined[$targetId] = true;
 					}
 				}
 			}
