@@ -432,7 +432,7 @@ class modelQueryBuilder{
 	}
 	public function getSqlHtml(){
 		$sql = htmlspecialchars($this->getSql());
-		$m = array("FROM","INNER JOIN","WHERE","AND","OR","GROUP BY");
+		$m = array("FROM","INNER JOIN","WHERE","AND","OR","GROUP BY","ORDER BY");
 		$pattern = '#( '.implode(" | ", $m).' )#imsu';
 		//echo $pattern;
 		$sql = preg_replace($pattern, '<br /><b style="color: red;">\1</b> ', $sql);
