@@ -59,6 +59,9 @@ class modelField{
 	public function sum(){
 		return new modelAggregation($this, 'SUM');
 	}
+	public function count(){
+		return new modelAggregation($this, 'COUNT');
+	}
 	public function avg(){
 		return new modelAggregation($this, 'AVG');
 	}
