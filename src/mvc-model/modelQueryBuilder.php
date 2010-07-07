@@ -60,11 +60,11 @@ class modelQueryBuilder{
 		foreach ($args as $arg){
 			if ($arg instanceof modelAggregation){
 				$fields = $arg->getArguments();
-				foreach ($fields as $field){
+				/*foreach ($fields as $field){
 					$a["$field"] = $field;
-				}
-				$field = $arg;
-				$this->_selected[] = $arg;
+				}*/
+				//$field = $arg;
+				$this->_selected[] = "$arg";
 			}elseif($arg instanceof modelExpression){
 				$this->where($arg);
 				//}elseif(is_integer($arg)){
