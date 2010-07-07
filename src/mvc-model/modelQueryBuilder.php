@@ -330,7 +330,9 @@ class modelQueryBuilder{
 	protected function getWhatSql(){
 		$wa = array();
 		foreach ($this->_selected as $sa){
-			if (is_array($sa)){
+			if ($sa instanceof modelAggregation){
+				$wa[] = (string) $sa;
+			}elseif (is_array($sa)){
 				list($table, $fields) = $sa;
 				if ($table instanceof modelCollection){
 					foreach ($fields as $fid => $field){
