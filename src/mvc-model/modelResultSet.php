@@ -33,6 +33,8 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 		foreach ($this->_selected as $sa){
 			if ($sa instanceof modelAggregation){
 				$models[] = $a[$sa->getAs()];
+			/*}elseif ($sa instanceof modelAggregation){
+				$models[] = $a[$sa->getAs()];*/
 			}elseif(is_array($sa)){
 				list($table, $fields) = $sa;
 				if ($table instanceof modelCollection){

@@ -59,7 +59,7 @@ class modelQueryBuilder{
 		if (!count($args)) return $this;
 		foreach ($args as $arg){
 			if ($arg instanceof modelAggregation){
-				$fields = $arg->getArguments();
+				/*$fields = $arg->getArguments();
 				$t = array();
 				$a = array();
 				foreach ($fields as $field){
@@ -68,9 +68,9 @@ class modelQueryBuilder{
 				}
 				foreach ($t as $id => $table){
 					$this->_selected[] = array($table, $a[$id]);
-				}
+				}*/
 				//$field = $arg;
-				//$this->_selected[] = "$arg";
+				$this->_selected[] = $arg;
 			}elseif($arg instanceof modelExpression){
 				$this->where($arg);
 				//}elseif(is_integer($arg)){
