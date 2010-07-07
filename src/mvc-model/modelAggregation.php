@@ -6,7 +6,7 @@ class modelAggregation{
 	public function __construct($argument, $function){
 		$this->_argument = $argument;
 		$this->_function = $function;
-		$this->_as = kanon::getUniqueId('sql');
+		$this->_as = kanon::getUniqueId();//'sql'
 	}
 	public function getArguments(){
 		return array($this->_argument);
