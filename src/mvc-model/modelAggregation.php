@@ -15,6 +15,7 @@ class modelAggregation{
 		return $this->_as;
 	}
 	public function __toString(){
+		var_dump($this);
 		return $this->_function.'('.$this->_argument.') AS '.$this->_as;
 	}
 }
