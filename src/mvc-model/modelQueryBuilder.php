@@ -438,6 +438,14 @@ class modelQueryBuilder{
 		$sql = preg_replace($pattern, '<br /><b style="color: red;">\1</b> ', $sql);
 		return '<div style="padding: 3px;" onClick="$(this).children(\'div\').show();"><b style="color: #24659B">SQL</b><div style="display: none; background: #FFE5BF; padding: 7px;">'.($sql).'</div></div>';
 	}
+	public function explain(){
+		$sql = 'EXPLAIN '.$this->getSql();
+		if ($resultSet = $this->getStorage()->internalQuery($sql)){
+			while ($r = $this->getStorage()->fetch($resultSet)){
+				var_dump($r);
+			}
+		}
+	}
 	public function &getSql(){
 		$this->getStorage()->registerForeignKeys();
 		$this->applyFilters();
