@@ -463,7 +463,7 @@ class modelQueryBuilder{
 				echo '<tr>';
 				foreach ($keys as $k){
 					$v = isset($a[$k][$j])?$a[$k][$j]:'';
-					echo '<td>';
+					echo '<td>x';
 					var_dump($v);
 					echo '</td>';
 				}
