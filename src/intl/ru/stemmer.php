@@ -90,7 +90,7 @@ class ruStemmer{
     	return self::$_instance;
     }
     public static function stem($word){
-    	return $this->getInstance()->stemWord($word);
+    	return self::getInstance()->stemWord($word);
     }
     public function stemWord($word){
 		$this->_type = array();
