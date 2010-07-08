@@ -452,13 +452,15 @@ class modelQueryBuilder{
 			}
 			echo '<table>';
 			echo '<tr>';
-			foreach ($a as $k => $x){
+			$keys = array_keys($a);
+			foreach ($keys as $k){
 				echo '<th>'.$k.'</th>';
 			}
 			echo '</tr>';
-			foreach ($a as $k => $x){
+			for ($j=0;$j++;$j<=$i){
 				echo '<tr>';
-				foreach ($a as $i => $v){
+				foreach ($keys as $k){
+					$v = isset($a[$k][$j])?$a[$k][$j]:'';
 					echo '<td>';
 					var_dump($v);
 					echo '</td>';
