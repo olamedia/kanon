@@ -60,15 +60,15 @@ class modelQueryBuilder{
 		foreach ($args as $arg){
 			if ($arg instanceof modelAggregation){
 				/*$fields = $arg->getArguments();
-				$t = array();
-				$a = array();
-				foreach ($fields as $field){
+				 $t = array();
+				 $a = array();
+				 foreach ($fields as $field){
 					$t[$field->getCollectionId()] = $field->getCollection();
 					$a[$field->getCollectionId()]["$field"] = $field;
-				}
-				foreach ($t as $id => $table){
+					}
+					foreach ($t as $id => $table){
 					$this->_selected[] = array($table, $a[$id]);
-				}*/
+					}*/
 				//$field = $arg;
 				$this->_selected[] = $arg;
 			}elseif($arg instanceof modelExpression){
@@ -440,10 +440,30 @@ class modelQueryBuilder{
 	}
 	public function explain(){
 		$sql = 'EXPLAIN '.$this->getSql();
+		$a = array();
 		if ($resultSet = $this->getStorage()->internalQuery($sql)){
+			$i = 0;
 			while ($r = $this->getStorage()->fetch($resultSet)){
-				var_dump($r);
+				$i++;
+				foreach ($r as $k => $v){
+					$a[$k][$i] = $v;
+				}
+				//var_dump($r);
 			}
+			echo '<table>';
+			echo '<tr>';
+			foreach ($a as $k => $x){
+				echo '<th>'.$k.'</th>';
+			}
+			echo '</tr>';
+			foreach ($a as $k => $x){
+				echo '<tr>';
+				foreach ($a as $i => $v){
+					echo '<td>'.$v.'</td>';
+				}
+				echo '</tr>';
+			}
+			echo '</table>';
 		}
 	}
 	public function &getSql(){
