@@ -454,8 +454,11 @@ class modelQueryBuilder{
 				 echo '</pre>';*/
 			}
 			echo '<style>';
+			echo '.explain {font-size: 11px;color: #333; background: #fff;}';
 			echo '.explain td{padding: 3px; border: solid 1px #ccc;}';
 			echo '.explain th{background:#478FD7;color:#fff;padding: 3px; border: solid 1px #ccc;}';
+			echo '.explain b{color: #fff;font-size:14px;background:#FF5400;}';
+			
 			echo '</style>';
 			echo '<table class="explain">';
 			echo '<tr>';
@@ -467,14 +470,14 @@ class modelQueryBuilder{
 					$v = $x[$k];
 					switch ($k){
 						case 'rows':
-							if ($v > 500){
-								echo '<b style="color: #f00;font-size:16px;">'.$v.'</b>';
+							if (intval($v) > 500){
+								echo '<b>'.$v.'</b>';
 							}else{
 								echo $v;
 							}
 							break;
 						case 'Extra':
-							echo preg_replace('/(Using temporary|Using filesort)/', '<b style="color: #f00;font-size:16px;">\1</b>', $v);
+							echo preg_replace('/(Using temporary|Using filesort)/', '<b>\1</b>', $v);
 							break;
 						default:
 							echo $v;
