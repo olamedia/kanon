@@ -457,13 +457,14 @@ class modelQueryBuilder{
 			echo '<tr>';
 			echo implode('',$th);
 			echo '</tr>';
-			echo '<tr>';
 			foreach ($td as $i => $x){
+				echo '<tr>';
 				foreach ($th as $k => $y){
 					echo $x[$k];
 				}
+				echo '</tr>';
 			}
-			echo '</tr>';
+				
 
 			echo '</table>';
 		}
