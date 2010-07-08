@@ -450,10 +450,11 @@ class modelQueryBuilder{
 					$td[$i][$k] = '<td>'.$v.'</td>';
 				}
 			}
-			echo '<pre>';
-			//var_dump($a);
-			echo '</pre>';
-			echo '<table>';
+			echo '<style>';
+			echo '.explain td{padding: 3px; border: solid 1px #ccc;}';
+			echo '.explain th{padding: 3px; border: solid 1px #ccc;}';
+			echo '</style>';
+			echo '<table class="explain">';
 			echo '<tr>';
 			echo implode('',$th);
 			echo '</tr>';
