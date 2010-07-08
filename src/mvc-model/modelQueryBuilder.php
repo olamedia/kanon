@@ -459,7 +459,9 @@ class modelQueryBuilder{
 			foreach ($a as $k => $x){
 				echo '<tr>';
 				foreach ($a as $i => $v){
-					echo '<td>'.$v.'</td>';
+					echo '<td>';
+					var_dump($v);
+					echo '</td>';
 				}
 				echo '</tr>';
 			}
