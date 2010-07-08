@@ -450,8 +450,8 @@ class modelQueryBuilder{
 					$td[$i][$k] = '<td>'.$v.'</td>';
 				}
 				/*echo '<pre>';
-				var_dump($r);
-				echo '</pre>';*/
+				 var_dump($r);
+				 echo '</pre>';*/
 			}
 			echo '<style>';
 			echo '.explain td{padding: 3px; border: solid 1px #ccc;}';
@@ -464,7 +464,22 @@ class modelQueryBuilder{
 			foreach ($td as $i => $x){
 				echo '<tr>';
 				foreach ($th as $k => $y){
-					echo $x[$k];
+					$v = $x[$k];
+					switch ($k){
+						case 'rows':
+							if ($v > 500){
+								echo '<b style="color: #fff;">'.$v.'</b>';
+							}else{
+								echo $v;
+							}
+							break;
+						case 'Extra':
+							echo preg_replace('/(Using temporary|Using filesort)/', '<b style="color: #fff;">\1</b>', $v);
+							break;
+						default:
+							echo $v;
+							break;
+					}
 				}
 				echo '</tr>';
 			}
