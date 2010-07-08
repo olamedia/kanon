@@ -442,14 +442,17 @@ class modelQueryBuilder{
 		$sql = 'EXPLAIN '.$this->getSql();
 		$a = array();
 		if ($resultSet = $this->getStorage()->internalQuery($sql)){
+			
 			$i = 0;
 			while ($r = $this->getStorage()->fetch($resultSet)){
 				$i++;
 				foreach ($r as $k => $v){
 					$a[$k][$i] = $v;
 				}
-				//var_dump($r);
 			}
+			echo '<pre>';
+			var_dump($a);
+			echo '</pre>';
 			echo '<table>';
 			echo '<tr>';
 			$keys = array_keys($a);
