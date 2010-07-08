@@ -442,7 +442,6 @@ class modelQueryBuilder{
 		$sql = 'EXPLAIN '.$this->getSql();
 		$a = array();
 		if ($resultSet = $this->getStorage()->internalQuery($sql)){
-			
 			$i = 0;
 			while ($r = $this->getStorage()->fetch($resultSet)){
 				$i++;
