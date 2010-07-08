@@ -468,13 +468,13 @@ class modelQueryBuilder{
 					switch ($k){
 						case 'rows':
 							if ($v > 500){
-								echo '<b style="color: #fff;">'.$v.'</b>';
+								echo '<b style="color: #f00;font-size:16px;">'.$v.'</b>';
 							}else{
 								echo $v;
 							}
 							break;
 						case 'Extra':
-							echo preg_replace('/(Using temporary|Using filesort)/', '<b style="color: #fff;">\1</b>', $v);
+							echo preg_replace('/(Using temporary|Using filesort)/', '<b style="color: #f00;font-size:16px;">\1</b>', $v);
 							break;
 						default:
 							echo $v;
