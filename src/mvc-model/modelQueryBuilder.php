@@ -446,29 +446,25 @@ class modelQueryBuilder{
 			while ($r = $this->getStorage()->fetch($resultSet)){
 				$i++;
 				foreach ($r as $k => $v){
-					$a[$k][$i] = $v;
+					$th[$k] = '<th>'.$k.'</th>';
+					$td[$i][$k] = '<td>'.$v.'</td>';
 				}
 			}
 			echo '<pre>';
-			var_dump($a);
+			//var_dump($a);
 			echo '</pre>';
 			echo '<table>';
 			echo '<tr>';
-			$keys = array_keys($a);
-			foreach ($keys as $k){
-				echo '<th>'.$k.'</th>';
+			echo implode('',$th);
+			echo '</tr>';
+			echo '<tr>';
+			foreach ($td as $i => $x){
+				foreach ($th as $k => $y){
+					echo $x[$k];
+				}
 			}
 			echo '</tr>';
-			for ($j=0;$j++;$j<=$i){
-				echo '<tr>';
-				foreach ($keys as $k){
-					$v = isset($a[$k][$j])?$a[$k][$j]:'';
-					echo '<td>x';
-					var_dump($v);
-					echo '</td>';
-				}
-				echo '</tr>';
-			}
+
 			echo '</table>';
 		}
 	}
