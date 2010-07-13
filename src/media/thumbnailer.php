@@ -10,6 +10,9 @@ class thumbnailer{
 	protected $_image = null;
 	protected $_gcPath = null; // garbage collector path
 	protected $_gcProb = 0.01; // garbage collector probability
+	public function setMaxSize($maxSize = 500){
+		$this->_maxSize = $maxSize;
+	}
 	public function __construct(){
 		$requestUri = $_SERVER['REQUEST_URI'];
 		$this->_filename = basename($requestUri);
