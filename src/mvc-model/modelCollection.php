@@ -104,15 +104,15 @@ class modelCollection implements ArrayAccess{
 		return null;
 	}
 	public static function getDefaultValue($modelName, $propertyName, $default = null){
-		if (isset($this->_defaultValues[$modelName])){
-			if (isset($this->_defaultValues[$modelName][$propertyName])){
-				return $this->_defaultValues[$modelName][$propertyName];
+		if (isset(self::$_defaultValues[$modelName])){
+			if (isset(self::$_defaultValues[$modelName][$propertyName])){
+				return self::$_defaultValues[$modelName][$propertyName];
 			}
 		}
 		return $default;
 	}
 	public function __set($name, $value){ // Set default value
-		$this->_defaultValues[$this->_modelName][$name] = $value;
+		self::$_defaultValues[$this->_modelName][$name] = $value;
 	}
 	public function select(){
 		$args = func_get_args();
