@@ -8,6 +8,7 @@ require_once dirname(__FILE__).'/properties/modificationTimestampProperty.php';
 require_once dirname(__FILE__).'/modelIterator.php';
 class model implements ArrayAccess, IteratorAggregate{
 	protected $_properties = array(); // propertyName => modelProperty
+	private $_propertiesInfo = null; // 
 	protected $_classes = array(); // propertyName => className
 	protected $_fields = array(); // propertyName => fieldName
 	protected $_primaryKey = array(); // propertyNames
@@ -51,12 +52,26 @@ class model implements ArrayAccess, IteratorAggregate{
 	public function __construct(){
 		// Compatibility with zenMysql2 ORM
 		if (isset($this->_classesMap)){
-			$this->_classes = $this->_classesMap;
+			$this->_classes = &$this->_classesMap;
 		}
 		if (isset($this->_fieldsMap)){
-			$this->_fields = $this->_fieldsMap;
+			$this->_fields = &$this->_fieldsMap;
 		}
-		foreach ($this->_fieldsMap as $propertyName => $fieldName){
+		if (count($this->_properties)){
+			/*$this->_properties = &$this->_properties;
+			$this->_propertiesInfo = &$this->_properties;
+			$this->_properties = array();*/
+			//unset($this->_properties);
+			foreach ($this->_properties as $propertyName => $propertyInfo){
+				if (isset($propertyInfo['class'])) $this->_classes[$propertyName] = $propertyInfo['class'];
+				if (isset($propertyInfo['field'])) $this->_fields[$propertyName] = $propertyInfo['field'];
+				if (isset($propertyInfo['foreignKey'])) $this->_foreignKeys[$propertyName] = $propertyInfo['foreignKey'];
+				if (isset($propertyInfo['primaryKey']) && $propertyInfo['primaryKey']) $this->_primaryKey[] = $propertyName;
+				if (isset($propertyInfo['autoIncrement'])) $this->_autoIncrement = $propertyName;
+			}
+			$this->_properties = array();
+		}
+		foreach ($this->_fields as $propertyName => $fieldName){
 			$default = modelCollection::getDefaultValue(get_class($this), $propertyName, null);
 			if ($default !== null){
 				$this->_values[$propertyName] = $default;
