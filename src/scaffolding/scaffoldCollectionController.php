@@ -58,7 +58,7 @@ class scaffoldModelCollectionController extends controller{
 	public function footer(){
 		echo '</div>';
 	}
-	public function index($page){
+	public function index($page = 1){
 		$this->_collection->setItemsByPage($this->_itemsByPage);
 		$itemsCount = count($this->_collection->select());
 		if ($itemsCount){
