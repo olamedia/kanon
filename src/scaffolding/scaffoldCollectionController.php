@@ -29,11 +29,21 @@ class scaffoldModelCollectionController extends controller{
 		.scaffold .pages{
 			margin: 7px 0;
 		}
-		.scaffold .pages a{
+		.scaffold .pages a, .scaffold .pages b{
 			display: -moz-inline-box; display: inline-block; *zoom: 1; *display: inline;
 			padding: 3px;
 			margin-right: 3px;
 			margin-bottom: 4px;
+		}
+		.scaffold .pages a{
+			background: #eee;
+			border: solid 1px #ccc;
+			color: #000;
+		}
+		.scaffold .pages b{
+			background: #316AC5;
+			border: solid 1px #ccc;
+			color: #fff;
 		}
 		');
 	}
