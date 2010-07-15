@@ -26,8 +26,22 @@ class scaffoldModelCollectionController extends controller{
 		.scaffold-list td.odd{
 			background: #F1F1F1;
 		}
-		
+		.scaffold .pages{
+			margin: 7px 0;
+		}
+		.scaffold .pages a{
+			display: -moz-inline-box; display: inline-block; *zoom: 1; *display: inline;
+			padding: 3px;
+			margin-right: 3px;
+			margin-bottom: 4px;
+		}
 		');
+	}
+	public function header(){
+		echo '<div class="scaffold">';
+	}
+	public function footer(){
+		echo '</div>';
 	}
 	public function index($page){
 		$this->_collection->setItemsByPage($this->_itemsByPage);
