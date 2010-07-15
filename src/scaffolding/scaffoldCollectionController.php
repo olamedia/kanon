@@ -62,7 +62,7 @@ class scaffoldModelCollectionController extends controller{
 			}
 			echo '<tr>';
 			echo '<th colspan="'.count($properties).'">';
-			echo 'Найдено: '.$itemsCount;
+			echo 'Найдено рядов: '.$itemsCount;
 			echo '</th>';
 			echo '</tr>';
 			echo '</table>';
