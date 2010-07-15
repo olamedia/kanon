@@ -58,9 +58,9 @@ class model implements ArrayAccess, IteratorAggregate{
 			$this->_fields = &$this->_fieldsMap;
 		}
 		if (count($this->_properties)){
-			$this->_properties = &$this->_properties;
+			/*$this->_properties = &$this->_properties;
 			$this->_propertiesInfo = &$this->_properties;
-			$this->_properties = array();
+			$this->_properties = array();*/
 			//unset($this->_properties);
 			foreach ($this->_propertiesInfo as $propertyName => $propertyInfo){
 				if (isset($propertyInfo['class'])) $this->_classes[$propertyName] = $propertyInfo['class'];
@@ -102,7 +102,7 @@ class model implements ArrayAccess, IteratorAggregate{
 	 * @return modelProperty
 	 */
 	protected function &_getProperty($name){
-		if (!isset($this->_properties[$name])){
+		if (!isset($this->_properties[$name]) || !is_object($this->_properties[$name])){
 			$class = 'stringProperty';
 			if (isset($this->_classes[$name])){
 				if (class_exists($this->_classes[$name])){
