@@ -21,4 +21,7 @@ class timestampProperty extends integerProperty{
 		return date("c", $this->getValue());
 		return date("Y-m-d").'T'.date("H:i:sP");
 	}
+	public function html($format = "d.m.Y H:i:s"){
+		return $this->format($format);
+	}
 }
