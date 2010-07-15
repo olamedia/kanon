@@ -8,7 +8,7 @@ require_once dirname(__FILE__).'/properties/modificationTimestampProperty.php';
 require_once dirname(__FILE__).'/modelIterator.php';
 class model implements ArrayAccess, IteratorAggregate{
 	protected $_properties = array(); // propertyName => modelProperty
-	private $_propertiesInfo = null; // 
+	protected $_propertiesInfo = null; //
 	protected $_classes = array(); // propertyName => className
 	protected $_fields = array(); // propertyName => fieldName
 	protected $_primaryKey = array(); // propertyNames
@@ -58,16 +58,18 @@ class model implements ArrayAccess, IteratorAggregate{
 			$this->_fields = &$this->_fieldsMap;
 		}
 		if (count($this->_properties)){
-			/*$this->_properties = &$this->_properties;
+			$this->_properties = &$this->_properties;
 			$this->_propertiesInfo = &$this->_properties;
-			$this->_properties = array();*/
+			$this->_properties = array();
 			//unset($this->_properties);
-			foreach ($this->_properties as $propertyName => $propertyInfo){
+			foreach ($this->_propertiesInfo as $propertyName => $propertyInfo){
 				if (isset($propertyInfo['class'])) $this->_classes[$propertyName] = $propertyInfo['class'];
 				if (isset($propertyInfo['field'])) $this->_fields[$propertyName] = $propertyInfo['field'];
 				if (isset($propertyInfo['foreignKey'])) $this->_foreignKeys[$propertyName] = $propertyInfo['foreignKey'];
 				if (isset($propertyInfo['primaryKey']) && $propertyInfo['primaryKey']) $this->_primaryKey[] = $propertyName;
 				if (isset($propertyInfo['autoIncrement'])) $this->_autoIncrement = $propertyName;
+				if (isset($propertyInfo['parentKey'])) $this->_parentKey = $propertyName;
+				if (isset($propertyInfo['titleKey'])) $this->_titleKey = $propertyName;
 			}
 			$this->_properties = array();
 		}
