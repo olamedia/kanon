@@ -11,6 +11,13 @@ class modelCollection implements ArrayAccess{
 	protected $_filtersEnabled = true;
 	protected static $_defaultValues = array();
 	protected $_joinOn = array();
+	protected $_itemsByPage = 25; // pager support (LIMIT replacement)
+	public function setItemsByPage($itemsByPage){
+		$this->_itemsByPage = $itemsByPage;
+	}
+	public function getItemsByPage(){
+		return $this->_itemsByPage;
+	}
 	public static function setIdInstance($id, &$instance){
 		self::$_idInstances[$id] = $instance;
 	}

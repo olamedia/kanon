@@ -235,6 +235,12 @@ class modelQueryBuilder{
 		}
 		return $this;
 	}
+	public function &page($page=1){ // pager support (LIMIT replacement)
+		if ($page < 1) $page = 1;
+		$itemsByPage = $this->_storageSource->getItemsByPage();
+		$this->limit(($page-1)*$itemsByPage,$itemsByPage);
+		return $this;
+	}
 	/**
 	 *
 	 * @param modelField $field

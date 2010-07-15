@@ -148,7 +148,7 @@ class controller extends controllerPrototype{
 				//var_dump($includeRequire);
 				$includeRequireString = is_array($includeRequire)?implode(",",$includeRequire):$includeRequire;
 				$js .= '<!-- start '.$requiredPart.' ('.$includeRequireString.') -->';
-				
+
 				if (is_array($includeRequire) || $includeRequire != ''){
 					list($xjs, $xparts) = $this->_getJsPart($includeRequire, $parts);
 					$parts = array_merge($parts, $xparts);
@@ -226,5 +226,30 @@ class controller extends controllerPrototype{
 		}
 		return isset($this->getRegistry()->databases[$name])?$this->getRegistry()->databases[$name]:null;
 	}
-
+	public function viewPages($pagesCount, $selectedPage){
+		if ($pagesCount < 2) return;
+		echo '<div class="pages">';
+		$la = array();
+		if ($selectedPage>1){
+			$la[] = '<a href="?page='.($selectedPage-1).'" class="prev">предыдущая</a>';
+		}
+		$p = 0;
+		while ($p<=$pagesCount){
+			$p++;
+			//echo $p.' ';
+			if ($p>0 && $p<=$pagesCount){
+				//echo ' ok';
+				if ($p==$selectedPage){
+					$la[] = '<b>'.$p.'</b>';
+				}else{
+					$la[] = '<a href="?page='.$p.'">'.$p.'</a>';
+				}
+			}
+		}
+		if ($selectedPage<$pagesCount){
+			$la[] = '<a href="?page='.($selectedPage+1).'" class="next">следующая</a>';
+		}
+		echo implode(' ',$la);
+		echo '</div>';
+	}
 }
