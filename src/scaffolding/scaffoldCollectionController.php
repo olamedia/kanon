@@ -13,14 +13,18 @@ class scaffoldModelCollectionController extends controller{
 			border-collapse: collapse;
 		}
 		.scaffold-list th{
-			background: #eee;
-			border: solid 1px #999;
+			background: #EEEEEE;
+			border: solid 1px #CCCCCC;
 			padding: 3px;
 		}
 		.scaffold-list td{
-			border: solid 1px #999;
+			border: solid 1px #CCCCCC;
 			padding: 3px;
 		}
+		.scaffold-list td.odd{
+			background: #F1F1F1;
+		}
+		
 		');
 	}
 	public function index($page){
@@ -30,10 +34,12 @@ class scaffoldModelCollectionController extends controller{
 		$this->viewPages($pagesCount, $page);
 		echo '<table class="scaffold-list">';
 		$first = true;
+		$odd = true;
 		foreach ($this->_collection->select()->page($page) as $item){
+			$odd = !$odd;
 			$properties = $item->getPropertyNames();
 			if ($first){
-				echo '<tr>';
+				echo '<tr'.($odd?' class="odd"':'').'>';
 				foreach ($properties as $propertyName){
 					echo '<th>';
 					echo $propertyName;
