@@ -26,13 +26,18 @@ class scaffoldModelCollectionController extends controller{
 		.scaffold-list td.odd{
 			background: #F1F1F1;
 		}
+		.scaffold{
+			font-size: 11px;
+			font-family: \'lucida grande\', tahoma, verdana, arial, sans-serif;
+		}
 		.scaffold .pages{
 			margin: 7px 0;
+			
 		}
 		.scaffold .pages a, .scaffold .pages b{
 			display: -moz-inline-box; display: inline-block; *zoom: 1; *display: inline;
 			padding: 3px;
-			margin-right: 3px;
+			margin-right: 2px;
 			margin-bottom: 4px;
 		}
 		.scaffold .pages a{
