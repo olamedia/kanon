@@ -10,6 +10,7 @@ class scaffoldModelCollectionController extends controller{
 		$this->css('
 		table.scaffold-list{
 			border: solid 1px #666;
+			border-collapse: collapse;
 		}
 		.scaffold-list th{
 			background: #eee;
