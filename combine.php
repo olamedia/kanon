@@ -86,6 +86,7 @@ array(
 		'src/mvc-view',
 		'src/mvc-model/properties',
 		'src/mvc-model/storageDrivers',
+		'src/scaffolding',
 		'src/media',
 		'src/net',
 		'src/intl/ru',
