@@ -16,10 +16,12 @@ class scaffoldModelCollectionController extends controller{
 			background: #EEEEEE;
 			border: solid 1px #CCCCCC;
 			padding: 3px;
+			font-size: 11px;
 		}
 		.scaffold-list td{
 			border: solid 1px #CCCCCC;
 			padding: 3px;
+			font-size: 11px;
 		}
 		.scaffold-list td.odd{
 			background: #F1F1F1;
@@ -39,7 +41,7 @@ class scaffoldModelCollectionController extends controller{
 			$odd = !$odd;
 			$properties = $item->getPropertyNames();
 			if ($first){
-				echo '<tr'.($odd?' class="odd"':'').'>';
+				echo '<tr>';
 				foreach ($properties as $propertyName){
 					echo '<th>';
 					echo $propertyName;
@@ -48,7 +50,7 @@ class scaffoldModelCollectionController extends controller{
 				echo '</tr>';
 				$first = false;
 			}
-			echo '<tr>';
+			echo '<tr'.($odd?' class="odd"':'').'>';
 			foreach ($properties as $propertyName){
 				echo '<td>';
 				$property = $item->{$propertyName};
