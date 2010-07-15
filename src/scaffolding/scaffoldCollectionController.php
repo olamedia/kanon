@@ -32,34 +32,41 @@ class scaffoldModelCollectionController extends controller{
 	public function index($page){
 		$this->_collection->setItemsByPage($this->_itemsByPage);
 		$itemsCount = count($this->_collection->select());
-		$pagesCount = ceil($itemsCount/$this->_itemsByPage);
-		$this->viewPages($pagesCount, $page);
-		echo '<table class="scaffold-list">';
-		$first = true;
-		$odd = true;
-		foreach ($this->_collection->select()->page($page) as $item){
-			$odd = !$odd;
-			$properties = $item->getPropertyNames();
-			if ($first){
-				echo '<tr>';
+		if ($itemsCount){
+			$pagesCount = ceil($itemsCount/$this->_itemsByPage);
+			$this->viewPages($pagesCount, $page);
+			echo '<table class="scaffold-list">';
+			$first = true;
+			$odd = true;
+			foreach ($this->_collection->select()->page($page) as $item){
+				$odd = !$odd;
+				$properties = $item->getPropertyNames();
+				if ($first){
+					echo '<tr>';
+					foreach ($properties as $propertyName){
+						echo '<th>';
+						echo $propertyName;
+						echo '</th>';
+					}
+					echo '</tr>';
+					$first = false;
+				}
+				echo '<tr'.($odd?' class="odd"':'').'>';
 				foreach ($properties as $propertyName){
-					echo '<th>';
-					echo $propertyName;
-					echo '</th>';
+					echo '<td>';
+					$property = $item->{$propertyName};
+					echo $property->html();
+					echo '</td>';
 				}
 				echo '</tr>';
-				$first = false;
 			}
-			echo '<tr'.($odd?' class="odd"':'').'>';
-			foreach ($properties as $propertyName){
-				echo '<td>';
-				$property = $item->{$propertyName};
-				echo $property->html();
-				echo '</td>';
-			}
+			echo '<tr>';
+			echo '<th colspan="'.count($properties).'">';
+			echo 'Найдено: '.$itemsCount;
+			echo '</th>';
 			echo '</tr>';
+			echo '</table>';
+			$this->viewPages($pagesCount, $page);
 		}
-		echo '</table>';
-		$this->viewPages($pagesCount, $page);
 	}
 }
