@@ -62,7 +62,7 @@ class model implements ArrayAccess, IteratorAggregate{
 			$this->_propertiesInfo = &$this->_properties;
 			$this->_properties = array();*/
 			//unset($this->_properties);
-			foreach ($this->_propertiesInfo as $propertyName => $propertyInfo){
+			foreach ($this->_properties as $propertyName => $propertyInfo){
 				if (isset($propertyInfo['class'])) $this->_classes[$propertyName] = $propertyInfo['class'];
 				if (isset($propertyInfo['field'])) $this->_fields[$propertyName] = $propertyInfo['field'];
 				if (isset($propertyInfo['foreignKey'])) $this->_foreignKeys[$propertyName] = $propertyInfo['foreignKey'];
