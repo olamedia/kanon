@@ -1,5 +1,11 @@
 <?php
 class modelBehavior{
+	protected $_modelName = '';
+	protected $_options = array();
+	public function __construct($model, $options){
+		$this->_modelName = get_class($model);
+		$this->_options = $options;
+	}
 	public function setUp($model){
 		
 	}

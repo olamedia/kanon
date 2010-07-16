@@ -22,18 +22,18 @@ class model implements ArrayAccess, IteratorAggregate{
 	protected $_behaviors = array();
 	protected $_actAs = array();
 	/**
-	 * 
+	 *
 	 * @param string $behaviourClass
 	 */
-	public function actAs($behaviourClass){
-		$behavior = new $behaviorClass();
+	public function actAs($behaviorClass, $options = array()){
+		$behavior = new $behaviorClass($this, $options);
 		$this->_behaviors = $behavior;
 	}
 	public function hasProperty($propertyName, $propertyInfo){
 		$this->_properties[$propertyName] = $propertyInfo;
 	}
 	public function setUp(){
-		
+		// extend model here
 	}
 	protected function loadBehaviors(){
 		foreach ($this->_behaviors as $behavior){
@@ -78,14 +78,19 @@ class model implements ArrayAccess, IteratorAggregate{
 		if (isset($this->_fieldsMap)){
 			$this->_fields = &$this->_fieldsMap;
 		}
-		foreach ($this->_actAs as $behaviourName){
-			$this->actAs($behaviourName);
+		foreach ($this->_actAs as $behaviourName => $options){
+			if (is_array($options)){
+				$this->actAs($behaviourName, $options);
+			}else{
+				$behaviourName = $options;
+				$this->actAs($behaviourName);
+			}
 		}
 		$this->loadBehaviors();
 		if (count($this->_properties)){
 			/*$this->_properties = &$this->_properties;
-			$this->_propertiesInfo = &$this->_properties;
-			$this->_properties = array();*/
+			 $this->_propertiesInfo = &$this->_properties;
+			 $this->_properties = array();*/
 			//unset($this->_properties);
 			foreach ($this->_properties as $propertyName => $propertyInfo){
 				if (isset($propertyInfo['class'])) $this->_classes[$propertyName] = $propertyInfo['class'];
@@ -317,6 +322,9 @@ class model implements ArrayAccess, IteratorAggregate{
 		return array('_properties', '_values');//'_classesMap', '_fieldsMap', '_primaryKey', '_autoIncrement',
 	}
 	public function __wakeup(){}
+	/**
+	 * @return modelCollection
+	 */
 	public static function &getCollection(){
 		if (!function_exists('get_called_class')){
 			require_once dirname(__FILE__).'/../common/compat/get_called_class.php';
@@ -334,6 +342,13 @@ class model implements ArrayAccess, IteratorAggregate{
 	}
 	public function getPrimaryKey(){
 		return $this->_primaryKey;
+	}
+	public function getPrimaryKeyValue(){
+		if (count($this->_primaryKey) == 1){
+			reset($this->_primaryKey);
+			return $this->{current($this->_primaryKey)};
+		}
+		throw new Exception('Trying to get primary key value of multiple columns');
 	}
 	public function getAutoIncrement(){
 		return $this->_autoIncrement;
