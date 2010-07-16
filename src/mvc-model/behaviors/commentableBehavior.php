@@ -17,7 +17,7 @@ class commentableBehavior extends modelBehavior{
 		'class'=>'integerProperty',
 		'field'=>'comments_count',
 		));
-		$model->hasMethod('getCommentsCollection');
+		$model->hasMethod('getCommentsCollection'); // TODO
 		$model->hasMethod('getComments');
 		$baseClass = 'comment';
 		model::create($this->_getCommentClass(), $baseClass); // TODO
