@@ -258,10 +258,16 @@ class controllerPrototype{
 	protected function _show404($message = ''){
 		$this->notFound($message);
 	}
+	protected $_ignoreParentTemplate = false;
+	public function ignoreParentTemplate($ignore = true){
+		$this->_ignoreParentTemplate = $ignore;
+	}
 	protected function _header(){
-		if ($c = $this->getParent()){
-			$c->_header();
-			if ($this->getParent()) echo "\r\n".'<div class="'.get_class($c).'_wrapper">';
+		if (!$this->_ignoreParentTemplate){
+			if ($c = $this->getParent()){
+				$c->_header();
+				if ($this->getParent()) echo "\r\n".'<div class="'.get_class($c).'_wrapper">';
+			}
 		}
 		$this->header();
 		echo "\r\n".'<div class="'.get_class($this).'_content">';
@@ -269,9 +275,11 @@ class controllerPrototype{
 	protected function _footer(){
 		echo "\r\n".'</div>';
 		$this->footer();
-		if ($c = $this->getParent()){
-			if ($this->getParent()) echo "\r\n".'</div>';
-			$c->_footer();
+		if (!$this->_ignoreParentTemplate){
+			if ($c = $this->getParent()){
+				if ($this->getParent()) echo "\r\n".'</div>';
+				$c->_footer();
+			}
 		}
 	}
 	public function header(){
