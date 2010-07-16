@@ -27,7 +27,7 @@ class module{
 		'controller', 
 		'controlSet', 'control'
 		);
-		$modulePath = kanon::getBasePath().'/modules/'.$moduleName;
+		$modulePath = kanon::getBasePath().'/modules/'.$this->_name;
 		if (is_file($modulePath.'/module.php') && is_php($modulePath.'/module.php')){
 			include $modulePath.'/module.php';
 			$this->_autoload = $autoload;
