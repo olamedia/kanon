@@ -18,7 +18,7 @@ class module{
 	}
 	public function getModels(){
 		$this->_load();
-		return isset($this->_classes['model'])?$this->_classes['model']:array();
+		return isset($this->_classes['model'])?array_keys($this->_classes['model']):array();
 	}
 	protected function _load(){
 		if ($this->_isLoaded) return;
