@@ -19,6 +19,27 @@ class model implements ArrayAccess, IteratorAggregate{
 	protected $_parentKey = null; // ->getParent();
 	protected $_titleKey = null; // ->__toString();
 	protected $_values = array(); // temporary storage for initial values
+	protected $_behaviors = array();
+	protected $_actAs = array();
+	/**
+	 * 
+	 * @param string $behaviourClass
+	 */
+	public function actAs($behaviourClass){
+		$behavior = new $behaviorClass();
+		$this->_behaviors = $behavior;
+	}
+	public function hasProperty($propertyName, $propertyInfo){
+		$this->_properties[$propertyName] = $propertyInfo;
+	}
+	public function setUp(){
+		
+	}
+	protected function loadBehaviors(){
+		foreach ($this->_behaviors as $behavior){
+			$behavior->setUp($this);
+		}
+	}
 	public function syncWith(model $model){
 		foreach ($model->export as $k => $v){
 			$this->{'_'.$k} = $v;
@@ -57,6 +78,10 @@ class model implements ArrayAccess, IteratorAggregate{
 		if (isset($this->_fieldsMap)){
 			$this->_fields = &$this->_fieldsMap;
 		}
+		foreach ($this->_actAs as $behaviourName){
+			$this->actAs($behaviourName);
+		}
+		$this->loadBehaviors();
 		if (count($this->_properties)){
 			/*$this->_properties = &$this->_properties;
 			$this->_propertiesInfo = &$this->_properties;
