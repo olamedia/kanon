@@ -10,6 +10,9 @@ class module{
 	protected function __construct($name){
 		$this->_name = $name;
 	}
+	public function __toString(){
+		return $this->_name;
+	}
 	public function getName(){
 		return $this->_name;
 	}
