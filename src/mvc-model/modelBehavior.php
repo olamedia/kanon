@@ -12,15 +12,15 @@ class modelBehavior extends extension{
 	 * @param model $model
 	 */
 	public function setUp($model){
-		echo ' setUp ';
+		//echo ' setUp ';
 		$properties = $model->___get('_properties');
-		var_dump($properties);
+		//var_dump($properties);
 		foreach ($this->_properties as $propertyName => $propertyInfo){
 			$properties[$propertyName] = $propertyInfo;
 		}
 		$model->___set('_properties', $properties);
 		$properties = $model->___get('_properties');
-		var_dump($properties);
+		//var_dump($properties);
 	}
 	/*public function preSave();
 	public function postSave();
