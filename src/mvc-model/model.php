@@ -415,7 +415,7 @@ class model extends extendable implements ArrayAccess, IteratorAggregate{
 		$storageId = storageRegistry::getInstance()->modelSettings[get_class($this)]['storage'];
 		$storage = storageRegistry::getInstance()->storages[$storageId];
 		if ($storage instanceof registry){
-			throw new Exception('storage for '.$this->_modelName.' not registered');
+			throw new Exception('storage for '.get_class($this).' not registered');
 		}
 		return $storage;
 	}
