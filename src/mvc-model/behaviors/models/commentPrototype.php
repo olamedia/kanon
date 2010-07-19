@@ -12,7 +12,7 @@ class commentPrototype extends model{
 			'field' => 'thread_id',
 		),
 		'text' => array(
-			'class' => 'textProperty',
+			'class' => 'stringProperty',
 			'field' => 'text',
 		),
 	);
