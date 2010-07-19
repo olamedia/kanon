@@ -25,7 +25,7 @@ class model extends extendable implements ArrayAccess, IteratorAggregate{
 	 * @param string $behaviourClass
 	 */
 	public function actAs($behaviorClass, $options = array()){
-		echo ' act as '.$behaviorClass.' ';
+		//echo ' act as '.$behaviorClass.' ';
 		$behavior = new $behaviorClass($this, $options);
 		$this->extend($behavior);
 	}
