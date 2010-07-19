@@ -18,6 +18,8 @@ class modelBehavior extends extension{
 		foreach ($this->_properties as $propertyName => $propertyInfo){
 			$properties[$propertyName] = $propertyInfo;
 		}
+		$properties = $model->___get('_properties');
+		var_dump($properties);
 	}
 	/*public function preSave();
 	public function postSave();
