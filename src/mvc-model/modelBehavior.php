@@ -18,6 +18,7 @@ class modelBehavior extends extension{
 		foreach ($this->_properties as $propertyName => $propertyInfo){
 			$properties[$propertyName] = $propertyInfo;
 		}
+		$model->___set('_properties', $properties);
 		$properties = $model->___get('_properties');
 		var_dump($properties);
 	}
