@@ -29,9 +29,6 @@ class model extends extendable implements ArrayAccess, IteratorAggregate{
 		$behavior = new $behaviorClass($this, $options);
 		$this->extend($behavior);
 	}
-	public static function create($class, $baseClass){
-		// TODO
-	}
 	public function syncWith(model $model){
 		foreach ($model->export as $k => $v){
 			$this->{'_'.$k} = $v;

@@ -1,5 +1,15 @@
 <?php
 class commentable extends modelBehavior{
+	protected $_properties = array(
+		'commentsCount' => array(
+			'class'=>'integerProperty',
+			'field'=>'comments_count',
+		),
+	);
+	protected $___methods = array(
+		'getCommentsCollection',
+		'getComments',
+	);
 	protected function _getCommentClass(){
 		return $this->_modelName.'Comment';
 	}
@@ -8,21 +18,12 @@ class commentable extends modelBehavior{
 	 * @param model $model
 	 */
 	public function setUp($model){
-		$pk = $model->getPrimaryKey();
-		if (count($pk) !== 1){
-			throw new Exception('Commentable model must have single primary key');
-		}
-		$pk = current($pk);
-		$model->hasProperty('commentsCount',array(
-		'class'=>'integerProperty',
-		'field'=>'comments_count',
-		));
-		$model->hasMethod('getCommentsCollection'); // TODO
-		$model->hasMethod('getComments');
-		$baseClass = 'commentPrototype';
-		model::create($this->_getCommentClass(), $baseClass); // TODO
+		parent::setUp($model);
+		
+		class_alias('commentPrototype', $this->_getCommentClass()); // PHP 5 >= 5.3.0
+		
 		$tableName = $model->getCollection()->getTableName().'_comment'; // (s)
-		$model->getStorage()->registerCollection($commentClass, $tableName);
+		$model->getStorage()->registerCollection($this->_getCommentClass(), $tableName);
 	}
 	public function getCommentsCollection(){
 		return modelCollection::getInstance($this->_getCommentClass());
@@ -30,6 +31,7 @@ class commentable extends modelBehavior{
 	/**
 	 * 
 	 * @param model $model
+	 * @return modelResultSet
 	 */
 	public function getComments($model){
 		$comments = $this->getCommentsCollection();
