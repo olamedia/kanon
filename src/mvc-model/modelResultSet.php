@@ -42,6 +42,7 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 						$modelClass = 'model';
 					}
 					$model = new $modelClass();
+					$model->markSaved();
 					foreach ($fields as $field){
 						//$model[$field->getName()]->setInitialValue($a[$field->getUniqueId()]);
 						$model->setInitialFieldValue($field->getName(), $a[$field->getUniqueId()]);

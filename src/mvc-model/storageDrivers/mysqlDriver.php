@@ -72,7 +72,7 @@ class mysqlDriver extends storageDriver{
 		if (isset($_COOKIE['debug'])){
 			echo $sql;
 		}
-		mysql_query($sql, $this->getConnection());
+		$result = $this->query($sql);
 		return mysql_affected_rows($this->getConnection());
 	}
 	/**

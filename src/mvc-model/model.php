@@ -20,6 +20,13 @@ class model extends extendable implements ArrayAccess, IteratorAggregate{
 	protected $_titleKey = null; // ->__toString();
 	protected $_values = array(); // temporary storage for initial values
 	protected $_actAs = array();
+	protected $_isSaved = false;
+	public function markSaved($isSaved = true){
+		$this->_isSaved = $isSaved;
+	}
+	public function isSaved(){
+		return $this->_isSaved;
+	}
 	/**
 	 *
 	 * @param string $behaviourClass
