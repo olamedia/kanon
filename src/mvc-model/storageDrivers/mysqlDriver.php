@@ -38,6 +38,9 @@ class mysqlDriver extends storageDriver{
 		return mysql_free_result($result);
 	}
 	public function internalQuery($sql){
+		if (isset($_COOKIE['debug'])){
+			echo $sql."<br />";
+		}
 		return mysql_query($sql, $this->_connection);
 	}
 	public function quoteField($string){
@@ -95,7 +98,7 @@ class mysqlDriver extends storageDriver{
 				//mysql_query("SET sql_mode='ANSI'", $this->getConnection());
 				//echo ' _createCollection() ';
 				$this->_createCollection();
-				$result = mysql_query($sql, $this->getConnection());
+				//$result = mysql_query($sql, $this->getConnection());
 			}
 			//$errorNumber = mysql_errno($this->getConnection());
 			if (!$result){
