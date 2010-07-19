@@ -85,6 +85,7 @@ array(
 		'src/mvc-controller',
 		'src/mvc-model',
 		'src/mvc-model/behaviors',
+		'src/mvc-model/behaviors/models',
 		'src/mvc-model/properties',
 		'src/mvc-model/storageDrivers',
 		'src/mvc-view',

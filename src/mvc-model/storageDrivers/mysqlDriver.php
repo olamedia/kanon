@@ -95,7 +95,7 @@ class mysqlDriver extends storageDriver{
 				//mysql_query("SET sql_mode='ANSI'", $this->getConnection());
 				//echo ' _createCollection() ';
 				$this->_createCollection();
-				//$result = mysql_query($sql, $this->getConnection());
+				$result = mysql_query($sql, $this->getConnection());
 			}
 			//$errorNumber = mysql_errno($this->getConnection());
 			if (!$result){
