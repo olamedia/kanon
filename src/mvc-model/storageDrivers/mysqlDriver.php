@@ -5,10 +5,13 @@ class mysqlDriver extends storageDriver{
 		$nn = $notNull?' NOT NULL':'';
 		$u = $unsigned?' UNSIGNED':'';
 		switch ($type){
+			case modelProperty::TYPE_TEXT:
+				return 'TEXT'.$nn;//('.$size.')
+				break;
 			case modelProperty::TYPE_VARCHAR:
 				return 'VARCHAR('.$size.')'.$nn;
 				break;
-			case modelProperty::TYPE_INTEGER:
+				case modelProperty::TYPE_INTEGER:
 				if ($size>10){
 					return 'BIGINT('.$size.')'.$u.$nn; // BIGINT is an extension to the SQL
 				}elseif($size<=3){
