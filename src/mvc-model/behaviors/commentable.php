@@ -4,7 +4,7 @@ class commentable extends modelBehavior{
 		'commentsCount' => array(
 			'class'=>'integerProperty',
 			'field'=>'comments_count',
-		),
+	),
 	);
 	protected $___methods = array(
 		'getCommentsCollection',
@@ -14,22 +14,23 @@ class commentable extends modelBehavior{
 		return $this->_modelName.'Comment';
 	}
 	/**
-	 * 
+	 *
 	 * @param model $model
 	 */
 	public function setUp($model){
 		parent::setUp($model);
-		
-		class_alias('commentPrototype', $this->_getCommentClass()); // PHP 5 >= 5.3.0
-		
-		$tableName = $model->getCollection()->getTableName().'_comment'; // (s)
-		$model->getStorage()->registerCollection($this->_getCommentClass(), $tableName);
+
+		if (!class_exists($this->_getCommentClass())){
+			class_alias('commentPrototype', $this->_getCommentClass()); // PHP 5 >= 5.3.0
+			$tableName = $model->getCollection()->getTableName().'_comment'; // (s)
+			$model->getStorage()->registerCollection($this->_getCommentClass(), $tableName);
+		}
 	}
 	public function getCommentsCollection(){
 		return modelCollection::getInstance($this->_getCommentClass());
 	}
 	/**
-	 * 
+	 *
 	 * @param model $model
 	 * @return modelResultSet
 	 */
