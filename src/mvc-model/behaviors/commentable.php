@@ -20,7 +20,8 @@ class commentable extends modelBehavior{
 	public function setUp($model){
 		parent::setUp($model);
 		if (!class_exists($this->_getCommentClass())){
-			class_alias('commentPrototype', $this->_getCommentClass()); // PHP 5 >= 5.3.0
+			create_class($this->_getCommentClass(), 'commentPrototype'); // PHP 5 >= 5.3.0
+			//eval('class c extends a{}');
 			$tableName = $model->getCollection()->getTableName().'_comment'; // (s)
 			$model->getStorage()->registerCollection($this->_getCommentClass(), $tableName);
 		}
