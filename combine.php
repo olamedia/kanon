@@ -76,6 +76,7 @@ phpCombinator::combine(
 array(
 		'src/common', 
 		'src/common/functions', 
+		'src/common/extension', 
 		'src/events', 
 		'src/simpleStorage', 
 		'src/simpleStorage/drivers', 
