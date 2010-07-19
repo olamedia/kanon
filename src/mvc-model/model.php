@@ -6,7 +6,7 @@ require_once dirname(__FILE__).'/properties/timestampProperty.php';
 require_once dirname(__FILE__).'/properties/creationTimestampProperty.php';
 require_once dirname(__FILE__).'/properties/modificationTimestampProperty.php';
 require_once dirname(__FILE__).'/modelIterator.php';
-class model implements ArrayAccess, IteratorAggregate{
+class model extends extendable implements ArrayAccess, IteratorAggregate{
 	protected $_properties = array(); // propertyName => modelProperty
 	protected $_propertiesInfo = null; //
 	protected $_classes = array(); // propertyName => className
@@ -19,26 +19,16 @@ class model implements ArrayAccess, IteratorAggregate{
 	protected $_parentKey = null; // ->getParent();
 	protected $_titleKey = null; // ->__toString();
 	protected $_values = array(); // temporary storage for initial values
-	protected $_behaviors = array();
 	protected $_actAs = array();
 	/**
 	 *
 	 * @param string $behaviourClass
 	 */
 	public function actAs($behaviorClass, $options = array()){
-		$behavior = new $behaviorClass($this, $options);
-		$this->_behaviors = $behavior;
+		$this->extend(new $behaviorClass($this, $options));
 	}
-	public function hasProperty($propertyName, $propertyInfo){
-		$this->_properties[$propertyName] = $propertyInfo;
-	}
-	public function setUp(){
-		// extend model here
-	}
-	protected function loadBehaviors(){
-		foreach ($this->_behaviors as $behavior){
-			$behavior->setUp($this);
-		}
+	public static function create($class, $baseClass){
+		// TODO
 	}
 	public function syncWith(model $model){
 		foreach ($model->export as $k => $v){
@@ -86,7 +76,6 @@ class model implements ArrayAccess, IteratorAggregate{
 				$this->actAs($behaviourName);
 			}
 		}
-		$this->loadBehaviors();
 		if (count($this->_properties)){
 			/*$this->_properties = &$this->_properties;
 			 $this->_propertiesInfo = &$this->_properties;

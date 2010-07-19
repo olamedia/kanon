@@ -1,5 +1,5 @@
 <?php
-class commentableBehavior extends modelBehavior{
+class commentable extends modelBehavior{
 	protected function _getCommentClass(){
 		return $this->_modelName.'Comment';
 	}
@@ -19,7 +19,7 @@ class commentableBehavior extends modelBehavior{
 		));
 		$model->hasMethod('getCommentsCollection'); // TODO
 		$model->hasMethod('getComments');
-		$baseClass = 'comment';
+		$baseClass = 'commentPrototype';
 		model::create($this->_getCommentClass(), $baseClass); // TODO
 		$tableName = $model->getCollection()->getTableName().'_comment'; // (s)
 		$model->getStorage()->registerCollection($commentClass, $tableName);
