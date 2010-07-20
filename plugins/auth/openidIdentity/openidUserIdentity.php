@@ -13,6 +13,7 @@ class openidUserIdentity extends userIdentityPrototype{
 		// Required: PHP 5, curl 
 		$openid = new LightOpenID; 
 		if (isset($_GET['openid_mode'])){
+			$this->_openidIdentity = $openid->identity;
 			return $openid->validate();
 		}
 		$openid->identity = $openidIdentity;
@@ -27,7 +28,7 @@ class openidUserIdentity extends userIdentityPrototype{
 		if (!$this->authenticateOpenId($openid)){
 			throw new authException('Invalid OpenID');
 		}
-
+		$openid = $this->_openidIdentity;
 		$users = user::getCollection(); //modelCollection::getInstance('registeredUser');
 		$openids = modelCollection::getInstance('userOpenid');
 		$result = $users->select($openids, $openids->openid->is($this->_openidIdentity))->fetch();
