@@ -382,6 +382,10 @@ class modelStorage{
 	 * @return modelStorage
 	 */
 	public function connect($dsn, $username = 'root', $password = '', $charset = 'UTF8'){
+		if ($dsn instanceof modelStorage){
+			$this->_storageDriver =& $dsn->getDriver();
+			return $this;
+		}
 		$extension = reset(explode(":", $dsn));
 		$driverName = null;
 		if ($extension == 'sqlite'){ // prefer pdo (sqlite2,sqlite3)
