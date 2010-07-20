@@ -19,4 +19,7 @@ class registeredUser extends model{
 	protected $_actAs = array(
 	'timestampable'
 	);
+	public function onConstruct(){
+		$this->_options['password']['salt'] = $this->salt;
+	}
 }
