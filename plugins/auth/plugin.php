@@ -19,7 +19,7 @@ $autoload = array(
 'userEmail' => 'emailIdentity/userEmail.php',
 );
 
-modelStorage::getInstance($name)
+modelStorage::getInstance()//$name
 	->registerCollection('userLogin', 'user_login')
 	->registerCollection('userEmail', 'user_email')
 	->registerCollection('userOpenid', 'user_openid')
