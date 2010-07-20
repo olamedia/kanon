@@ -3,7 +3,7 @@ class user{
 	protected $_isAuthenticated = false;
 	protected $_credentials = array();
 	protected $_identity = null;
-	protected $_model = 'registeredUser'; // real model
+	protected static $_model = 'registeredUser'; // real model
 	/**
 	 * Login using valid authenticated identity
 	 * @example
@@ -19,8 +19,8 @@ class user{
 	/*public function model(){
 		
 	}*/
-	public function getCollection(){
-		return modelCollection::getInstance($this->_model);
+	public static function getCollection(){
+		return modelCollection::getInstance(self::$_model);
 	}
 	public function logout(){
 		$this->_identity = null;
