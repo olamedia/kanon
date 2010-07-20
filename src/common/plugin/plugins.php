@@ -21,7 +21,7 @@ class plugins{
 		$plugin->setDescription($description);
 		self::$_plugins[$name] = $plugin;
 		foreach ($autoload as $class => $filename){
-			self::$_autoload[$class] = self::getPluginsPath().$filename;
+			self::$_autoload[$class] = self::getPluginsPath().$name.'/'.$filename;
 		}
 	}
 	public static function loadAll(){
