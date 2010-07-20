@@ -1,5 +1,6 @@
 <?php
-$name = 'Sample plugin';
+$name = 'samplePlugin';
+$title = 'Sample plugin';
 $description = 'This is a sample plugin';
 $autoload = array(
 

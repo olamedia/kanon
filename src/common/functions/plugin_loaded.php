@@ -1,4 +1,4 @@
 <?php
 function plugin_loaded($pluginName){
-	// TODO
+	return plugins::isLoaded($pluginName);
 }

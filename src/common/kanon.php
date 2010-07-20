@@ -10,7 +10,7 @@ require_once dirname(__FILE__).'/fileStorage.php';
 require_once dirname(__FILE__).'/keep.func.php';
 class kanon{
 	private static $_uniqueId = 0;
-	private static $_uniqueIdMap = array(); 
+	private static $_uniqueIdMap = array();
 	private static $_basePath = null;
 	private static $_fileStorages = array();
 	private static $_loadedModules = array();
@@ -49,17 +49,17 @@ class kanon{
 		//echo ' module='.$moduleName;
 		//echo array_shift($a);
 		if ('views' == array_shift($a)){
-			$rel = $moduleName.'/'.implode('/',$a); 
+			$rel = $moduleName.'/'.implode('/',$a);
 		}
 		foreach (self::$_preferredThemes as $themeName){
 			$themedFilename = $themesPath.$themeName.'/'.$rel;
 			//echo ' themed='.$themedFilename;
 			if (is_file($themedFilename)){
 				return $themedFilename;
-			} 
+			}
 		}
 		return $filename;
-	} 
+	}
 	public static function setFinalController($controller){
 		self::$_finalController[] = $controller;
 	}
@@ -83,7 +83,9 @@ class kanon{
 	public static function autoload($class){
 		if (isset(self::$_autoload[$class])){
 			require_once self::$_autoload[$class];
+			return true;
 		}
+		return false;
 	}
 	/**
 	 * Get named file storage
@@ -235,9 +237,12 @@ register_shutdown_function(array('kanon', 'onShutdown'));
 
 if (function_exists('spl_autoload_register')){
 	spl_autoload_register(array('kanon', 'autoload'));
+	spl_autoload_register(array('plugins', 'autoload'));
 }else{
 	function __autoload($name) {
-		kanon::autoload($name);
+		if (!kanon::autoload($name)){
+			plugins::autoload($name);
+		}
 	}
 }
 set_exception_handler(array('kanonExceptionHandler','handle'));
