@@ -9,6 +9,9 @@ class userEmail extends model{
 		'userId' => array(
 				'class' => 'idProperty',
 				'field' => 'user_id',
+				'foreignKeys' => array(
+					'registeredUser' => 'id', 
+				),
 		),
 	);
 	protected $_actAs = array(
