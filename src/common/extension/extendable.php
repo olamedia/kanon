@@ -29,8 +29,10 @@ class extendable{
 	 */
 	public function __call($name, $arguments){
 		if (isset($this->___methods[$name])){
+			echo ' method exists ';
 			$callable = array($this,$this->___methods[$name]);
 			if (is_callable($callable)){
+				echo ' is callable ';
 				array_unshift($arguments, $this);
 				call_user_func_array($callable, $arguments);
 			}
