@@ -10,6 +10,7 @@ class extension{
 		foreach ($this->___methods as $method){
 			$extendableMethods[$method] = array($this, $method);
 		}
+		$extendable->___set('___methods', $extendableMethods);
 	}
 	/**
 	 *
