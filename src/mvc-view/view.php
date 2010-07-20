@@ -1,10 +1,20 @@
 <?php
+
+/*
+ * This file is part of the kanon package.
+ * (c) 2009-2010 olamedia <olamedia@gmail.com>
+ * 
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 /**
- * $Id$
- * MVC: View
- * Modelled after symfony 2.0
- * @author olamedia
- *
+ * view 
+ * 
+ * @package		kanon
+ * @subpackage	mvc-view
+ * @author		olamedia <olamedia@gmail.com>
+ * @version		SVN: $Id$
  */
 class view{
 	protected $_filename = null;
