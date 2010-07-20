@@ -50,6 +50,7 @@ class openidUserIdentity extends userIdentityPrototype{
 		}*/
 		$this->_user = $user;
 		$this->_identityModel = $userOpenid;
+		return true;
 	}
 
 	/**
