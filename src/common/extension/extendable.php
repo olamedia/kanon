@@ -35,7 +35,7 @@ class extendable{
 			if (is_callable($callable)){
 				echo ' is callable ';
 				array_unshift($arguments, $this);
-				call_user_func_array($callable, $arguments);
+				return call_user_func_array($callable, $arguments);
 			}
 		}
 		throw new BadMethodCallException('Tried to call unknown method '.get_class($this).'::'.$f);
