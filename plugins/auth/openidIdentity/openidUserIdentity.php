@@ -12,6 +12,14 @@ class openidUserIdentity extends userIdentityPrototype{
 		// 3rd-party library: http://gitorious.org/lightopenid
 		// Required: PHP 5, curl
 		$openid = new LightOpenID;
+		$openid->required = array(
+			'namePerson/friendly', // nickname 
+			'contact/email' // email
+		);
+		/*$openid->optional = array(
+			'namePerson/friendly', // nickname 
+			'contact/email' // email
+		);*/
 		if (isset($_GET['openid_mode'])){
 			$result = $openid->validate();
 			$this->_openidIdentity = $openid->identity;
