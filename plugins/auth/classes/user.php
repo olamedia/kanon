@@ -20,7 +20,7 @@ class user{
 		
 	}*/
 	public function getCollection(){
-		modelCollection::getInstance($this->_model);
+		return modelCollection::getInstance($this->_model);
 	}
 	public function logout(){
 		$this->_identity = null;
