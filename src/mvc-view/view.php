@@ -12,7 +12,7 @@
  * view 
  * 
  * @package		kanon
- * @subpackage	mvc-view
+ * @subpackage	view
  * @author		olamedia <olamedia@gmail.com>
  * @version		SVN: $Id$
  */

@@ -20,6 +20,9 @@ class kanon{
 	private static $_deferredFunctions = array();
 	private static $_finalController = array();
 	private static $_preferredThemes = array();
+	public static function app(){
+		return application::getInstance();
+	}
 	public static function setTheme(){
 		$args = func_get_args();
 		foreach ($args as $arg){
