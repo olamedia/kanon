@@ -4,7 +4,7 @@ require_once realpath(dirname(__FILE__).'/../../..').'/kanon-framework.php';
 class extensionSample extends extension{
 	public $___methods = array('method');
 	public function method(){
-		
+		return 2;
 	}
 	/**
 	 * 
@@ -22,8 +22,9 @@ class extensionTest extends PHPUnit_Framework_TestCase{
 		$extension = new extensionSample();
 		$extendable->extend($extension);
 		$reflection = new ReflectionObject($extendable);
-		$method = $reflection->getMethod('method');
-		$this->assertTrue(is_object($method));
+		//$method = $reflection->getMethod('method');
+		//$this->assertTrue(is_object($method));
 		$this->assertEquals(1, $extendable->___get('x'));
+		$this->assertEquals(2, $extendable->method());
 	}
 }
