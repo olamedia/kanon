@@ -29,9 +29,10 @@ class extendable{
 	 */
 	public function __call($name, $arguments){
 		if (isset($this->___methods[$name])){
-			if (is_callable(array($this,$this->___methods[$name]))){
+			$callable = array($this,$this->___methods[$name]);
+			if (is_callable($callable)){
 				array_unshift($arguments, $this);
-				call_user_func_array($this->___methods[$name], $arguments);
+				call_user_func_array($callable, $arguments);
 			}
 		}
 		throw new BadMethodCallException('Tried to call unknown method '.get_class($this).'::'.$f);
