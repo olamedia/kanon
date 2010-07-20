@@ -7,10 +7,14 @@ $autoload = array(
 'user' => 'classes/user.php',
 'registeredUser' => 'models/registeredUser.php',
 'userIdentityPrototype' => 'classes/userIdentityPrototype.php',
+
 'openidUserIdentity' => 'openidIdentity/openidUserIdentity.php',
 'userOpenid' => 'openidIdentity/userOpenid.php',
+'LightOpenID' => 'openidIdentity/vendor/LightOpenID.php',
+
 'loginUserIdentity' => 'loginIdentity/loginUserIdentity.php',
 'userLogin' => 'loginIdentity/userLogin.php',
+
 'emailUserIdentity' => 'emailIdentity/emailUserIdentity.php',
 'userEmail' => 'emailIdentity/userEmail.php',
 );
