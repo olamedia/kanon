@@ -10,15 +10,15 @@ class openidUserIdentity extends userIdentityPrototype{
 	}
 	protected function authenticateOpenId($openidIdentity){
 		// 3rd-party library: http://gitorious.org/lightopenid
-		// Required: PHP 5, curl 
-		$openid = new LightOpenID; 
+		// Required: PHP 5, curl
+		$openid = new LightOpenID;
 		if (isset($_GET['openid_mode'])){
 			$result = $openid->validate();
 			$this->_openidIdentity = $openid->identity;
 			return $result;
 		}
 		$openid->identity = $openidIdentity;
- 		header('Location: '.$openid->authUrl());
+		header('Location: '.$openid->authUrl());
 		exit;
 	}
 	/**
@@ -34,9 +34,17 @@ class openidUserIdentity extends userIdentityPrototype{
 		$openids = modelCollection::getInstance('userOpenid');
 		$result = $users->select($openids, $openids->openid->is($this->_openidIdentity))->fetch();
 		if (!$result){
-			throw new authException('OpenID "'.$this->_openidIdentity.'" not registered', authException::ERROR_NOT_REGISTERED);
+			// throw new authException('OpenID "'.$this->_openidIdentity.'" not registered', authException::ERROR_NOT_REGISTERED);
+			// autocreate:
+			$user = new registeredUser();
+			$user->save();
+			$userOpenid = new userOpenid();
+			$userOpenid->userId = $user->id;
+			$userOpenid->openid = $this->_openidIdentity;
+			$userOpenid->save();
+		}else{
+			list($user, $userOpenid) = $result;
 		}
-		list($user, $userOpenid) = $result;
 		if (!$user->password->equals($this->_password)){
 			throw new authException('Invalid password', authException::ERROR_PASSWORD_INVALID);
 		}
