@@ -4,7 +4,7 @@
  * @author olamedia
  *
  */
-class userIdentityPrototype implements IUserIdentity{
+class userIdentityPrototype{
 	protected $_isAuthenticated = false;
 	protected $_user = null;
 	protected $_identityModel = null;

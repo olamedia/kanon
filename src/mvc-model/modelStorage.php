@@ -218,6 +218,11 @@ class modelStorage{
 	public function getConnection(){
 		return $this->_storageDriver->getConnection();
 	}
+	/**
+	 * 
+	 * @param string $name
+	 * @return modelStorage
+	 */
 	public static function getInstance($name = 'default'){
 		if (!isset(self::$_instances[$name])){
 			$instance = new self;

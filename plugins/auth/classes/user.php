@@ -3,7 +3,7 @@ class user{
 	protected $_isAuthenticated = false;
 	protected $_credentials = array();
 	protected $_identity = null;
-	protected $_model = 'user'; // real model
+	protected $_model = 'registeredUser'; // real model
 	/**
 	 * Login using valid authenticated identity
 	 * @example
