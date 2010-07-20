@@ -121,7 +121,11 @@ class controllerPrototype{
 	 * @param string $action
 	 */
 	protected function _action($action){
-		return $this->notFound('Directory "'.$action.'" not found in '.get_class($this).'');
+		$message = 'Directory "'.$action.'" not found in '.get_class($this).'';
+		if (kanonExceptionHandler::getDeveloperMode()){
+			throw new InvalidArgumentException($message);
+		}
+		return $this->notFound($message);
 	}
 	/**
 	 * Get url relative to this controller (combine with controller's base uri)

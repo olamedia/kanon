@@ -15,6 +15,9 @@ class kanonExceptionHandler{
 	public static function setDeveloperMode($mode = true){
 		self::$_isDeveloperMode = $mode;
 	}
+	public static function getDeveloperMode(){
+		return self::$_isDeveloperMode;
+	}
 	static function handle(Exception $exception){
 		$currentContent = $allParams = '';
 		/*if(class_exists('Zend_Controller_Front', false)) {
