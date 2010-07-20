@@ -15,13 +15,9 @@ class openidUserIdentity extends userIdentityPrototype{
 		$openid = new LightOpenID;
 		$openid->required = array(
 			'namePerson/friendly', // nickname 
-			'namePerson', // fullname 
 			'contact/email' // email
 		);
-		/*$openid->optional = array(
-			'namePerson/friendly', // nickname 
-			'contact/email' // email
-		);*/
+		$openid->optional = array('namePerson/first');
 		if (isset($_GET['openid_mode'])){
 			$result = $openid->validate();
 			$this->_openidIdentity = $openid->identity;
