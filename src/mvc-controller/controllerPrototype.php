@@ -493,45 +493,47 @@ class controllerPrototype{
 					return;
 				}
 			}
-			if ($action){
-				$uc = ucfirst($action);
-				$this->_makeChildUri(array($this->_action));
-				$initFunction = 'init'.$uc;
+			if (!$methodFound){
+				if ($action){
+					$uc = ucfirst($action);
+					$this->_makeChildUri(array($this->_action));
+					$initFunction = 'init'.$uc;
 
-				if ($controller = kanon::getActionController(get_class($this), $action)){
-					$this->runController($controller);
-					return;
-				}
+					if ($controller = kanon::getActionController(get_class($this), $action)){
+						$this->runController($controller);
+						return;
+					}
 
-				if (method_exists($this, $initFunction)){
-					$methodFound = true;
-					call_user_func_array(array($this, $initFunction), $this->_getArgs($initFunction));
-				}
-				$actionFunction = 'action'.$uc;
-				if (method_exists($this, $actionFunction)){
-					$methodFound = true;
-					call_user_func_array(array($this, $actionFunction), $this->_getArgs($actionFunction));
-				}
-				$showFunction = 'show'.$uc;
-				if (method_exists($this, $showFunction)){
-					$methodFound = true;
-					$this->_header();
-					call_user_func_array(array($this, $showFunction), $this->_getArgs($showFunction));
-					$this->_footer();
-				}
-				if (!$methodFound){
-					return $this->_action($action);
-				}
-			}else{
-				if (method_exists($this, 'customIndex')){
-					$this->customIndex();
+					if (method_exists($this, $initFunction)){
+						$methodFound = true;
+						call_user_func_array(array($this, $initFunction), $this->_getArgs($initFunction));
+					}
+					$actionFunction = 'action'.$uc;
+					if (method_exists($this, $actionFunction)){
+						$methodFound = true;
+						call_user_func_array(array($this, $actionFunction), $this->_getArgs($actionFunction));
+					}
+					$showFunction = 'show'.$uc;
+					if (method_exists($this, $showFunction)){
+						$methodFound = true;
+						$this->_header();
+						call_user_func_array(array($this, $showFunction), $this->_getArgs($showFunction));
+						$this->_footer();
+					}
+					if (!$methodFound){
+						return $this->_action($action);
+					}
 				}else{
-					//$this->_initIndex();
-					call_user_func_array(array($this, '_initIndex'), $this->_getArgs('_initIndex'));
-					$this->_header();
-					call_user_func_array(array($this, 'index'), $this->_getArgs('index'));
-					//$this->index();
-					$this->_footer();
+					if (method_exists($this, 'customIndex')){
+						$this->customIndex();
+					}else{
+						//$this->_initIndex();
+						call_user_func_array(array($this, '_initIndex'), $this->_getArgs('_initIndex'));
+						$this->_header();
+						call_user_func_array(array($this, 'index'), $this->_getArgs('index'));
+						//$this->index();
+						$this->_footer();
+					}
 				}
 			}
 		}
