@@ -480,21 +480,25 @@ class controllerPrototype{
 			}
 			return;
 		}else{
-			if (list($actions, $methodName, $pathArgs) = $this->_getRouteMethod($this->_relativeUri, '!RouteInit')){
-				$this->_makeChildUri($actions);
-				$methodFound = true;
-				if (method_exists($this, $methodName)){
-					call_user_func_array(array($this, $methodName), $this->_getArgs($methodName, $pathArgs));
+			if (extension_loaded('eAccelerator')){
+				throw new Exception('eAccelerator strips phpdoc blocks. Turn it off.');
+			}else{
+				if (list($actions, $methodName, $pathArgs) = $this->_getRouteMethod($this->_relativeUri, '!RouteInit')){
+					$this->_makeChildUri($actions);
+					$methodFound = true;
+					if (method_exists($this, $methodName)){
+						call_user_func_array(array($this, $methodName), $this->_getArgs($methodName, $pathArgs));
+					}
 				}
-			}
-			if (list($actions, $methodName, $pathArgs) = $this->_getRouteMethod($this->_relativeUri, '!Route')){
-				$this->_makeChildUri($actions);
-				$methodFound = true;
-				if (method_exists($this, $methodName)){
-					if ($this->getHttpMethod() == 'GET') $this->_header();
-					call_user_func_array(array($this, $methodName), $this->_getArgs($methodName, $pathArgs));
-					if ($this->getHttpMethod() == 'GET') $this->_footer();
-					return;
+				if (list($actions, $methodName, $pathArgs) = $this->_getRouteMethod($this->_relativeUri, '!Route')){
+					$this->_makeChildUri($actions);
+					$methodFound = true;
+					if (method_exists($this, $methodName)){
+						if ($this->getHttpMethod() == 'GET') $this->_header();
+						call_user_func_array(array($this, $methodName), $this->_getArgs($methodName, $pathArgs));
+						if ($this->getHttpMethod() == 'GET') $this->_footer();
+						return;
+					}
 				}
 			}
 			if (!$methodFound){
