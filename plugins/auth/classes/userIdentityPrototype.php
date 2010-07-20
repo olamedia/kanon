@@ -1,4 +1,9 @@
 <?php
+/**
+ * Authentication: Who is the user?
+ * @author olamedia
+ *
+ */
 class userIdentityPrototype implements IUserIdentity{
 	protected $_isAuthenticated = false;
 	protected $_user = null;
