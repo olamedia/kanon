@@ -29,7 +29,7 @@ class extendable{
 	 */
 	public function __call($name, $arguments){
 		if (isset($this->___methods[$name])){
-			if (is_callable($this->___methods[$name])){
+			if (is_callable(array($this,$this->___methods[$name]))){
 				array_unshift($arguments, $this);
 				call_user_func_array($this->___methods[$name], $arguments);
 			}
