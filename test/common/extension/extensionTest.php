@@ -11,7 +11,7 @@ class extensionSample extends extension{
 	 * @param extendable $extendable
 	 */
 	public function setUp($extendable){
-		$extendable->___set('x', 1);
+		$extendable->___set('x', $a = 1);
 	}
 }
 class extensionTest extends PHPUnit_Framework_TestCase{
