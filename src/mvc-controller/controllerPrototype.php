@@ -482,15 +482,15 @@ class controllerPrototype{
 		}else{
 			if (list($actions, $methodName, $pathArgs) = $this->_getRouteMethod($this->_relativeUri, '!RouteInit')){
 				$this->_makeChildUri($actions);
+				$methodFound = true;
 				if (method_exists($this, $methodName)){
-					$methodFound = true;
 					call_user_func_array(array($this, $methodName), $this->_getArgs($methodName, $pathArgs));
 				}
 			}
 			if (list($actions, $methodName, $pathArgs) = $this->_getRouteMethod($this->_relativeUri, '!Route')){
 				$this->_makeChildUri($actions);
+				$methodFound = true;
 				if (method_exists($this, $methodName)){
-					$methodFound = true;
 					if ($this->getHttpMethod() == 'GET') $this->_header();
 					call_user_func_array(array($this, $methodName), $this->_getArgs($methodName, $pathArgs));
 					if ($this->getHttpMethod() == 'GET') $this->_footer();
