@@ -2,6 +2,7 @@
 /**
  * $Id$
  */
+require_once dirname(__FILE__).'/plugin/plugins.php';
 require_once dirname(__FILE__).'/handlers/kanonErrorHandler.php';
 require_once dirname(__FILE__).'/handlers/kanonExceptionHandler.php';
 require_once dirname(__FILE__).'/../mvc-controller/application.php';
