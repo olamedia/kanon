@@ -19,7 +19,7 @@ class imageFileInput extends fileInput{
 	public function afterSave(){
 		$files = $this->_files();
 		$name = $this->getPostName();
-		echo 'after save '.$name.' ';
+		//echo 'after save '.$name.' ';
 		if (!isset($files[$name])) {
 			return;
 		}
