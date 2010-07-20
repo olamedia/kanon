@@ -101,7 +101,7 @@ class model extends extendable implements ArrayAccess, IteratorAggregate{
 		foreach ($this->_fields as $propertyName => $fieldName){
 			$default = modelCollection::getDefaultValue(get_class($this), $propertyName, null);
 			if ($default !== null){
-				$this->_values[$propertyName] = $default;
+				$this->{$propertyName} = $default;
 			}
 		}
 		/*foreach ($this->_classes as $propertyName => $class){
