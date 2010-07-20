@@ -5,6 +5,7 @@
 
 class openidUserIdentity extends userIdentityPrototype{
 	protected $_openidIdentity = '';
+	protected $_attributes = array();
 	public function __construct($openidIdentity){
 		$this->_openidIdentity = $openidIdentity;
 	}
@@ -23,6 +24,7 @@ class openidUserIdentity extends userIdentityPrototype{
 		if (isset($_GET['openid_mode'])){
 			$result = $openid->validate();
 			$this->_openidIdentity = $openid->identity;
+			$this->_attributes = $openid->getAttributes();
 			return $result;
 		}
 		$openid->identity = $openidIdentity;
@@ -58,6 +60,7 @@ class openidUserIdentity extends userIdentityPrototype{
 		}*/
 		$this->_user = $user;
 		$this->_identityModel = $userOpenid;
+		var_dump($this->_attributes);
 		return true;
 	}
 
