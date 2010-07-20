@@ -34,8 +34,8 @@ class listController extends controller{
 		}
 	}
 	public function onValidItem($modelId, $item, $rel = ''){
+		$this->setTitle($item->{$this->_title}->html());
 		$parentItem = $item;
-		$this->setTitle($parentItem->{$this->_title}->html());
 		$bc = array();
 		while ($parentItem){
 			$bc[] = '<a href="'.$this->rel($rel.$parentItem->id).'">'.$parentItem->{$this->_title}->html().'</a>';
