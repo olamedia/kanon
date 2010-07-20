@@ -1,5 +1,9 @@
 <?php
 class extendable{
+	/**
+	 * 
+	 * @var array Array of callables
+	 */
 	protected $___methods = array();
 	/**
 	 * @param extension $extension
@@ -24,6 +28,7 @@ class extendable{
 		return $this->{$name} = &$value;
 	}
 	/**
+	 * Lookup external methods
 	 * @param string $name
 	 * @param array $arguments
 	 */

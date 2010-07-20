@@ -2,7 +2,7 @@
 class extension{
 	protected $___methods = array();
 	/**
-	 *
+	 * Extend $extendable with new methods
 	 * @param extendable $extendable
 	 */
 	public function setUpMethods($extendable){
@@ -13,7 +13,7 @@ class extension{
 		$extendable->___set('___methods', $extendableMethods);
 	}
 	/**
-	 *
+	 * 
 	 * @param extendable $extendable
 	 */
 	public function setUp($extendable){
