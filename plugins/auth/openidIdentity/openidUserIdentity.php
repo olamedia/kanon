@@ -33,7 +33,7 @@ class openidUserIdentity extends userIdentityPrototype{
 		$openids = modelCollection::getInstance('userOpenid');
 		$result = $users->select($openids, $openids->openid->is($this->_openidIdentity))->fetch();
 		if (!$result){
-			throw new authException('OpenID not registered', authException::ERROR_USERNAME_INVALID);
+			throw new authException('OpenID '.$this->_openidIdentity.' not registered', authException::ERROR_NOT_REGISTERED);
 		}
 		list($user, $userOpenid) = $result;
 		if (!$user->password->equals($this->_password)){
