@@ -13,8 +13,9 @@ class openidUserIdentity extends userIdentityPrototype{
 		// Required: PHP 5, curl 
 		$openid = new LightOpenID; 
 		if (isset($_GET['openid_mode'])){
+			$result = $openid->validate();
 			$this->_openidIdentity = $openid->identity;
-			return $openid->validate();
+			return $result;
 		}
 		$openid->identity = $openidIdentity;
  		header('Location: '.$openid->authUrl());
