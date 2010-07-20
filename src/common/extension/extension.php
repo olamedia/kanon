@@ -16,6 +16,8 @@ class extension{
 	 * @param extendable $extendable
 	 */
 	public function setUp($extendable){
-		
+		if (!($extendable instanceof extendable)){
+			throw new InvalidArgumentException('');
+		}
 	}
 }
