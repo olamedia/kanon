@@ -1,5 +1,6 @@
 <?php
 require_once 'PHPUnit/Framework.php';
+require_once '../../../kanon-framework.php';
 class extensionSample extends extension{
 	public $___methods = array('method');
 	public function method(){
