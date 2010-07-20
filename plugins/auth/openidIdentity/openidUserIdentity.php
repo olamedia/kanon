@@ -23,7 +23,7 @@ class openidUserIdentity extends userIdentityPrototype{
 	 * @return boolean whether authentication succeeds
 	 */
 	public function authenticate(){
-		$openid = $this->_openid;
+		$openid = $this->_openidIdentity;
 		if (!$this->authenticateOpenId($openid)){
 			throw new authException('Invalid OpenID');
 		}
