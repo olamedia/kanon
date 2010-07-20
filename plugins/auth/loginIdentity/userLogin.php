@@ -9,7 +9,7 @@ class userLogin extends model{
 		'userId' => array(
 				'class' => 'idProperty',
 				'field' => 'user_id',
-				'foreignKeys' => array(
+				'foreignKey' => array(
 					'registeredUser' => 'id', 
 				),
 		),
