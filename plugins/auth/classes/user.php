@@ -22,6 +22,9 @@ class user extends extendable{
 			$this->setRegistered();
 		}
 	}
+	public function getIdentity(){
+		return $this->_identity;
+	}
 	/*public function model(){
 		
 	}*/
