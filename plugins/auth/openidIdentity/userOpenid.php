@@ -1,4 +1,12 @@
 <?php
+/**
+ * 
+ * 
+ * @author		olamedia
+ * @copyright	Copyright © 2010, olamedia
+ * @license		http://www.opensource.org/licenses/mit-license.php MIT
+ * @version		SVN: $Id$
+ */
 class userOpenid extends model{
 	protected $_properties = array(
 		'openid' => array(

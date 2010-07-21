@@ -3,17 +3,19 @@ class user{
 	protected $_isAuthenticated = false;
 	protected $_credentials = array();
 	protected $_identity = null;
+	protected $_user = null;
 	protected static $_model = 'registeredUser'; // real model
 	/**
 	 * Login using valid authenticated identity
 	 * @example
 	 * $identity=new emailUserIdentity($email,$password);
 	 * if ($identity->authenticate()) kanon::app()->user->login($identity);
-	 * @param IUserIdentity $identity
+	 * @param userIdentityPrototype $identity
 	 * @param integer $timeout Keep the user logged in for [default is 7 days].
 	 */
 	public function login($identity, $timeout = 604800){
 		$this->_identity = $identity;
+		$this->_user = $identity->getUserModel();
 		$this->setAuthenticated();
 	}
 	/*public function model(){
@@ -24,6 +26,7 @@ class user{
 	}
 	public function logout(){
 		$this->_identity = null;
+		$this->_user = null;
 		$this->setAuthenticated(false);
 		$this->clearCredentials();
 	}
