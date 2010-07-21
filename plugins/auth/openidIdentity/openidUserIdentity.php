@@ -57,7 +57,7 @@ class openidUserIdentity extends userIdentityPrototype{
 		}*/
 		$this->_user = $user;
 		$this->_identityModel = $userOpenid;
-		var_dump($this->_attributes);
+		//var_dump($this->_attributes);
 		return true;
 	}
 
