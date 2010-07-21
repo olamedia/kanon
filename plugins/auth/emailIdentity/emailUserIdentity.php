@@ -21,7 +21,7 @@ class emailUserIdentity extends userIdentityPrototype{
 			throw new authException('Invalid password', authException::ERROR_PASSWORD_INVALID);
 		}
 		$this->_user = $user;
-		$this->_identityModel = $userEmail;
+		$this->_identityModels['email:'.$this->_email] = $userEmail;
 	}
 	
 	/**
