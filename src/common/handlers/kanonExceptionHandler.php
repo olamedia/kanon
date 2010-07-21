@@ -147,7 +147,7 @@ class kanonExceptionHandler{
 		if (null === $text){
 			$text = $file;
 		}
-		$linkFormat = ini_get('xdebug.file_link_format');
+		$linkFormat = 'eclipse://%f@%l';
 		if ('html' === $format && $file && $line && $linkFormat){
 			$link = strtr($linkFormat, array('%f' => $file, '%l' => $line));
 			$text = sprintf('<a href="%s" title="Click to open this file" class="file_link">%s</a>', $link, $text);

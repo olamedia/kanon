@@ -14,6 +14,9 @@ class userIdentityPrototype{
 	public function isAuthenticated(){
 		return $this->_isAuthenticated;
 	}
+	public function isRegistered(){
+		return is_object($this->_user);
+	}
 	public function getIdentityModel(){
 		return $this->_identityModel;
 	}
