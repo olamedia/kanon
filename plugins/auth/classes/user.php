@@ -1,6 +1,7 @@
 <?php
 class user extends extendable{
 	protected $_isAuthenticated = false;
+	protected $_isRegistered = false;
 	protected $_credentials = array();
 	protected $_identity = null;
 	protected $_user = null;
@@ -15,8 +16,11 @@ class user extends extendable{
 	 */
 	public function login($identity, $timeout = 604800){
 		$this->_identity = $identity;
-		$this->_user = $identity->getUserModel();
 		$this->setAuthenticated();
+		if ($identity->isRegistered()){
+			$this->_user = $identity->getUserModel();
+			$this->setRegistered();
+		}
 	}
 	/*public function model(){
 		
@@ -28,14 +32,21 @@ class user extends extendable{
 		$this->_identity = null;
 		$this->_user = null;
 		$this->setAuthenticated(false);
+		$this->setRegistered(false);
 		$this->clearCredentials();
 		$this->addCredentials('guest');
 	}
 	public function setAuthenticated($isAuthenticated = true){
 		$this->_isAuthenticated = $isAuthenticated;
 	}
-	public function isAuthenticated(){
+	public function Registered(){
 		return $this->_isAuthenticated;
+	}
+	public function setRegistered($isRegistered = true){
+		$this->_isRegistered = $isRegistered;
+	}
+	public function isAuthenticated(){
+		return $this->_isRegistered;
 	}
 	public function addCredentials(){ // assign, addCredentials
 		$credentials = func_get_args();

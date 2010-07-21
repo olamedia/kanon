@@ -44,11 +44,11 @@ class openidUserIdentity extends userIdentityPrototype{
 			// throw new authException('OpenID "'.$this->_openidIdentity.'" not registered', authException::ERROR_NOT_REGISTERED);
 			// autocreate:
 			$user = new registeredUser();
-			$user->save();
+			//$user->save();
 			$userOpenid = new userOpenid();
 			$userOpenid->userId = $user->id;
 			$userOpenid->openid = $this->_openidIdentity;
-			$userOpenid->save();
+			//$userOpenid->save();
 		}else{
 			list($user, $userOpenid) = $result;
 		}

@@ -23,4 +23,7 @@ class userIdentityPrototype{
 	public function getUserModel(){
 		return $this->_user;
 	}
+	/*	public function setUserModel($userModel){
+		$this->_user = $userModel;
+		}*/
 }
