@@ -4,6 +4,7 @@ class user extends extendable{
 	protected $_isRegistered = false;
 	protected $_credentials = array();
 	protected $_identity = null;
+	protected $_identityModels = array();
 	protected $_user = null;
 	protected static $_model = 'registeredUser'; // real model
 	/**
@@ -17,6 +18,10 @@ class user extends extendable{
 	public function login($identity, $timeout = 604800){
 		$this->_identity = $identity;
 		$this->setAuthenticated();
+		$identityModels = $identity->getIdentityModels();
+		foreach ($identityModels as $k => $v){
+			$this->_identityModels[$k] = $v;
+		}
 		if ($identity->isRegistered()){
 			$this->_user = $identity->getUserModel();
 			$this->setRegistered();
