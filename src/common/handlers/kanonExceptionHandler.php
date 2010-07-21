@@ -147,7 +147,7 @@ class kanonExceptionHandler{
 		if (null === $text){
 			$text = $file;
 		}
-		$linkFormat = 'eclipse://%f@%l';
+		$linkFormat = 'file://%f';//@%l
 		if ('html' === $format && $file && $line && $linkFormat){
 			$localFilename = str_replace(kanon::getBasePath(), '', $file); 
 			$link = strtr($linkFormat, array('%f' => $localFilename, '%l' => $line));
