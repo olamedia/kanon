@@ -21,7 +21,7 @@ class loginUserIdentity extends userIdentityPrototype{
 			throw new authException('Invalid password', authException::ERROR_PASSWORD_INVALID);
 		}
 		$this->_user = $user;
-		$this->_identityModels['login']['login:'.$this->_login] = $userLogin;
+		$this->_identityModels['login'][$this->_login] = $userLogin;
 	}
 	
 	/**

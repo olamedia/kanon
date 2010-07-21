@@ -56,14 +56,14 @@ class openidUserIdentity extends userIdentityPrototype{
 			throw new authException('Invalid password', authException::ERROR_PASSWORD_INVALID);
 			}*/
 		$this->_user = $user;
-		$this->_identityModels['openid']['openid:'.$this->_openidIdentity] = $userOpenid;
+		$this->_identityModels['openid'][$this->_openidIdentity] = $userOpenid;
 		if (isset($this->_attributes['contact/email'])){
 			$email = $this->_attributes['contact/email'];
-			if (!isset($this->_identityModels['email:'.$email])){
+			if (!isset($this->_identityModels['email'][$email])){
 				$userEmail = new userEmail();
 				$userEmail->email = $email;
 				$userEmail->userId = $user->id;
-				$this->_identityModels['email']['email:'.$email] = $userEmail;
+				$this->_identityModels['email'][$email] = $userEmail;
 			}
 		}
 		//var_dump($this->_attributes);
