@@ -1,0 +1,10 @@
+@CHARSET "UTF-8";
+kbd {
+	background:none repeat scroll 0 0 #EEEEEE;
+	border-color:#CCCCCC #AAAAAA #888888 #BBBBBB;
+	border-style:solid;
+	border-width:1px 3px 3px 1px;
+	color:#000000;
+	padding:2px 4px;
+	white-space:nowrap;
+}
