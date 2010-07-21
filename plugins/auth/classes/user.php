@@ -1,5 +1,5 @@
 <?php
-class user{
+class user extends extendable{
 	protected $_isAuthenticated = false;
 	protected $_credentials = array();
 	protected $_identity = null;
@@ -29,6 +29,7 @@ class user{
 		$this->_user = null;
 		$this->setAuthenticated(false);
 		$this->clearCredentials();
+		$this->addCredentials('guest');
 	}
 	public function setAuthenticated($isAuthenticated = true){
 		$this->_isAuthenticated = $isAuthenticated;
@@ -56,5 +57,17 @@ class user{
 	public function clearCredentials(){
 		$this->_credentials = array();
 		return $this;
+	}
+	public function __construct(){
+		if (isset($_SESSION['kanon_user'])){
+			$u = $_SESSION['kanon_user'];
+			$u = new user();
+			$this->_identity = $u->___get('_identity'); 
+			$this->_user = $u->___get('_user'); 
+			$this->_isAuthenticated = $u->___get('_isAuthenticated');
+		}
+	}
+	public function __destruct(){
+		$_SESSION['kanon_user'] = $this;
 	}
 }
