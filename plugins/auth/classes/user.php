@@ -82,6 +82,7 @@ class user extends extendable{
 			$u = $_SESSION['kanon_user'];
 			//$u = new user();
 			$this->_identity = $u->___get('_identity'); 
+			$this->_identityModels = $u->___get('_identityModels'); 
 			$this->_user = $u->___get('_user'); 
 			$this->_isAuthenticated = $u->___get('_isAuthenticated');
 		}
