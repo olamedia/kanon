@@ -40,6 +40,7 @@ class user extends extendable{
 	}
 	public function logout(){
 		$this->_identity = null;
+		$this->_identityModels = array();
 		$this->_user = null;
 		$this->setAuthenticated(false);
 		$this->setRegistered(false);
