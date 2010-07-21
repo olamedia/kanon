@@ -268,9 +268,10 @@ class controllerPrototype{
 	}
 	protected function _header(){
 		if (!$this->_ignoreParentTemplate){
-			if ($c = $this->getParent()){
-				$c->_header();
-				if ($this->getParent()) echo "\r\n".'<div class="'.get_class($c).'_wrapper">';
+			if ($parent = $this->getParent()){
+				$parent->_header();
+				//if ($this->getParent()) 
+				echo "\r\n".'<div class="'.get_class($this).'_wrapper">';
 			}
 		}
 		$this->header();
@@ -280,9 +281,10 @@ class controllerPrototype{
 		echo "\r\n".'</div>';
 		$this->footer();
 		if (!$this->_ignoreParentTemplate){
-			if ($c = $this->getParent()){
-				if ($this->getParent()) echo "\r\n".'</div>';
-				$c->_footer();
+			if ($parent = $this->getParent()){
+				//if ($this->getParent()) 
+				echo "\r\n".'</div>';
+				$parent->_footer();
 			}
 		}
 	}
