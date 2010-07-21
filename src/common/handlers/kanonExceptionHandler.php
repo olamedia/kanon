@@ -149,7 +149,8 @@ class kanonExceptionHandler{
 		}
 		$linkFormat = 'eclipse://%f@%l';
 		if ('html' === $format && $file && $line && $linkFormat){
-			$link = strtr($linkFormat, array('%f' => $file, '%l' => $line));
+			$localFilename = str_replace(kanon::getBasePath(), '', $file); 
+			$link = strtr($linkFormat, array('%f' => $localFilename, '%l' => $line));
 			$text = sprintf('<a href="%s" title="Click to open this file" class="file_link">%s</a>', $link, $text);
 		}
 
