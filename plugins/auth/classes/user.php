@@ -61,7 +61,7 @@ class user extends extendable{
 	public function __construct(){
 		if (isset($_SESSION['kanon_user'])){
 			$u = $_SESSION['kanon_user'];
-			$u = new user();
+			//$u = new user();
 			$this->_identity = $u->___get('_identity'); 
 			$this->_user = $u->___get('_user'); 
 			$this->_isAuthenticated = $u->___get('_isAuthenticated');
