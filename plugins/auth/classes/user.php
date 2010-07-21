@@ -19,8 +19,10 @@ class user extends extendable{
 		$this->_identity = $identity;
 		$this->setAuthenticated();
 		$identityModels = $identity->getIdentityModels();
-		foreach ($identityModels as $k => $v){
-			$this->_identityModels[$k] = $v;
+		foreach ($identityModels as $type => $a){
+			foreach ($a as $id => $model){
+				$this->_identityModels[$type][$id] = $model;
+			}
 		}
 		if ($identity->isRegistered()){
 			$this->_user = $identity->getUserModel();
@@ -31,7 +33,7 @@ class user extends extendable{
 		return $this->_identity;
 	}
 	/*public function model(){
-		
+
 	}*/
 	public static function getCollection(){
 		return modelCollection::getInstance(self::$_model);
@@ -81,9 +83,9 @@ class user extends extendable{
 		if (isset($_SESSION['kanon_user'])){
 			$u = $_SESSION['kanon_user'];
 			//$u = new user();
-			$this->_identity = $u->___get('_identity'); 
-			$this->_identityModels = $u->___get('_identityModels'); 
-			$this->_user = $u->___get('_user'); 
+			$this->_identity = $u->___get('_identity');
+			$this->_identityModels = $u->___get('_identityModels');
+			$this->_user = $u->___get('_user');
 			$this->_isAuthenticated = $u->___get('_isAuthenticated');
 		}
 	}
