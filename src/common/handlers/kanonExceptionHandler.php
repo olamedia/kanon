@@ -150,6 +150,7 @@ class kanonExceptionHandler{
 		$linkFormat = 'rcp:C:\workspace\next.shop66.ru%f';//?%l?0-0
 		if ('html' === $format && $file && $line && $linkFormat){
 			$localFilename = str_replace(kanon::getBasePath(), '', $file); 
+			$text = $localFilename;
 			$link = strtr($linkFormat, array('%f' => $localFilename, '%l' => $line));
 			//$link = 'data:link/php;base64,'.base64_encode($localFilename);
 			$text = sprintf('<a href="%s" title="Click to open this file" class="file_link">%s</a>', $link, $text);
