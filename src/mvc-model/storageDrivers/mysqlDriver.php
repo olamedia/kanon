@@ -71,7 +71,7 @@ class mysqlDriver extends storageDriver{
 			mysql_select_db($dbname, $this->_connection);
 		}
 		if ($charset = $this->get('charset')){
-			mysql_query("SET NAMES ".$charset, $this->_connection);
+			$this->internalQuery("SET NAMES ".$charset);
 		}
 	}
 	/**
@@ -90,10 +90,7 @@ class mysqlDriver extends storageDriver{
 	 * @param string $sql
 	 */
 	public function query($sql){
-		if (isset($_COOKIE['debug'])){
-			echo $sql."<br />";
-		}
-		$result = mysql_query($sql, $this->getConnection());
+		$result = $this->internalQuery($sql);
 		if (!$result){
 			/*foreach (debug_backtrace() as $d){
 				var_dump($d['file'].':'.$d['line']);
