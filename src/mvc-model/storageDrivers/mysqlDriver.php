@@ -45,7 +45,7 @@ class mysqlDriver extends storageDriver{
 			echo $sql."<br />";
 		}
 		$time = -microtime(true);
-		$result = mysql_query($sql, $this->_connection);
+		$result = mysql_query($sql, $this->getConnection());
 		$time += microtime(true);
 		profiler::getInstance()->addSql($sql, $time);
 		return $result;
