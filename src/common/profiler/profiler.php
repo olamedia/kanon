@@ -35,6 +35,11 @@ class profiler{
 	public function html(){
 		$h = '<div class="kanon-profiler">';
 		$h .= '<div>Total queries: '.count($this->_sql).'</div>';
+		$totalSqlTime = 0;
+		foreach ($this->_sql as $sqlInfo){
+			$totalSqlTime+=$sqlInfo['time'];
+		}
+		$h .= '<div>Total time: '.number_format($totalSqlTime, 6,'.','').'</div>';
 		$h .= '<table width="100%" class="sql">';
 		foreach ($this->_sql as $sqlInfo){
 			$h .= '<tr><td>';
