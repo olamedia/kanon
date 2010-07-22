@@ -47,6 +47,8 @@ class profiler{
 				if (in_array('controller', $parents)){
 					return $traceInfo;
 				}
+			}else{
+				var_dump($class);
 			}
 		}
 		return false;
