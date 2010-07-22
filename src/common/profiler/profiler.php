@@ -3,7 +3,7 @@ class profiler{
 	protected static $_instance = null;
 	protected $_sql = array();
 	/**
-	 * 
+	 *
 	 * Enter description here ...
 	 * @return profiler
 	 */
@@ -17,6 +17,7 @@ class profiler{
 		$this->_sql[] = array(
 		'sql' => $sql,
 		'time' => $time,
+		'trace' => debug_backtrace(),
 		);
 	}
 	public function getCss(){
@@ -38,6 +39,16 @@ class profiler{
 		
 		';
 	}
+	protected function _getTraceController($trace){
+		foreach ($trace as $point){
+			$class = $point['class'];
+			$parents = class_parents($class);
+			if (in_array('controller', $parents)){
+				return $traceInfo;
+			}
+		}
+		return false;
+	}
 	public function html(){
 		$h = '<div class="kanon-profiler">';
 		$h .= '<div>Total queries: '.count($this->_sql).'</div>';
@@ -57,6 +68,9 @@ class profiler{
 			$h .= 'Time: '.number_format($sqlInfo['time'], 6,'.','');
 			if ($sqlInfo['time'] > 0.01){
 				$h .= '</span>';
+			}
+			if ($traceInfo = $this->_getTraceController($sqlInfo['trace'])){
+				$h .= ' '.$traceInfo['class'].'::'.$traceInfo['function'].'() at line #'.$traceInfo['line'];
 			}
 			$h .= '</div>';
 			$h .= '</td></tr>';
