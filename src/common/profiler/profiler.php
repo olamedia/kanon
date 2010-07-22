@@ -21,6 +21,10 @@ class profiler{
 	}
 	public function getCss(){
 		return '
+		.kanon-profiler{
+			background: #333;
+			color: #fff;
+		}
 		.kanon-profiler .sql td{
 			padding: 3px;
 			border: solid 1px #ddd;
@@ -33,7 +37,7 @@ class profiler{
 		$h .= '<table width="100%" class="sql">';
 		foreach ($this->_sql as $sqlInfo){
 			$h .= '<tr><td>';
-			$h .= htmlspecialchars($sqlInfo['sql']);
+			$h .= '<strong>'.htmlspecialchars($sqlInfo['sql']).'</strong>';
 			$h .= '<br />';
 			$h .= 'Time: '.number_format($sqlInfo['time'], 6,'.','');
 			$h .= '</td></tr>';
