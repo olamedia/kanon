@@ -48,7 +48,7 @@ class profiler{
 					return $traceInfo;
 				}
 			}else{
-				var_dump($class);
+				var_dump($point);
 			}
 		}
 		return false;
