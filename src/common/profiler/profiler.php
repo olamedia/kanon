@@ -26,9 +26,10 @@ class profiler{
 			color: #999;
 			font-size: 11px;
 			font-family: Verdana;
+			padding: 30px;
 		}
 		.kanon-profiler .sql td{
-			padding: 3px;
+			padding: 7px;
 			border: solid 1px #999;
 		}
 		
