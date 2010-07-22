@@ -44,7 +44,11 @@ class mysqlDriver extends storageDriver{
 		if (isset($_COOKIE['debug'])){
 			echo $sql."<br />";
 		}
-		return mysql_query($sql, $this->_connection);
+		$time = -microtime(true);
+		$result = mysql_query($sql, $this->_connection);
+		$time += microtime(true);
+		profiler::getInstance()->addSql($sql, $time);
+		return $result;
 	}
 	public function quoteField($string){
 		return '`'.$string.'`';

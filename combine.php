@@ -78,6 +78,7 @@ array(
 		'src/common/functions', 
 		'src/common/plugin', 
 		'src/common/extension', 
+		'src/common/profiler', 
 		'src/events', 
 		'src/simpleStorage', 
 		'src/simpleStorage/drivers', 
