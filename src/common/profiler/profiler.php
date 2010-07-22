@@ -26,7 +26,7 @@ class profiler{
 			$h .= '<tr><td>';
 			$h .= htmlspecialchars($sqlInfo['sql']);
 			$h .= '<br />';
-			$h .= 'Time: '.$sqlInfo['time'];
+			$h .= 'Time: '.number_format($sqlInfo['time'], 6,'.','');
 			$h .= '</td></tr>';
 		}
 		$h .= '</table>';
