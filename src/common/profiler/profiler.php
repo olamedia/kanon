@@ -23,13 +23,13 @@ class profiler{
 		return '
 		.kanon-profiler{
 			background: #222;
-			color: #ccc;
+			color: #999;
 			font-size: 11px;
 			font-family: Verdana;
 		}
 		.kanon-profiler .sql td{
 			padding: 3px;
-			border: solid 1px #ccc;
+			border: solid 1px #999;
 		}
 		
 		';
@@ -45,7 +45,7 @@ class profiler{
 		$h .= '<table width="100%" class="sql">';
 		foreach ($this->_sql as $sqlInfo){
 			$h .= '<tr><td>';
-			$h .= '<strong style="font-weight: normal;color: #fff;">'.htmlspecialchars($sqlInfo['sql']).'</strong>';
+			$h .= '<strong style="font-weight: normal;color: #ddd;">'.htmlspecialchars($sqlInfo['sql']).'</strong>';
 			$h .= '<br />';
 			$h .= 'Time: '.number_format($sqlInfo['time'], 6,'.','');
 			$h .= '</td></tr>';
