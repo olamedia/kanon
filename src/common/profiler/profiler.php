@@ -31,6 +31,7 @@ class profiler{
 		.kanon-profiler .sql td{
 			padding: 7px;
 			border: solid 1px #999;
+			line-height: 150%;
 		}
 		
 		';
@@ -47,8 +48,9 @@ class profiler{
 		foreach ($this->_sql as $sqlInfo){
 			$h .= '<tr><td>';
 			$h .= '<strong style="font-weight: normal;color: #ddd;">'.htmlspecialchars($sqlInfo['sql']).'</strong>';
-			$h .= '<br />';
+			$h .= '<div>';
 			$h .= 'Time: '.number_format($sqlInfo['time'], 6,'.','');
+			$h .= '</div>';
 			$h .= '</td></tr>';
 		}
 		$h .= '</table>';
