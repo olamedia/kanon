@@ -19,9 +19,18 @@ class profiler{
 		'time' => $time,
 		);
 	}
+	public function getCss(){
+		return '
+		.kanon-profiler .sql td{
+			padding: 3px;
+			border: solid 1px #ddd;
+		}
+		
+		';
+	}
 	public function html(){
-		$h = '';
-		$h .= '<table width="100%">';
+		$h = '<div class="kanon-profiler">';
+		$h .= '<table width="100%" class="sql">';
 		foreach ($this->_sql as $sqlInfo){
 			$h .= '<tr><td>';
 			$h .= htmlspecialchars($sqlInfo['sql']);
@@ -30,7 +39,7 @@ class profiler{
 			$h .= '</td></tr>';
 		}
 		$h .= '</table>';
-		return $h;
+		return $h.'</div>';
 	}
 	public function __toString(){
 		return $this->html();
