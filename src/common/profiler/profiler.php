@@ -40,15 +40,15 @@ class profiler{
 		';
 	}
 	protected function _getTraceController($trace){
+		//var_dump($trace);
 		foreach ($trace as $point){
 			$class = $point['class'];
 			if (is_string($class)){
 				$parents = class_parents($class);
 				if (in_array('controller', $parents)){
-					return $traceInfo;
+					return $point;
 				}
 			}else{
-				var_dump($point);
 			}
 		}
 		return false;
