@@ -16,6 +16,7 @@
  */
 abstract class userIdentityPrototype{
 	protected $_isAuthenticated = false;
+	protected $_isRegistered = false;
 	protected $_user = null;
 	protected $_identityModels = array();
 	/**
@@ -25,7 +26,7 @@ abstract class userIdentityPrototype{
 		return $this->_isAuthenticated;
 	}
 	public function isRegistered(){
-		return is_object($this->_user);
+		return $this->_isRegistered;
 	}
 	public function getIdentityModels(){
 		return $this->_identityModels;

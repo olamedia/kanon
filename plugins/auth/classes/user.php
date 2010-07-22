@@ -50,13 +50,13 @@ class user extends extendable{
 	public function setAuthenticated($isAuthenticated = true){
 		$this->_isAuthenticated = $isAuthenticated;
 	}
-	public function Registered(){
+	public function isAuthenticated(){
 		return $this->_isAuthenticated;
 	}
 	public function setRegistered($isRegistered = true){
 		$this->_isRegistered = $isRegistered;
 	}
-	public function isAuthenticated(){
+	public function isRegistered(){
 		return $this->_isRegistered;
 	}
 	public function addCredentials(){ // assign, addCredentials
