@@ -51,7 +51,13 @@ class profiler{
 			$h .= '<tr><td>';
 			$h .= '<strong style="font-weight: normal;color: #ddd;">'.htmlspecialchars($sqlInfo['sql']).'</strong>';
 			$h .= '<div>';
+			if ($sqlInfo['time'] > 0.01){
+				$h .= '<span style="color: #f00">';
+			}
 			$h .= 'Time: '.number_format($sqlInfo['time'], 6,'.','');
+			if ($sqlInfo['time'] > 0.01){
+				$h .= '</span>';
+			}
 			$h .= '</div>';
 			$h .= '</td></tr>';
 		}
