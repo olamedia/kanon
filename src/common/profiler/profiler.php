@@ -31,7 +31,9 @@ class profiler{
 		.kanon-profiler .sql td{
 			padding: 7px;
 			border: solid 1px #999;
-			line-height: 150%;
+		}
+		.kanon-profiler .sql td div{
+			padding-top: 4px;
 		}
 		
 		';
