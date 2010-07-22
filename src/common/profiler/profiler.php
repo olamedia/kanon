@@ -74,7 +74,7 @@ class profiler{
 				$h .= '</span>';
 			}
 			if ($traceInfo = $this->_getTraceController($sqlInfo['trace'])){
-				$h .= ' '.$traceInfo['class'].'::'.$traceInfo['function'].'() at line #'.$traceInfo['line'];
+				$h .= ' '.$traceInfo['class'].'::'.$traceInfo['function'].'()';
 			}
 			$h .= '</div>';
 			$h .= '</td></tr>';
