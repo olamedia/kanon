@@ -80,6 +80,9 @@ class user extends extendable{
 		$this->_credentials = array();
 		return $this;
 	}
+	public function getIdentityModels(){
+		return $this->_identityModels;
+	}
 	public function __construct(){
 		if (isset($_SESSION['kanon_user'])){
 			$u = $_SESSION['kanon_user'];
