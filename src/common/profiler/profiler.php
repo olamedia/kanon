@@ -23,13 +23,13 @@ class profiler{
 		return '
 		.kanon-profiler{
 			background: #222;
-			color: #eee;
+			color: #ccc;
 			font-size: 11px;
 			font-family: Verdana;
 		}
 		.kanon-profiler .sql td{
 			padding: 3px;
-			border: solid 1px #ddd;
+			border: solid 1px #ccc;
 		}
 		
 		';
