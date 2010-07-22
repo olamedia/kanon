@@ -45,7 +45,7 @@ class profiler{
 		$h .= '<table width="100%" class="sql">';
 		foreach ($this->_sql as $sqlInfo){
 			$h .= '<tr><td>';
-			$h .= '<strong style="color: #fff;">'.htmlspecialchars($sqlInfo['sql']).'</strong>';
+			$h .= '<strong style="font-weight: normal;color: #fff;">'.htmlspecialchars($sqlInfo['sql']).'</strong>';
 			$h .= '<br />';
 			$h .= 'Time: '.number_format($sqlInfo['time'], 6,'.','');
 			$h .= '</td></tr>';
