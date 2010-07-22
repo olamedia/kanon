@@ -44,9 +44,8 @@ class mysqlDriver extends storageDriver{
 		if (isset($_COOKIE['debug'])){
 			echo $sql."<br />";
 		}
-		$time = -microtime(true);
+		$time = microtime(true);
 		$result = mysql_query($sql, $this->getConnection());
-		$time += microtime(true);
 		profiler::getInstance()->addSql($sql, $time);
 		return $result;
 	}

@@ -14,6 +14,8 @@ class profiler{
 		return self::$_instance;
 	}
 	public function addSql($sql, $time){
+		$time = -$time;
+		$time += microtime(true);
 		$this->_sql[] = array(
 		'sql' => $sql,
 		'time' => $time,
