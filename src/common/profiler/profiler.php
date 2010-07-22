@@ -34,6 +34,7 @@ class profiler{
 	}
 	public function html(){
 		$h = '<div class="kanon-profiler">';
+		$h .= '<div>Total queries: '.count($this->_sql).'</div>';
 		$h .= '<table width="100%" class="sql">';
 		foreach ($this->_sql as $sqlInfo){
 			$h .= '<tr><td>';
