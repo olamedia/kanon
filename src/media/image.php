@@ -85,8 +85,8 @@ class image{
 			switch ($type) {
 				case 1:	imagegif($thumb, $newFilename); break;
 				case 2:
-					$q = 85;
-					if ($rect->getWidth() <= 200 || ($rect->getHeight() <= 200)) $q = 100;
+					$q = 70;
+					if ($rect->getWidth() <= 200 || ($rect->getHeight() <= 200)) $q = 85;
 					imagejpeg($thumb, $newFilename, $q);
 					break;
 				case 3:	imagepng($thumb, $newFilename); break;
