@@ -170,6 +170,7 @@ class image{
 		$thumb->setImageCompressionQuality(80);
 		$thumb->setCompression(Imagick::COMPRESSION_JPEG); 
 		$thumb->setCompressionQuality(80); 
+		$thumb->commentImage(date("<mtime=d.m.Y H:i:s>", filemtime(__FILE__)));
 		$thumb->writeImages($newFilename, true);
 		/*header('Content-type: image/png');
 		$thumb->setImageFormat('png');
