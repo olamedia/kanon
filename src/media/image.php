@@ -166,11 +166,15 @@ class image{
 		$source = $source->coalesceImages();
 		$thumb = new Imagick();
 		$this->_thumbnailWithImagick($source, $thumb, $rect);
+		$thumb->setImageCompression(Imagick::COMPRESSION_JPEG); 
+		$thumb->setImageCompressionQuality(80);
+		$thumb->setCompression(Imagick::COMPRESSION_JPEG); 
+		$thumb->setCompressionQuality(80); 
 		$thumb->writeImages($newFilename, true);
-		header('Content-type: image/png');
+		/*header('Content-type: image/png');
 		$thumb->setImageFormat('png');
 		echo $thumb->getImagesBlob();
-		die();
+		die();*/
 	}
 	public function stretch($width, $height){
 		if ($rect = $this->getRectangle()){
