@@ -66,6 +66,7 @@ class phpCombinator{
 		echo '1 ';
 		if (isset(self::$_fileRequire[$fileName])){
 			foreach (self::$_fileRequire[$fileName] as $requiredFileName){
+				echo 'r('.$requiredFileName.') ';
 				self::_put($requiredFileName, $files, $realData);
 			}
 		}
