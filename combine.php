@@ -30,10 +30,12 @@ class phpCombinator{
 		$require = array();
 		$datas = array();
 		foreach ($files as $fileName => $filePath){
-			echo $fileName.'<br />';
+			echo $fileName.' ';
 			$data = file_get_contents($filePath);
+			echo 'o ';
 			// remove <?php
 			$data = preg_replace("#^<\?php#ims", "", $data);
+			echo 'r ';
 			// remove known requires
 			foreach ($files as $knownFileName => $knownFilePath){
 				$match = "#((require|include)(_once)?\s*\(?\s*[a-zA-Z0-9\(\)_\.'\"\s/]*".preg_quote($knownFileName,"#")."['\"]*\s*\)?\s*;)#ims";
@@ -43,6 +45,7 @@ class phpCombinator{
 				}
 			}
 			self::$_fileData[$fileName] = $data;
+			echo 'k ';
 		}
 		$match = "#((require|include)(_once)?[^=;]+['\"];)#ims";
 		foreach (self::$_fileData as $fileName => $data){
