@@ -1,5 +1,8 @@
 <?php
 class gdDriver{
+	protected static $_jpegQuality = 85;
+	protected static $_pngCompression = 2;
+	protected static $_pngFilters = PNG_ALL_FILTERS;
 	public function load(){
 		return function_exists('gd_info');
 	}
@@ -28,11 +31,8 @@ class gdDriver{
 		if (is_resource($image->meta)){
 			switch ($image->getType()) {
 				case 1:	imagegif($image->meta, $image->getFilename()); break;
-				case 2:
-					$q = 85;
-					imagejpeg($image->meta, $image->getFilename(), $q);
-					break;
-				case 3:	imagepng($image->meta, $image->getFilename()); break;
+				case 2: imagejpeg($image->meta, $image->getFilename(), self::$_jpegQuality); break;
+				case 3:	imagepng($image->meta, $image->getFilename(),self::$_pngCompression,self::$_pngFilters); break;
 				default: break;
 			}
 		}
