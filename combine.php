@@ -52,7 +52,7 @@ class phpCombinator{
 		foreach (self::$_fileData as $fileName => $data){
 			self::$_fileData[$fileName] = preg_replace($match, "", $data);
 		}
-		echo 'y ';
+		echo '-------------------------------- ';
 		//			self::$_fileData[$fileName] = $data;
 		foreach ($files as $fileName => $filePath){
 			self::_put($fileName, $files, $realData);
@@ -63,11 +63,13 @@ class phpCombinator{
 		//echo self::$_data;
 	}
 	private static function _put($fileName, $files, $realData = false){
+		echo '1 ';
 		if (isset(self::$_fileRequire[$fileName])){
 			foreach (self::$_fileRequire[$fileName] as $requiredFileName){
 				self::_put($requiredFileName, $files, $realData);
 			}
 		}
+		echo '10 ';
 		if (isset(self::$_fileData[$fileName])){
 			if ($realData){
 				self::$_data .= self::$_fileData[$fileName]."\r\n";
@@ -76,6 +78,7 @@ class phpCombinator{
 			}
 			unset(self::$_fileData[$fileName]);
 		}
+		echo '20 ';
 	}
 }
 header("Content-type: text/plain; charset=UTF-8");
