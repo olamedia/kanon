@@ -55,7 +55,9 @@ class phpCombinator{
 		foreach ($files as $fileName => $filePath){
 			self::_put($fileName, $files, $realData);
 		}
+		echo 'a ';
 		file_put_contents($finalFilename, self::$_data);
+		echo 'b ';
 		//echo self::$_data;
 	}
 	private static function _put($fileName, $files, $realData = false){
