@@ -101,7 +101,11 @@ class image{
 	 * @return thumbnail
 	 */
 	protected function _getThumbnail($targetFilename, $rectangle){
-		return new image($targetFilename, $this, $rectangle);
+		$thumbnail = new image($targetFilename);
+		$thumbnail->setType($this->getType());
+		$thumbnail->fromArea($this, $rectangle);
+		$thumbnail->save();
+		return $thumbnail;
 	}
 	public function getThumbnailPath($prefix){
 		//if ($this->_targetFilename !== null) return $this->_targetFilename;
