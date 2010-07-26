@@ -6,7 +6,7 @@ class gdDriver{
 	public function load(){
 		return function_exists('gd_info');
 	}
-	protected function init($image){
+	public function init($image){
 		if (!is_resource($image->meta)){
 			if (is_file($image->getFilename())){
 				if ($type = $image->getType()){

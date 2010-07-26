@@ -20,7 +20,7 @@ class imagickDriver{
 			$imagick->writeImages($image->getFilename(), true);
 		}
 	}
-	protected function init($image){
+	public function init($image){
 		if (!($image->meta instanceof Imagick)){
 			try{
 				if (is_file($image->getFilename())){
