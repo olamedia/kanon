@@ -47,10 +47,12 @@ class phpCombinator{
 			self::$_fileData[$fileName] = $data;
 			echo 'k ';
 		}
+		echo 'x ';
 		$match = "#((require|include)(_once)?[^=;]+['\"];)#ims";
 		foreach (self::$_fileData as $fileName => $data){
 			self::$_fileData[$fileName] = preg_replace($match, "", $data);
 		}
+		echo 'y ';
 		//			self::$_fileData[$fileName] = $data;
 		foreach ($files as $fileName => $filePath){
 			self::_put($fileName, $files, $realData);
