@@ -1,6 +1,6 @@
 <?php
 require_once dirname(__FILE__).'/../2d/rectangle.php';
-//require_once dirname(__FILE__).'/thumbnail.php';
+
 class image{
 	protected static $_driver;
 	protected $_filename = null;
