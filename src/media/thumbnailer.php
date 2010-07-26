@@ -80,13 +80,13 @@ class thumbnailer{
 			case 'tmw':
 				if (preg_match("#^tmw([0-9]+)$#ims", $prefix, $subs)){
 					if ($subs[1] > $this->_maxSize) return false;
-					return $this->_image->fitWidth($subs[1]);
+					return $this->_image->fitWidth($subs[1],0);
 				}
 				break;
 			case 'tmh':
 				if (preg_match("#^tmh([0-9]+)$#ims", $prefix, $subs)){
 					if ($subs[1] > $this->_maxSize) return false;
-					return $this->_image->fitHeight($subs[1]);
+					return $this->_image->fitHeight(0,$subs[1]);
 				}
 				break;
 			case 'tmc':

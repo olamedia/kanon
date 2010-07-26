@@ -22,6 +22,14 @@ class image{
 	 */
 	public static function getDriver(){
 		if (null === self::$_driver){
+			foreach (self::$_prefferedDrivers as $driverName){
+				require_once dirname(__FILE__).'/drivers/'.$driverName.'.php';
+				$driver = new $driverName();
+				if ($driver->load()){
+					self::$_driver = $driver;
+					return self::$_driver;
+				}
+			}
 			foreach (glob(dirname(__FILE__).'/drivers/*') as $f){
 				if (is_file($f)){
 					require_once $f;
@@ -32,6 +40,7 @@ class image{
 					$driver = new $driverName();
 					if ($driver->load()){
 						self::$_driver = $driver;
+						return self::$_driver;
 					}
 				}
 			}
@@ -68,8 +77,12 @@ class image{
 	/**
 	 * @return thumbnail
 	 */
-	public function getThumbnail(){
-
+	public function getThumbnail($width, $height, $type = 'fit'){
+		$allowed = array('stretch','fit','fitWidth','fitHeight','crop');
+		if (in_array($type, $allowed)){
+			return call_user_func_array(array($this, $type), array($width, $height));
+		}
+		return false;
 	}
 	/**
 	 *
@@ -93,10 +106,10 @@ class image{
 	public function fit($width, $height){
 		return $this->_getThumbnail($this->getThumbnailPath('tmm'.$width.'x'.$height), $this->getRectangle()->fit($width, $height));
 	}
-	public function fitWidth($width){
+	public function fitWidth($width, $height){
 		return $this->_getThumbnail($this->getThumbnailPath('tmw'.$width), $this->getRectangle()->fitWidth($width));
 	}
-	public function fitHeight($height){
+	public function fitHeight($width, $height){
 		return $this->_getThumbnail($this->getThumbnailPath('tmh'.$height), $this->getRectangle()->fitHeight($height));
 	}
 	public function crop($width, $height){
