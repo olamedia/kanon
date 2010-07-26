@@ -55,9 +55,12 @@ class image{
 		return $this->_info;
 	}
 	public function getType(){
-		if ($info = $this->getInfo()){
-			return $info[2];
+		if (is_file($this->_filename)){
+			if ($info = $this->getInfo()){
+				return $info[2];
+			}
 		}
+		return false;
 	}
 	/**
 	 * @return rectangle
