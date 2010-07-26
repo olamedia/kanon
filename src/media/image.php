@@ -8,6 +8,10 @@ class image{
 	protected $_keepAnimation = true;
 	protected $_frameLimit = 24;
 	public $meta = null;
+	protected $_type = null;
+	public function setType($type){
+		$this->_type = $type;
+	}
 	protected static $_prefferedDrivers = array(
 	'imagickDriver',
 	'gdDriver',
@@ -55,12 +59,14 @@ class image{
 		return $this->_info;
 	}
 	public function getType(){
-		if (is_file($this->_filename)){
-			if ($info = $this->getInfo()){
-				return $info[2];
+		if (null === $this->_type){
+			if (is_file($this->_filename)){
+				if ($info = $this->getInfo()){
+					$this->_type = $info[2];
+				}
 			}
 		}
-		return false;
+		return $this->_type;
 	}
 	/**
 	 * @return rectangle
