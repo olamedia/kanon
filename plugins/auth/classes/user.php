@@ -54,6 +54,7 @@ class user extends extendable{
 		return $this->_isAuthenticated;
 	}
 	public function register(){
+		$this->_user = new self::$_model;
 		$this->_user->save();
 		/* @var $identityModel model */
 		foreach ($this->_identityModels as $identityModel){
