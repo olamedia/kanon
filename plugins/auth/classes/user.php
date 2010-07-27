@@ -53,6 +53,13 @@ class user extends extendable{
 	public function isAuthenticated(){
 		return $this->_isAuthenticated;
 	}
+	public function register(){
+		$this->_user->save();
+		/* @var $identityModel model */
+		foreach ($this->_identityModels as $identityModel){
+			$identityModel->save();
+		}
+	}
 	public function setRegistered($isRegistered = true){
 		$this->_isRegistered = $isRegistered;
 	}
