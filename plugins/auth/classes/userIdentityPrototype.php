@@ -44,9 +44,7 @@ abstract class userIdentityPrototype{
 	/**
 	 * Register identity with given user model
 	 */
-	abstract public function register(){
-		
-	}
+	abstract public function register();
 	/*	public function setUserModel($userModel){
 		$this->_user = $userModel;
 		}*/
