@@ -27,9 +27,15 @@ class user extends extendable{
 				$this->_identityModels[$type][$id] = $model;
 			}
 		}
-		if ($identity->isRegistered()){
+		if ($identity->isRegistered()){ // change user
 			$this->_user = $identity->getUserModel();
 			$this->setRegistered();
+		}
+		if ($this->isRegistered()){
+			if (!$identity->isRegistered()){
+				$identity->setUserModel($this->_user);
+				$identity->register(); // Attach identity to current user
+			}
 		}
 	}
 	public function getIdentity(){
