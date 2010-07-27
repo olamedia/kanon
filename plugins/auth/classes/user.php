@@ -104,6 +104,7 @@ class user extends extendable{
 			$this->_identityModels = $u->___get('_identityModels');
 			$this->_user = $u->___get('_user');
 			$this->_isAuthenticated = $u->___get('_isAuthenticated');
+			$this->_isRegistered = $u->___get('_isRegistered');
 		}
 	}
 	public function __destruct(){
