@@ -17,6 +17,7 @@ class loginUserIdentity extends userIdentityPrototype{
 			throw new authException('Login not registered', authException::ERROR_USERNAME_INVALID);
 		}
 		list($user, $userLogin) = $result;
+		$this->_isRegistered = true;
 		if (!$user->password->equals($this->_password)){
 			throw new authException('Invalid password', authException::ERROR_PASSWORD_INVALID);
 		}

@@ -21,6 +21,7 @@ class emailUserIdentity extends userIdentityPrototype {
 			throw new authException('Email not registered', authException::ERROR_EMAIL_INVALID);
 		}
 		list($user, $userEmail) = $result;
+		$this->_isRegistered = true;
 		if (!$user->password->equals($this->_password)) {
 			throw new authException('Invalid password', authException::ERROR_PASSWORD_INVALID);
 		}
