@@ -57,6 +57,7 @@ class openidUserIdentity extends userIdentityPrototype {
 			//$userOpenid->save();
 		} else {
 			list($user, $userOpenid) = $result;
+			$this->_isRegistered = true;
 		}
 		/* if (!$user->password->equals($this->_password)){
 		  throw new authException('Invalid password', authException::ERROR_PASSWORD_INVALID);
