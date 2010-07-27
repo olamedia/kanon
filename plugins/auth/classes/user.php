@@ -35,6 +35,9 @@ class user extends extendable{
 	public function getIdentity(){
 		return $this->_identity;
 	}
+	public function getModel(){
+		return $this->_user;
+	}
 	/*public function model(){
 
 	}*/
