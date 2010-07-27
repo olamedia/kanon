@@ -203,6 +203,11 @@ class modelCollection implements ArrayAccess{
 		}
 		return $list;
 	}
+	/**
+	 *
+	 * @param string $modelName
+	 * @return modelCollection
+	 */
 	public static function &getInstance($modelName){
 		if (!isset(self::$_instances[$modelName])){
 			self::$_instances[$modelName] = new self($modelName);
