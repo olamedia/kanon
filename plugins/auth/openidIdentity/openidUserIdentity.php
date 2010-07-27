@@ -80,7 +80,7 @@ class openidUserIdentity extends userIdentityPrototype {
 	 * @return mixed a value that uniquely represents the identity
 	 */
 	public function getId() {
-		return $this->_login;
+		return $this->_openidIdentity;
 	}
 
 	/**
