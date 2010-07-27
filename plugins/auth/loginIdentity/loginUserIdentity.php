@@ -36,4 +36,10 @@ class loginUserIdentity extends userIdentityPrototype{
 	public function getName(){
 		return $this->getId();
 	}
+	public function register() {
+		$userLogin = new userLogin();
+		$userLogin->userId = $this->_user->id;
+		$userLogin->login = $this->_login;
+		$userLogin->save();
+	}
 }

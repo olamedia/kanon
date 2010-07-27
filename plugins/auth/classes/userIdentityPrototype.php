@@ -17,6 +17,10 @@
 abstract class userIdentityPrototype{
 	protected $_isAuthenticated = false;
 	protected $_isRegistered = false;
+	/**
+	 *
+	 * @var model
+	 */
 	protected $_user = null;
 	protected $_identityModels = array();
 	/**
@@ -33,6 +37,15 @@ abstract class userIdentityPrototype{
 	}
 	public function getUserModel(){
 		return $this->_user;
+	}
+	public function setUserModel($user){
+		$this->_user = $user;
+	}
+	/**
+	 * Register identity with given user model
+	 */
+	abstract public function register(){
+		
 	}
 	/*	public function setUserModel($userModel){
 		$this->_user = $userModel;
