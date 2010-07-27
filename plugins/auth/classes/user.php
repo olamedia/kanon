@@ -3,6 +3,9 @@ class user extends extendable{
 	protected $_isAuthenticated = false;
 	protected $_isRegistered = false;
 	protected $_credentials = array();
+	/**
+	 * @var userIdentityPrototype
+	 */
 	protected $_identity = null;
 	protected $_identityModels = array();
 	protected $_user = null;
@@ -56,10 +59,8 @@ class user extends extendable{
 	public function register(){
 		$this->_user = new self::$_model;
 		$this->_user->save();
-		/* @var $identityModel model */
-		foreach ($this->_identityModels as $identityModel){
-			$identityModel->save();
-		}
+		$this->_identity->setUserModel($this->_user);
+		$this->_identity->register();
 	}
 	public function setRegistered($isRegistered = true){
 		$this->_isRegistered = $isRegistered;
