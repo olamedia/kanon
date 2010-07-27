@@ -89,6 +89,9 @@ class user extends extendable{
 		$this->_credentials = array();
 		return $this;
 	}
+	public function getIdentity(){
+		return $this->_identity;
+	}
 	public function getIdentityModels(){
 		return $this->_identityModels;
 	}
