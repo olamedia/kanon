@@ -17,6 +17,15 @@ class controllerPrototype{
 	protected $_type = 'html';
 	protected $_actionControllers = array();
 	protected $_options = array();
+	public function _checkAccess($action, $method){
+
+	}
+	public function _allow($action, $method){
+
+	}
+	public function _deny($action, $method){
+
+	}
 	public function isAjax(){
 		return 'XMLHttpRequest' == $this->getHttpHeader('X-Requested-With');
 	}
@@ -270,7 +279,7 @@ class controllerPrototype{
 		if (!$this->_ignoreParentTemplate){
 			if ($parent = $this->getParent()){
 				$parent->_header();
-				//if ($this->getParent()) 
+				//if ($this->getParent())
 				echo "\r\n".'<div class="'.get_class($this).'_wrapper">';
 			}
 		}
@@ -282,7 +291,7 @@ class controllerPrototype{
 		$this->footer();
 		if (!$this->_ignoreParentTemplate){
 			if ($parent = $this->getParent()){
-				//if ($this->getParent()) 
+				//if ($this->getParent())
 				echo "\r\n".'</div>';
 				$parent->_footer();
 			}
@@ -453,6 +462,12 @@ class controllerPrototype{
 		}
 		return $result;
 	}
+	protected function _call($method, $action, $args = array()){
+		if ($this->_checkAccess($action, $method)){
+			return call_user_func_array(array($this, $method), $args);
+		}
+		return false;
+	}
 	/**
 	 * Run controller - select methods and run them
 	 */
@@ -478,7 +493,8 @@ class controllerPrototype{
 		$this->onConstruct();
 		if ($methodToRun !== null){
 			if (method_exists($this, $methodToRun)){
-				call_user_func_array(array($this, $methodToRun), $this->_getArgs($methodToRun));
+				$this->_call($methodToRun, $action,$this->_getArgs($methodToRun));
+				//call_user_func_array(array($this, $methodToRun), $this->_getArgs($methodToRun));
 			}
 			return;
 		}else{
@@ -489,7 +505,8 @@ class controllerPrototype{
 					$this->_makeChildUri($actions);
 					$methodFound = true;
 					if (method_exists($this, $methodName)){
-						call_user_func_array(array($this, $methodName), $this->_getArgs($methodName, $pathArgs));
+						$this->_call($methodName, $action,$this->_getArgs($methodName, $pathArgs));
+						//call_user_func_array(array($this, $methodName), $this->_getArgs($methodName, $pathArgs));
 					}
 				}
 				if (list($actions, $methodName, $pathArgs) = $this->_getRouteMethod($this->_relativeUri, '!Route')){
@@ -497,7 +514,8 @@ class controllerPrototype{
 					$methodFound = true;
 					if (method_exists($this, $methodName)){
 						if ($this->getHttpMethod() == 'GET') $this->_header();
-						call_user_func_array(array($this, $methodName), $this->_getArgs($methodName, $pathArgs));
+						$this->_call($methodName, $action,$this->_getArgs($methodName, $pathArgs));
+						//call_user_func_array(array($this, $methodName), $this->_getArgs($methodName, $pathArgs));
 						if ($this->getHttpMethod() == 'GET') $this->_footer();
 						return;
 					}
