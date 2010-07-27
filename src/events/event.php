@@ -1,4 +1,7 @@
 <?php
+/**
+ * $Id$
+ */
 class event implements ArrayAccess{
 	protected $_subject = null;
 	protected $_name = '';
