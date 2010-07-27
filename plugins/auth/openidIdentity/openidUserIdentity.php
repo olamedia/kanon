@@ -92,7 +92,7 @@ class openidUserIdentity extends userIdentityPrototype {
 
 	public function register() {
 		$userOpenid = new userOpenid();
-		$userOpenid->userId = $user->id;
+		$userOpenid->userId = $this->_user->id;
 		$userOpenid->openid = $this->_openidIdentity;
 		$userOpenid->save();
 	}
