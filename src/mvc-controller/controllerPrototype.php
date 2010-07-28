@@ -51,7 +51,7 @@ class controllerPrototype {
         $this->_me = new ReflectionClass(get_class($this));
     }
 
-    protected function _view($filename, $parameters, $uri = null) {
+    protected function _view($filename, $parameters = array(), $uri = null) {
         if ($uri === null)
             $uri = $this->rel();
         $view = new view();
