@@ -34,7 +34,18 @@ class imageFilenameProperty extends stringProperty{
 			throw new Exception('file not found: '.$this->getPath().$this->getValue());
 			return false;
 		}
-		$tm = 'tmm'.$size.'x'.$size.'_'.$this->getValue();//$img->tm($this->getValue(), $size, $method);
+		$prefix = 'tmm';
+		switch ($method){
+			case 'fit':
+				$prefix = 'tmm';
+				break;
+			case 'crop':
+				$prefix = 'tmc';
+				break;
+			
+		}
+
+		$tm = $prefix.$size.'x'.$size.'_'.$this->getValue();
 		if (is_file($path.'.thumb/'.$tm)){
 			$info = getimagesize($path.'.thumb/'.$tm);
 			$this->_tmWidth = $info[0];
