@@ -13,9 +13,9 @@ class imagickDriver{
 		if ($image->meta instanceof Imagick){
 			$imagick = $image->meta;
 			$imagick->setImageCompression(Imagick::COMPRESSION_JPEG);
-			$imagick->setImageCompressionQuality(80);
+			$imagick->setImageCompressionQuality(85);
 			$imagick->setCompression(Imagick::COMPRESSION_JPEG);
-			$imagick->setCompressionQuality(80);
+			$imagick->setCompressionQuality(85);
 			$imagick->commentImage("Kanon PHP Framework");
 			$imagick->writeImages($image->getFilename(), true);
 		}
@@ -77,7 +77,7 @@ class imagickDriver{
 					);
 						
 					if (self::$_enhance){
-						$area->enhanceImage();// Improves the quality of a noisy image
+						//$area->enhanceImage();// Improves the quality of a noisy image
 						//$area->reduceNoiseImage(2);// Smooths the contours of an image while still preserving edge information. The algorithm works by replacing each pixel with its neighbor closest in value.
 					}
 					$thumb->addImage($area->getImage());
