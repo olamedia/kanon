@@ -78,7 +78,7 @@ class imagickDriver{
 						
 					if (self::$_enhance){
 						$area->enhanceImage();// Improves the quality of a noisy image
-						$area->reduceNoiseImage(2);// Smooths the contours of an image while still preserving edge information. The algorithm works by replacing each pixel with its neighbor closest in value.
+						//$area->reduceNoiseImage(2);// Smooths the contours of an image while still preserving edge information. The algorithm works by replacing each pixel with its neighbor closest in value.
 					}
 					$thumb->addImage($area->getImage());
 						
