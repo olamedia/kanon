@@ -31,6 +31,7 @@ class imageFilenameProperty extends stringProperty{
 	public function tm($size, $method = 'fit'){
 		$path = $this->getPath();
 		if (!is_file($this->getPath().$this->getValue())){
+			throw new Exception('file not found: '.$this->getPath().$this->getValue());
 			return false;
 		}
 		$tm = 'tmm'.$size.'x'.$size.'_'.$this->getValue();//$img->tm($this->getValue(), $size, $method);
