@@ -47,7 +47,15 @@ abstract class storageDriver{
 					foreach ($collectionFields as $fieldName){
 						if (!in_array($fieldName, $realFields)){
 							$helper = $collection->getHelper();
-							echo $helper[$fieldName]->getCreateSql($this);
+							$fieldSql = $helper[$fieldName]->getCreateSql($this);
+							// ALTER TABLE  `sdf` ADD  `sdfads` INT NOT NULL AFTER  `id`
+							$tableName = $collection->getTableName();
+							// AFTER  `id`
+							// FIRST
+							$sql = "ALTER TABLE {$tableName} ADD ".$fieldSql;
+							if ($collection->internalQuery($sql)){
+								$updated = true;
+							}
 						}
 					}
 				}
@@ -55,6 +63,7 @@ abstract class storageDriver{
 				$this->_createCollection();
 			}
 		}
+		return $updated;
 	}
 	protected function getFieldNames($collection){
 		$tableName = $collection->getTableName();
