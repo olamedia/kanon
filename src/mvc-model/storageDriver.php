@@ -47,7 +47,7 @@ abstract class storageDriver{
 					foreach ($collectionFields as $fieldName){
 						if (!in_array($fieldName, $realFields)){
 							$helper = $collection->getHelper();
-							echo $helper[$fieldName]->getCreateSql();
+							echo $helper[$fieldName]->getCreateSql($this);
 						}
 					}
 				}
