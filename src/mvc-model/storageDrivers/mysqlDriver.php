@@ -103,6 +103,10 @@ class mysqlDriver extends storageDriver{
 				$this->_createCollection();
 				//$result = mysql_query($sql, $this->getConnection());
 			}
+			if ($errorNumber == 1054){
+				// Mysql Error #1054 - Unknown column
+				$this->_updateCollection();
+			}
 			//$errorNumber = mysql_errno($this->getConnection());
 			if (!$result){
 				throw new Exception(

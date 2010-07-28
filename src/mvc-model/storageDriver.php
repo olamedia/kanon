@@ -33,6 +33,39 @@ abstract class storageDriver{
 		return '"'.$string.'"'; // ANSI
 	}
 	/**
+	 * Update collection if some fields missing
+	 */
+	protected function _updateCollection(){
+		$updated = false;
+		$models = $this->getStorage()->getModels();
+		foreach ($models as $model){
+			$collection = modelCollection::getInstance($model);
+			/** @var $collection modelCollection */
+			if ($collection->exists()){
+				if ($realFields = $this->getFieldNames($collection->getTableName())){
+					$collectionFields = $collection->getFieldNames();
+					foreach ($collectionFields as $fieldName){
+						if (!in_array($fieldName, $realFields)){
+							$helper = $collection->getHelper();
+							echo $helper[$fieldName]->getCreateSql();
+						}
+					}
+				}
+			}else{
+				$this->_createCollection();
+			}
+		}
+	}
+	protected function getFieldNames($tableName){
+		$fields = array();
+		if ($q = $collection->internalQuery("DESCRIBE {$tableName}")){
+			while ($a = $this->fetch($q)){
+				$fields[] = $a['Field'];
+			}
+		}
+		return $fields;
+	}
+	/**
 	 * Create collections if not exists
 	 */
 	protected function _createCollection(){
