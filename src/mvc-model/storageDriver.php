@@ -42,7 +42,7 @@ abstract class storageDriver{
 			$collection = modelCollection::getInstance($model);
 			/** @var $collection modelCollection */
 			if ($collection->exists()){
-				if ($realFields = $this->getFieldNames($collection->getTableName())){
+				if ($realFields = $this->getFieldNames($collection)){
 					$collectionFields = $collection->getFieldNames();
 					foreach ($collectionFields as $fieldName){
 						if (!in_array($fieldName, $realFields)){
@@ -56,7 +56,8 @@ abstract class storageDriver{
 			}
 		}
 	}
-	protected function getFieldNames($tableName){
+	protected function getFieldNames($collection){
+		$tableName = $collection->getTableName();
 		$fields = array();
 		if ($q = $collection->internalQuery("DESCRIBE {$tableName}")){
 			while ($a = $this->fetch($q)){
