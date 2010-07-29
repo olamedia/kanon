@@ -8,7 +8,8 @@ require_once dirname(__FILE__).'/properties/creationTimestampProperty.php';
 require_once dirname(__FILE__).'/properties/modificationTimestampProperty.php';
 require_once dirname(__FILE__).'/modelIterator.php';
 
-class model extends extendable implements ArrayAccess, IteratorAggregate, Serializable{
+//, Serializable
+class model extends extendable implements ArrayAccess, IteratorAggregate{
 	protected $_properties = array();
 	// propertyName => modelProperty
 	protected $_propertiesInfo = null;
