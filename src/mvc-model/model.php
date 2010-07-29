@@ -10,28 +10,28 @@ require_once dirname(__FILE__).'/modelIterator.php';
 
 class model extends extendable implements ArrayAccess, IteratorAggregate{
 	protected $_properties = array();
- // propertyName => modelProperty
+	// propertyName => modelProperty
 	protected $_propertiesInfo = null;
- //
+	//
 	protected $_classes = array();
- // propertyName => className
+	// propertyName => className
 	protected $_fields = array();
- // propertyName => fieldName
+	// propertyName => fieldName
 	protected $_primaryKey = array();
- // propertyNames
+	// propertyNames
 	protected $_autoIncrement = null;
- // propertyName
+	// propertyName
 	protected $_foreignKeys = array();
- // property => array(foreignClass, foreignProperty)
+	// property => array(foreignClass, foreignProperty)
 	protected $_options = array();
- // propertyName => options
+	// propertyName => options
 	protected $_templateMode = false;
 	protected $_parentKey = null;
- // ->getParent();
+	// ->getParent();
 	protected $_titleKey = null;
- // ->__toString();
+	// ->__toString();
 	protected $_values = array();
- // temporary storage for initial values
+	// temporary storage for initial values
 	protected $_actAs = array();
 	protected $_isSaved = false;
 	public function markSaved($isSaved = true){
@@ -101,20 +101,22 @@ class model extends extendable implements ArrayAccess, IteratorAggregate{
 			  $this->_properties = array(); */
 			//unset($this->_properties);
 			foreach ($this->_properties as $propertyName => $propertyInfo){
-				if (isset($propertyInfo['class']))
-						$this->_classes[$propertyName] = $propertyInfo['class'];
-				if (isset($propertyInfo['field']))
-						$this->_fields[$propertyName] = $propertyInfo['field'];
-				if (isset($propertyInfo['foreignKey']))
-						$this->_foreignKeys[$propertyName] = $propertyInfo['foreignKey'];
-				if (isset($propertyInfo['primaryKey'])&&$propertyInfo['primaryKey'])
-						$this->_primaryKey[] = $propertyName;
-				if (isset($propertyInfo['autoIncrement']))
-						$this->_autoIncrement = $propertyName;
-				if (isset($propertyInfo['parentKey'])) $this->_parentKey = $propertyName;
-				if (isset($propertyInfo['titleKey'])) $this->_titleKey = $propertyName;
+				if (is_array($propertyInfo)){
+					if (isset($propertyInfo['class']))
+							$this->_classes[$propertyName] = $propertyInfo['class'];
+					if (isset($propertyInfo['field']))
+							$this->_fields[$propertyName] = $propertyInfo['field'];
+					if (isset($propertyInfo['foreignKey']))
+							$this->_foreignKeys[$propertyName] = $propertyInfo['foreignKey'];
+					if (isset($propertyInfo['primaryKey'])&&$propertyInfo['primaryKey'])
+							$this->_primaryKey[] = $propertyName;
+					if (isset($propertyInfo['autoIncrement']))
+							$this->_autoIncrement = $propertyName;
+					if (isset($propertyInfo['parentKey'])) $this->_parentKey = $propertyName;
+					if (isset($propertyInfo['titleKey'])) $this->_titleKey = $propertyName;
+				}
 			}
-			$this->_properties = array();
+			//$this->_properties = array();
 		}
 		foreach ($this->_fields as $propertyName => $fieldName){
 			$default = modelCollection::getDefaultValue(get_class($this), $propertyName, null);
