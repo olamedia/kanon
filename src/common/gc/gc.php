@@ -4,12 +4,19 @@ class CircularReferenceException extends Exception{
 
 }
 function detect_circular_references($vars = array(), &$refs = array(), &$objrefs = array()) {
-    foreach ($vars as $var) {
+    foreach ($vars as $name => $var) {
         if (is_array($var)) {
             detect_circular_references($var, $refs, $objrefs);
         } else {
             if (is_object($var)) {
-                $ref = spl_object_hash($var);
+                ob_start();
+                debug_zval_dump($var);
+                $dump = ob_get_clean();
+                if (strpos($dump, '*RECURSION*') !== false){
+                    //echo '*RECURSION*';
+                    throw new CircularReferenceException('Circular reference in $'.$name);
+                }
+                /*$ref = spl_object_hash($var);
                 if (isset($objrefs[$ref])){
                     throw new CircularReferenceException();
                 }
@@ -27,7 +34,7 @@ function detect_circular_references($vars = array(), &$refs = array(), &$objrefs
                         }
                     }
                 }
-                detect_circular_references($pvars, $refs, $objrefs);
+                detect_circular_references($pvars, $refs, $objrefs);*/
             }
         }
     }
