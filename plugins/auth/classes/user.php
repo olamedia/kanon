@@ -1,4 +1,5 @@
 <?php
+
 class user extends extendable{
 	protected static $_instance = null;
 	protected $_isAuthenticated = false;
@@ -44,7 +45,7 @@ class user extends extendable{
 	 * @return user
 	 */
 	public static function getInstance(){
-		if (self::$_instance === null){
+		if (self::$_instance===null){
 			if (isset($_SESSION['kanon_user']) && ($_SESSION['kanon_user'] instanceof user){
 				self::$_instance = $_SESSION['kanon_user'];
 			}else{
@@ -59,9 +60,9 @@ class user extends extendable{
 	public function getModel(){
 		return $this->_user;
 	}
-	/*public function model(){
+	/* public function model(){
 
-	}*/
+	  } */
 	public static function getCollection(){
 		return modelCollection::getInstance(self::$_model);
 	}
@@ -114,20 +115,19 @@ class user extends extendable{
 		$this->_credentials = array();
 		return $this;
 	}
-
 	public function getIdentityModels(){
 		return $this->_identityModels;
 	}
 	protected function __construct(){
-		/*if (isset($_SESSION['kanon_user'])){
-			$u = $_SESSION['kanon_user'];
-			//$u = new user();
-			$this->_identity = $u->___get('_identity');
-			$this->_identityModels = $u->___get('_identityModels');
-			$this->_user = $u->___get('_user');
-			$this->_isAuthenticated = $u->___get('_isAuthenticated');
-			$this->_isRegistered = $u->___get('_isRegistered');
-		}*/
+		/* if (isset($_SESSION['kanon_user'])){
+		  $u = $_SESSION['kanon_user'];
+		  //$u = new user();
+		  $this->_identity = $u->___get('_identity');
+		  $this->_identityModels = $u->___get('_identityModels');
+		  $this->_user = $u->___get('_user');
+		  $this->_isAuthenticated = $u->___get('_isAuthenticated');
+		  $this->_isRegistered = $u->___get('_isRegistered');
+		  } */
 	}
 	public function __destruct(){
 		$_SESSION['kanon_user'] = $this;
