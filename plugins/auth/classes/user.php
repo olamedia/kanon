@@ -45,7 +45,7 @@ class user extends extendable{
 	 */
 	public static function getInstance(){
 		if (self::$_instance === null){
-			if (isset($_SESSION['kanon_user'])){
+			if (isset($_SESSION['kanon_user']) && ($_SESSION['kanon_user'] instanceof user){
 				self::$_instance = $_SESSION['kanon_user'];
 			}else{
 				self::$_instance = new self();
