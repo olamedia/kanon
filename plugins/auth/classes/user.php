@@ -45,7 +45,11 @@ class user extends extendable{
 	 */
 	public static function getInstance(){
 		if (self::$_instance === null){
-			self::$_instance = new self();
+			if (isset($_SESSION['kanon_user'])){
+				self::$_instance = $_SESSION['kanon_user'];
+			}else{
+				self::$_instance = new self();
+			}
 		}
 		return self::$_instance;
 	}
@@ -115,7 +119,7 @@ class user extends extendable{
 		return $this->_identityModels;
 	}
 	protected function __construct(){
-		if (isset($_SESSION['kanon_user'])){
+		/*if (isset($_SESSION['kanon_user'])){
 			$u = $_SESSION['kanon_user'];
 			//$u = new user();
 			$this->_identity = $u->___get('_identity');
@@ -123,7 +127,7 @@ class user extends extendable{
 			$this->_user = $u->___get('_user');
 			$this->_isAuthenticated = $u->___get('_isAuthenticated');
 			$this->_isRegistered = $u->___get('_isRegistered');
-		}
+		}*/
 	}
 	public function __destruct(){
 		$_SESSION['kanon_user'] = $this;
