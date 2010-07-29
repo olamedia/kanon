@@ -129,24 +129,23 @@ class model extends extendable implements ArrayAccess, IteratorAggregate{
 	protected function &_getProperty($name){
 		if (!isset($this->_properties[$name]) || !is_object($this->_properties[$name])){
 			$class = 'stringProperty';
-			if (isset($this->_classes[$name])){
-				if (class_exists($this->_classes[$name])){
-					$class = $this->_classes[$name];
-				}
+			if (isset($this->_classes[$name]) && class_exists($this->_classes[$name])){
+				$class = $this->_classes[$name];
 			}
-			$this->_properties[$name] = new $class($name);
+			$property = new $class($name);
 			$collection = modelCollection::getInstance($class);
-			$this->_properties[$name]->fieldConstruct($collection, $this->_fields[$name]);
+			// $property->fieldConstruct($collection, $this->_fields[$name]);
 			if (isset($this->_fields[$name])){
-				$this->_properties[$name]->setFieldName($this->_fields[$name]);
+				$property->setFieldName($this->_fields[$name]);
 			}
 			//$this->_properties[$name]->setModel($this);
 			if (isset($this->_options[$name]) && is_array($this->_options[$name])){
-				$this->_properties[$name]->setOptions($this->_options[$name]);
+				$property->setOptions($this->_options[$name]);
 			}
 			if (isset($this->_values[$name])){
-				$this->_properties[$name]->setInitialValue($this->_values[$name]);
+				$property->setInitialValue($this->_values[$name]);
 			}
+			$this->_properties[$name] = $property;
 		}
 		return $this->_properties[$name];
 	}

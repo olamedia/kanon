@@ -86,7 +86,8 @@ header("Content-type: text/plain; charset=UTF-8");
 phpCombinator::combine(
 array(
 		'src/common', 
-		'src/common/functions', 
+		'src/common/gc',
+		'src/common/functions',
 		'src/common/plugin', 
 		'src/common/extension', 
 		'src/common/profiler', 
