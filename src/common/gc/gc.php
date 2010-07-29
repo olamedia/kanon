@@ -3,6 +3,14 @@
 class CircularReferenceException extends Exception{
 
 }
+/**
+ * Simple test for circular references
+ * Example: detect_circular_references(get_defined_vars());
+ * Currently tries to detect recursion within objects
+ * @param mixed $vars
+ * @param array $refs
+ * @param array $objrefs
+ */
 function detect_circular_references($vars = array(), &$refs = array(), &$objrefs = array()) {
     foreach ($vars as $name => $var) {
         if (is_array($var)) {

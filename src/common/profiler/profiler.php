@@ -2,7 +2,17 @@
 class profiler{
 	protected static $_instance = null;
 	protected $_sql = array();
-	/**
+        protected static $_isEnabled = false;
+        public static function isEnabled(){
+            return self::$_isEnabled;
+        }
+        public static function enable(){
+            self::$_isEnabled = true;
+        }
+        public static function disable(){
+            self::$_isEnabled = false;
+        }
+        /**
 	 *
 	 * Enter description here ...
 	 * @return profiler
@@ -13,7 +23,8 @@ class profiler{
 		}
 		return self::$_instance;
 	}
-	public function addSql($sql, $time){
+	public function addSql(&$sql, $time){
+            if (!self::$_isEnabled) return;
 		$time = -$time;
 		$time += microtime(true);
 		$this->_sql[] = array(
