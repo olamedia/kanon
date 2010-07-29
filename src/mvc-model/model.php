@@ -8,7 +8,7 @@ require_once dirname(__FILE__).'/properties/creationTimestampProperty.php';
 require_once dirname(__FILE__).'/properties/modificationTimestampProperty.php';
 require_once dirname(__FILE__).'/modelIterator.php';
 
-class model extends extendable implements ArrayAccess, IteratorAggregate{
+class model extends extendable implements ArrayAccess, IteratorAggregate, Serializable{
 	protected $_properties = array();
 	// propertyName => modelProperty
 	protected $_propertiesInfo = null;
@@ -34,6 +34,15 @@ class model extends extendable implements ArrayAccess, IteratorAggregate{
 	// temporary storage for initial values
 	protected $_actAs = array();
 	protected $_isSaved = false;
+	public function serialize(){
+		return serialize(get_object_vars($this));
+	}
+	public function unserialize($data){
+		$data = unserialize($data);
+		foreach ($data as $k => $v){
+			$this->{$k} = $v;
+		}
+	}
 	public function markSaved($isSaved = true){
 		$this->_isSaved = $isSaved;
 	}
@@ -81,10 +90,10 @@ class model extends extendable implements ArrayAccess, IteratorAggregate{
 	}
 	public function __construct(){
 		// Compatibility with zenMysql2 ORM
-		if (isset($this->_classesMap) && count($this->_classesMap)){
+		if (isset($this->_classesMap)&&count($this->_classesMap)){
 			$this->_classes = &$this->_classesMap;
 		}
-		if (isset($this->_fieldsMap) && count($this->_fieldsMap)){
+		if (isset($this->_fieldsMap)&&count($this->_fieldsMap)){
 			$this->_fields = &$this->_fieldsMap;
 		}
 		foreach ($this->_actAs as $behaviourName => $options){
@@ -332,15 +341,15 @@ class model extends extendable implements ArrayAccess, IteratorAggregate{
 		$sql .= ")";
 		return $sql;
 	}
-	/*public function __sleep(){
-		foreach ($this->_classes as $propertyName => $class){
-			$property = $this->_getProperty($propertyName);
-		}
-		return array('_properties', '_values', '_classes', '_fields', '_autoIncrement', '_primaryKey', '_parentKey', '_isSaved', '_options', '_foreignKeys', '_titleKey'); //'_classesMap', '_fieldsMap', '_primaryKey', '_autoIncrement',
-	}
-	public function __wakeup(){
+	/* public function __sleep(){
+	  foreach ($this->_classes as $propertyName => $class){
+	  $property = $this->_getProperty($propertyName);
+	  }
+	  return array('_properties', '_values', '_classes', '_fields', '_autoIncrement', '_primaryKey', '_parentKey', '_isSaved', '_options', '_foreignKeys', '_titleKey'); //'_classesMap', '_fieldsMap', '_primaryKey', '_autoIncrement',
+	  }
+	  public function __wakeup(){
 
-	}*/
+	  } */
 	/**
 	 * @return modelCollection
 	 */
