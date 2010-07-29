@@ -81,10 +81,10 @@ class model extends extendable implements ArrayAccess, IteratorAggregate{
 	}
 	public function __construct(){
 		// Compatibility with zenMysql2 ORM
-		if (isset($this->_classesMap)){
+		if (isset($this->_classesMap) && count($this->_classesMap)){
 			$this->_classes = &$this->_classesMap;
 		}
-		if (isset($this->_fieldsMap)){
+		if (isset($this->_fieldsMap) && count($this->_fieldsMap)){
 			$this->_fields = &$this->_fieldsMap;
 		}
 		foreach ($this->_actAs as $behaviourName => $options){
