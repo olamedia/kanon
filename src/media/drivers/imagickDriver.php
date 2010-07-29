@@ -68,9 +68,16 @@ class imagickDriver{
 					$rect->getSourceX(),
 					$rect->getSourceY()
 					);
+					$area->resizeImage(
+					$rect->getWidth()*2,
+					$rect->getHeight()*2,
+					imagick::FILTER_LANCZOS,
+					1
+					);
 					if (self::$_enhance){
 						$area->enhanceImage();// Improves the quality of a noisy image
 						$area->reduceNoiseImage(2);// Smooths the contours of an image while still preserving edge information. The algorithm works by replacing each pixel with its neighbor closest in value.
+						$area->sharpenImage(2,1);
 					}
 					$area->resizeImage(
 					$rect->getWidth(),
@@ -81,7 +88,7 @@ class imagickDriver{
 						
 					if (self::$_enhance){
 
-						$area->sharpenImage(2,1);
+						//$area->sharpenImage(2,1);
 						//
 						//
 					}
