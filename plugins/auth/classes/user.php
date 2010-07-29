@@ -1,5 +1,6 @@
 <?php
 class user extends extendable{
+	protected static $_instance = null;
 	protected $_isAuthenticated = false;
 	protected $_isRegistered = false;
 	protected $_credentials = array();
@@ -37,6 +38,12 @@ class user extends extendable{
 				$identity->register(); // Attach identity to current user
 			}
 		}
+	}
+	public static function getInstance(){
+		if (self::$_instance === null){
+			self::$_instance = new self();
+		}
+		return self::$_instance;
 	}
 	public function getIdentity(){
 		return $this->_identity;
@@ -102,7 +109,7 @@ class user extends extendable{
 	public function getIdentityModels(){
 		return $this->_identityModels;
 	}
-	public function __construct(){
+	protected function __construct(){
 		if (isset($_SESSION['kanon_user'])){
 			$u = $_SESSION['kanon_user'];
 			//$u = new user();
