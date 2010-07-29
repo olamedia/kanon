@@ -289,23 +289,23 @@ class model extends extendable implements ArrayAccess, IteratorAggregate, Serial
 			}
 		}
 	}
-	protected $isDestroyed = false;
-	public function __destruct(){
+	//protected $isDestroyed = false;
+	//public function __destruct(){
 		//static $isDestroyed = false;
-		if ($this->isDestroyed) return;
+		//if ($this->isDestroyed) return;
 		//echo ' destruct ';
-		$this->isDestroyed = true;
-		foreach ($this->_properties as $k => &$property){
+		//$this->isDestroyed = true;
+		/*foreach ($this->_properties as $k => &$property){
 			destroy($property); // destroy backlinks to model
 			unset($this->_properties[$k]);
-		}
-		foreach ($this->_classes as $k => $v){
+		}*/
+		/*foreach ($this->_classes as $k => $v){
 			unset($this->_classes[$k]);
 		}
 		foreach ($this->_fields as $k => $v){
 			unset($this->_fields[$k]);
-		}
-	}
+		}*/
+	//}
 	public function isValid(){
 		foreach ($this as $property){
 			if (!$property->isValid()) return false;
