@@ -72,7 +72,7 @@ class imagickDriver{
 					$area->resizeImage(
 					$rect->getWidth(),
 					$rect->getHeight(),
-					imagick::FILTER_GAUSSIAN,
+					imagick::FILTER_LANCZOS,
 					1
 					);
 						
