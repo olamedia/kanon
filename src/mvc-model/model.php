@@ -35,6 +35,7 @@ class model extends extendable implements ArrayAccess, IteratorAggregate, Serial
 	protected $_actAs = array();
 	protected $_isSaved = false;
 	public function serialize(){
+		var_dump(get_object_vars($this));
 		return serialize(get_object_vars($this));
 	}
 	public function unserialize($data){
