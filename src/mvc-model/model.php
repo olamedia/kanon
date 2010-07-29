@@ -74,13 +74,6 @@ class model extends extendable implements ArrayAccess, IteratorAggregate{
 		if (isset($this->_fieldsMap)){
 			$this->_fields = &$this->_fieldsMap;
 		}
-		/*foreach ($this->_classes as $k => $v){
-			$this->_properties[$k]['class'] = $v;
-		}
-		foreach ($this->_fields as $k => $v){
-			$this->_properties[$k]['field'] = $v;
-		}
-		*/
 		foreach ($this->_actAs as $behaviourName => $options){
 			if (is_array($options)){
 				$this->actAs($behaviourName, $options);
@@ -320,13 +313,9 @@ class model extends extendable implements ArrayAccess, IteratorAggregate{
 		return $sql;
 	}
 	public function __sleep(){
-		//, '_classes', '_fields', '_actAs', '_options', '_autoIncrement', '_'
-		$this->toArray(); // create all properties
 		return array('_properties', '_values');//'_classesMap', '_fieldsMap', '_primaryKey', '_autoIncrement',
 	}
-	public function __wakeup(){
-		//$this->__construct();
-	}
+	public function __wakeup(){}
 	/**
 	 * @return modelCollection
 	 */
