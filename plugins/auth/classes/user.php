@@ -39,6 +39,10 @@ class user extends extendable{
 			}
 		}
 	}
+	/**
+	 *
+	 * @return user
+	 */
 	public static function getInstance(){
 		if (self::$_instance === null){
 			self::$_instance = new self();
