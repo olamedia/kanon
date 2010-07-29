@@ -1,4 +1,5 @@
 <?php
+
 /**
  * $Id$
  */
@@ -9,6 +10,7 @@ require_once dirname(__FILE__).'/../mvc-controller/application.php';
 require_once dirname(__FILE__).'/../mvc-model/modelCollection.php';
 require_once dirname(__FILE__).'/fileStorage.php';
 require_once dirname(__FILE__).'/keep.func.php';
+
 class kanon{
 	private static $_uniqueId = 0;
 	private static $_uniqueIdMap = array();
@@ -40,17 +42,17 @@ class kanon{
 		$basePath = self::getBasePath();
 		$themesPath = $basePath.'/themes/';
 		$modulesPath = $basePath.'/modules/';
-		if (substr($filename,0,strlen($modulesPath)) != $modulesPath){
+		if (substr($filename, 0, strlen($modulesPath))!=$modulesPath){
 			return $filename; // not in modules
 		}
-		$rel = substr($filename, strlen($modulesPath), strlen($filename) - strlen($modulesPath));
+		$rel = substr($filename, strlen($modulesPath), strlen($filename)-strlen($modulesPath));
 		//echo $rel;
-		$a = explode('/',$rel);
+		$a = explode('/', $rel);
 		$moduleName = array_shift($a);
 		//echo ' module='.$moduleName;
 		//echo array_shift($a);
-		if ('views' == array_shift($a)){
-			$rel = $moduleName.'/'.implode('/',$a);
+		if ('views'==array_shift($a)){
+			$rel = $moduleName.'/'.implode('/', $a);
 		}
 		foreach (self::$_preferredThemes as $themeName){
 			$themedFilename = $themesPath.$themeName.'/'.$rel;
@@ -94,22 +96,22 @@ class kanon{
 	 * @return fileStorage
 	 */
 	public static function getUniqueId($uniqueString = null){
-		if ($uniqueString !== null && isset(self::$_uniqueIdMap[$uniqueString])){
+		if ($uniqueString!==null&&isset(self::$_uniqueIdMap[$uniqueString])){
 			return self::$_uniqueIdMap[$uniqueString];
 		}
 		$id = self::$_uniqueId;
 		$id = strval(base_convert($id, 10, 26));
-		$shift = ord("a") - ord("0");
-		for ($i = 0; $i < strlen($id); $i++){
+		$shift = ord("a")-ord("0");
+		for ($i = 0; $i<strlen($id); $i++){
 			$c = $id{$i};
-			if (ord($c) < ord("a")){
+			if (ord($c)<ord("a")){
 				$id{$i} = chr(ord($c)+$shift);
 			}else{
 				$id{$i} = chr(ord($c)+10);
 			}
 		}
 		self::$_uniqueId++;
-		if ($uniqueString !== null){
+		if ($uniqueString!==null){
 			self::$_uniqueIdMap[$uniqueString] = $id.'_';
 		}
 		return $id.'_';
@@ -117,7 +119,7 @@ class kanon{
 	public static function getStorage($name){
 		return self::$_fileStorages[$name];
 	}
-	public static function setStorage($name,$storage){
+	public static function setStorage($name, $storage){
 		self::$_fileStorages[$name] = $storage;
 	}
 	/**
@@ -136,8 +138,8 @@ class kanon{
 		$scriptUri = $_SERVER['SCRIPT_NAME'];
 		$max = min(strlen($requestUri), strlen($scriptUri));
 		$cmp = 0;
-		for ($l = 1; $l <= $max; $l++){
-			if (substr_compare($requestUri, $scriptUri, 0, $l, true) === 0){
+		for ($l = 1; $l<=$max; $l++){
+			if (substr_compare($requestUri, $scriptUri, 0, $l, true)===0){
 				$cmp = $l;
 			}
 		}
@@ -194,16 +196,15 @@ class kanon{
 		}
 	}
 	public static function getBasePath(){
-		if (self::$_basePath === null){
+		if (self::$_basePath===null){
 			$trace = debug_backtrace();
 			//var_dump($trace);
 			$last = end($trace);
-			$file = $last['file'];//[1]
+			$file = $last['file']; //[1]
 			self::$_basePath = dirname($file);
 		}
 		return self::$_basePath;
 	}
-
 	public static function run($applicationClass){
 		//spl_autoload_register(array(self, 'autoload'));
 		// load all modules
@@ -240,11 +241,11 @@ if (function_exists('spl_autoload_register')){
 	spl_autoload_register(array('kanon', 'autoload'));
 	spl_autoload_register(array('plugins', 'autoload'));
 }else{
-	function __autoload($name) {
+	function __autoload($name){
 		if (!kanon::autoload($name)){
 			plugins::autoload($name);
 		}
 	}
 }
-set_exception_handler(array('kanonExceptionHandler','handle'));
+set_exception_handler(array('kanonExceptionHandler', 'handle'));
 set_error_handler('kanonErrorHandler');
