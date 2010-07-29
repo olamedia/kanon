@@ -313,6 +313,7 @@ class model extends extendable implements ArrayAccess, IteratorAggregate{
 		return $sql;
 	}
 	public function __sleep(){
+		$this->toArray();
 		return array('_properties', '_values');//'_classesMap', '_fieldsMap', '_primaryKey', '_autoIncrement',
 	}
 	public function __wakeup(){}
