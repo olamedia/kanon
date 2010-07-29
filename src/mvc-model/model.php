@@ -315,7 +315,9 @@ class model extends extendable implements ArrayAccess, IteratorAggregate{
 	public function __sleep(){
 		return array('_properties', '_values');//'_classesMap', '_fieldsMap', '_primaryKey', '_autoIncrement',
 	}
-	public function __wakeup(){}
+	public function __wakeup(){
+		$this->__construct();
+	}
 	/**
 	 * @return modelCollection
 	 */
