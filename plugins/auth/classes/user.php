@@ -69,7 +69,7 @@ class user extends extendable{
 		$this->setRegistered(false);
 		$this->clearCredentials();
 		$this->addCredentials('guest');
-		unset($_SESSION['kanon_user']);
+		//unset($_SESSION['kanon_user']);
 	}
 	public function setAuthenticated($isAuthenticated = true){
 		$this->_isAuthenticated = $isAuthenticated;
