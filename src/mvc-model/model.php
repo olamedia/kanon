@@ -34,7 +34,7 @@ class model extends extendable implements ArrayAccess, IteratorAggregate, Serial
 	// temporary storage for initial values
 	protected $_actAs = array();
 	protected $_isSaved = false;
-	public function serialize(){
+	/*public function serialize(){
 		//var_dump(get_object_vars($this));
 		return serialize(get_object_vars($this));
 	}
@@ -43,7 +43,7 @@ class model extends extendable implements ArrayAccess, IteratorAggregate, Serial
 		foreach ($data as $k => $v){
 			$this->{$k} = $v;
 		}
-	}
+	}*/
 	public function markSaved($isSaved = true){
 		$this->_isSaved = $isSaved;
 	}
