@@ -332,7 +332,7 @@ class model extends extendable implements ArrayAccess, IteratorAggregate{
 		$sql .= ")";
 		return $sql;
 	}
-	public function __sleep(){
+	/*public function __sleep(){
 		foreach ($this->_classes as $propertyName => $class){
 			$property = $this->_getProperty($propertyName);
 		}
@@ -340,7 +340,7 @@ class model extends extendable implements ArrayAccess, IteratorAggregate{
 	}
 	public function __wakeup(){
 
-	}
+	}*/
 	/**
 	 * @return modelCollection
 	 */
