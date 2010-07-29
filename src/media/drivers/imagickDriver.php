@@ -88,7 +88,7 @@ class imagickDriver{
 						
 					if (self::$_enhance){
 
-						$area->sharpenImage(1.4,1);
+						$area->sharpenImage(1,0.4);
 						//
 						//
 					}
