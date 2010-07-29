@@ -334,7 +334,7 @@ class model extends extendable implements ArrayAccess, IteratorAggregate{
 		foreach ($this->_classes as $propertyName => $class){
 			$property = $this->_getProperty($propertyName);
 		}
-		return array('_properties', '_values'); //'_classesMap', '_fieldsMap', '_primaryKey', '_autoIncrement',
+		return array('_properties', '_values', '_classes', '_fields', '_autoIncrement', '_primaryKey', '_parentKey', '_isSaved', '_options', '_foreignKeys', '_titleKey'); //'_classesMap', '_fieldsMap', '_primaryKey', '_autoIncrement',
 	}
 	public function __wakeup(){
 
