@@ -130,6 +130,12 @@ class user extends extendable{
 		  } */
 	}
 	public function __destruct(){
+		if ($this->isRegistered()){
+			if ($this->_user->modifiedAt->getValue()+30<time()){
+				$this->_user->modifiedAt = time();
+				$this->_user->save();
+			}
+		}
 		$_SESSION['kanon_user'] = $this;
 	}
 }
