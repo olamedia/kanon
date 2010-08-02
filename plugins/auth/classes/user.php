@@ -52,6 +52,7 @@ class user extends extendable{
 				self::$_instance = new self();
 			}
 		}
+		
 		return self::$_instance;
 	}
 	public function getIdentity(){
@@ -119,6 +120,12 @@ class user extends extendable{
 		return $this->_identityModels;
 	}
 	protected function __construct(){
+		if ($this->isRegistered()){
+			if ($this->_user->modifiedAt->getValue()+30<time()){
+				$this->_user->modifiedAt = time();
+				$this->_user->save();
+			}
+		}
 		/* if (isset($_SESSION['kanon_user'])){
 		  $u = $_SESSION['kanon_user'];
 		  //$u = new user();
@@ -130,12 +137,6 @@ class user extends extendable{
 		  } */
 	}
 	public function __destruct(){
-		if ($this->isRegistered()){
-			if ($this->_user->modifiedAt->getValue()+30<time()){
-				$this->_user->modifiedAt = time();
-				$this->_user->save();
-			}
-		}
 		$_SESSION['kanon_user'] = $this;
 	}
 }

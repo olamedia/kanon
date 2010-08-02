@@ -88,7 +88,9 @@ class imagickDriver{
 						
 					if (self::$_enhance){
 
-						$area->sharpenImage(1,0.4);
+						//$area->sharpenImage(1,0.4);
+						$area->adaptiveSharpenImage(2,1);
+						$area->setimageInterlaceScheme(1);
 						//
 						//
 					}
