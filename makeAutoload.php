@@ -5,10 +5,10 @@ class autoloadGenerator{
 	protected $_classes = array();
 	protected $_functions = array();
 	protected $_declaredClasses = array();
-	protected $_definedFunction = array();
+	protected $_definedFunctions = array();
 	public function create($filename){
 		$this->_declaredClasses = get_declared_classes();
-		$this->_definedFunction = get_defined_functions();
+		$this->_definedFunctions = get_defined_functions();
 		$this->lookup(dirname(__FILE__).'/src/');
 		$classes = array();
 		foreach ($this->_classes as $class => $f){
@@ -37,16 +37,18 @@ PHPFILE;
 	}
 	public function lookFile($f){
 		if (is_php($f)){
-			echo $f.' ';
+			echo basename($f)."\r\n";
 			require_once $f;
 			$declaredClasses = get_declared_classes();
-			$definedFunction = get_defined_functions();
+			$definedFunctions = get_defined_functions();
 			$newClasses = array_diff($declaredClasses, $this->_declaredClasses);
-			$newFunctions = array_diff($definedFunction, $this->_definedFunction);
+			$newFunctions = array_diff($definedFunctions, $this->_definedFunctions);
 			foreach ($newClasses as $class){
+				echo 'class '.$class.' ';
 				$this->_classes[$class] = $this->rel($f);
 			}
 			foreach ($newFunctions as $func){
+				echo 'func '.$func.' ';
 				$this->_functions[$func] = $this->rel($f);
 			}
 		}
@@ -55,7 +57,7 @@ PHPFILE;
 		foreach (glob($dir.'*') as $f){
 			//echo $f.' ';
 			if (is_dir($f)){
-				if (in_array(basename($f), array('prototype', 'test', 'tests','tmp'))){
+				if (in_array(basename($f), array('prototype', 'test', 'tests', 'tmp'))){
 					// skip
 				}else{
 					echo basename($f).' ';
