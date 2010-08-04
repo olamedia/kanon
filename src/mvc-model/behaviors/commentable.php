@@ -1,4 +1,5 @@
 <?php
+require_once dirname(__FILE__).'/../modelBehavior.php';
 class commentable extends modelBehavior{
 	protected $_properties = array(
 		'commentsCount' => array(
