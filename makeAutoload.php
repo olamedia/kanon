@@ -58,6 +58,7 @@ PHPFILE;
 				if (in_array(basename($f), array('prototype', 'test', 'tests'))){
 					// skip
 				}else{
+					echo basename($f).' ';
 					$this->lookup($f.'/');
 				}
 			}elseif (is_file($f)){
