@@ -37,7 +37,7 @@ PHPFILE;
 	}
 	public function lookFile($f){
 		if (is_php($f)){
-			echo basename($f)."\r\n";
+			echo "\t".basename($f)."\r\n";
 			require_once $f;
 			$declaredClasses = get_declared_classes();
 			$definedFunctions = get_defined_functions();
@@ -46,11 +46,11 @@ PHPFILE;
 			$newFunctions = array_diff($definedFunctions, $this->_definedFunctions);
 			$this->_definedFunctions = $definedFunctions;
 			foreach ($newClasses as $class){
-				echo 'class '.$class.' ';
+				echo "\t\t\t".'class '.$class.' '."\r\n";
 				$this->_classes[$class] = $this->rel($f);
 			}
 			foreach ($newFunctions as $func){
-				echo 'func '.$func.' ';
+				echo "\t\t\t".'func '.$func.' '."\r\n";
 				$this->_functions[$func] = $this->rel($f);
 			}
 		}
