@@ -62,7 +62,7 @@ PHPFILE;
 				if (in_array(basename($f), array('prototype', 'test', 'tests', 'tmp'))){
 					// skip
 				}else{
-					echo basename($f).' ';
+					echo "\r\n".basename($f).'\ '."\r\n";
 					$this->lookup($f.'/');
 				}
 			}elseif (is_file($f)){
