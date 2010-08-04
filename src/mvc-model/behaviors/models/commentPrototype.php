@@ -1,4 +1,5 @@
 <?php
+require_once dirname(__FILE__).'/../../model.php';
 class commentPrototype extends model{
 	protected $_properties = array(
 		'id' => array(
