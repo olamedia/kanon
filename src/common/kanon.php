@@ -1,5 +1,4 @@
 <?php
-
 /**
  * $Id$
  */
@@ -81,6 +80,14 @@ class kanon{
 	public static function callDeferred(){
 		foreach (self::$_deferredFunctions as $f){
 			call_user_func($f);
+		}
+	}
+	public static function registerAutoload($autoload, $dirname = null){
+		foreach ($autoload as $class => $f){
+			if ($dirname!==null){
+				$f = $dirname.$f;
+			}
+			self::$_autoload[$class] = $f;
 		}
 	}
 	public static function autoload($class){
@@ -166,7 +173,8 @@ class kanon{
 		return array_keys(self::$_loadedModules);
 	}
 	public static function loadModule($module){
-		if (isset(self::$_loadedModules[$module])) return true;
+		if (isset(self::$_loadedModules[$module]))
+			return true;
 		$modulePath = self::getBasePath().'/modules/'.$module.'/';
 		$moduleFile = $modulePath.'module.php';
 		if (is_file($moduleFile)){
@@ -184,7 +192,8 @@ class kanon{
 	}
 	public static function loadAllModules(){
 		static $loaded = false;
-		if ($loaded) return;
+		if ($loaded)
+			return;
 		$loaded = true;
 		$path = self::getBasePath();
 		foreach (glob($path.'/modules/*') as $d){
