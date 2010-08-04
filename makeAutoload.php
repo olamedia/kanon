@@ -37,7 +37,7 @@ PHPFILE;
 	}
 	public function lookFile($f){
 		if (is_php($f)){
-			//echo $f.' ';
+			echo $f.' ';
 			require_once $f;
 			$declaredClasses = get_declared_classes();
 			$definedFunction = get_defined_functions();
@@ -62,8 +62,9 @@ PHPFILE;
 					$this->lookup($f.'/');
 				}
 			}elseif (is_file($f)){
-
-				$this->lookFile($f);
+				if (substr($f, -4, 4)=='.php'){
+					$this->lookFile($f);
+				}
 			}
 		}
 	}
