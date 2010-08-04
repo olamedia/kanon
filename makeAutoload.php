@@ -42,7 +42,9 @@ PHPFILE;
 			$declaredClasses = get_declared_classes();
 			$definedFunctions = get_defined_functions();
 			$newClasses = array_diff($declaredClasses, $this->_declaredClasses);
+			$this->_declaredClasses = $declaredClasses;
 			$newFunctions = array_diff($definedFunctions, $this->_definedFunctions);
+			$this->_definedFunctions = $definedFunctions;
 			foreach ($newClasses as $class){
 				echo 'class '.$class.' ';
 				$this->_classes[$class] = $this->rel($f);
