@@ -50,7 +50,7 @@ PHPFILE;
 				$this->_classes[$class] = $this->rel($f);
 			}
 			foreach ($newFunctions as $func){
-				echo "\t\t\t".'func '.$func.' '."\r\n";
+				echo "\t\t\t".'@ function '.$func.' '."\r\n";
 				$this->_functions[$func] = $this->rel($f);
 			}
 		}
