@@ -55,8 +55,13 @@ PHPFILE;
 		foreach (glob($dir.'*') as $f){
 			//echo $f.' ';
 			if (is_dir($f)){
-				$this->lookup($f.'/');
+				if (in_array(basename($f), array('prototype', 'test', 'tests'))){
+					// skip
+				}else{
+					$this->lookup($f.'/');
+				}
 			}elseif (is_file($f)){
+
 				$this->lookFile($f);
 			}
 		}
