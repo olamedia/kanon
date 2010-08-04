@@ -109,5 +109,5 @@ array(
 		'src/intl/ru',
 ),
 	'kanon-framework.php',
-true
+false
 );
