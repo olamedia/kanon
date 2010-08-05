@@ -113,7 +113,7 @@ PHPFILE;
 				$this->_definedFunctions = $definedFunctions;
 				foreach ($newClasses as $class){
 					if (isset($this->_skipClasses[$class])){
-						echo ' SKIP ';
+						echo "\t\t\t".' SKIP ';
 						//echo " ".'class '.$class.' ';
 						//$this->_classes[$class] = $this->rel($f);
 						$newClasses = array(); // !!!
@@ -121,7 +121,7 @@ PHPFILE;
 					}
 				}
 				if (count($newClasses)){
-					echo ' OK ';
+					echo "\t\t\t".' OK ';
 					foreach ($newClasses as $class){
 						echo " ".'class '.$class.' ';
 						$this->_classes[$class] = $this->rel($f);
