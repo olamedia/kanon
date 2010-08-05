@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__).'/simpleStorageInput.php';
+#require_once dirname(__FILE__).'/simpleStorageInput.php';
 class inputFile implements simpleStorageInput{
 	protected $_filename = null;
 	public function __construct($filename){

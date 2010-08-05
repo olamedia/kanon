@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__).'/textInput.php';
+#require_once dirname(__FILE__).'/textInput.php';
 class textarea extends textInput{
 	public function getHtml(){
 		$style = array();

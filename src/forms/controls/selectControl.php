@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__).'/../control.php';
+#require_once dirname(__FILE__).'/../control.php';
 class selectControl extends control{
 	protected $_controlType = 'select'; // select, checkbox, radio
 	protected $_multiple = false;

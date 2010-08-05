@@ -1,6 +1,6 @@
 <?php
-require_once dirname(__FILE__).'/modelQueryBuilder.php';
-require_once dirname(__FILE__).'/modelResultSetIterator.php';
+#require_once dirname(__FILE__).'/modelQueryBuilder.php';
+#require_once dirname(__FILE__).'/modelResultSetIterator.php';
 class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Countable{
 	protected $_result = null;
 	protected $_finished = false;

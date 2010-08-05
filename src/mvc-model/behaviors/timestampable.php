@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__).'/../modelBehavior.php';
+#require_once dirname(__FILE__).'/../modelBehavior.php';
 class timestampable extends modelBehavior{
 	protected $_properties = array(
 		'createdAt' => array(

@@ -1,5 +1,5 @@
 <?php
-require_once realpath(dirname(__FILE__).'/../').'/simpleStorageDriver.php';
+#require_once realpath(dirname(__FILE__).'/../').'/simpleStorageDriver.php';
 // bucket.commondatastorage.googleapis.com/object
 // commondatastorage.googleapis.com/bucket/object
 class simpleStorageGoogleStorageDriver implements simpleStorageDriver{

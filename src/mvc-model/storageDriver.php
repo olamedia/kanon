@@ -1,6 +1,6 @@
 <?php
-require_once dirname(__FILE__).'/../common/kanon.php';
-require_once dirname(__FILE__).'/storageRegistry.php';
+#require_once dirname(__FILE__).'/../common/kanon.php';
+#require_once dirname(__FILE__).'/storageRegistry.php';
 abstract class storageDriver{
 	protected $_uniqueId = null;
 	protected $_databaseType = '';

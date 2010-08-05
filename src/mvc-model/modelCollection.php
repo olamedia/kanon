@@ -1,6 +1,6 @@
 <?php
-require_once dirname(__FILE__).'/modelResultSet.php';
-require_once dirname(__FILE__).'/modelField.php';
+#require_once dirname(__FILE__).'/modelResultSet.php';
+#require_once dirname(__FILE__).'/modelField.php';
 class modelCollection implements ArrayAccess{
 	private static $_instances = array();
 	private static $_idInstances = array();

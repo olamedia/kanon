@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__).'/../control.php';
+#require_once dirname(__FILE__).'/../control.php';
 class checkboxInput extends control{ // 0/1 values
 	/**
 	 * @var string

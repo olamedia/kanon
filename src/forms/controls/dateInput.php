@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__).'/textInput.php';
+#require_once dirname(__FILE__).'/textInput.php';
 class dateInput extends textInput{
 	public function setValue($value){
 		if (preg_match("#^([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{4})$#ims", $value, $subs)){

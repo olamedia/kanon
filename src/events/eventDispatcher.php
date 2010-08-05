@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__).'/event.php';
+#require_once dirname(__FILE__).'/event.php';
 class eventDispatcher implements ArrayAccess{
 	protected $_listeners = array();
 	public function attach($name, $listener){

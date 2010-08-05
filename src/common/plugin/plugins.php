@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__).'/plugin.php';
+#require_once dirname(__FILE__).'/plugin.php';
 class plugins{
 	public static $_plugins = array();
 	public static $_autoload = array();

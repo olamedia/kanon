@@ -1,6 +1,6 @@
 <?php
-require_once dirname(__FILE__).'/image.php';
-require_once dirname(__FILE__).'/../common/kanon.php';
+#require_once dirname(__FILE__).'/image.php';
+#require_once dirname(__FILE__).'/../common/kanon.php';
 class thumbnailer{
 	protected $_filename = null;
 	protected $_basePath = null;

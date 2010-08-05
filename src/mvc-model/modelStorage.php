@@ -1,6 +1,6 @@
 <?php
-require_once dirname(__FILE__).'/storageDrivers/mysqlDriver.php';
-require_once dirname(__FILE__).'/storageDrivers/pdoDriver.php';
+#require_once dirname(__FILE__).'/storageDrivers/mysqlDriver.php';
+#require_once dirname(__FILE__).'/storageDrivers/pdoDriver.php';
 class modelStorage{
 	private static $_foreignConnections = array();
 	private static $_instances = array();

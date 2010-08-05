@@ -1,5 +1,5 @@
 <?php
-require_once realpath(dirname(__FILE__).'/../').'/simpleStorageDriver.php';
+#require_once realpath(dirname(__FILE__).'/../').'/simpleStorageDriver.php';
 class simpleStorageLocalDriver implements simpleStorageDriver{
 	protected $_path = null;
 	protected $_uri = null;

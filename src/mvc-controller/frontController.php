@@ -2,7 +2,7 @@
 /**
  * $Id$
  */
-require_once dirname(__FILE__).'/controller.php';
+#require_once dirname(__FILE__).'/controller.php';
 class frontController extends controller{
 	public static function startSession($domain, $expire = 360000) {
 		ini_set("session.gc_maxlifetime", $expire);

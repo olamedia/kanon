@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__).'/../storageDriver.php';
+#require_once dirname(__FILE__).'/../storageDriver.php';
 class pdoDriver extends storageDriver{
 	public function getDataTypeSql($type, $size, $unsigned, $notNull){
 		$nn = $notNull?' NOT NULL':'';

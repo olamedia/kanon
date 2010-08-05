@@ -2,7 +2,7 @@
 /**
  * $Id$
  */
-require_once dirname(__FILE__).'/controller.php';
+#require_once dirname(__FILE__).'/controller.php';
 class serviceController extends controller{
 	/**
 	 * Service-specific (REST for example) responce for unknown request

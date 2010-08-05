@@ -3,7 +3,7 @@
 /**
  * $Id$
  */
-require_once dirname(__FILE__) . '/../common/uri.php';
+#require_once dirname(__FILE__) . '/../common/uri.php';
 
 class controllerPrototype {
 

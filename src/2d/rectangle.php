@@ -1,6 +1,6 @@
 <?php
-require_once dirname(__FILE__).'/shape.php';
-require_once dirname(__FILE__).'/point.php';
+#require_once dirname(__FILE__).'/shape.php';
+#require_once dirname(__FILE__).'/point.php';
 /**
  * @todo java.awt.Rectangle
  * @author olamedia

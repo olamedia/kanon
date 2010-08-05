@@ -1,6 +1,6 @@
 <?php
-require_once dirname(__FILE__).'/modelExpression.php';
-require_once dirname(__FILE__).'/modelAggregation.php';
+#require_once dirname(__FILE__).'/modelExpression.php';
+#require_once dirname(__FILE__).'/modelAggregation.php';
 class modelField{
 	/**
 	 * @var modelCollection

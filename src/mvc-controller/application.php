@@ -2,7 +2,7 @@
 /**
  * $Id$
  */
-require_once dirname(__FILE__).'/frontController.php';
+#require_once dirname(__FILE__).'/frontController.php';
 class application extends frontController{
 	private static $_selfInstance = null;
 	private static $_instance = null;

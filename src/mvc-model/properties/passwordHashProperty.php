@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__).'/stringProperty.php';
+#require_once dirname(__FILE__).'/stringProperty.php';
 class passwordHashProperty extends stringProperty{
 	protected $_dataSize = 32;
 	public function getValue(){

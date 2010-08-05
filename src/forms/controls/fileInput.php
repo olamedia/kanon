@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__).'/../control.php';
+#require_once dirname(__FILE__).'/../control.php';
 class fileInput extends control{
 	protected $_files = array();
 	protected $_filesPrefix = '';

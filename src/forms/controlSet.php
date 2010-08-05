@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__).'/control.php';
+#require_once dirname(__FILE__).'/control.php';
 abstract class controlSet{
 	protected $_controls;
 	protected $_classesMap = array(); // controlName => class

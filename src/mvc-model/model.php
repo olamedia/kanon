@@ -1,12 +1,12 @@
 <?php
 
-require_once dirname(__FILE__).'/properties/stringProperty.php';
-require_once dirname(__FILE__).'/properties/integerProperty.php';
-require_once dirname(__FILE__).'/properties/textProperty.php';
-require_once dirname(__FILE__).'/properties/timestampProperty.php';
-require_once dirname(__FILE__).'/properties/creationTimestampProperty.php';
-require_once dirname(__FILE__).'/properties/modificationTimestampProperty.php';
-require_once dirname(__FILE__).'/modelIterator.php';
+#require_once dirname(__FILE__).'/properties/stringProperty.php';
+#require_once dirname(__FILE__).'/properties/integerProperty.php';
+#require_once dirname(__FILE__).'/properties/textProperty.php';
+#require_once dirname(__FILE__).'/properties/timestampProperty.php';
+#require_once dirname(__FILE__).'/properties/creationTimestampProperty.php';
+#require_once dirname(__FILE__).'/properties/modificationTimestampProperty.php';
+#require_once dirname(__FILE__).'/modelIterator.php';
 
 //, Serializable
 class model extends extendable implements ArrayAccess, IteratorAggregate{

@@ -6,6 +6,10 @@ class autoloadGenerator{
 	protected $_functions = array();
 	protected $_declaredClasses = array();
 	protected $_definedFunctions = array();
+	protected $_skipFiles = array();
+	public function autoload($class){
+		$this->lookup(dirname(__FILE__).'/src/');
+	}
 	public function create($filename){
 		$this->_declaredClasses = get_declared_classes();
 		$this->_definedFunctions = get_defined_functions();
@@ -36,6 +40,10 @@ PHPFILE;
 		return substr($f, strlen(dirname(__FILE__).'/'));
 	}
 	public function lookFile($f){
+		if (in_array($f, $this->_skipFiles)){
+			return;
+		}
+		$this->_skipFiles[] = $f;
 		if (is_php($f)){
 			echo "\t".basename($f)."\r\n";
 			require_once $f;
@@ -75,4 +83,5 @@ PHPFILE;
 }
 
 $generator = new autoloadGenerator();
+spl_autoload_register(array($generator, 'autoload'));
 $generator->create('kanon-autoload.php');

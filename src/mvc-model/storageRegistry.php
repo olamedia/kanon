@@ -2,7 +2,7 @@
 /**
  * $Id$
  */
-require_once dirname(__FILE__).'/../common/registry.php';
+#require_once dirname(__FILE__).'/../common/registry.php';
 class storageRegistry extends registry{
 	private static $_instance = null;
 	private function __construct(){
