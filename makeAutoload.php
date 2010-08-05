@@ -7,12 +7,11 @@ class autoloadGenerator{
 	protected $_declaredClasses = array();
 	protected $_definedFunctions = array();
 	protected $_skipFiles = array();
-	protected $_skipped = true;
+	protected $_skippedFiles = array();
 	public function autoload($class){
-		echo " autoload... ";
+		echo " skip... ";
 		//$this->lookup(dirname(__FILE__).'/src/');
 		if (!class_exists($class)){
-			$this->_skipped = true;
 			throw new Exception($class);
 		}
 	}
@@ -20,9 +19,11 @@ class autoloadGenerator{
 		$this->_declaredClasses = array_merge(get_declared_classes(), get_declared_interfaces());
 		$functions = get_defined_functions();
 		$this->_definedFunctions = $functions['user'];
-		while ($this->_skipped){
-			$this->_skipped = false;
-			$this->lookup(dirname(__FILE__).'/src/');
+		$this->lookup(dirname(__FILE__).'/src/');
+		while (count($this->_skippedFiles)){
+			foreach ($this->_skippedFiles as $f){
+				$this->lookFile($f);
+			}
 		}
 		$classes = array();
 		ksort($this->_classes);
@@ -65,10 +66,10 @@ PHPFILE;
 		return substr($f, strlen(dirname(__FILE__).'/'));
 	}
 	public function lookFile($f){
-		if (in_array($f, $this->_skipFiles)){
+		/*if (in_array($f, $this->_skipFiles)){
 			return;
 		}
-		$this->_skipFiles[] = $f;
+		$this->_skipFiles[] = $f;*/
 		if (is_php($f)){
 			echo "\t".basename($f);
 			try{
@@ -90,6 +91,7 @@ PHPFILE;
 				}
 			}catch(Exception $e){
 				$newClasses = array(); //$e->getMessage());
+				$this->_skippedFiles[] = $f;
 			}
 			echo "\r\n";
 		}
