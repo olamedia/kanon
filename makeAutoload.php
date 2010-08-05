@@ -149,6 +149,7 @@ PHPFILE;
 				}else{
 					echo "\r\n".$this->rel($f).'\ '."\r\n";
 					$this->lookup($f.'/');
+					echo "\r\n".$this->rel($dir).'\ '."\r\n";
 				}
 			}elseif (is_file($f)){
 				if (substr($f, -4, 4)=='.php'){
