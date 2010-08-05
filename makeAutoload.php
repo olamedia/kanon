@@ -11,7 +11,7 @@ class autoloadGenerator{
 		echo "autoload... ";
 		//$this->lookup(dirname(__FILE__).'/src/');
 		if (!class_exists($class)){
-			throw new Exception("Unable to load $name.");
+			throw new Exception("Unable to load $class.");
 		}
 	}
 	public function create($filename){
