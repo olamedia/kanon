@@ -11,7 +11,7 @@ class autoloadGenerator{
 		echo " autoload... ";
 		//$this->lookup(dirname(__FILE__).'/src/');
 		if (!class_exists($class)){
-			throw new Exception("Unable to load $class.");
+			throw new Exception($class);
 		}
 	}
 	public function create($filename){
@@ -68,14 +68,14 @@ PHPFILE;
 			echo "\t".basename($f);
 			try{
 				include_once $f;
+				$declaredClasses = array_merge(get_declared_classes(), get_declared_interfaces());
+				$newClasses = array_diff($declaredClasses, $this->_declaredClasses);
+				$this->_declaredClasses = $declaredClasses;
 			}catch(Exception $e){
-				//echo $e->getMessage(), "\n";
+				$newClasses = array($e->getMessage());
 			}
-			$declaredClasses = array_merge(get_declared_classes(), get_declared_interfaces());
 			$functions = get_defined_functions();
 			$definedFunctions = $functions['user'];
-			$newClasses = array_diff($declaredClasses, $this->_declaredClasses);
-			$this->_declaredClasses = $declaredClasses;
 			$newFunctions = array_diff($definedFunctions, $this->_definedFunctions);
 			$this->_definedFunctions = $definedFunctions;
 			foreach ($newClasses as $class){
