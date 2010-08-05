@@ -9,7 +9,7 @@ class autoloadGenerator{
 	protected $_skipFiles = array();
 	public function autoload($class){
 		echo "autoload... ";
-		$this->lookup(dirname(__FILE__).'/src/');
+		//$this->lookup(dirname(__FILE__).'/src/');
 		if (!class_exists($class)){
 			throw new Exception("Unable to load $name.");
 		}
