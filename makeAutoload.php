@@ -13,14 +13,15 @@ class autoloadGenerator{
 	protected $_skippedFiles = array();
 	public function autoload($class){
 		if (isset($this->_classes[$class])){
-			include_once dirname(__FILE__).'/'.$this->_classes[$class];
+			$f = dirname(__FILE__).'/'.$f;
+			include_once $f;
 			$declaredClasses = array_merge(get_declared_classes(), get_declared_interfaces());
 			$newClasses = array_diff($declaredClasses, $this->_declaredClasses);
 			foreach ($newClasses as $k => $nclass){
 				if ($class==$nclass){
-					// skip
+					echo " ".'class '.$class.' at '.$this->rel($f).' ';
+					$this->_classes[$class] = $this->rel($f);
 				}else{
-					echo " ".'class '.$class.' ';
 					if ($k = array_search($class, $declaredClasses)){
 						unset($declaredClasses[$k]);
 					}
