@@ -19,6 +19,8 @@ class autoloadGenerator{
 		}
 	}
 	public function create($filename){
+		include 'cache.php';
+		$this->_classes = $autoload;
 		$this->_declaredClasses = array_merge(get_declared_classes(), get_declared_interfaces());
 		$functions = get_defined_functions();
 		$this->_definedFunctions = $functions['user'];
@@ -40,6 +42,11 @@ class autoloadGenerator{
 			$functions[] = "require_once \$dirname.'".$f."';";
 		}
 		$functions = implode("\r\n", $functions);
+		$php = <<<PHPFILE
+<?php
+\$autoload = array($classes);
+PHPFILE;
+		file_put_contents('cache.php', $php);
 		$php = <<<PHPFILE
 <?php
 \$dirname = dirname(__FILE__).'/';
