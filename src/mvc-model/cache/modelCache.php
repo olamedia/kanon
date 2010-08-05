@@ -31,8 +31,8 @@ class modelCache{
 	public static function disable(){
 		self::$_enabled = false;
 	}
-	public static function getResult($resultSet){
-		$cacheKey = md5($resultSet->getSql());
+	public static function getResult($resultSet, $count=false){
+		$cacheKey = md5($count?$resultSet->getCountSql():$resultSet->getSql());
 		if (isset(self::$_cache[$cacheKey])){
 			return self::$_cache[$cacheKey];
 		}
@@ -41,8 +41,8 @@ class modelCache{
 	/**
 	 * @param modelResultSet $resultSet 
 	 */
-	public static function cache($resultSet, $results = null){
-		$cacheKey = md5($resultSet->getSql());
+	public static function cache($resultSet, $results = null, $count=false){
+		$cacheKey = md5($count?$resultSet->getCountSql():$resultSet->getSql());
 		if ($results===null){
 			$results = array();
 			foreach ($resultSet as $result){

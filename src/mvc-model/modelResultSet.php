@@ -68,7 +68,7 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 	public function count(){
 		//echo $this->getCountSql();
 		if (modelCache::isEnabled()){
-			$count = modelCache::getResult($this);
+			$count = modelCache::getResult($this, true);
 			if ($count!==false){
 				return $count;
 			}
@@ -91,7 +91,7 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 			}
 		}
 		if (modelCache::isEnabled()){
-			modelCache::cache($this, $count);
+			modelCache::cache($this, $count, true);
 		}
 		return $count;
 	}
