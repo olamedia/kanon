@@ -83,6 +83,17 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 				return true;
 			}else{
 				if ($this->_result = $this->getStorage()->query($this->getSql())){
+					if (modelCache::isEnabled()){ // rebuild as array
+						$results = array();
+						while ($result = $this->fetch()){
+							$results[] = $result;
+						}
+						modelCache::cache($this, $results);
+						$this->_result = $results;
+						$this->_finished = false;
+					}else{
+						$this->_result = $results;
+					}
 					return true;
 				}
 			}

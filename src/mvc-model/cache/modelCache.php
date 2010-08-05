@@ -31,11 +31,13 @@ class modelCache{
 	/**
 	 * @param modelResultSet $resultSet 
 	 */
-	public static function cache($resultSet){
+	public static function cache($resultSet, $results = null){
 		$cacheKey = md5($resultSet->getSql());
-		$results = array();
-		foreach ($resultSet as $result){
-			$results[] = $result;
+		if ($results===null){
+			$results = array();
+			foreach ($resultSet as $result){
+				$results[] = $result;
+			}
 		}
 		self::$_cache[$cacheKey] = $results;
 	}
