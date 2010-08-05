@@ -112,7 +112,7 @@ PHPFILE;
 				$newFunctions = array_diff($definedFunctions, $this->_definedFunctions);
 				$this->_definedFunctions = $definedFunctions;
 				foreach ($newClasses as $class){
-					if (in_array($class, $this->_skipClasses[$class])){
+					if (isset($this->_skipClasses[$class])){
 						echo " ".'class '.$class.' ';
 						$this->_classes[$class] = $this->rel($f);
 						$newClasses = array(); // !!!
