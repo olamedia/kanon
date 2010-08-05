@@ -1,4 +1,5 @@
 <?php
+
 class imageFilenameProperty extends stringProperty{
 	protected $_path = null;
 	protected $_uri = null;
@@ -9,7 +10,7 @@ class imageFilenameProperty extends stringProperty{
 		return $this;
 	}
 	public function getPath(){
-		if ($this->_path !== null){
+		if ($this->_path!==null){
 			return $this->_path;
 		}
 		return kanon::getBasePath().'/'.$this->_options['path'];
@@ -19,7 +20,7 @@ class imageFilenameProperty extends stringProperty{
 		return $this;
 	}
 	public function getUri(){
-		if ($this->_uri !== null){
+		if ($this->_uri!==null){
 			return $this->_uri;
 		}
 		return $this->_options['url'];
@@ -27,6 +28,15 @@ class imageFilenameProperty extends stringProperty{
 	}
 	public function source(){
 		return $this->getUri().'/'.$this->getValue();
+	}
+	public function getValue(){
+		$value = parent::getValue();
+		if ($value!==''){
+			if (!is_file($this->getPath().$value)){
+				$value = '';
+			}
+		}
+		return $value;
 	}
 	public function tm($size, $method = 'fit'){
 		$path = $this->getPath();
@@ -42,7 +52,6 @@ class imageFilenameProperty extends stringProperty{
 			case 'crop':
 				$prefix = 'tmc';
 				break;
-			
 		}
 
 		$tm = $prefix.$size.'x'.$size.'_'.$this->getValue();
