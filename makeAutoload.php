@@ -38,6 +38,19 @@ kanon::registerAutoload(array(
 $classes
 ),\$dirname);
 $functions
+register_shutdown_function(array('kanon', 'onShutdown'));
+if (function_exists('spl_autoload_register')){
+	spl_autoload_register(array('kanon', 'autoload'));
+	spl_autoload_register(array('plugins', 'autoload'));
+}else{
+	function __autoload(\$name){
+		if (!kanon::autoload(\$name)){
+			plugins::autoload(\$name);
+		}
+	}
+}
+set_exception_handler(array('kanonExceptionHandler', 'handle'));
+set_error_handler('kanonErrorHandler');
 PHPFILE;
 		file_put_contents($filename, $php);
 	}
