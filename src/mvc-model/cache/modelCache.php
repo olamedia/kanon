@@ -12,11 +12,21 @@
 class modelCache{
 	protected static $_cache = array();
 	protected static $_enabled = false;
+	protected static $_prefetchOnCount = true;
 	public static function enable(){
 		self::$_enabled = true;
 	}
 	public static function isEnabled(){
 		return self::$_enabled;
+	}
+	public static function prefetchOnCount(){
+		return self::$_prefetchOnCount;
+	}
+	public static function enablePrefetchOnCount(){
+		self::$_prefetchOnCount = true;
+	}
+	public static function disablePrefetchOnCount(){
+		self::$_prefetchOnCount = false;
 	}
 	public static function disable(){
 		self::$_enabled = false;

@@ -73,11 +73,20 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 				return $count;
 			}
 		}
-		$result = $this->getStorage()->query($this->getCountSql());
-		$count = 0;
-		if ($result){
-			while ($a = $this->getStorage()->fetch($result)){
-				$count += array_shift($a);
+		if (modelCache::prefetchOnCount()){
+			$this->execute();
+			if (is_array($this->_result)){
+				$count = count($this->_result);
+			}else{
+				$count = $this->getStorage()->getDriver()->rowCount($this->_result);
+			}
+		}else{
+			$result = $this->getStorage()->query($this->getCountSql());
+			$count = 0;
+			if ($result){
+				while ($a = $this->getStorage()->fetch($result)){
+					$count += array_shift($a);
+				}
 			}
 		}
 		if (modelCache::isEnabled()){
