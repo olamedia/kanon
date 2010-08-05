@@ -11,6 +11,7 @@ class autoloadGenerator{
 	protected $_definedFunctions = array();
 	protected $_skipFiles = array();
 	protected $_skippedFiles = array();
+	protected $_skipClasses = array();
 	public function autoload($class){
 		if (isset($this->_classes[$class])){
 			$f = dirname(__FILE__).'/'.$this->_classes[$class];
@@ -28,6 +29,8 @@ class autoloadGenerator{
 				}
 			}
 			$this->_declaredClasses = $declaredClasses;
+		}else{
+			$this->_skipClasses[$class] = $class;
 		}
 		echo " skip... ";
 		//$this->lookup(dirname(__FILE__).'/src/');
@@ -108,6 +111,15 @@ PHPFILE;
 				$definedFunctions = $functions['user'];
 				$newFunctions = array_diff($definedFunctions, $this->_definedFunctions);
 				$this->_definedFunctions = $definedFunctions;
+				foreach ($newClasses as $class){
+					if (in_array($class, $this->_skipClasses[$class])){
+						echo " ".'class '.$class.' ';
+						$this->_classes[$class] = $this->rel($f);
+						$newClasses = array(); // !!!
+						break;
+					}
+				}
+
 				foreach ($newClasses as $class){
 					echo " ".'class '.$class.' ';
 					$this->_classes[$class] = $this->rel($f);
