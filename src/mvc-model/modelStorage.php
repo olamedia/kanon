@@ -1,6 +1,7 @@
 <?php
 #require_once dirname(__FILE__).'/storageDrivers/mysqlDriver.php';
 #require_once dirname(__FILE__).'/storageDrivers/pdoDriver.php';
+
 class modelStorage{
 	private static $_foreignConnections = array();
 	private static $_instances = array();
@@ -10,8 +11,18 @@ class modelStorage{
 	private $_storageDriver = null;
 	protected $_uniqueId = null;
 	protected $_unregisteredForeignKeys = array();
+	protected $_cacheEnabled = false;
+	public function enableCache(){
+		$this->_cacheEnabled = true;
+	}
+	public function disableCache(){
+		$this->_cacheEnabled = false;
+	}
+	public function isCacheEnabled(){
+		return $this->_cacheEnabled;
+	}
 	public function getUniqueId(){
-		if ($this->_uniqueId === null){
+		if ($this->_uniqueId===null){
 			$this->_uniqueId = kanon::getUniqueId();
 		}
 		return $this->_uniqueId;
@@ -55,19 +66,19 @@ class modelStorage{
 				$fieldName = $property->getFieldName();
 				if (is_object($property)){
 					$initialValue = $property->getInitialValue();
-					if ($initialValue !== null){
+					if ($initialValue!==null){
 						$wherea[] = "`$fieldName` = ".$this->quote($initialValue);
 					}else{
 						if ($useAssignedValues){
 							$value = $property->getInternalValue();
-							if ($value !== null){
+							if ($value!==null){
 								$wherea[] = "`$fieldName` = ".$this->quote($value);
 							}
 						}
 					}
 				}
 			}
-			if (count($pk) == count($wherea)){
+			if (count($pk)==count($wherea)){
 				return " WHERE ".implode(" AND ", $wherea);
 			}
 		}
@@ -78,7 +89,7 @@ class modelStorage{
 	 * @param model $model
 	 */
 	protected function _getWhereSql($model, $useAssignedValues = false){
-		if (($whereSql = $this->_getWherePrimaryKeySql($model, $useAssignedValues)) !== false){
+		if (($whereSql = $this->_getWherePrimaryKeySql($model, $useAssignedValues))!==false){
 			return $whereSql;
 		}
 		// can't use PK
@@ -88,7 +99,7 @@ class modelStorage{
 			$property = $model[$fieldName];
 			if ($property){
 				$initialValue = $property->getInitialValue();
-				if ($initialValue !== null){
+				if ($initialValue!==null){
 					$wherea[] = "`$fieldName` = ".$this->quote($initialValue);
 				}
 			}
@@ -155,7 +166,8 @@ class modelStorage{
 			echo ' insertModel ';
 		}
 		$sql = $this->_getInsertSql($model);
-		if ($debug) echo $sql;
+		if ($debug)
+			echo $sql;
 		if ($this->execute($sql)){
 			$model->makeValuesInitial();
 			// Update AutoIncrement property
@@ -163,7 +175,7 @@ class modelStorage{
 			if (isset($_COOKIE['debug'])){
 				echo ' ai='.$autoIncrement.' ';
 			}
-			if ($autoIncrement !== null){
+			if ($autoIncrement!==null){
 				$property = &$model->{$autoIncrement};
 				if ($value = $this->lastInsertId()){
 					if (!is_object($property)){
@@ -297,7 +309,7 @@ class modelStorage{
 				if ($keys->offsetExists($viaModel)){
 					//echo 'ok ';
 					foreach ($keys[$viaModel] as $foreignModel => $options2){
-						if ($foreignModel !== $model){
+						if ($foreignModel!==$model){
 							if (!isset($keys[$model][$foreignModel])){
 								//echo $model.'=>'.$foreignModel.' via '.$viaModel.'.<br />';
 								//echo $indirectForeignClass2.'<br />';
@@ -326,19 +338,19 @@ class modelStorage{
 		$joinedTables = array();
 		//echo 'Connecting from '.$sourceClass.' to '.$targetClass.'<br />';
 		foreach ($keys[$sourceClass] as $foreignClass => $options){
-			if ($foreignClass == $targetClass){
+			if ($foreignClass==$targetClass){
 				if (!is_array($options)){
 					$viaClass = $options;
 					//echo 'Connecting via '.$viaClass.'<br />';
 					$viaTable = modelCollection::getInstance($viaClass);
 					$subJoins = self::getIndirectTablesJoins($sourceTable, $viaTable, $joinTypes, $joinWhere);
-					if ($subJoins !== false){
+					if ($subJoins!==false){
 						foreach ($subJoins as $uid => $joinString){
 							$joins[$uid] = $joinString;
 						}
 					}
 					$subJoins = self::getIndirectTablesJoins($viaTable, $targetTable, $joinTypes, $joinWhere);
-					if ($subJoins !== false){
+					if ($subJoins!==false){
 						foreach ($subJoins as $uid => $joinString){
 							$joins[$uid] = $joinString;
 						}
@@ -348,9 +360,9 @@ class modelStorage{
 					// FIXED JOIN TYPE & ON() SELECTION
 					$joinType = isset($joinTypes[$targetTable->getUniqueId()])?$joinTypes[$targetTable->getUniqueId()]:'INNER';
 					$joinOn = $sourceTable->getJoinOn($targetTable);
-					if ($joinOn === null){
+					if ($joinOn===null){
 						$joinOn = $targetTable->getJoinOn($sourceTable);
-						if ($joinOn === null){
+						if ($joinOn===null){
 							$joinOn = '';
 						}
 					}
@@ -366,7 +378,10 @@ class modelStorage{
 					//$joins[$sourceTable->getUniqueId()] = true;
 					$joins[$targetTable->getUniqueId()] = $joinString;
 					//echo 'Connecting via DIRECT<br />';
-					if ($joinString !== false) return $joins;//array($joinedTables, $joinString);
+					if ($joinString!==false)
+						return $joins; //array($joinedTables, $joinString);
+
+
 				}
 			}
 		}
@@ -383,17 +398,17 @@ class modelStorage{
 	 */
 	public function connect($dsn, $username = 'root', $password = '', $charset = 'UTF8'){
 		if ($dsn instanceof modelStorage){
-			$this->_storageDriver =& $dsn->getDriver();
+			$this->_storageDriver = & $dsn->getDriver();
 			return $this;
 		}
 		$extension = reset(explode(":", $dsn));
 		$driverName = null;
-		if ($extension == 'sqlite'){ // prefer pdo (sqlite2,sqlite3)
+		if ($extension=='sqlite'){ // prefer pdo (sqlite2,sqlite3)
 			if (extension_loaded('pdo')){
 				$driverName = 'pdoDriver';
 			}
 		}
-		if ($driverName === null){
+		if ($driverName===null){
 			$driverName = $extension.'Driver';
 			if (!extension_loaded($extension)){ // prefer native, but fallback to pdo
 				$driverName = 'pdoDriver';
@@ -406,14 +421,14 @@ class modelStorage{
 		$this->_storageDriver = new $driverName;
 		$this->_storageDriver->setStorage($this);
 		$this->_storageDriver->setDatabaseType($extension);
-		$this->_storageDriver->setup('dsn',$dsn);
-		$this->_storageDriver->setup('username',$username);
-		$this->_storageDriver->setup('password',$password);
-		$this->_storageDriver->setup('charset',$charset);
+		$this->_storageDriver->setup('dsn', $dsn);
+		$this->_storageDriver->setup('username', $username);
+		$this->_storageDriver->setup('password', $password);
+		$this->_storageDriver->setup('charset', $charset);
 		$dsna = explode(";", $dsne);
 		foreach ($dsna as $p){
-			list($k,$v) = explode("=", $p);
-			$this->_storageDriver->setup($k,$v);
+			list($k, $v) = explode("=", $p);
+			$this->_storageDriver->setup($k, $v);
 		}
 		return $this;
 	}

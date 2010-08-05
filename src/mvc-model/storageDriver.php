@@ -8,6 +8,7 @@ abstract class storageDriver{
 	protected $_storage = null; // back reference to storage
 	protected $_autoRepair = true;
 	protected $_serviceMode = true;
+	protected static $_cache = array();
 	public function enableServiceMode(){
 		$this->_serviceMode = true;
 		return $this;

@@ -1,6 +1,7 @@
 <?php
 #require_once dirname(__FILE__).'/modelQueryBuilder.php';
 #require_once dirname(__FILE__).'/modelResultSetIterator.php';
+
 class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Countable{
 	protected $_result = null;
 	protected $_finished = false;
@@ -9,13 +10,14 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 	public function destroy(){
 		$this->_result = null;
 		foreach ($this->_list as $m){
-			if (is_subclass_of($m, 'model')) destroy($m);
+			if (is_subclass_of($m, 'model'))
+				destroy($m);
 		}
 		$this->free();
 		$this->_list = array();
 	}
 	public function free(){
-		if ($this->_result !== null){
+		if ($this->_result!==null){
 			$this->getStorage()->getDriver()->free($this->_result);
 			$this->_result = null;
 			$this->_finished = false;
@@ -33,9 +35,9 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 		foreach ($this->_selected as $sa){
 			if ($sa instanceof modelAggregation){
 				$models[] = $a[$sa->getAs()];
-			/*}elseif ($sa instanceof modelAggregation){
-				$models[] = $a[$sa->getAs()];*/
-			}elseif(is_array($sa)){
+				/* }elseif ($sa instanceof modelAggregation){
+				  $models[] = $a[$sa->getAs()]; */
+			}elseif (is_array($sa)){
 				list($table, $fields) = $sa;
 				if ($table instanceof modelCollection){
 					if (!($modelClass = $table->getModelClass())){
@@ -48,7 +50,7 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 						$model->setInitialFieldValue($field->getName(), $a[$field->getUniqueId()]);
 					}
 				}else{
-					list($k,$v) = each($sa);
+					list($k, $v) = each($sa);
 					$model = $a[$k];
 				}
 				$models[] = $model;
@@ -56,7 +58,7 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 				
 			}
 		}
-		if (count($models) == 1){
+		if (count($models)==1){
 			return $model;
 		}
 		return $models;
@@ -73,10 +75,16 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 		return $count;
 	}
 	public function execute(){
-
-		if ($this->_result === null){
-			if ($this->_result = $this->getStorage()->query($this->getSql())){
+		if ($this->_result===null){
+			if (modelCache::isEnabled()){
+				$this->_result = modelCache::getResult($this);
+			}
+			if ($this->_result){
 				return true;
+			}else{
+				if ($this->_result = $this->getStorage()->query($this->getSql())){
+					return true;
+				}
 			}
 			return false;
 		}
@@ -90,15 +98,25 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 	 * @return model
 	 */
 	public function fetch(){
-		if ($this->_finished) return false;
+		if ($this->_finished)
+			return false;
 		$this->execute();
 		if ($this->_result){
-			if ($a = $this->getStorage()->fetch($this->_result)){
-				$models = $this->_makeModels($a);
-				//if ($this->_useCache){
-				//	$this->_list[] = $models;
-				//}
-				return $models;
+			if (is_array($this->_result)){
+				// cached values
+				if (count($this->_result)){
+					return array_shift($this->_result);
+				}else{
+					$this->_result = null;
+				}
+			}else{
+				if ($a = $this->getStorage()->fetch($this->_result)){
+					$models = $this->_makeModels($a);
+					//if ($this->_useCache){
+					//	$this->_list[] = $models;
+					//}
+					return $models;
+				}
 			}
 		}
 		$this->_finished = true;
@@ -107,7 +125,9 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 	}
 	protected function _fetchAll(){
 		$this->useCache(true);
-		while ($this->fetch()){}
+		while ($this->fetch()){
+
+		}
 	}
 	public function getIterator(){
 		//$this->useCache(true);
@@ -126,7 +146,7 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 			}
 		}
 	}
-	/*public function __destruct(){
-		unset($this->_result);
-		}*/
+	/* public function __destruct(){
+	  unset($this->_result);
+	  } */
 }
