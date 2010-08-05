@@ -17,7 +17,7 @@ class autoloadGenerator{
 			$f = dirname(__FILE__).'/'.$this->_classes[$class];
 			include_once $f;
 			$declaredClasses = array_merge(get_declared_classes(), get_declared_interfaces());
-			$newClasses = array_diff($declaredClasses, $this->_declaredClasses);
+			/*$newClasses = array_diff($declaredClasses, $this->_declaredClasses);
 			foreach ($newClasses as $k => $nclass){
 				if ($class==$nclass){
 					echo " ".'class '.$class.' at '.$this->rel($f).' ';
@@ -27,7 +27,7 @@ class autoloadGenerator{
 						unset($declaredClasses[$k]);
 					}
 				}
-			}
+			}*/
 			$this->_declaredClasses = $declaredClasses;
 		}else{
 			$this->_skipClasses[$class] = $class;
@@ -35,6 +35,7 @@ class autoloadGenerator{
 		//$this->lookup(dirname(__FILE__).'/src/');
 		if (!class_exists($class)){
 			echo " FAILED:".$class." ";
+			$this->_skipClasses[$class] = $class;
 			throw new Exception($class);
 		}
 	}
