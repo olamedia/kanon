@@ -70,7 +70,6 @@ PHPFILE;
 			foreach ($newFunctions as $func){
 				echo "\t\t\t".'@ function '.$func.' '."\r\n";
 				$this->_functions[$func] = $this->rel($f);
-				exit;
 			}
 		}
 	}
