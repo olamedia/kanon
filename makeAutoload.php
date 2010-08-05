@@ -14,9 +14,19 @@ class autoloadGenerator{
 	public function autoload($class){
 		if (isset($this->_classes[$class])){
 			include_once dirname(__FILE__).'/'.$this->_classes[$class];
-			$this->_declaredClasses = array_merge(get_declared_classes(), get_declared_interfaces());
-			$functions = get_defined_functions();
-			$this->_definedFunctions = $functions['user'];
+			$declaredClasses = array_merge(get_declared_classes(), get_declared_interfaces());
+			$newClasses = array_diff($declaredClasses, $this->_declaredClasses);
+			foreach ($newClasses as $k => $nclass){
+				if ($class==$nclass){
+					// skip
+				}else{
+					echo " ".'class '.$class.' ';
+					if ($k = array_search($class, $declaredClasses)){
+						unset($declaredClasses[$k]);
+					}
+				}
+			}
+			$this->_declaredClasses = $declaredClasses;
 		}
 		echo " skip... ";
 		//$this->lookup(dirname(__FILE__).'/src/');
