@@ -17,6 +17,15 @@ class autoloadGenerator{
 			$f = dirname(__FILE__).'/'.$this->_classes[$class];
 			include_once $f;
 			$declaredClasses = array_merge(get_declared_classes(), get_declared_interfaces());
+			$newClasses = array_diff($declaredClasses, $this->_declaredClasses);
+			if ($k = array_search($class, $newClasses)){
+				unset($newClasses[$k]);
+			}
+			foreach ($newClasses as $newClass){
+				if ($k = array_search($newClass, $declaredClasses)){
+					unset($declaredClasses[$k]);
+				}
+			}
 			$this->_declaredClasses = $declaredClasses;
 		}else{
 			echo " FAILED:".$class." ";
