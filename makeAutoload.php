@@ -15,7 +15,8 @@ class autoloadGenerator{
 		}
 	}
 	public function create($filename){
-		$this->_declaredClasses = get_declared_classes();
+		$this->_declaredClasses = array_merge(get_declared_classes(),get_declared_interfaces());
+
 		$this->_definedFunctions = get_defined_functions();
 		$this->lookup(dirname(__FILE__).'/src/');
 		$classes = array();
@@ -55,7 +56,7 @@ PHPFILE;
 			}catch(Exception $e){
 				echo $e->getMessage(), "\n";
 			}
-			$declaredClasses = get_declared_classes();
+			$declaredClasses = array_merge(get_declared_classes(),get_declared_interfaces());
 			$definedFunctions = get_defined_functions();
 			$newClasses = array_diff($declaredClasses, $this->_declaredClasses);
 			$this->_declaredClasses = $declaredClasses;
