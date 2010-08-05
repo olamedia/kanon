@@ -32,9 +32,9 @@ class autoloadGenerator{
 		}else{
 			$this->_skipClasses[$class] = $class;
 		}
-		echo " skip... ";
 		//$this->lookup(dirname(__FILE__).'/src/');
 		if (!class_exists($class)){
+			echo " FAILED:".$class." ";
 			throw new Exception($class);
 		}
 	}
