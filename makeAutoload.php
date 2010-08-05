@@ -102,8 +102,8 @@ PHPFILE;
 				foreach ($newClasses as $class){
 					if (isset($this->_skipClasses[$class])){
 						echo "\t\t\t".' SKIP ';
-						//echo " ".'class '.$class.' ';
-						//$this->_classes[$class] = $this->rel($f);
+						echo " FOUND:".'class '.$class.' ';
+						$this->_classes[$class] = $this->rel($f);
 						$newClasses = array(); // !!!
 						break;
 					}
