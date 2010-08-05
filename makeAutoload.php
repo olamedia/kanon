@@ -43,7 +43,9 @@ class autoloadGenerator{
 		if (count($this->_skippedFiles)){
 			echo "=====================================\r\n";
 			echo "SOME FILES SKIPPED, RUN AGAIN!!!\r\n";
-
+		}else{
+			echo "=====================================\r\n";
+			echo "FINISHED\r\n";
 		}
 		$classes = array();
 		ksort($this->_classes);
