@@ -27,6 +27,3 @@ class application extends frontController{
 	}
 
 }
-function app(){
-	return application::getInstance();
-}
