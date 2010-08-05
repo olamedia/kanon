@@ -89,9 +89,10 @@ PHPFILE;
 					echo " ".'@ function '.$func.' ';
 					$this->_functions[$func] = $this->rel($f);
 				}
+				unset($this->_skippedFiles[$f]);
 			}catch(Exception $e){
 				$newClasses = array(); //$e->getMessage());
-				$this->_skippedFiles[] = $f;
+				$this->_skippedFiles[$f] = $f;
 			}
 			echo "\r\n";
 		}
