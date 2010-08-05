@@ -91,6 +91,7 @@ PHPFILE;
 				}
 				unset($this->_skippedFiles[$f]);
 			}catch(Exception $e){
+				echo ' skip... ';
 				$newClasses = array(); //$e->getMessage());
 				$this->_skippedFiles[$f] = $f;
 			}
