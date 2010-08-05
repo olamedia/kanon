@@ -41,7 +41,9 @@ class autoloadGenerator{
 		$this->_definedFunctions = $functions['user'];
 		$this->lookup(dirname(__FILE__).'/src/');
 		if (count($this->_skippedFiles)){
-			`php makeAutoload.php`;
+			echo "=====================================\r\n";
+			echo "SOME FILES SKIPPED, RUN AGAIN!!!\r\n";
+
 		}
 		$classes = array();
 		ksort($this->_classes);
