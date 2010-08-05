@@ -39,7 +39,6 @@ require_once \$dirname.'src/common/functions/is_php.php';
 kanon::registerAutoload(array(
 $classes
 ),\$dirname);
-$functions
 register_shutdown_function(array('kanon', 'onShutdown'));
 if (function_exists('spl_autoload_register')){
 	spl_autoload_register(array('kanon', 'autoload'));
@@ -53,6 +52,7 @@ if (function_exists('spl_autoload_register')){
 }
 set_exception_handler(array('kanonExceptionHandler', 'handle'));
 set_error_handler('kanonErrorHandler');
+$functions
 PHPFILE;
 		file_put_contents($filename, $php);
 	}

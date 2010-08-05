@@ -2,7 +2,6 @@
 /**
  * $Id$
  */
-#require_once dirname(__FILE__).'/frontController.php';
 class application extends frontController{
 	private static $_selfInstance = null;
 	private static $_instance = null;
@@ -25,5 +24,4 @@ class application extends frontController{
 		kanon::callDeferred(); // call all deferred by modules functions
 		return self::$_instance;
 	}
-
 }
