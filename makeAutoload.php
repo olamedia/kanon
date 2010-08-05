@@ -116,7 +116,7 @@ PHPFILE;
 					$classes = array_keys($this->_classes, $this->rel($f));
 					echo "\t\t\t".' OK ';
 					foreach ($classes as $class){
-						echo " DEFINED:".'class '.$class.' ';
+						echo " ".'class '.$class.' ';
 					}
 				}
 				foreach ($newFunctions as $func){
