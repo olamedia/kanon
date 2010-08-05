@@ -65,7 +65,7 @@ PHPFILE;
 		}
 		$this->_skipFiles[] = $f;
 		if (is_php($f)){
-			echo "\t".basename($f)."\r\n";
+			echo "\t".basename($f);
 			try{
 				include_once $f;
 			}catch(Exception $e){
@@ -79,13 +79,14 @@ PHPFILE;
 			$newFunctions = array_diff($definedFunctions, $this->_definedFunctions);
 			$this->_definedFunctions = $definedFunctions;
 			foreach ($newClasses as $class){
-				echo "\t\t\t".'class '.$class.' '."\r\n";
+				echo " ".'class '.$class.' ';
 				$this->_classes[$class] = $this->rel($f);
 			}
 			foreach ($newFunctions as $func){
-				echo "\t\t\t".'@ function '.$func.' '."\r\n";
+				echo " ".'@ function '.$func.' ';
 				$this->_functions[$func] = $this->rel($f);
 			}
+			echo "\r\n";
 		}
 	}
 	public function lookup($dir){
