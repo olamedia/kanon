@@ -1,5 +1,8 @@
 <?php
 require_once dirname(__FILE__).'/src/common/functions/is_php.php';
+if (is_php(dirname(__FILE__).'/kanon-autoload.php')){
+	require_once(dirname(__FILE__).'/kanon-autoload.php');
+}
 
 class autoloadGenerator{
 	protected $_classes = array();
@@ -66,10 +69,10 @@ PHPFILE;
 		return substr($f, strlen(dirname(__FILE__).'/'));
 	}
 	public function lookFile($f){
-		/*if (in_array($f, $this->_skipFiles)){
-			return;
-		}
-		$this->_skipFiles[] = $f;*/
+		/* if (in_array($f, $this->_skipFiles)){
+		  return;
+		  }
+		  $this->_skipFiles[] = $f; */
 		if (is_php($f)){
 			echo "\t".basename($f);
 			try{
