@@ -32,11 +32,11 @@ class autoloadGenerator{
 		$php = <<<PHPFILE
 <?php
 \$dirname = dirname(__FILE__).'/';
+require_once \$dirname.'src/common/kanon.php';
 require_once \$dirname.'src/common/functions/is_php.php';
-\$autoload = array(
+kanon::registerAutoload(array(
 $classes
-);
-kanon::registerAutoload(\$autoload,\$dirname);
+),\$dirname);
 $functions
 PHPFILE;
 		file_put_contents($filename, $php);
@@ -69,6 +69,7 @@ PHPFILE;
 			foreach ($newFunctions as $func){
 				echo "\t\t\t".'@ function '.$func.' '."\r\n";
 				$this->_functions[$func] = $this->rel($f);
+				exit;
 			}
 		}
 	}
