@@ -1,8 +1,8 @@
 <?php
 require_once dirname(__FILE__).'/src/common/functions/is_php.php';
-if (is_php(dirname(__FILE__).'/kanon-autoload.php')){
+/*if (is_php(dirname(__FILE__).'/kanon-autoload.php')){
 	require_once(dirname(__FILE__).'/kanon-autoload.php');
-}
+}*/
 
 class autoloadGenerator{
 	protected $_classes = array();
