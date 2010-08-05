@@ -113,17 +113,19 @@ PHPFILE;
 				$this->_definedFunctions = $definedFunctions;
 				foreach ($newClasses as $class){
 					if (isset($this->_skipClasses[$class])){
-						echo ' skip... ';
+						echo ' SKIP ';
 						//echo " ".'class '.$class.' ';
 						//$this->_classes[$class] = $this->rel($f);
 						$newClasses = array(); // !!!
 						break;
 					}
 				}
-
-				foreach ($newClasses as $class){
-					echo " ".'class '.$class.' ';
-					$this->_classes[$class] = $this->rel($f);
+				if (count($newClasses)){
+					echo ' OK ';
+					foreach ($newClasses as $class){
+						echo " ".'class '.$class.' ';
+						$this->_classes[$class] = $this->rel($f);
+					}
 				}
 				foreach ($newFunctions as $func){
 					echo " ".'@ function '.$func.' ';
