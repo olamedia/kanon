@@ -7,10 +7,12 @@ class autoloadGenerator{
 	protected $_declaredClasses = array();
 	protected $_definedFunctions = array();
 	protected $_skipFiles = array();
+	protected $_skipped = true;
 	public function autoload($class){
 		echo " autoload... ";
 		//$this->lookup(dirname(__FILE__).'/src/');
 		if (!class_exists($class)){
+			$this->_skipped = true;
 			throw new Exception($class);
 		}
 	}
@@ -18,7 +20,10 @@ class autoloadGenerator{
 		$this->_declaredClasses = array_merge(get_declared_classes(), get_declared_interfaces());
 		$functions = get_defined_functions();
 		$this->_definedFunctions = $functions['user'];
-		$this->lookup(dirname(__FILE__).'/src/');
+		while ($this->_skipped){
+			$this->_skipped = false;
+			$this->lookup(dirname(__FILE__).'/src/');
+		}
 		$classes = array();
 		ksort($this->_classes);
 		foreach ($this->_classes as $class => $f){
@@ -71,20 +76,20 @@ PHPFILE;
 				$declaredClasses = array_merge(get_declared_classes(), get_declared_interfaces());
 				$newClasses = array_diff($declaredClasses, $this->_declaredClasses);
 				$this->_declaredClasses = $declaredClasses;
+				$functions = get_defined_functions();
+				$definedFunctions = $functions['user'];
+				$newFunctions = array_diff($definedFunctions, $this->_definedFunctions);
+				$this->_definedFunctions = $definedFunctions;
+				foreach ($newClasses as $class){
+					echo " ".'class '.$class.' ';
+					$this->_classes[$class] = $this->rel($f);
+				}
+				foreach ($newFunctions as $func){
+					echo " ".'@ function '.$func.' ';
+					$this->_functions[$func] = $this->rel($f);
+				}
 			}catch(Exception $e){
-				$newClasses = array($e->getMessage());
-			}
-			$functions = get_defined_functions();
-			$definedFunctions = $functions['user'];
-			$newFunctions = array_diff($definedFunctions, $this->_definedFunctions);
-			$this->_definedFunctions = $definedFunctions;
-			foreach ($newClasses as $class){
-				echo " ".'class '.$class.' ';
-				$this->_classes[$class] = $this->rel($f);
-			}
-			foreach ($newFunctions as $func){
-				echo " ".'@ function '.$func.' ';
-				$this->_functions[$func] = $this->rel($f);
+				$newClasses = array(); //$e->getMessage());
 			}
 			echo "\r\n";
 		}
