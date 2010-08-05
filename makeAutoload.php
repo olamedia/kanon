@@ -20,11 +20,13 @@ class autoloadGenerator{
 		$this->_definedFunctions = $functions['user'];
 		$this->lookup(dirname(__FILE__).'/src/');
 		$classes = array();
+		ksort($this->_classes);
 		foreach ($this->_classes as $class => $f){
 			$classes[] = "'".$class."'=>'".$f."'";
 		}
 		$classes = implode(",\r\n", $classes);
 		$functions = array();
+		$this->_functions = array_unique($this->_functions);
 		foreach ($this->_functions as $func => $f){
 			$functions[] = "require_once \$dirname.'".$f."';";
 		}
