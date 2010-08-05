@@ -10,7 +10,9 @@ class autoloadGenerator{
 	public function autoload($class){
 		echo "autoload... ";
 		$this->lookup(dirname(__FILE__).'/src/');
-
+		if (!class_exists($class)){
+			throw new Exception("Unable to load $name.");
+		}
 	}
 	public function create($filename){
 		$this->_declaredClasses = get_declared_classes();
@@ -48,7 +50,11 @@ PHPFILE;
 		$this->_skipFiles[] = $f;
 		if (is_php($f)){
 			echo "\t".basename($f)."\r\n";
-			require_once $f;
+			try{
+				include_once $f;
+			}catch(Exception $e){
+				echo $e->getMessage(), "\n";
+			}
 			$declaredClasses = get_declared_classes();
 			$definedFunctions = get_defined_functions();
 			$newClasses = array_diff($declaredClasses, $this->_declaredClasses);
@@ -67,10 +73,10 @@ PHPFILE;
 	}
 	public function lookup($dir){
 		foreach (glob($dir.'*') as $f){
-			//echo $f.' ';
+//echo $f.' ';
 			if (is_dir($f)){
 				if (in_array(basename($f), array('prototype', 'test', 'tests', 'tmp'))){
-					// skip
+// skip
 				}else{
 					echo "\r\n".$this->rel($f).'\ '."\r\n";
 					$this->lookup($f.'/');
