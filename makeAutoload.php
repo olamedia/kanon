@@ -1,8 +1,8 @@
 <?php
 require_once dirname(__FILE__).'/src/common/functions/is_php.php';
-/*if (is_php(dirname(__FILE__).'/kanon-autoload.php')){
-	require_once(dirname(__FILE__).'/kanon-autoload.php');
-}*/
+/* if (is_php(dirname(__FILE__).'/kanon-autoload.php')){
+  require_once(dirname(__FILE__).'/kanon-autoload.php');
+  } */
 
 class autoloadGenerator{
 	protected $_classes = array();
@@ -12,6 +12,12 @@ class autoloadGenerator{
 	protected $_skipFiles = array();
 	protected $_skippedFiles = array();
 	public function autoload($class){
+		if (isset($this->_classes[$class])){
+			include_once dirname(__FILE__).'/'.$this->_classes[$class];
+			$this->_declaredClasses = array_merge(get_declared_classes(), get_declared_interfaces());
+			$functions = get_defined_functions();
+			$this->_definedFunctions = $functions['user'];
+		}
 		echo " skip... ";
 		//$this->lookup(dirname(__FILE__).'/src/');
 		if (!class_exists($class)){
