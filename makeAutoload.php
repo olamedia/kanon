@@ -83,9 +83,9 @@ if (function_exists('spl_autoload_register')){
 		}
 	}
 }
+$functions
 set_exception_handler(array('kanonExceptionHandler', 'handle'));
 set_error_handler('kanonErrorHandler');
-$functions
 PHPFILE;
 		file_put_contents($filename, $php);
 	}
