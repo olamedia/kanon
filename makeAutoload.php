@@ -8,7 +8,7 @@ class autoloadGenerator{
 	protected $_definedFunctions = array();
 	protected $_skipFiles = array();
 	public function autoload($class){
-		echo "autoload... ";
+		echo " autoload... ";
 		//$this->lookup(dirname(__FILE__).'/src/');
 		if (!class_exists($class)){
 			throw new Exception("Unable to load $class.");
@@ -69,7 +69,7 @@ PHPFILE;
 			try{
 				include_once $f;
 			}catch(Exception $e){
-				echo $e->getMessage(), "\n";
+				//echo $e->getMessage(), "\n";
 			}
 			$declaredClasses = array_merge(get_declared_classes(), get_declared_interfaces());
 			$functions = get_defined_functions();
