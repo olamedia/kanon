@@ -13,7 +13,7 @@ class autoloadGenerator{
 	protected $_skippedFiles = array();
 	public function autoload($class){
 		if (isset($this->_classes[$class])){
-			$f = dirname(__FILE__).'/'.$f;
+			$f = dirname(__FILE__).'/'.$this->_classes[$class];
 			include_once $f;
 			$declaredClasses = array_merge(get_declared_classes(), get_declared_interfaces());
 			$newClasses = array_diff($declaredClasses, $this->_declaredClasses);
