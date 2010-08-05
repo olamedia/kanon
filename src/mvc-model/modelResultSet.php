@@ -18,9 +18,11 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 	}
 	public function free(){
 		if ($this->_result!==null){
-			$this->getStorage()->getDriver()->free($this->_result);
-			$this->_result = null;
-			$this->_finished = false;
+			if (!is_array($this->_result)){
+				$this->getStorage()->getDriver()->free($this->_result);
+				$this->_result = null;
+				$this->_finished = false;
+			}
 		}
 	}
 	public function __destruct(){
