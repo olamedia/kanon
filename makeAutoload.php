@@ -8,7 +8,9 @@ class autoloadGenerator{
 	protected $_definedFunctions = array();
 	protected $_skipFiles = array();
 	public function autoload($class){
+		echo "autoload... ";
 		$this->lookup(dirname(__FILE__).'/src/');
+
 	}
 	public function create($filename){
 		$this->_declaredClasses = get_declared_classes();
