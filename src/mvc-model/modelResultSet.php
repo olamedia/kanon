@@ -80,6 +80,7 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 			}else{
 				$count = $this->getStorage()->getDriver()->rowCount($this->_result);
 			}
+			$this->_result = null; // reset result
 		}else{
 			$result = $this->getStorage()->query($this->getCountSql());
 			$count = 0;
