@@ -137,7 +137,7 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 						$this->_result = $results;
 						$this->_finished = false;
 					}else{
-						$this->_result = $results;
+						//$this->_result = $results;
 					}
 					return true;
 				}
