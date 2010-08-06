@@ -33,6 +33,7 @@ class modelCache{
 		self::$_enabled = false;
 	}
 	public static function getResult($resultSet, $count=false){
+		if (!$resultSet->isCacheEnabled()) return false;
 		$cacheKey = md5($count?$resultSet->getCountSql():$resultSet->getSql());
 		// try to use Memcache
 		if ($memcache = self::getMemcache()){
@@ -49,6 +50,9 @@ class modelCache{
 	 * @param modelResultSet $resultSet 
 	 */
 	public static function cache($resultSet, $results = null, $count=false){
+		if (!$resultSet->isCacheEnabled()) return;
+		$lifetime = $resultSet->getCacheLifetime();
+		if ($lifetime === null) $lifetime = 300;
 		$cacheKey = md5($count?$resultSet->getCountSql():$resultSet->getSql());
 		if ($results===null){
 			$results = array();
@@ -59,7 +63,7 @@ class modelCache{
 
 		// try to use Memcache
 		if ($memcache = self::getMemcache()){
-			if ($memcache->set($cacheKey, $results, false, 3)){ // 5 minutes
+			if ($memcache->set($cacheKey, $results, false, $lifetime)){
 				return;
 			}
 		}

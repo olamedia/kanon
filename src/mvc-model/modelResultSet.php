@@ -1,4 +1,5 @@
 <?php
+
 #require_once dirname(__FILE__).'/modelQueryBuilder.php';
 #require_once dirname(__FILE__).'/modelResultSetIterator.php';
 
@@ -6,12 +7,12 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 	protected $_result = null;
 	protected $_finished = false;
 	protected $_list = array();
-	protected $_useCache = false;
+	protected $_useCache = null; // null - default, true - use, false -no
+	protected $_cacheLifetime = null; // in seconds
 	public function destroy(){
 		$this->_result = null;
 		foreach ($this->_list as $m){
-			if (is_subclass_of($m, 'model'))
-				destroy($m);
+			if (is_subclass_of($m, 'model')) destroy($m);
 		}
 		$this->free();
 		$this->_list = array();
@@ -28,7 +29,23 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 	public function __destruct(){
 		$this->destroy();
 	}
-	public function useCache($use = true){
+	public function noCache(){
+		$this->_useCache = false;
+	}
+	public function cache($lifetime = null){
+		$this->_useCache = true;
+		if ($lifetime!==null){
+			$this->_cacheLifetime = $lifetime;
+		}
+		return $this;
+	}
+	public function isCacheEnabled(){
+		return $this->_useCache;
+	}
+	public function getCacheLifetime(){
+		return $this->_cacheLifetime;
+	}
+	public function useCache($use = true){ // deprecated
 		$this->_useCache = $use;
 		return $this;
 	}
@@ -130,8 +147,7 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 	 * @return model
 	 */
 	public function fetch(){
-		if ($this->_finished)
-			return false;
+		if ($this->_finished) return false;
 		$this->execute();
 		if ($this->_result){
 			if (is_array($this->_result)){
