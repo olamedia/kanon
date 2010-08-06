@@ -29,9 +29,16 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 	public function __destruct(){
 		$this->destroy();
 	}
+	/**
+	 * @return modelResultSet
+	 */
 	public function noCache(){
 		$this->_useCache = false;
+		return $this;
 	}
+	/**
+	 * @return modelResultSet
+	 */
 	public function cache($lifetime = null){
 		$this->_useCache = true;
 		if ($lifetime!==null){
