@@ -13,7 +13,7 @@
 class modelCache{
 	protected static $_cache = array();
 	protected static $_enabled = false;
-	protected static $_defaultEnabled = false;
+	protected static $_defaultEnabled = true;
 	protected static $_prefetchOnCount = true;
 	public static function enable($defaultEnabled = false){
 		self::$_enabled = true;
