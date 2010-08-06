@@ -9,6 +9,7 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 	protected $_list = array();
 	protected $_useCache = null; // null - default, true - use, false -no
 	protected $_cacheLifetime = null; // in seconds
+	
 	public function destroy(){
 		$this->_result = null;
 		foreach ($this->_list as $m){

@@ -75,7 +75,9 @@ class modelCache{
 		self::$_cache[$cacheKey] = $results;
 	}
 	protected static $_memcache = null;
+	protected static $_memcacheEnabled = false;
 	public static function getMemcache(){
+		if (!self::$_memcacheEnabled) return null;
 		if (self::$_memcache===null){
 			if (class_exists('Memcache')){
 				self::$_memcache = new Memcache;
