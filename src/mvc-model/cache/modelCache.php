@@ -59,7 +59,7 @@ class modelCache{
 
 		// try to use Memcache
 		if ($memcache = self::getMemcache()){
-			if ($memcache->set($cacheKey, $results, false, 120)){
+			if ($memcache->set($cacheKey, $results, false, 300)){ // 5 minutes
 				return;
 			}
 		}
