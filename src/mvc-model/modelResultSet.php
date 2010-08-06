@@ -40,7 +40,7 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 		return $this;
 	}
 	public function isCacheEnabled(){
-		return $this->_useCache;
+		return $this->_useCache === null?modelCache::isEnabled():$this->_useCache;
 	}
 	public function getCacheLifetime(){
 		return $this->_cacheLifetime;
