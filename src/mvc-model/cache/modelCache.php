@@ -13,12 +13,17 @@
 class modelCache{
 	protected static $_cache = array();
 	protected static $_enabled = false;
+	protected static $_defaultEnabled = false;
 	protected static $_prefetchOnCount = true;
-	public static function enable(){
+	public static function enable($defaultEnabled = false){
 		self::$_enabled = true;
+		self::$_defaultEnabled = $defaultEnabled;
 	}
 	public static function isEnabled(){
 		return self::$_enabled;
+	}
+	public static function isEnabledByDefault(){
+		return self::$_defaultEnabled;
 	}
 	public static function prefetchOnCount(){
 		return self::$_prefetchOnCount;
@@ -52,7 +57,7 @@ class modelCache{
 	public static function cache($resultSet, $results = null, $count=false){
 		if (!$resultSet->isCacheEnabled()) return;
 		$lifetime = $resultSet->getCacheLifetime();
-		if ($lifetime === null) $lifetime = 300;
+		if ($lifetime===null) $lifetime = 300;
 		$cacheKey = md5($count?$resultSet->getCountSql():$resultSet->getSql());
 		if ($results===null){
 			$results = array();
