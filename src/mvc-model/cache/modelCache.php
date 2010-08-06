@@ -34,12 +34,10 @@ class modelCache{
 	}
 	public static function getResult($resultSet, $count=false){
 		$cacheKey = md5($count?$resultSet->getCountSql():$resultSet->getSql());
-		if (class_exists('Memcache')){
-			// try to use Memcache
-			if ($memcache = self::getMemcache()){
-				if ($results = $memcache->get($cacheKey)){
-					return $results;
-				}
+		// try to use Memcache
+		if ($memcache = self::getMemcache()){
+			if ($results = $memcache->get($cacheKey)){
+				return $results;
 			}
 		}
 		if (isset(self::$_cache[$cacheKey])){
@@ -58,12 +56,11 @@ class modelCache{
 				$results[] = $result;
 			}
 		}
-		if (class_exists('Memcache')){
-			// try to use Memcache
-			if ($memcache = self::getMemcache()){
-				if ($memcache->set($cacheKey, $results, false, 30)){
-					return;
-				}
+
+		// try to use Memcache
+		if ($memcache = self::getMemcache()){
+			if ($memcache->set($cacheKey, $results, false, 30)){
+				return;
 			}
 		}
 		self::$_cache[$cacheKey] = $results;
@@ -71,14 +68,14 @@ class modelCache{
 	protected static $_memcache = null;
 	public static function getMemcache(){
 		if (self::$_memcache===null){
-			self::$_memcache = new Memcache;
-			if (self::$_memcache->connect('localhost', 11211)){
-				return self::$_memcache;
+			if (class_exists('Memcache')){
+				self::$_memcache = new Memcache;
+				if (self::$_memcache->connect('localhost', 11211)){
+					return self::$_memcache;
+				}
 			}
 			self::$_memcache = false;
 		}
 		return self::$_memcache;
 	}
 }
-
-?>
