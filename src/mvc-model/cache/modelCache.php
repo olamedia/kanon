@@ -75,9 +75,9 @@ class modelCache{
 			if (self::$_memcache->connect('localhost', 11211)){
 				return self::$_memcache;
 			}
+			self::$_memcache = false;
 		}
-		self::$_memcache = false;
-		return false;
+		return self::$_memcache;
 	}
 }
 
