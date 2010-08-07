@@ -1,12 +1,18 @@
 <?php
 #require_once dirname(__FILE__).'/control.php';
+
 abstract class controlSet{
 	protected $_controls;
-	protected $_classesMap = array(); // controlName => class
-	protected $_titles = array(); // controlName => title
-	protected $_required = array(); // controlName => required
-	protected $_propertiesMap = array(); // controlName => propertyName
-	protected $_options = array(); // control options
+	protected $_classesMap = array();
+ // controlName => class
+	protected $_titles = array();
+ // controlName => title
+	protected $_required = array();
+ // controlName => required
+	protected $_propertiesMap = array();
+ // controlName => propertyName
+	protected $_options = array();
+ // control options
 	protected $_errors;
 	protected $_prefix = null;
 	protected $_key = null;
@@ -19,7 +25,8 @@ abstract class controlSet{
 	protected $_isUpdated = false;
 	//===================================================================== getters && setters / options
 	public function setOptions($options = array()){
-		foreach ($options as $k => $v) $this->_options[$k] = $v;
+		foreach ($options as $k => $v)
+			$this->_options[$k] = $v;
 	}
 	public function hideControl($controlName){
 		$this->_hiddenControls[$controlName] = true;
@@ -96,11 +103,12 @@ abstract class controlSet{
 				/** @var control $control */
 				$control->setControlSet($this);
 				$control->setPrefix($this->_prefix);
-				if (isset($this->_options[$controlName])) $control->setOptions($this->_options[$controlName]);
+				if (isset($this->_options[$controlName]))
+					$control->setOptions($this->_options[$controlName]);
 				$this->_controls[$controlName] = $control;
 				if (isset($this->_propertiesMap[$controlName])){
 					$propertyName = $this->_propertiesMap[$controlName];
-					if ($this->_item !== null){
+					if ($this->_item!==null){
 						$control->setProperty($this->_item->{$propertyName});
 					}
 				}
@@ -123,17 +131,17 @@ abstract class controlSet{
 		return $this->_controls[$controlName];
 	}
 	public function resetControls(){
-		/*$items = array();
-		 foreach ($this->_classesMap as $controlName => $class){
-			$items[$controlName] = $this->getControl($controlName)->getItem();
-			}
-			$this->_controls = array();
-			foreach ($this->_classesMap as $controlName => $class){
-			$this->getControl($controlName)->setItem($items[$controlName]); // controlSet->getControl()->setItem
-			}*/
+		/* $items = array();
+		  foreach ($this->_classesMap as $controlName => $class){
+		  $items[$controlName] = $this->getControl($controlName)->getItem();
+		  }
+		  $this->_controls = array();
+		  foreach ($this->_classesMap as $controlName => $class){
+		  $this->getControl($controlName)->setItem($items[$controlName]); // controlSet->getControl()->setItem
+		  } */
 	}
 	public function save(){
-		if ($this->getItem() !== null){
+		if ($this->getItem()!==null){
 			$result = $this->getItem()->save();
 			//var_dump($result);
 			return $result;
@@ -170,14 +178,15 @@ abstract class controlSet{
 		}
 		//echo 'Keys:<br />';
 		//var_dump($keys);
-		if (!count($keys)) return false;
+		if (!count($keys))
+			return false;
 
 		return $keys;
 	}
 	public function inPost($key = null){
 		foreach ($this->_classesMap as $controlName => $class){
 			if (!isset($this->_hiddenControls[$controlName])){
-				if (($foundKey = $this->getControl($controlName)->inPost($key)) !== false){
+				if (($foundKey = $this->getControl($controlName)->inPost($key))!==false){
 					return $foundKey;
 				}
 			}
@@ -206,7 +215,7 @@ abstract class controlSet{
 				// skip
 			}else{
 				if (!isset($this->_hiddenControls[$controlName])){
-					if (!$this->getControl($controlName)->isValid()) {
+					if (!$this->getControl($controlName)->isValid()){
 						return false;
 					}
 				}
@@ -252,7 +261,7 @@ abstract class controlSet{
 	}
 	public function checkTest(){
 		if (isset($_COOKIE['debug'])){
-			if (is_object($this->getControl('branch')) && is_object($this->getControl('branch')->getControl('phone'))){
+			if (is_object($this->getControl('branch'))&&is_object($this->getControl('branch')->getControl('phone'))){
 				if (!is_object($this->getControl('branch')->getControl('phone')->getItem())){
 					throw new Exception("item template for ".get_class($this->getControl('branch')->getControl('phone'))." not defined ");
 				}
@@ -264,9 +273,9 @@ abstract class controlSet{
 			}
 		}
 	}
-	/*public function getProcessedModels(){
-		return $this->_processedItems;
-		}*/
+	/* public function getProcessedModels(){
+	  return $this->_processedItems;
+	  } */
 	public function checkPost($key = null){
 		$this->checkTest();
 		$this->_key = $key;
@@ -301,14 +310,15 @@ abstract class controlSet{
 		return $this->isUpdated();
 	}
 	public function processPost(){
-		class_exists('control'); // preload 'control' class
+		// preload 'control' class
+		class_exists('control');
 		$keys = $this->getPostKeys();
 		if (isset($_COOKIE['debug'])){
 			echo 'KEYS: ';
 			var_dump($keys);
 		}
 		if ($keys){
-			if (is_array($keys) && count($keys)){
+			if (is_array($keys)&&count($keys)){
 				foreach ($keys as $key){
 					if (isset($_COOKIE['debug'])){
 						echo ' process '.$key.' ';
@@ -334,7 +344,6 @@ abstract class controlSet{
 			}
 		}
 	}
-
 	//===================================================================== output HTML
 	public function getTableRowsHtml($key = null, $level = 0){
 		$h = '';
@@ -347,8 +356,8 @@ abstract class controlSet{
 				if (is_subclass_of($control, 'controlSet')){
 					$h .= '<tr><td style="padding-left: '.($level*50).'px"><h3>';
 					$h .= ''.$control->getLegend().'';
-					$h .= '</h3></td><td></tr>';//<table width="100%">';
-					$h .= $control->getTableRowsHtml($key, $level + 1);
+					$h .= '</h3></td><td></tr>'; //<table width="100%">';
+					$h .= $control->getTableRowsHtml($key, $level+1);
 					//$h .= '</table></td></tr>';
 				}else{
 					$h .= $control->getRowHtml($level);
@@ -362,7 +371,8 @@ abstract class controlSet{
 		$h .= '<table>';
 		$rh = $this->getTableRowsHtml($key);
 		$repeat = 1;
-		if ($this->getRepeat()) $repeat = $this->getRepeat();
+		if ($this->getRepeat())
+			$repeat = $this->getRepeat();
 		$h .= str_repeat($rh, $repeat);
 		$h .= '</table>';
 		return $h;
