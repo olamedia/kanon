@@ -96,7 +96,7 @@ class thumbnailer{
 				}
 				break;
 			case 'tms':
-				if (preg_match("#^tmc([0-9]+)x([0-9]+)$#ims", $prefix, $subs)){
+				if (preg_match("#^tms([0-9]+)x([0-9]+)$#ims", $prefix, $subs)){
 					if ($subs[1] > $this->_maxSize || $subs[2] > $this->_maxSize) return false;
 					return $this->_image->stretch($subs[1], $subs[2]);
 				}
