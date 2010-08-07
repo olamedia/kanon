@@ -4,15 +4,15 @@
 abstract class controlSet{
 	protected $_controls;
 	protected $_classesMap = array();
- // controlName => class
+	// controlName => class
 	protected $_titles = array();
- // controlName => title
+	// controlName => title
 	protected $_required = array();
- // controlName => required
+	// controlName => required
 	protected $_propertiesMap = array();
- // controlName => propertyName
+	// controlName => propertyName
 	protected $_options = array();
- // control options
+	// control options
 	protected $_errors;
 	protected $_prefix = null;
 	protected $_key = null;
