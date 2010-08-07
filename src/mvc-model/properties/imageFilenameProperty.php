@@ -56,6 +56,7 @@ class imageFilenameProperty extends stringProperty{
 				break;
 			case 'crop':
 				$prefix = 'tmc';
+				break;
 			case 'stretch':
 				$prefix = 'tms';
 				break;
@@ -77,7 +78,7 @@ class imageFilenameProperty extends stringProperty{
 			unlink($filename);
 		}
 	}
-	public function html($size = 100, $method="fit", $x){
+	public function html($size = 100, $method="fit", $x = null){
 		return '<img src="'.$this->tm($size, $method,$x).'"'.($this->_tmHeight?' height="'.$this->_tmHeight.'"':'').($this->_tmWidth?' width="'.$this->_tmWidth.'"':'').' />';
 	}
 	// http://www.appelsiini.net/projects/lazyload
