@@ -301,6 +301,7 @@ abstract class controlSet{
 		return $this->isUpdated();
 	}
 	public function processPost(){
+		class_exists('control'); // preload 'control' class
 		$keys = $this->getPostKeys();
 		if (isset($_COOKIE['debug'])){
 			echo 'KEYS: ';
