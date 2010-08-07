@@ -77,8 +77,8 @@ class imageFilenameProperty extends stringProperty{
 			unlink($filename);
 		}
 	}
-	public function html($size = 100, $method="fit"){
-		return '<img src="'.$this->tm($size, $method).'"'.($this->_tmHeight?' height="'.$this->_tmHeight.'"':'').($this->_tmWidth?' width="'.$this->_tmWidth.'"':'').' />';
+	public function html($size = 100, $method="fit", $x){
+		return '<img src="'.$this->tm($size, $method,$x).'"'.($this->_tmHeight?' height="'.$this->_tmHeight.'"':'').($this->_tmWidth?' width="'.$this->_tmWidth.'"':'').' />';
 	}
 	// http://www.appelsiini.net/projects/lazyload
 	public function htmlLazyLoad($size = 100, $method="fit"){
