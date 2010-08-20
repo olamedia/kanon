@@ -40,6 +40,7 @@ class extendable{
 				return call_user_func_array($callable, $arguments);
 			}
 		}
+                if ($name == '__destruct') return;
 		throw new BadMethodCallException('Tried to call unknown method '.get_class($this).'::'.$name);
 	}
 }
