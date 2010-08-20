@@ -31,11 +31,11 @@ class imageFilenameProperty extends stringProperty{
 	}
 	public function getValue(){
 		$value = parent::getValue();
-		if ($value!==''){
+		/*if ($value!==''){
 			if (!is_file($this->getPath().$value)){
 				$value = '';
 			}
-		}
+		}*/
 		return $value;
 	}
 	public function tm($size, $method = 'fit', $x = null){
