@@ -40,6 +40,6 @@ class extendable{
 				return call_user_func_array($callable, $arguments);
 			}
 		}
-		throw new BadMethodCallException('Tried to call unknown method '.get_class($this).'::'.$f);
+		throw new BadMethodCallException('Tried to call unknown method '.get_class($this).'::'.$name);
 	}
 }
