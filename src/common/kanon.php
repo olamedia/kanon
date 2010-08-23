@@ -16,6 +16,7 @@ class kanon{
 	private static $_basePath = null;
 	private static $_fileStorages = array();
 	private static $_loadedModules = array();
+        private static $_moduleClass = array();
 	private static $_autoload = array();
 	private static $_actionControllers = array();
 	private static $_menu = array();
@@ -172,6 +173,9 @@ class kanon{
 		self::loadAllModules();
 		return array_keys(self::$_loadedModules);
 	}
+	public static function getModuleClasses($module){
+		return self::$_moduleClass[$module];
+	}
 	public static function loadModule($module){
 		if (isset(self::$_loadedModules[$module]))
 			return true;
@@ -183,6 +187,7 @@ class kanon{
 			require_once $moduleFile;
 			if (count($autoload)){
 				foreach ($autoload as $k => $v){
+                                        self::$_moduleClass[$module][$k] = $k;
 					self::$_autoload[$k] = $modulePath.$v;
 				}
 			}
@@ -235,6 +240,15 @@ class kanon{
 			return self::$_actionControllers[$controller][$action];
 		}
 		return false;
+	}
+	public static function getActionControllers($controller){
+		if (isset(self::$_actionControllers[$controller])){
+			return self::$_actionControllers[$controller];
+		}
+		return false;
+	}
+	public static function setActionControllers($controller, $actionControllers){
+        	self::$_actionControllers[$controller] = $actionControllers;
 	}
 	public static function getMenu($controller){
 		if (isset(self::$_menu[$controller])){
