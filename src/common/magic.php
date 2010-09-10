@@ -43,7 +43,11 @@ final class magic{
                 }
             }
         }
-        throw new Exception('No such magic');
+        ob_start();
+        var_dump($magic);
+        $dump = ob_get_contents();
+        ob_end_clean();
+        throw new Exception('No such magic: '.$dump);
     }
 }
 
