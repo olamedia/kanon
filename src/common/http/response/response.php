@@ -54,7 +54,9 @@ class response{
         array_shift($args);
         $path = dirname(__FILE__).'/html/';
         magic::set('title', magic::get('title', 'Untitled page')); // LOL
+        echo $magic;
         if (is_int($magic)){
+            echo 'int';
             $file = $magic.'.php';
             if ($magic > 300 && $magic < 400)
                 $file = '30x.php';
