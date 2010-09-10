@@ -40,7 +40,7 @@ final class magic{
             if (is_string($callable)){
                 if (is_file($callable)){
                     return include $callable;
-                }
+                } 
             }
         }
         ob_start();
