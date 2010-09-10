@@ -43,6 +43,7 @@ class response{
     HTTP_504='Gateway Timeout',
     HTTP_505='HTTP Version Not Supported';
     public static function magic($magic, $context = null){
+        echo 'magic';
         static $map = array(
     'html/head'=>'head.php',
     'html/header'=>'header.php',
