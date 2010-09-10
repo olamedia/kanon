@@ -29,6 +29,9 @@ final class magic{
         array_shift($args);
         array_shift($args);
         $callable = self::get($magic, $default);
+        if ($callable === $default){
+            array_unshift($args, $magic);
+        }
         unset($default);
         if ($callable){
             if (is_callable($callable)){
