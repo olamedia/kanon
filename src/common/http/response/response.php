@@ -63,13 +63,15 @@ class response{
             $file = $path.$file;
             if (!is_file($file))
                 $file = $path.'500.php';
+            magic::set($magic,$file);
             array_unshift($args, false);
-            array_unshift($args, $file);
+            array_unshift($args, $magic);
             return call_user_func_array(array('magic', 'call'), $args);
         }
         if (isset($map[$magic])){
+            magic::set($magic,$path.$map[$magic]);
             array_unshift($args, false);
-            array_unshift($args, $path.$map[$magic]);
+            array_unshift($args, $magic);
             return call_user_func_array(array('magic', 'call'), $args);
         }
     }
