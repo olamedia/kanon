@@ -1,6 +1,6 @@
 <?php
 magic::set('title', 'Страница не найдена');
-magic::call('html/footer');
+magic::call('html/header');
 ?>
 <div id="content" class="error_message http_error">
     <h1>

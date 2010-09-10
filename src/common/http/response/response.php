@@ -43,7 +43,6 @@ class response{
     HTTP_504='Gateway Timeout',
     HTTP_505='HTTP Version Not Supported';
     public static function magic($magic, $context = null){
-        echo 'magic';
         static $map = array(
     'html/head'=>'head.php',
     'html/header'=>'header.php',
@@ -54,9 +53,7 @@ class response{
         array_shift($args);
         $path = dirname(__FILE__).'/html/';
         magic::set('title', magic::get('title', 'Untitled page')); // LOL
-        echo $magic;
         if (is_int($magic)){
-            echo 'int';
             $file = $magic.'.php';
             if ($magic > 300 && $magic < 400)
                 $file = '30x.php';
