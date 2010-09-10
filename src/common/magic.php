@@ -33,7 +33,7 @@ final class magic{
             array_unshift($args, $magic);
         }
         unset($default);
-        if ($callable){
+        if ($callable !== null){
             if (is_callable($callable)){
                 return call_user_func_array($callable, $args);
             }
