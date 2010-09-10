@@ -159,7 +159,7 @@ class controllerPrototype {
         if (kanonExceptionHandler::getDeveloperMode()) {
             throw new InvalidArgumentException($message);
         }
-        return $this->notFound($message);
+        return response::notFound();
     }
 
     /**
@@ -238,29 +238,16 @@ class controllerPrototype {
      * Exit with HTTP 403 error code
      * @param string $message
      */
-    public function forbidden($message = '') {
-        header($_SERVER['SERVER_PROTOCOL'] . " 403 Forbidden");
-        echo $message;
-        exit;
+    public function forbidden() {
+        response::forbidden();
     }
 
     /**
      * Exit with HTTP 404 error code
      * @param string $message
      */
-    public function notFound($message = '') {
-        header($_SERVER['SERVER_PROTOCOL'] . " 404 Not found");
-        echo '<title>Страница не найдена</title>';
-        echo '<body>' . $message . '</body>';
-        // Google helper:
-        /* echo '<script type="text/javascript">
-          var GOOG_FIXURL_LANG = "ru";
-          var GOOG_FIXURL_SITE = "http://'.$this->getDomainName().'";
-          </script>
-          <script type="text/javascript" src="http://linkhelp.clients.google.com/tbproxy/lh/wm/fixurl.js">
-          </script>'; */
-        echo str_repeat('&nbsp; ', 100); // required to display custom error message (IE, Chrome)
-        exit;
+    public function notFound() {
+        response::notFound();
     }
 
     /**
@@ -268,7 +255,7 @@ class controllerPrototype {
      * @param string $message
      */
     public function movedPermanently($url) {
-        $this->_redirect($url, 301);
+        response::movedPermanently($url);
     }
 
     /**
@@ -276,7 +263,7 @@ class controllerPrototype {
      * @param string $message
      */
     public function seeOther($url) {
-        $this->_redirect($url, 303);
+        response::seeOther($url);
     }
 
     /**
@@ -285,14 +272,14 @@ class controllerPrototype {
      * @param string $message
      */
     public function redirect($url) {
-        $this->_redirect($url, 303);
+        response::redirect($url);
     }
 
     /**
      * Redirect to previous page
      */
     function back() {
-        $this->redirect($_SERVER['HTTP_REFERER']);
+        response::back();
     }
 
     /**
@@ -300,7 +287,7 @@ class controllerPrototype {
      * @param string $message
      */
     protected function _show403($message = '') {
-        $this->forbidden($message);
+        response::forbidden();
     }
 
     /**
@@ -308,7 +295,7 @@ class controllerPrototype {
      * @param string $message
      */
     protected function _show404($message = '') {
-        $this->notFound($message);
+        response::notFound();
     }
 
     protected $_ignoreParentTemplate = false;

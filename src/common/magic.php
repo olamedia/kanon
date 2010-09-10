@@ -1,27 +1,35 @@
 <?php
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/** 
+/**
  * Description of magic
  *
  * @author olamedia
  */
 final class magic{
-    private static $_a = array();
-    public static function set($name, $value){
-        self::$_a[$name] = $value;
+    private static $_a = array('default'=>array('response', 'magic'));
+    public static function append($magic, $value){
+        if (!is_string(self::$_a[$magic]))
+            self::$_a[$magic] = '';
+        self::$_a[$magic] .= $value;
     }
-    public static function get($name){
-        return isset(self::$_a[$name])?self::$_a[$name]:false;
+    public static function set($magic, $value = null){
+        if ($value === null){
+            unset(self::$_a[$magic]);
+        }else{
+            self::$_a[$magic] = $value;
+        }
     }
-    public static function call($name){
+    public static function get($magic, $default = null){
+        return isset(self::$_a[$magic])?self::$_a[$magic]:$default;
+    }
+    public static function call($magic, $default = null){
+        if ($default === null){
+            $default = self::get('default');
+        }
         $args = func_get_args();
         array_shift($args);
-        $callable = self::get($name);
+        array_shift($args);
+        $callable = self::get($magic, $default);
+        unset($default);
         if ($callable){
             if (is_callable($callable)){
                 return call_user_func_array($callable, $args);
