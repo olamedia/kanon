@@ -63,6 +63,7 @@ class response{
             $file = $path.$file;
             if (!is_file($file))
                 $file = $path.'500.php';
+            array_unshift($args, false);
             array_unshift($args, $file);
             return call_user_func_array(array('magic', 'call'), $args);
         }
