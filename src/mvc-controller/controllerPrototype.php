@@ -155,10 +155,10 @@ class controllerPrototype {
      * @param string $action
      */
     protected function _action($action) {
-        $message = 'Directory "' . $action . '" not found in ' . get_class($this) . '';
+        /*$message = 'Directory "' . $action . '" not found in ' . get_class($this) . '';
         if (kanonExceptionHandler::getDeveloperMode()) {
             throw new InvalidArgumentException($message);
-        }
+        }*/
         return response::notFound();
     }
 
