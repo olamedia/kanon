@@ -68,6 +68,7 @@ class response{
             return call_user_func_array(array('magic', 'call'), $args);
         }
         if (isset($map[$magic])){
+            array_unshift($args, false);
             array_unshift($args, $path.$map[$magic]);
             return call_user_func_array(array('magic', 'call'), $args);
         }
