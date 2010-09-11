@@ -188,6 +188,7 @@ class controllerPrototype {
 
     /**
      * Redirect with custom HTTP code
+     * @deprecated
      * @param string $message
      */
     protected function _redirect($url = null, $httpCode = 303) {
