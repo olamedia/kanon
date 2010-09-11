@@ -34,11 +34,11 @@ class controllerPrototype {
     }
 
     public function isAjax() {
-        return 'XMLHttpRequest' == $this->getHttpHeader('X-Requested-With');
+        return request::isAjax();
     }
 
     public function getHttpHeader($name, $default = null) {
-        return $this->getServerParameter('HTTP_' . strtoupper(strtr($name, '-', '_')), $default);
+        return request::getHttpHeader($name, $default);
     }
 
     public function getServerParameter($name, $default = null) {
@@ -155,10 +155,6 @@ class controllerPrototype {
      * @param string $action
      */
     protected function _action($action) {
-        /*$message = 'Directory "' . $action . '" not found in ' . get_class($this) . '';
-        if (kanonExceptionHandler::getDeveloperMode()) {
-            throw new InvalidArgumentException($message);
-        }*/
         return response::notFound();
     }
 
