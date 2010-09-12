@@ -14,7 +14,7 @@ class mediaFilenameProperty extends imageFilenameProperty{
 		if ($this->getValue() == '') return false;
 		list($fw,$fh) = getimagesize($this->getPath());
 		$w = $fw; $h = $fh;
-		$item = $this->getItem();
+		//$item = $this->getItem();
 		//echo get_class($item);
 		if (isset($this->_options['width'])){
 			$wk = $this->_options['width'];
