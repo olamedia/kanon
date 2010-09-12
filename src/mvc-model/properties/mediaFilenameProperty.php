@@ -12,20 +12,20 @@
 class mediaFilenameProperty extends imageFilenameProperty{
 	protected function _getSize(){
 		if ($this->getValue() == '') return false;
-		list($fw,$fh) = getimagesize($this->getPath());
+		list($fw,$fh) = getimagesize($this->getPath().$this->getValue());
 		$w = $fw; $h = $fh;
 		//$item = $this->getItem();
 		//echo get_class($item);
 		if (isset($this->_options['width'])){
 			$wk = $this->_options['width'];
 			if (is_object($wk)) $wk = $wk->getValue();
-			$w = $wk;
+			if (strlen($wk)) $w = $wk;
 		}
 		$w = $w?$w:$fw;
 		if (isset($this->_options['height'])){
 			$hk = $this->_options['height'];
 			if (is_object($hk)) $hk = $hk->getValue();
-			$h = $hk;
+			if (strlen($hk))$h = $hk;
 		}
 		$h = $h?$h:$fh;
 			//echo ' w:'.$w;
