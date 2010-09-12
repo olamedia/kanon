@@ -12,7 +12,7 @@
 class mediaFilenameProperty extends imageFilenameProperty{
 	protected function _getSize(){
 		if ($this->getValue() == '') return false;
-		list($fw,$fh) = getimagesize($this->sourcePath());
+		list($fw,$fh) = getimagesize($this->getPath());
 		$w = $fw; $h = $fh;
 		$item = $this->getItem();
 		//echo get_class($item);
