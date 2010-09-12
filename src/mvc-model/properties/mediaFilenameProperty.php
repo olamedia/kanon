@@ -16,14 +16,16 @@ class mediaFilenameProperty extends imageFilenameProperty{
 		$w = $fw; $h = $fh;
 		$item = $this->getItem();
 		//echo get_class($item);
-		if (isset($this->_options['widthKey'])){
-			$wk = $this->_options['widthKey'];
-			$w = $item->$wk->getValue();
+		if (isset($this->_options['width'])){
+			$wk = $this->_options['width'];
+			if (is_object($wk)) $wk = $wk->getValue();
+			$w = $wk;
 		}
 		$w = $w?$w:$fw;
-		if (isset($this->_options['heightKey'])){
-			$hk = $this->_options['heightKey'];
-			$h = $item->$hk->getValue();
+		if (isset($this->_options['height'])){
+			$hk = $this->_options['height'];
+			if (is_object($hk)) $hk = $hk->getValue();
+			$h = $hk;
 		}
 		$h = $h?$h:$fh;
 			//echo ' w:'.$w;
