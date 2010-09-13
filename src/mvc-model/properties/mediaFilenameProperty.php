@@ -1,5 +1,5 @@
 <?php
-/* 
+/*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
@@ -11,50 +11,63 @@
  */
 class mediaFilenameProperty extends imageFilenameProperty{
 	protected function _getSize(){
-		if ($this->getValue() == '') return false;
-		list($fw,$fh) = getimagesize($this->getPath().$this->getValue());
-		$w = $fw; $h = $fh;
+		if ($this->getValue()=='')
+			return false;
+		list($fw, $fh) = getimagesize($this->getPath().$this->getValue());
+		$w = $fw;
+		$h = $fh;
 		//$item = $this->getItem();
 		//echo get_class($item);
 		if (isset($this->_options['width'])){
 			$wk = $this->_options['width'];
-			if (is_object($wk)) $wk = $wk->getValue();
-			if (strlen($wk)) $w = $wk;
+			if (is_object($wk))
+				$wk = $wk->getValue();
+			if (strlen($wk))
+				$w = $wk;
 		}
 		$w = $w?$w:$fw;
 		if (isset($this->_options['height'])){
 			$hk = $this->_options['height'];
-			if (is_object($hk)) $hk = $hk->getValue();
-			if (strlen($hk))$h = $hk;
+			if (is_object($hk))
+				$hk = $hk->getValue();
+			if (strlen($hk)
+
+				)$h = $hk;
 		}
 		$h = $h?$h:$fh;
-			//echo ' w:'.$w;
-			//echo ' h:'.$h;
-		return array($w,$h);
+		//echo ' w:'.$w;
+		//echo ' h:'.$h;
+		return array($w, $h);
 	}
 	protected function _px($px){
-		if (strval(intval($px)) == strval($px)){
+		if (strval(intval($px))==strval($px)){
 			return $px.'px';
 		}
 		return $px;
 	}
 	protected function _flashHtml($width = 'auto', $height = 'auto'){
-		if ($this->getValue() == '') return '';
-		list($w,$h) = $this->_getSize();//getimagesize($this->sourcePath());
-		if ($width == 'auto') $width = $w;
-		if ($height == 'auto') $height = $h;
+		if ($this->getValue()=='')
+			return '';
+		list($w, $h) = $this->_getSize(); //getimagesize($this->sourcePath());
+		if ($width=='auto')
+			$width = $w;
+		if ($height=='auto')
+			$height = $h;
 
-		return '<div style="width: '.$this->_px($width).';height: '.$this->_px($height).'"><object width="'.$width.'" height="'.$height.'">'.
+		return '<div style="width: '.$this->_px($width).';height: '.$this->_px($height).'">'.
+		'<object width="'.$width.'" height="'.$height.'">'.
 		'<param name="movie" value="'.$this->source().'"></param>'.
+		'<param name="wmode" value="transparent"></param>'.
 		'<param name="allowFullScreen" value="true"></param>'.
 		'<param name="allowscriptaccess" value="always"></param>'.
-		'<embed src="'.$this->source().'" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="'.$width.'" height="'.$height.'"></embed>'.
+		'<embed src="'.$this->source().'" type="application/x-shockwave-flash" '.
+		'wmode="transparent" allowscriptaccess="always" allowfullscreen="true" width="'.$width.'" height="'.$height.'"></embed>'.
 		'</object></div>';
 	}
 	public function _imageHtml($size = 100, $method="fit"){
-		if ($size == 'auto'){
+		if ($size=='auto'){
 			$tm = $this->source();
-			list($w,$h) = getimagesize($this->sourcePath());
+			list($w, $h) = getimagesize($this->sourcePath());
 			$in = ' height="'.$h.'" width="'.$w.'"';
 		}else{
 			$tm = $this->tm($size, $method);
@@ -64,21 +77,23 @@ class mediaFilenameProperty extends imageFilenameProperty{
 	}
 	public function _imageSourceHtml($size = 100, $method="fit"){
 		$tm = $this->source();
-		list($w,$h) = getimagesize($this->sourcePath());
+		list($w, $h) = getimagesize($this->sourcePath());
 		$in = ' height="'.$h.'" width="'.$w.'"';
 		return '<img src="'.$tm.'"'.$in.' />';
 	}
 	public function html($width = 'auto', $height = 'auto'){
 		$ext = end(explode(".", $this->getValue()));
-		if ($ext == 'swf'){
-			return $this->_flashhtml();//$width, $height
+		if ($ext=='swf'){
+			return $this->_flashhtml(); //$width, $height
 		}else{
 			$size = 'auto';
-			if ($width != 'auto' && $height != 'auto'){
+			if ($width!='auto'&&$height!='auto'){
 				$size = max($width, $height);
 			}else{
-				if ($width != 'auto') $size = $width;
-				if ($height != 'auto') $size = $height;
+				if ($width!='auto')
+					$size = $width;
+				if ($height!='auto')
+					$size = $height;
 			}
 			return $this->_imageSourceHtml($size);
 		}

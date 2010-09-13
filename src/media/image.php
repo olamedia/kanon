@@ -6,6 +6,7 @@ class image{
 	protected $_filename = null;
 	protected $_info = null;
 	protected $_keepAnimation = true;
+	protected $_enlarge = false;
 	protected $_frameLimit = 24;
 	public $meta = null;
 	protected $_type = null;
