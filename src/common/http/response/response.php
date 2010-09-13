@@ -72,6 +72,19 @@ class response{
             return call_user_func_array(array('magic', 'call'), $args);
         }
     }
+    protected static $_mime = 'text/html';
+    protected static $_charset = 'utf-8';
+    public static function setMime($mime){
+        self::$_mime = $mime;
+    }
+    public static function setCharset($charset){
+        self::$_charset = $charset;
+    }
+    private static function _sendContentType(){
+        if (!request::isCli()){
+            header("Content-Type: ".self::$_mime."; charset=".self::$_charset);
+        }
+    }
     public static function setStatus($code){
         if (!request::isCli()){
             $message = constant('self::HTTP_'.$code);

@@ -220,14 +220,7 @@ class kanon{
 		return self::$_basePath;
 	}
 	public static function run($applicationClass){
-		//spl_autoload_register(array(self, 'autoload'));
-		// load all modules
-		$app = application::getInstance($applicationClass);
-
-		$app->setBasePath(self::getBasePath());
-		$baseUrl = kanon::getBaseUri();
-		$app->setBaseUri($baseUrl);
-		$app->run();
+            application::run($applicationClass);
 	}
 	public static function registerActionController($controller, $action, $controller2){
 		self::$_actionControllers[$controller][$action] = $controller2;
