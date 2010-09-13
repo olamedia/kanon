@@ -76,9 +76,11 @@ class response{
     protected static $_charset = 'utf-8';
     public static function setMime($mime){
         self::$_mime = $mime;
+		self::_sendContentType();
     }
     public static function setCharset($charset){
         self::$_charset = $charset;
+		self::_sendContentType();
     }
     private static function _sendContentType(){
         if (!request::isCli()){
