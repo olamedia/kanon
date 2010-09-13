@@ -302,13 +302,17 @@ class controllerPrototype {
     }
 
     protected function _header() {
-        if (!$this->_ignoreParentTemplate) {
-            if ($parent = $this->getParent()) {
+        //if (!$this->_ignoreParentTemplate) {
+			$parent = $this->getParent();
+			if ($this->_ignoreParentTemplate){
+				$parent = $parent->getParent();
+			}
+            if ($parent) {
                 $parent->_header();
                 //if ($this->getParent())
                 echo "\r\n" . '<div class="' . get_class($this) . '_wrapper">';
             }
-        }
+        //}
         $this->header();
         echo "\r\n" . '<div class="' . get_class($this) . '_content">';
     }
