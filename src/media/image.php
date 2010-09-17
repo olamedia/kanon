@@ -88,10 +88,10 @@ class image{
 	/**
 	 * @return thumbnail
 	 */
-	public function getThumbnail($width, $height, $type = 'fit'){
+	public function getThumbnail($width, $height, $type = 'fit', $filename = null){
 		$allowed = array('stretch','fit','fitWidth','fitHeight','crop');
 		if (in_array($type, $allowed)){
-			return call_user_func_array(array($this, $type), array($width, $height));
+			return call_user_func_array(array($this, $type), array($width, $height, $filename));
 		}
 		return false;
 	}
@@ -115,20 +115,20 @@ class image{
 	public function getThumbnailFilename($prefix){
 		return $prefix.'_'.basename($this->_filename);
 	}
-	public function stretch($width, $height){
-		return $this->_getThumbnail($this->getThumbnailPath('tms'.$width.'x'.$height), new rectangle($width, $height));
+	public function stretch($width, $height, $filename = null){
+		return $this->_getThumbnail($filename!==null?$filename:$this->getThumbnailPath('tms'.$width.'x'.$height), new rectangle($width, $height));
 	}
-	public function fit($width, $height){
-		return $this->_getThumbnail($this->getThumbnailPath('tmm'.$width.'x'.$height), $this->getRectangle()->fit($width, $height));
+	public function fit($width, $height, $filename = null){
+		return $this->_getThumbnail($filename!==null?$filename:$this->getThumbnailPath('tmm'.$width.'x'.$height), $this->getRectangle()->fit($width, $height));
 	}
-	public function fitWidth($width, $height){
-		return $this->_getThumbnail($this->getThumbnailPath('tmw'.$width), $this->getRectangle()->fitWidth($width));
+	public function fitWidth($width, $height, $filename = null){
+		return $this->_getThumbnail($filename!==null?$filename:$this->getThumbnailPath('tmw'.$width), $this->getRectangle()->fitWidth($width));
 	}
-	public function fitHeight($width, $height){
-		return $this->_getThumbnail($this->getThumbnailPath('tmh'.$height), $this->getRectangle()->fitHeight($height));
+	public function fitHeight($width, $height, $filename = null){
+		return $this->_getThumbnail($filename!==null?$filename:$this->getThumbnailPath('tmh'.$height), $this->getRectangle()->fitHeight($height));
 	}
-	public function crop($width, $height){
-		return $this->_getThumbnail($this->getThumbnailPath('tmc'.$width.'x'.$height), $this->getRectangle()->crop($width, $height));
+	public function crop($width, $height, $filename = null){
+		return $this->_getThumbnail($filename!==null?$filename:$this->getThumbnailPath('tmc'.$width.'x'.$height), $this->getRectangle()->crop($width, $height));
 	}
 	protected $_modified = false;
 	public function fromArea($sourceImage, $rectangle){
