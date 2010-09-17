@@ -13,7 +13,7 @@ class imageFilenameProperty extends stringProperty{
 		if ($this->_path!==null){
 			return $this->_path;
 		}
-		return kanon::getBasePath().'/'.$this->_options['path'];
+		return kanon::getBasePath().'/'.(isset($this->_options['path'])?$this->_options['path']:'');
 	}
 	public function setUri($uri){
 		$this->_uri = $uri;
