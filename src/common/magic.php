@@ -7,7 +7,7 @@
 final class magic{
     private static $_a = array('default'=>array('response', 'magic'));
     public static function append($magic, $value){
-        if (!is_string(self::$_a[$magic]))
+        if (!isset(self::$_a[$magic]) || !is_string(self::$_a[$magic]))
             self::$_a[$magic] = '';
         self::$_a[$magic] .= $value;
     }
