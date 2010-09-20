@@ -62,10 +62,10 @@ class modelExpression{
                 }
                 return $aa;
             }else{
-                if (is_integer($x)){
-                    return $x;
+                if (is_integer($a)){
+                    return $a;
                 }else{
-                    return "'".$x."'";
+                    return "'".$a."'";
                 }
             }
         }
