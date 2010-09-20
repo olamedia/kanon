@@ -54,14 +54,30 @@ class modelExpression{
 		}
 		return $this->_right;
 	}
+        protected function _quote($a){
+            if (is_array($a)){
+		$aa = array();
+                foreach ($a as $x){
+                    $aa[] = $this->_quote($x);
+                }
+                return $aa;
+            }else{
+                if (is_integer($x)){
+                    return $x;
+                }else{
+                    return "'".$x."'";
+                }
+            }
+        }
 	public function __toString(){
 		$right = $this->getRight();
+                $r = $this->_quote($this->_right);
 		if (in_array(strtoupper($this->_operator), array('IN','NOT IN'))){
-			if (is_array($this->_right)){
-				if (!count($this->_right)) return '';
-				$right = implode(",", $this->_right);
+			if (is_array($r)){
+				if (!count($r)) return '';
+				$right = implode(",", $r);
 			}else{
-				$right = $this->_right;
+				$right = $r;
 			}
 			$right = '('.$right.')';
 		}
