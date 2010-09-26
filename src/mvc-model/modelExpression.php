@@ -21,10 +21,12 @@ class modelExpression{
 			}*/
 	}
 	public function _or($expression){
-		$this->_or[] = $expression;
+		$expression = new modelExpression($this,'OR',$expression, false);
+		return $expression;
 	}
 	public function _and($expression){
-		$this->_and[] = $expression;
+		$expression = new modelExpression($this,'AND',$expression, false);
+		return $expression;
 	}
 	public function setLeft($left){
 		$this->_left = $left;
@@ -81,6 +83,11 @@ class modelExpression{
 			}
 			$right = '('.$right.')';
 		}
-		return $this->getLeft().' '.$this->_operator.' '.$right;
+		if (in_array(strtoupper($this->_operator), array('OR','AND'))){
+			$s = '('.$this->getLeft().') '.$this->_operator.' ('.$right.')';
+		}else{
+			$s = $this->getLeft().' '.$this->_operator.' '.$right;
+		}
+		return $s;
 	}
 }
