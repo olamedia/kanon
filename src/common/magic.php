@@ -39,6 +39,7 @@ final class magic{
             }
             if (is_string($callable)){
                 if (is_file($callable)){
+					var_dump($args);
                     return include $callable;
                 } 
             }
