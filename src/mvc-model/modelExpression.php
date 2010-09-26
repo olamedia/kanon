@@ -90,7 +90,7 @@ class modelExpression{
 			$right = '('.$right.')';
 		}
 		if (in_array(strtoupper($this->_operator), array('OR','AND'))){
-			$s = '('.$this->getLeft().') '.$this->_operator.' ('.$right.')';
+			$s = '(('.$this->getLeft().') '.$this->_operator.' ('.$right.'))';
 		}else{
 			$s = $this->getLeft().' '.$this->_operator.' '.$right;
 		}
