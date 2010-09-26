@@ -50,11 +50,9 @@ class response{
 		);
 		// setup default responses
 		$args = func_get_args();
-		var_dump($args);
 		array_shift($args);
 		array_unshift($args, false);
 		array_unshift($args, $magic);
-		var_dump($args);
 		$path = dirname(__FILE__).'/html/';
 		magic::set('title', magic::get('title', 'Untitled page')); // LOL
 		if (is_int($magic)){
