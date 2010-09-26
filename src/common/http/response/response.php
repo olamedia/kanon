@@ -50,7 +50,11 @@ class response{
 		);
 		// setup default responses
 		$args = func_get_args();
+		var_dump($args);
 		array_shift($args);
+		array_unshift($args, false);
+		array_unshift($args, $magic);
+		var_dump($args);
 		$path = dirname(__FILE__).'/html/';
 		magic::set('title', magic::get('title', 'Untitled page')); // LOL
 		if (is_int($magic)){
@@ -63,14 +67,10 @@ class response{
 			if (!is_file($file))
 				$file = $path.'500.php';
 			magic::set($magic, $file);
-			array_unshift($args, false);
-			array_unshift($args, $magic);
 			return call_user_func_array(array('magic', 'call'), $args);
 		}
 		if (isset($map[$magic])){
 			magic::set($magic, $path.$map[$magic]);
-			array_unshift($args, false);
-			array_unshift($args, $magic);
 			return call_user_func_array(array('magic', 'call'), $args);
 		}
 	}
