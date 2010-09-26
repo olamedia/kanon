@@ -11,7 +11,7 @@ echo '<p>Если переадресация не сработала, перей
 //echo $location;
 echo '<script type="text/javascript" language="javascript">';
 echo 'function r(){location.replace("'.$location.'");}';
-echo 'window.onload=function(){setTimeout(\'r\', 500)}';
+echo 'onload=function(){setTimeout("r()", 500)}';
 echo '</script>';
 //var_dump($args);
 //throw new Exception();
