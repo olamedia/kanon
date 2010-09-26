@@ -79,9 +79,9 @@ class fileInput extends control{
 			if ($fileName = $this->_saveFile($file['tmp_name'], $file['name'])){
 				$this->setValue($fileName);
 				if ($property = $this->getProperty()){
-					if ($property instanceof imageFilenameProperty){
+					/*if ($property instanceof imageFilenameProperty){
 						$property->unlinkThumbs();
-					}
+					}*/
 				}
 				if ($item = $this->getItem()){
 					$item->save();
