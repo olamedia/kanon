@@ -45,7 +45,7 @@ class modelExpression{
 			$collection = $this->_left->getCollection();
 			return $collection->getStorage()->quote($string);
 		}
-		throw new Exception('');
+		throw new Exception('left is '.get_class($this->_left));
 	}
 	public function getRight(){
 		if ($this->_right instanceof modelField){
