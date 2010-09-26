@@ -111,7 +111,7 @@ class response{
 	}
 	private static function _preventRedirectLoop($location){
 		if (request::getMethod()=='GET'&&
-				(isset($_SERVER['HTTP_REFERER']) && $location==$_SERVER['HTTP_REFERER'])&&
+				(isset($_SERVER['HTTP_REFERER'])&&$location==$_SERVER['HTTP_REFERER'])&&
 				$location==$_SERVER['REQUEST_URI']){
 			self::http(500); // dirty enough
 		}
@@ -125,7 +125,10 @@ class response{
 		magic::append('css', $value);
 	}
 	public static function back(){
-		self::redirect($_SERVER['HTTP_REFERER']);
+		if (isset($_SERVER['HTTP_REFERER'])){
+			self::redirect($_SERVER['HTTP_REFERER']);
+		}
+		self::http(500);
 	}
 	public static function seeOther($location){
 		self::_preventRedirectLoop($location);
