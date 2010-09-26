@@ -8,6 +8,7 @@ abstract class control{
 	protected $_required = false;
 	// basic decorations
 	protected $_title = '';
+	protected $_note = '';
 	// control set adapter
 	protected $_controlSet = null;
 	protected $_item = null;
