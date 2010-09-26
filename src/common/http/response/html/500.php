@@ -14,4 +14,5 @@ magic::call('html/footer');
     </ul>
 </div>
 <?php
+throw new Exception();
 magic::call('html/footer');
