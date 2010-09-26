@@ -270,12 +270,18 @@ class modelQueryBuilder{
 				$collection = modelCollection::getInstanceById($left->getCollectionId());
 				$this->autoJoin($collection);
 			}
+			if ($left instanceof modelExpression){
+				$this->_joinCondition($left);
+			}
 			$right = $condition->getRight();
 			if ($right instanceof modelField){
 				$this->_fixJoinField($right);
 				$condition->setRight($right);
 				$collection = modelCollection::getInstanceById($right->getCollectionId());
 				$this->autoJoin($collection);
+			}
+			if ($right instanceof modelExpression){
+				$this->_joinCondition($right);
 			}
 		}
 	}
