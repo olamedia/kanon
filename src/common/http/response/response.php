@@ -98,7 +98,7 @@ class response{
 	public static function http($code, $location = null){
 		self::setStatus($code);
 		if ($location!==null){
-			//header('Location: '.$location, true, $code);
+			header('Location: '.$location, true, $code);
 		}
 		if (!magic::get('css')){
 			self::css('body{background:#fff;color:#000;font-family:sans-serif;font-size: 12px;}');
