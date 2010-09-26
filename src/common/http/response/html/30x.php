@@ -13,4 +13,6 @@ echo $location;
 echo 'function r(){location.replace("'.$location.'");}';
 echo 'window.onload=function(){setTimeout(\'r\', 500)}';
 echo '</script>';*/
+var_dump($args);
+throw new Exception();
 magic::call('html/footer');
