@@ -26,7 +26,6 @@ final class magic{
             $default = self::get('default');
         }
         $args = func_get_args();
-		var_dump($args);
         array_shift($args);
         array_shift($args);
         $callable = self::get($magic, $default);
@@ -40,7 +39,6 @@ final class magic{
             }
             if (is_string($callable)){
                 if (is_file($callable)){
-					var_dump($args);
                     return include $callable;
                 } 
             }
