@@ -111,7 +111,7 @@ class response{
 	}
 	private static function _preventRedirectLoop($location){
 		if (request::getMethod()=='GET'&&
-				$location==$_SERVER['HTTP_REFERER']&&
+				(isset($_SERVER['HTTP_REFERER']) && $location==$_SERVER['HTTP_REFERER'])&&
 				$location==$_SERVER['REQUEST_URI']){
 			self::http(500); // dirty enough
 		}
