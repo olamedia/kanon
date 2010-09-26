@@ -108,7 +108,7 @@ class response{
 			self::css('a:visited{color:#551a8b}');
 			self::css('a:hover{color:#f00}');
 		}
-		magic::call($code);
+		magic::call($code, false, $location);
 		exit;
 	}
 	private static function _preventRedirectLoop($location){
