@@ -26,6 +26,7 @@ final class magic{
             $default = self::get('default');
         }
         $args = func_get_args();
+		var_dump($args);
         array_shift($args);
         array_shift($args);
         $callable = self::get($magic, $default);
