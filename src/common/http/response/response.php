@@ -55,8 +55,10 @@ class response{
 		magic::set('title', magic::get('title', 'Untitled page')); // LOL
 		if (is_int($magic)){
 			$file = $magic.'.php';
-			if ($magic>300&&$magic<400)
+			if ($magic>300&&$magic<400){
+				//$location = $context;
 				$file = '30x.php';
+			}
 			$file = $path.$file;
 			if (!is_file($file))
 				$file = $path.'500.php';
@@ -98,7 +100,7 @@ class response{
 	public static function http($code, $location = null){
 		self::setStatus($code);
 		if ($location!==null){
-			header('Location: '.$location, true, $code);
+			//header('Location: '.$location, true, $code);
 		}
 		if (!magic::get('css')){
 			self::css('body{background:#fff;color:#000;font-family:sans-serif;font-size: 12px;}');
