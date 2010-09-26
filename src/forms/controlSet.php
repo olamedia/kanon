@@ -94,7 +94,7 @@ abstract class controlSet{
 				return null;
 			}
 			$class = $this->_classesMap[$controlName];
-			class_exists($class);
+			$class_exists = class_exists($class);
 			if (is_subclass_of($class, 'controlSet')){
 				$controlSet = new $class($controlName, true);
 				/** @var controlSet $controlSet */
