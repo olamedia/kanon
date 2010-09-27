@@ -40,6 +40,9 @@ class modelExpression{
 	public function getLeft(){
 		return $this->_left;
 	}
+	public function getOperator(){
+		return $this->_operator;
+	}
 	public function quote($string){
 		if ($this->_left instanceof modelField){
 			$collection = $this->_left->getCollection();
@@ -90,7 +93,11 @@ class modelExpression{
 			$right = '('.$right.')';
 		}
 		if (in_array(strtoupper($this->_operator), array('OR','AND'))){
-			$s = '(('.$this->getLeft().') '.$this->_operator.' ('.$right.'))';
+			/*$leftsame = true;
+			if ($this->_left instanceof modelExpression){
+				$leftsame = ($this->_left->getOperator() == $this->_operator);
+			}*/
+			$s = '('.$this->getLeft().' '.$this->_operator.' '.$right.')';
 		}else{
 			$s = $this->getLeft().' '.$this->_operator.' '.$right;
 		}
