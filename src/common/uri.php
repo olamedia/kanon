@@ -143,7 +143,7 @@ class uri{
 		foreach ($basepath as $basedir){
 			$dir = array_shift($path);
 			if ($dir !== $basedir){
-				throw new Exception('base dir not found');
+				throw new Exception('base dir '.$basedir.' not found in '.$dir);
 			}
 		}
 		$this->_path = $path;
