@@ -144,6 +144,9 @@ class kanon{
 	public static function getBaseUri(){
 		$requestUri = $_SERVER['REQUEST_URI'];
 		$scriptUri = $_SERVER['SCRIPT_NAME'];
+                if (preg_match("#^(.*)/[^/]+\.php$#imsu",$scriptUri,$subs)){
+                    $scriptUri = $subs[1];
+                }
 		$max = min(strlen($requestUri), strlen($scriptUri));
 		$cmp = 0;
 		for ($l = 1; $l<=$max; $l++){
