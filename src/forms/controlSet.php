@@ -168,6 +168,7 @@ abstract class controlSet{
 	public function getPostKeys(){
 		$keys = array();
 		foreach ($this->_classesMap as $controlName => $class){
+			class_exists($class);
 			if (is_subclass_of($class, 'control')){
 				if (!isset($this->_hiddenControls[$controlName])){
 					$controlKeys = $this->getControl($controlName)->getPostKeys();
