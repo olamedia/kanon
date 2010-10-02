@@ -26,7 +26,7 @@ class application{// extends frontController{
         $app = self::getInstance($applicationClass);
         $app->setBasePath(kanon::getBasePath());
         $baseUrl = kanon::getBaseUri();
-		echo $baseUrl;
+		//echo $baseUrl;
         $app->setBaseUri($baseUrl);
         $app->run();
     }
