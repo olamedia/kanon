@@ -77,7 +77,9 @@ class mediaFilenameProperty extends imageFilenameProperty{
 	}
 	public function _imageSourceHtml($size = 100, $method="fit"){
 		$tm = $this->source();
-		list($w, $h) = getimagesize($this->sourcePath());
+		$path = $this->getPath();
+		$file = $this->getPath().$this->getValue();
+		list($w, $h) = getimagesize($file);
 		$in = ' height="'.$h.'" width="'.$w.'"';
 		return '<img src="'.$tm.'"'.$in.' />';
 	}
