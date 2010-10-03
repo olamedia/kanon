@@ -131,6 +131,9 @@ class controllerPrototype{
 	 * @param string $action
 	 */
 	protected function _action($action){
+		if ($action==$this->_widgetAction){
+			// run widget action
+		}
 		return response::notFound();
 	}
 	/**
@@ -381,6 +384,23 @@ class controllerPrototype{
 			$controller->run();
 		}
 		exit;
+	}
+	protected $_widgetAction = 'widget';
+	public function getWidgetAction(){
+		return $this->_widgetAction;
+	}
+	/**
+	 * Run widget
+	 * @param string $widgetClass
+	 * @param array $options
+	 */
+	public function widget($widgetId, $widgetClass, $options = array()){
+		$widget = new $widgetClass($widgetId, $this, $options);
+		if (method_exists($widget, 'customRun')){
+			$widget->customRun();
+		}else{
+			$widget->run();
+		}
 	}
 	/**
 	 * Get route from docComments if possible
