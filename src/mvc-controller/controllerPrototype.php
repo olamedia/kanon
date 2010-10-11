@@ -24,10 +24,14 @@ class controllerPrototype{
 		//var_dump($this->_relativeUri);
 		$path = $this->_relativeUri->getPath();
 		array_shift($path);
-		$path = implode('/',$path);
+		$path = implode('/', $path);
 		//echo $path;
 		$filename = realpath(dirname($this->_me->getFileName()).'/../assets/'.$path);
-		echo $filename;
+		if (is_file($filename)){
+			readfile($filename);
+			exit;
+		}
+		$this->notFound();
 	}
 	public function asset($asset){
 		$this->_useAssets = true;
@@ -523,7 +527,7 @@ class controllerPrototype{
 			}
 		}
 		$this->onConstruct();
-		if (($action == 'assets') && $this->_useAssets){
+		if (($action=='assets')&&$this->_useAssets){
 			$this->assets();
 			return;
 		}
