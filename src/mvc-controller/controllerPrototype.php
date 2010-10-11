@@ -517,7 +517,7 @@ class controllerPrototype{
 			}
 		}
 		$this->onConstruct();
-		if ($action == 'assets' && $this->_useAssets){
+		if (($action == 'assets') && $this->_useAssets){
 			$this->assets();
 			return;
 		}
