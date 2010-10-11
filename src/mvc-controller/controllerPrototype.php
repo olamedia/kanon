@@ -26,7 +26,7 @@ class controllerPrototype{
 		array_shift($path);
 		$path = implode('/',$path);
 		//echo $path;
-		$filename = dirname($this->_me->getFileName()).'/'.$path;
+		$filename = realpath(dirname($this->_me->getFileName()).'/../assets/'.$path);
 		echo $filename;
 	}
 	public function asset($asset){
