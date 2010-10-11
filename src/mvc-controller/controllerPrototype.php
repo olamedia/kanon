@@ -19,6 +19,14 @@ class controllerPrototype{
 	protected $_type = 'html';
 	protected $_actionControllers = array();
 	protected $_options = array();
+	protected $_useAssets = false;
+	public function assets(){
+		var_dump($this->_relativeUri);
+	}
+	public function asset($asset){
+		$this->_useAssets = true;
+		return $this->rel('assets/'.$asset);
+	}
 	public function _checkAccess($action, $method){
 		return true;
 	}
@@ -509,6 +517,10 @@ class controllerPrototype{
 			}
 		}
 		$this->onConstruct();
+		if ($action == 'assets' && $this->_useAssets){
+			$this->assets();
+			return;
+		}
 		if ($methodToRun!==null){
 			if (method_exists($this, $methodToRun)){
 				$this->_call($methodToRun, $action, $this->_getArgs($methodToRun));
