@@ -28,6 +28,16 @@ class controllerPrototype{
 		//echo $path;
 		$filename = realpath(dirname($this->_me->getFileName()).'/../assets/'.$path);
 		if (is_file($filename)){
+			$mimes = array(
+				'png' => 'image/png',
+				'jpeg' => 'image/jpeg',
+				'jpg' => 'image/jpeg',
+				'gif' => 'image/gif',
+			);
+			$ext = end(explode('.', $filename));
+			if (isset($mimes[$ext])){
+				header('Content-type: '.$mimes[$ext]);
+			}
 			readfile($filename);
 			exit;
 		}
