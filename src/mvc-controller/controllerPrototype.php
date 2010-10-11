@@ -25,8 +25,9 @@ class controllerPrototype{
 		$path = $this->_relativeUri->getPath();
 		array_shift($path);
 		$path = implode('/',$path);
-		echo $path;
-		//$dir = dirname(__FILE__);
+		//echo $path;
+		$filename = realpath(dirname($this->_me->getFileName()).'/'.$path);
+		echo $filename;
 	}
 	public function asset($asset){
 		$this->_useAssets = true;
