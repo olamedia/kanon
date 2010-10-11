@@ -21,7 +21,12 @@ class controllerPrototype{
 	protected $_options = array();
 	protected $_useAssets = false;
 	public function assets(){
-		var_dump($this->_relativeUri);
+		//var_dump($this->_relativeUri);
+		$path = $this->_relativeUri->getPath();
+		array_shift($path);
+		$path = implode('/',$path);
+		echo $path;
+		//$dir = dirname(__FILE__);
 	}
 	public function asset($asset){
 		$this->_useAssets = true;
