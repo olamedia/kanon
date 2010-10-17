@@ -106,7 +106,7 @@ class controller extends controllerPrototype{
 		if (count($this->getRegistry()->meta)){
 			foreach ($this->getRegistry()->meta as $name => $meta){
 				if (count($meta) > 1){
-					$meta = implode(',',$meta)
+					$meta = implode(',',$meta);
 				}
 				$h .= '<meta name="'.$name.'" content="'.$meta.'" />';
 			}
