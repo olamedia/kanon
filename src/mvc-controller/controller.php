@@ -98,6 +98,21 @@ class controller extends controllerPrototype{
 	public function css($cssString){
 		$this->getRegistry()->plainCss[] = $cssString;
 	}
+	public function robots($text){
+		$this->getRegistry()->meta->robots[] = $text;
+	}
+	public function getMeta(){
+		$h = '';
+		if (count($this->getRegistry()->meta)){
+			foreach ($this->getRegistry()->meta as $name => $meta){
+				if (count($meta) > 1){
+					$meta = implode(',',$meta)
+				}
+				$h .= '<meta name="'.$name.'" content="'.$meta.'" />';
+			}
+		}
+		return $h;
+	}
 	public function getCss(){
 		$h = '';
 		if (count($this->getRegistry()->plainCss)){
@@ -191,6 +206,7 @@ class controller extends controllerPrototype{
 		$h = '<!DOCTYPE html>'; // html5
 		$h .= '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
 		$h .= '<title>'.$this->getTitle().'</title>';
+		$h .= $this->getMeta();
 		if (count($this->getRegistry()->cssIncludes)){
 			$includes = $this->getRegistry()->cssIncludes->toArray();
 			sort($includes);
