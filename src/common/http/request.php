@@ -27,8 +27,8 @@ class request{
 	 */
 	public static function getDomainName(){
 		$da = explode(".", self::getServerParameter('SERVER_NAME',''));
-		//reset($da);
-		if (reset($da)=='www'){
+		reset($da);
+		if ($da[0]=='www'){
 			array_shift($da);
 		}
 		return implode(".", $da);
