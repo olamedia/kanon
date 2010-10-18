@@ -22,7 +22,6 @@ class widgetController extends controller{
         $this->setOptions($options);
         $this->setWidgetUri($parentController->rel($parentController->getWidgetAction().'/'.$widgetId));
         $this->setWidgetId($widgetId);
-        $this->onConstruct();
     }
     protected $_widgetMode = false;
     public function setWidgetMode($widgetMode = true){
