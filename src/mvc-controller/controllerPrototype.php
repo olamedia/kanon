@@ -163,9 +163,7 @@ class controllerPrototype{
             $this->preloadWidgets();
             $actions = $this->_relativeUri->getPath();
             $widgetId = intval($actions[2]);
-            echo $widgetId;
             if ($widget = widgets::get($widgetId, false)){
-                echo ' OK';
                 $widget->run();
                 exit;
             }else{
