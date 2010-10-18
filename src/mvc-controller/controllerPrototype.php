@@ -287,6 +287,7 @@ class controllerPrototype{
      * Redirect to previous page
      */
     function back(){
+        if (request::isAjax()) exit;
         response::back();
     }
     /**
