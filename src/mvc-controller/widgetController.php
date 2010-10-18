@@ -29,7 +29,7 @@ class widgetController extends controller{
 	public function setWidgetUri($uri){
 		$this->_widgetUri = $uri;
 	}
-	public function wrel($relativeUri = ''){
+	public function wrel($relativeUri = ''){ 
 		$relativeUri = strval($relativeUri);
 		if (is_string($relativeUri))
 			$relativeUri = uri::fromString($relativeUri);
