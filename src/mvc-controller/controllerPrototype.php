@@ -168,6 +168,8 @@ class controllerPrototype{
                 echo ' OK';
                 $widget->run();
                 exit;
+            }else{
+                widgets::dump();
             }
             //var_dump($this->_relativeUri);
         }
