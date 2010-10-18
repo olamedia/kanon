@@ -8,6 +8,12 @@
 class widgetController extends controller{
 	protected $_widgetUri = null;
 	protected $_widgetId = null;
+        /**
+         *
+         * @param integer $widgetId Constant id for widget settings over site
+         * @param controller $parentController
+         * @param array $options
+         */
 	public function __construct($widgetId, $parentController,$options = array()){
 		$this->_baseUri = uri::fromString('/');
 		$this->_relativeUri = uri::fromRequestUri();
@@ -30,7 +36,7 @@ class widgetController extends controller{
 		if (!is_object($relativeUri)){
 			throw new Exception('$relativeUri not an object');
 		}
-		$relativeUri->setPath(array_merge($this->_widgetUri->getPath(), $a, $relativeUri->getPath()));
+		$relativeUri->setPath(array_merge($this->_widgetUri->getPath(), $relativeUri->getPath()));
 		return $relativeUri;
 	}
 	public function toolbar(){
@@ -59,4 +65,9 @@ class widgetController extends controller{
 			$this->statusbar();
 		echo '</div>';
 	}
+        public function __toString(){
+            $this->_header();
+            $this->index();
+            $this->_footer();
+        }
 }
