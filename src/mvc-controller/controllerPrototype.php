@@ -161,7 +161,13 @@ class controllerPrototype{
     public function _action($action){
         if ($action == $this->_widgetAction){
             $this->preloadWidgets();
-            var_dump($this->_relativeUri);
+            $actions = $this->_relativeUri->getPath();
+            $widgetId = $actions[2];
+            if ($widget = widgets::get($widgetId, false)){
+                $widget->run();
+                exit;
+            }
+            //var_dump($this->_relativeUri);
         }
         return response::notFound();
     }
