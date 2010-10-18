@@ -23,6 +23,13 @@ class widgetController extends controller{
 		$this->setWidgetUri($parentController->rel($parentController->getWidgetAction().'/'.$widgetId));
 		$this->setWidgetId($widgetId);
 	}
+        protected $_widgetMode = false;
+        public function setWidgetMode($widgetMode = true){
+            $this->_widgetMode = $widgetMode;
+            if ($widgetMode){
+                $this->setBaseUri($this->_widgetUri);
+            }
+        }
 	public function setWidgetId($widgetId){
 		$this->_widgetId = $widgetId;
 	}

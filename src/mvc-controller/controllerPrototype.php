@@ -164,6 +164,7 @@ class controllerPrototype{
             $actions = $this->_relativeUri->getPath();
             $widgetId = intval($actions[2]);
             if ($widget = widgets::get($widgetId, false)){
+                $widget->setWidgetMode();
                 $widget->run();
                 exit;
             }else{
