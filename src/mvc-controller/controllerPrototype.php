@@ -162,7 +162,7 @@ class controllerPrototype{
         if ($action == $this->_widgetAction){
             $this->preloadWidgets();
             $actions = $this->_relativeUri->getPath();
-            $widgetId = $actions[2];
+            $widgetId = intval($actions[2]);
             echo $widgetId;
             if ($widget = widgets::get($widgetId, false)){
                 echo ' OK';
