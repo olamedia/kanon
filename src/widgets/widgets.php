@@ -15,5 +15,8 @@ class widgets {
     public static function get($id, $default = null){
         return isset(self::$_widgets[$id])?self::$_widgets[$id]:$default;
     }
+    public static function dump(){
+        var_dump(self::$_widgets);
+    }
 }
 
