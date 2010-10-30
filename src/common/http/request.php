@@ -21,12 +21,19 @@ class request{
 	public static function getServerParameter($name, $default = null){
 		return isset($_SERVER[$name])?$_SERVER[$name]:$default;
 	}
+	public static function getUri(){
+		// DOCUMENT_URI - nginx SSI include fix (REQUEST_URI = /)
+		return self::getServerParameter('DOCUMENT_URI', self::getServerParameter('REQUEST_URI', ''));
+	}
+	public static function getServerName(){
+		return self::getServerParameter('HTTP_HOST', self::getServerParameter('SERVER_NAME', ''));
+	}
 	/**
-	 * Get current domain name, excluding www. prefix
+	 * Get current domain name, !excluding www. prefix
 	 * @return string Domain name
 	 */
 	public static function getDomainName(){
-		$da = explode(".", self::getServerParameter('HTTP_HOST',self::getServerParameter('SERVER_NAME','')));
+		$da = explode(".", self::getServerName());
 		reset($da);
 		if ($da[0]=='www'){
 			array_shift($da);
