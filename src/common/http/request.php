@@ -21,12 +21,15 @@ class request{
 	public static function getServerParameter($name, $default = null){
 		return isset($_SERVER[$name])?$_SERVER[$name]:$default;
 	}
-	public static function getUri(){
+	public static function getUri($default = ''){
 		// DOCUMENT_URI - nginx SSI include fix (REQUEST_URI = /)
-		return self::getServerParameter('DOCUMENT_URI', self::getServerParameter('REQUEST_URI', ''));
+		return self::getServerParameter('DOCUMENT_URI', self::getServerParameter('REQUEST_URI', $default));
 	}
-	public static function getServerName(){
-		return self::getServerParameter('HTTP_HOST', self::getServerParameter('SERVER_NAME', ''));
+	public static function getServerName($default = ''){
+		return self::getServerParameter('HTTP_HOST', self::getServerParameter('SERVER_NAME', $default));
+	}
+	public static function getReferer($default = false){
+		return self::getServerParameter('HTTP_REFERER', $default);
 	}
 	/**
 	 * Get current domain name, !excluding www. prefix
