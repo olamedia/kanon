@@ -1,4 +1,5 @@
 <?php
+
 /**
  * $Id$
  * Class representation of relative uri string
@@ -20,12 +21,7 @@ class uri{
 	 * @return string Domain name
 	 */
 	public static function getDomainName(){
-		$da = explode(".", $_SERVER['SERVER_NAME']);
-		reset($da);
-		if ($da[0] == 'www'){
-			array_shift($da);
-		}
-		return implode(".", $da);
+		return request::getDomainName();
 	}
 	/**
 	 * Set path section of URI
@@ -38,8 +34,8 @@ class uri{
 		$k1 = false;
 		$before = array();
 		foreach ($this->_path as $k2 => $dir){
-			if ($k1 !== false && ($this->_path[$k1] !== '..')){
-				if ($dir == '..'){
+			if ($k1!==false&&($this->_path[$k1]!=='..')){
+				if ($dir=='..'){
 					unset($this->_path[$k1]);
 					unset($this->_path[$k2]);
 					$k1 = $before[$k1];
@@ -47,7 +43,7 @@ class uri{
 					unset($before[$k1]);
 				}
 			}
-			if ($k2 !== false){
+			if ($k2!==false){
 				$before[$k2] = $k1;
 				$k1 = $k2;
 			}
@@ -68,7 +64,8 @@ class uri{
 	 */
 	public function getBasePath($shift = 0){
 		reset($this->_path);
-		for($i=0;$i<$shift;$i++) next($this->_path);
+		for ($i = 0; $i<$shift; $i++)
+			next($this->_path);
 		return current($this->_path);
 	}
 	/**
@@ -96,7 +93,7 @@ class uri{
 		$uri = new uri();
 		$qpos = strpos($uriString, '?');
 		$get = '';
-		if ($qpos !== false){
+		if ($qpos!==false){
 			$get = substr($uriString, $qpos+1);
 			$uriString = substr($uriString, 0, $qpos);
 		}
@@ -109,12 +106,14 @@ class uri{
 		// cut index.php
 		$path = explode("/", $uriString);
 		foreach ($path as $k => $v){
-			if ($v == '') unset($path[$k]); else{
+			if ($v=='')
+				unset($path[$k]); else{
 				$path[$k] = urldecode($v);
 			}
 		}
 		foreach ($args as $k => $v){
-			if ($v == '') unset($args[$k]);
+			if ($v=='')
+				unset($args[$k]);
 		}
 		$uri->setPath($path);
 		$uri->setArgs($args);
@@ -125,11 +124,7 @@ class uri{
 	 * @return uri
 	 */
 	public static function fromRequestUri(){
-		$uri = $_SERVER['REQUEST_URI'];
-		if (isset($_SERVER['DOCUMENT_URI'])){
-			$uri = $_SERVER['DOCUMENT_URI']; // nginx SSI include fix (REQUEST_URI = /)
-		}
-		return uri::fromString($uri);
+		return uri::fromString(request::getUri());
 	}
 	/**
 	 * Subtract $baseUri from left part of URI
@@ -137,12 +132,13 @@ class uri{
 	 * @return uri
 	 */
 	public function subtractBase($baseUri){
-		if (is_string($baseUri)) $baseUri = uri::fromString($baseUri);
+		if (is_string($baseUri))
+			$baseUri = uri::fromString($baseUri);
 		$basepath = $baseUri->getPath();
 		$path = $this->_path;
 		foreach ($basepath as $basedir){
 			$dir = array_shift($path);
-			if ($dir !== $basedir){
+			if ($dir!==$basedir){
 				throw new Exception('base dir '.$basedir.' not found in '.$dir.' ('.$_SERVER['REQUEST_URI'].', '.$_SERVER['SCRIPT_NAME'].'');
 			}
 		}
@@ -158,6 +154,6 @@ class uri{
 		foreach ($this->_path as $d){
 			$ep[] = urlencode($d);
 		}
-		return '/'.implode('/',$ep);
+		return '/'.implode('/', $ep);
 	}
 }
