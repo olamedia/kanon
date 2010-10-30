@@ -262,6 +262,14 @@ class controllerPrototype{
         response::notFound();
     }
     /**
+     * Exit with HTTP 401 error code
+     * @param string $message
+     */
+    public function unauthorized(){
+        response::unauthorized();
+    }
+
+    /**
      * Redirect with HTTP 301 "Moved Permanently" code
      * @param string $message
      */
