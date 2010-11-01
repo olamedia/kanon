@@ -44,6 +44,9 @@ class selectControl extends control{
 				break;
 		}
 	}
+	public function isValid(){
+		return $this->isValidValue();
+	}
 	public function isValidValue(){
 		$values = array();
 		if ($this->_controlType == 'checkbox'){
