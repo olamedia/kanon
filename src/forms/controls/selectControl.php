@@ -48,6 +48,7 @@ class selectControl extends control{
 		return $this->isValidValue();
 	}
 	public function isValidValue(){
+		if (!$this->_required) return true;
 		$values = array();
 		if ($this->_controlType == 'checkbox'){
 			$values = $this->getValue();
