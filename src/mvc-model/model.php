@@ -199,6 +199,9 @@ class model extends extendable implements ArrayAccess, IteratorAggregate{
 		return $models->select()->where($models->{$this->_primaryKey[0]}->is($this->{$this->_parentKey}))->fetch();
 	}
 	public function getChildren($modelClass = null){
+		if ($modelClass == null){
+			$modelClass = get_class($this);
+		}
 		if ($modelClass==get_class($this)){
 			if ($this->_parentKey!==null){
 				$models = modelCollection::getInstance(get_class($this));
