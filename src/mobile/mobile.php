@@ -21,6 +21,7 @@ class mobile{
 	protected $_browserSubclass = ''; // opera mini/firefox/flock/ie7/ie8
 	protected $_platform = ''; // win/mac/linux/ios
 	protected $_deviceBrand = '';
+	protected $_deviceModel = '';
 	protected $_isPhone = null; // (device which can call)
 	protected $_j2me = null;
 	protected $_features = array(
@@ -36,7 +37,7 @@ class mobile{
 		echo 'Platform: '.$this->_platform.'<br />';
 		echo 'Device: '.$this->_deviceBrand.'<br />';
 		echo 'isPhone: '.intval($this->_isPhone).'<br />';
-	} 
+	}
 	public function setUseragent($ua){
 		$this->_ua = $ua;
 		// normalize useragent string
@@ -186,10 +187,24 @@ class mobile{
 			$this->_deviceBrand = 'sonyericsson';
 			$this->_isPhone = true;
 		}
-		
 	}
 	public function setProfile($rdfLocation){
 		$this->_profile = $rdfLocation;
+		$this->_profile = 'http://nds1.nds.nokia.com/uaprof/NN8-00r100-3G.xml';
+		try{
+			$profile = simplexml_load_file($this->_profile);
+			$profile->registerXPathNamespace('rdf', "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
+			// rdf:RDF/rdf:Description rdf:ID="Profile"<prf:component>
+			// <rdf:Description rdf:ID="HardwarePlatform">
+			// <prf:Model>N8-00</prf:Model>
+			foreach ($xml->xpath('//rdf:Description[rdf:ID="HardwarePlatform"]') as $platformDesc) {
+				foreach ($platformDesc->xpath('//prf:Model') as $model){
+					$this->_deviceModel = $model;
+				}
+			}
+		}catch(Exception $e){
+			
+		}
 	}
 }
 
