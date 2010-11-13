@@ -199,15 +199,9 @@ class mobile{
 			// rdf:RDF/rdf:Description rdf:ID="Profile"<prf:component>
 			// <rdf:Description rdf:ID="HardwarePlatform">
 			// <prf:Model>N8-00</prf:Model>
-			foreach ($profile->xpath("//rdf:Description[@rdf:ID='HardwarePlatform']") as $platformDesc) {
+			foreach ($profile->xpath("//rdf:Description[@rdf:ID='HardwarePlatform']/prf:Model") as $model) {
 				echo 'desc ';
-				if ((string)$platformDesc['rdf:ID'] == "HardwarePlatform"){
-					echo 'pl ';
-					foreach ($platformDesc->xpath('//prf:Model') as $model){
-						echo 'm ';
-						$this->_deviceModel = $model;
-					}
-				}
+				$this->_deviceModel = (string) $model;
 			}
 		}catch(Exception $e){
 			throw $e;
