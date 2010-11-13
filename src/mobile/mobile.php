@@ -51,12 +51,12 @@ class mobile{
 		$this->_nua = $n = strtolower(';;'.implode(';', $ua).';;');
 		if (strpos($n, ';symbian;')){
 			$this->_platform = 'symbian';
+		}elseif (strpos($n, ';android;')){
+			$this->_platform = 'android';
 		}elseif (strpos($n, ';linux;')){
 			$this->_platform = 'linux';
 		}elseif (strpos($n, ';windows;')){
 			$this->_platform = 'win32';
-		}elseif (strpos($n, ';android;')){
-			$this->_platform = 'android';
 		}elseif (strpos($n, ';ios;')){
 			$this->_platform = 'ios';
 		}elseif (strpos($n, ';mac;')){
