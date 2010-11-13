@@ -32,31 +32,31 @@ class mobile{
 		$this->_nua = $n = strtolower(';;'.implode(';', $ua).';;');
 		// Match for Opera Mini
 		// ; Opera Mini/buildnumber;
-		if (strpos(';opera mini/', $n)){
+		if (strpos($n, ';opera mini/')){
 			$this->_browserClass = 'opera';
 			$this->_browserSubclass = 'opera mini';
 		}
 		// Match for Opera Mobile
 		// ; Opera Mobi/buildnumber;
-		if (strpos(';opera mobi/', $n)){
+		if (strpos($n, ';opera mobi/')){
 			$this->_browserClass = 'opera';
 			$this->_browserSubclass = 'opera mobile';
 		}
 		// Match for MSIE
 		// ; MSIE 8.0;; MSIE 7.0;
-		if (strpos(';msie 7.0;', $n)){
+		if (strpos($n, ';msie 7.0;')){
 			$this->_browserClass = 'trident';
 			$this->_browserSubclass = 'ie7';
 		}
-		if (strpos(';msie 8.0;', $n)){
+		if (strpos($n, ';msie 8.0;')){
 			$this->_browserClass = 'trident';
 			$this->_browserSubclass = 'ie8';
 		}
 		// Match for Webkit browsers
 		// ) AppleWebKit/534.12 (KHTML, like Gecko)
-		if (strpos(';applewebkit/', $n)){
+		if (strpos($n, ';applewebkit/')){
 			$this->_browserClass = 'webkit';
-			if (strpos(';chrome', $n)){
+			if (strpos($n, ';chrome')){
 				$this->_browserSubclass = 'chrome';
 			}
 		}
