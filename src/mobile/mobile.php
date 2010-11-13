@@ -28,9 +28,14 @@ class mobile{
 	public static function detect(){
 		$m = new self();
 		$m->setUseragent(request::getUseragent(''));
-		$m->setProfile(request::getHttpHeader('Profile', ''));
-		$m->setUseragent('');
-		var_dump($m);
+		$m->setProfile(request::getHttpHeader('X-Wap-Profile', ''));
+		$m->dump();
+	}
+	public function dump(){
+		echo 'Browser: '.$this->_browserClass.'/'.$this->_browserSubclass.'<br />';
+		echo 'Platform: '.$this->_platform.'<br />';
+		echo 'Device: '.$this->_deviceBrand.'<br />';
+		echo 'isPhone: '.print_r($this->_isPhone, true).'<br />';
 	}
 	public function setUseragent($ua){
 		$this->_ua = $ua;
@@ -84,6 +89,7 @@ class mobile{
 		// Match for Webkit browsers
 		// ) AppleWebKit/534.12 (KHTML, like Gecko)
 		if (strpos($n, ';applewebkit;')){
+			$this->_browserEngine = 'webkit';
 			$this->_browserClass = 'webkit';
 			if (strpos($n, ';chrome')){
 				$this->_browserSubclass = 'chrome';
