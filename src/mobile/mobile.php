@@ -30,8 +30,8 @@ class mobile{
 		$m = new self();
 		$m->setUseragent(request::getUseragent(''));
 		$m->setProfile(request::getHttpHeader('X-Wap-Profile', ''));
-		$m->setUseragent('NokiaN8-00/10.0.000 (Symbian/3; S60/5.2 Mozilla/5.0; Profile/MIDP-2.1 Configuration/CLDC-1.1) AppleWebkit/525 (KHTML, like Gecko) BrowserNG/7.2');
-		$m->setProfile('http://nds1.nds.nokia.com/uaprof/NN8-00r100-3G.xml');
+		//$m->setUseragent('NokiaN8-00/10.0.000 (Symbian/3; S60/5.2 Mozilla/5.0; Profile/MIDP-2.1 Configuration/CLDC-1.1) AppleWebkit/525 (KHTML, like Gecko) BrowserNG/7.2');
+		//$m->setProfile('http://nds1.nds.nokia.com/uaprof/NN8-00r100-3G.xml');
 		$m->dump();
 	}
 	public function dump(){
@@ -156,37 +156,37 @@ class mobile{
 		}
 		if (preg_match("#Nokia#ims", $this->_ua)){
 			// Brand: Nokia
-			$this->_deviceBrand = 'nokia';
+			$this->_deviceBrand = 'Nokia';
 			$this->_isPhone = true;
 		}
 		if (preg_match("#BlackBerry#ims", $this->_ua)){
 			// Brand: BlackBerry
-			$this->_deviceBrand = 'blackberry';
+			$this->_deviceBrand = 'BlackBerry';
 			$this->_isPhone = true;
 		}
 		if (preg_match("#^LGE?\-#ims", $this->_ua)){
 			// Brand: LG
-			$this->_deviceBrand = 'lg';
+			$this->_deviceBrand = 'LG';
 			$this->_isPhone = true;
 		}
 		if (preg_match("#^MOT\-#ims", $this->_ua)){
 			// Brand: Motorola
-			$this->_deviceBrand = 'motorola';
+			$this->_deviceBrand = 'Motorola';
 			$this->_isPhone = true;
 		}
 		if (preg_match("#^SAMSUNG\-#ims", $this->_ua)){
 			// Brand: Samsung
-			$this->_deviceBrand = 'samsung';
+			$this->_deviceBrand = 'Samsung';
 			$this->_isPhone = true;
 		}
 		if (preg_match("#^ZTE\-#ims", $this->_ua)){
 			// Brand: ZTE
-			$this->_deviceBrand = 'zte';
+			$this->_deviceBrand = 'ZTE';
 			$this->_isPhone = true;
 		}
 		if (preg_match("#^SonyEricsson#ims", $this->_ua)){
 			// Brand: SonyEricsson
-			$this->_deviceBrand = 'sonyericsson';
+			$this->_deviceBrand = 'SonyEricsson';
 			$this->_isPhone = true;
 		}
 	}
@@ -200,7 +200,6 @@ class mobile{
 			// <rdf:Description rdf:ID="HardwarePlatform">
 			// <prf:Model>N8-00</prf:Model>
 			foreach ($profile->xpath("//rdf:Description[@rdf:ID='HardwarePlatform']/prf:Model") as $model) {
-				echo 'desc ';
 				$this->_deviceModel = (string) $model;
 			}
 		}catch(Exception $e){
