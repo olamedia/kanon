@@ -32,7 +32,7 @@ class mobile{
 		$m->dump();
 	}
 	public function dump(){
-		echo 'Browser: '.$this->_browserClass.'/'.$this->_browserSubclass.'<br />';
+		echo 'Browser: '.$this->_browserEngine.'/'.$this->_browserClass.'/'.$this->_browserSubclass.'<br />';
 		echo 'Platform: '.$this->_platform.'<br />';
 		echo 'Device: '.$this->_deviceBrand.'<br />';
 		echo 'isPhone: '.print_r($this->_isPhone, true).'<br />';
