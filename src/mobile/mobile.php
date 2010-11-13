@@ -191,7 +191,7 @@ class mobile{
 		}
 	}
 	public function setProfile($rdfLocation){
-		$this->_profile = $rdfLocation;
+		$this->_profile = trim($rdfLocation, '"');
 		if (!strlen($this->_profile)) return;
 		try{
 			echo 'Loading '.$this->_profile.'...';
