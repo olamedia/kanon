@@ -36,7 +36,7 @@ class mobile{
 		echo 'Platform: '.$this->_platform.'<br />';
 		echo 'Device: '.$this->_deviceBrand.'<br />';
 		echo 'isPhone: '.print_r($this->_isPhone, true).'<br />';
-	}
+	} 
 	public function setUseragent($ua){
 		$this->_ua = $ua;
 		// normalize useragent string
