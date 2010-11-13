@@ -194,6 +194,7 @@ class mobile{
 		$this->_profile = $rdfLocation;
 		if (!strlen($this->_profile)) return;
 		try{
+			echo 'Loading '.$this->_profile.'...';
 			$profile = simplexml_load_file($this->_profile);
 			$profile->registerXPathNamespace('rdf', "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
 			// rdf:RDF/rdf:Description rdf:ID="Profile"<prf:component>
