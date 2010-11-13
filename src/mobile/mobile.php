@@ -53,7 +53,7 @@ class mobile{
 			$this->_platform = 'symbian';
 		}elseif (strpos($n, ';linux;')){
 			$this->_platform = 'linux';
-		}elseif (strpos($n, ';win;')){
+		}elseif (strpos($n, ';windows;')){
 			$this->_platform = 'win32';
 		}elseif (strpos($n, ';android;')){
 			$this->_platform = 'android';
