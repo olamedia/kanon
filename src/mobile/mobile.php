@@ -30,6 +30,8 @@ class mobile{
 		$m = new self();
 		$m->setUseragent(request::getUseragent(''));
 		$m->setProfile(request::getHttpHeader('X-Wap-Profile', ''));
+		$m->setUseragent('NokiaN8-00/10.0.000 (Symbian/3; S60/5.2 Mozilla/5.0; Profile/MIDP-2.1 Configuration/CLDC-1.1) AppleWebkit/525 (KHTML, like Gecko) BrowserNG/7.2');
+		$m->setProfile('http://nds1.nds.nokia.com/uaprof/NN8-00r100-3G.xml');
 		$m->dump();
 	}
 	public function dump(){
@@ -190,7 +192,7 @@ class mobile{
 	}
 	public function setProfile($rdfLocation){
 		$this->_profile = $rdfLocation;
-		$this->_profile = 'http://nds1.nds.nokia.com/uaprof/NN8-00r100-3G.xml';
+		if (!strlen($this->_profile)) return;
 		try{
 			$profile = simplexml_load_file($this->_profile);
 			$profile->registerXPathNamespace('rdf', "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
