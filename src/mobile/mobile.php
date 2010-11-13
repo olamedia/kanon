@@ -129,6 +129,7 @@ class mobile{
 			$this->_browserSubclass = 'obigo';
 			$this->_isPhone = true;
 		}
+		$this->_isPhone = !!$this->_isPhone;
 		$this->lookupModel();
 	}
 	protected function lookupModel(){
