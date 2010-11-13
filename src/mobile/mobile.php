@@ -201,7 +201,7 @@ class mobile{
 			// <prf:Model>N8-00</prf:Model>
 			foreach ($profile->xpath('//rdf:Description') as $platformDesc) {
 				echo 'desc ';
-				if ($platformDesc['rdf:ID'] == "HardwarePlatform"){
+				if ((string)$platformDesc['rdf:ID'] == "HardwarePlatform"){
 					echo 'pl ';
 					foreach ($platformDesc->xpath('//prf:Model') as $model){
 						echo 'm ';
