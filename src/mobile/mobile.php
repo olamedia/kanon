@@ -35,7 +35,7 @@ class mobile{
 		echo 'Browser: '.$this->_browserEngine.'/'.$this->_browserClass.'/'.$this->_browserSubclass.'<br />';
 		echo 'Platform: '.$this->_platform.'<br />';
 		echo 'Device: '.$this->_deviceBrand.'<br />';
-		echo 'isPhone: '.print_r($this->_isPhone, true).'<br />';
+		echo 'isPhone: '.intval($this->_isPhone).'<br />';
 	} 
 	public function setUseragent($ua){
 		$this->_ua = $ua;
