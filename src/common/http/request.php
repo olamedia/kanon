@@ -12,8 +12,8 @@ class request{
 	public static function isAjax(){
 		return 'XMLHttpRequest'==self::getHttpHeader('X-Requested-With');
 	}
-	public static function getMethod(){
-		return $_SERVER['REQUEST_METHOD'];
+	public static function getMethod($default = null){
+		return self::getServerParameter('REQUEST_METHOD', $default);
 	}
 	public static function getHttpHeader($name, $default = null){
 		return self::getServerParameter('HTTP_'.strtoupper(strtr($name, '-', '_')), $default);
@@ -30,6 +30,9 @@ class request{
 	}
 	public static function getReferer($default = false){
 		return self::getServerParameter('HTTP_REFERER', $default);
+	}
+	public static function getUseragent($default = ''){
+		return self::getServerParameter('HTTP_USER_AGENT', $default);
 	}
 	/**
 	 * Get current domain name, !excluding www. prefix
