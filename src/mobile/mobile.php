@@ -29,6 +29,7 @@ class mobile{
 		$m = new self();
 		$m->setUseragent(request::getUseragent(''));
 		$m->setProfile(request::getHttpHeader('Profile', ''));
+		$m->setUseragent('');
 		var_dump($m);
 	}
 	public function setUseragent($ua){
