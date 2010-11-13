@@ -89,6 +89,7 @@ class mobile{
 			}
 			if (strpos($n, 'browserng')){
 				$this->_browserSubclass = 'browserng';
+				$this->_isPhone = true;
 			}
 		}
 		// Mobile browser: UP.Browser
@@ -117,6 +118,8 @@ class mobile{
 		//
 		if (preg_match("#^W3C\-mobile#ims", $this->_ua)){
 			// Brand: W3C XD
+			$this->_deviceBrand = 'w3c';
+			$this->_isPhone = true; // test support
 		}
 		if (preg_match("#i(Phone|Pod|Pad)#", $this->_ua)){
 			// Brand: Apple
@@ -133,24 +136,37 @@ class mobile{
 		if (preg_match("#^Nokia#ims", $this->_ua)){
 			// Brand: Nokia
 			$this->_deviceBrand = 'nokia';
+			$this->_isPhone = true;
 		}
 		if (preg_match("#BlackBerry#ims", $this->_ua)){
 			// Brand: BlackBerry
+			$this->_deviceBrand = 'blackberry';
+			$this->_isPhone = true;
 		}
 		if (preg_match("#^LGE?\-#ims", $this->_ua)){
 			// Brand: LG
+			$this->_deviceBrand = 'lg';
+			$this->_isPhone = true;
 		}
 		if (preg_match("#^MOT\-#ims", $this->_ua)){
 			// Brand: Motorola
+			$this->_deviceBrand = 'motorola';
+			$this->_isPhone = true;
 		}
 		if (preg_match("#^SAMSUNG\-#ims", $this->_ua)){
 			// Brand: Samsung
+			$this->_deviceBrand = 'samsung';
+			$this->_isPhone = true;
 		}
 		if (preg_match("#^ZTE\-#ims", $this->_ua)){
 			// Brand: ZTE
+			$this->_deviceBrand = 'zte';
+			$this->_isPhone = true;
 		}
 		if (preg_match("#^SonyEricsson#ims", $this->_ua)){
 			// Brand: SonyEricsson
+			$this->_deviceBrand = 'sonyericsson';
+			$this->_isPhone = true;
 		}
 		
 	}
