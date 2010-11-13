@@ -35,7 +35,7 @@ class mobile{
 	public function dump(){
 		echo 'Browser: '.$this->_browserEngine.'/'.$this->_browserClass.'/'.$this->_browserSubclass.'<br />';
 		echo 'Platform: '.$this->_platform.'<br />';
-		echo 'Device: '.$this->_deviceBrand.'<br />';
+		echo 'Device: '.$this->_deviceBrand.'/'.$this->_deviceModel.'<br />';
 		echo 'isPhone: '.intval($this->_isPhone).'<br />';
 	}
 	public function setUseragent($ua){
@@ -152,7 +152,7 @@ class mobile{
 				// iPad
 			}
 		}
-		if (preg_match("#^Nokia#ims", $this->_ua)){
+		if (preg_match("#Nokia#ims", $this->_ua)){
 			// Brand: Nokia
 			$this->_deviceBrand = 'nokia';
 			$this->_isPhone = true;
