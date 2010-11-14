@@ -84,6 +84,12 @@ class mobile{
 			$this->_browserSubclass = 'opera mobile';
 			$this->_isPhone = true;
 		}
+		if (strpos($n, ';opera;')){
+			$this->_browserEngine = 'presto';
+			$this->_browserClass = 'opera';
+			$this->_browserSubclass = 'opera';
+			$this->_isPhone = true;
+		}
 		// Match for MSIE
 		// ; MSIE 8.0;; MSIE 7.0;
 		if (strpos($n, ';msie 6.0;')){
