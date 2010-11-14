@@ -88,7 +88,7 @@ class mobile{
 			$this->_browserEngine = 'presto';
 			$this->_browserClass = 'opera';
 			$this->_browserSubclass = 'opera';
-			$this->_isPhone = true;
+			$this->_isPhone = false;
 		}
 		// Match for MSIE
 		// ; MSIE 8.0;; MSIE 7.0;
