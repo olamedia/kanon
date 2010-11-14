@@ -60,6 +60,8 @@ class mobile{
 			$this->_platform = 'linux';
 		}elseif (strpos($n, ';windows;')){
 			$this->_platform = 'win32';
+		}elseif (strpos($n, ';windows')){
+			$this->_platform = 'win32';
 		}elseif (strpos($n, ';ios;')){
 			$this->_platform = 'ios';
 		}elseif (strpos($n, ';mac;')){
@@ -68,6 +70,7 @@ class mobile{
 		// Match for Opera Mini
 		// ; Opera Mini/buildnumber;
 		if (strpos($n, ';opera mini;')){
+			$this->_browserEngine = 'presto';
 			$this->_browserClass = 'opera';
 			$this->_browserSubclass = 'opera mini';
 			$this->_j2me = true;
@@ -76,6 +79,7 @@ class mobile{
 		// Match for Opera Mobile
 		// ; Opera Mobi/buildnumber;
 		if (strpos($n, ';opera mobi;')){
+			$this->_browserEngine = 'presto';
 			$this->_browserClass = 'opera';
 			$this->_browserSubclass = 'opera mobile';
 			$this->_isPhone = true;
