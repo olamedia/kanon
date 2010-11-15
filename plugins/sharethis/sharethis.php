@@ -25,6 +25,7 @@ class sharethis{
 			$this->_buttons[] = $button;
 			return $button;
 		}
+		var_dump($button);
 		return false;
 	}
 	public function getButton($domain){
