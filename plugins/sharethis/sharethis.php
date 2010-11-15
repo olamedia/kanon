@@ -40,5 +40,14 @@ class sharethis{
 		}
 		return false;
 	}
+	public function getHtml(){
+		$h = '';
+		$ha = array();
+		foreach ($this->_buttons as $button){
+			$ha[] = $button->getHtml();
+		}
+		$h = '<div class="sharethis">'.implode('', $ha).'</div>';
+		return $h;
+	}
 }
 
