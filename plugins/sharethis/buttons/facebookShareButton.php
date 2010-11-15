@@ -8,7 +8,7 @@ class facebookShareButton extends shareButton{
 	protected $_domain = 'facebook.com';
     protected $_baseUrl = 'http://www.facebook.com/sharer.php';
 	protected $_tip = 'Опубликовать в Facebook';
-	protected $_rel = 'dialog';
+	//protected $_rel = 'dialog';
 	public function getShareUrl(){
 		return $this->_baseUrl.
 		'?u='.urlencode($this->getUrl()).
