@@ -7,6 +7,7 @@
 class vkontakteShareButton extends shareButton{
 	protected $_domain = 'vkontakte.ru';
 	protected $_baseUrl = 'http://vkontakte.ru/share.php';
+	protected $_tip = 'Опубликовать в ВКонтакте';
 	public function getShareUrl(){
 		return $this->_baseUrl.
 		'?url='.urlencode($this->getUrl()).

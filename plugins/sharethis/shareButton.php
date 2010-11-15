@@ -13,6 +13,7 @@ class shareButton{
 	protected $_collection = null;
 	protected $_domain = '';
 	protected $_imageUrl = '';
+	protected $_tip = '';
 	public function __construct($collection){
 		$this->_collection = $collection;
 	}
@@ -41,8 +42,11 @@ class shareButton{
 	public function getImageUrl(){
 		return $this->_imageUrl;
 	}
+	public function getTip(){
+		return $this->_tip;
+	}
 	public function getHtml(){
-		return '<a href="'.$this->getShareUrl().'"><img src="'.$this->getImageUrl().'" /></a>';
+		return '<a href="'.$this->getShareUrl().'" title="'.$this->getTip().'"><img src="'.$this->getImageUrl().'" /></a>';
 	}
 }
 
