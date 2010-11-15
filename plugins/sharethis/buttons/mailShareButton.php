@@ -4,7 +4,7 @@
  *
  * @author olamedia
  */
-class mailShareButton{
+class mailShareButton extends shareButton{
 	protected $_domain = 'mail.ru';
 	protected $_baseUrl = 'http://connect.mail.ru/share?share_url=';
 	public function getShareUrl(){

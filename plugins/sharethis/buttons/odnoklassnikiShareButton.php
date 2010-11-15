@@ -4,7 +4,7 @@
  *
  * @author olamedia
  */
-class odnoklassnikiShareButton{
+class odnoklassnikiShareButton extends shareButton{
 	protected $_domain = 'odnoklassniki.ru';
 	protected $_baseUrl = 'http://www.odnoklassniki.ru/dk?st.cmd=addShare&st._surl=';
 	public function getShareUrl(){

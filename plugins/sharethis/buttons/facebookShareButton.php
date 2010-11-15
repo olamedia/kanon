@@ -4,7 +4,7 @@
  *
  * @author olamedia
  */
-class facebookShareButton {
+class facebookShareButton extends shareButton{
 	protected $_domain = 'facebook.com';
     protected $_baseUrl = 'http://www.facebook.com/sharer.php';
 	public function getShareUrl(){
