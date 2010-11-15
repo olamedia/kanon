@@ -24,6 +24,7 @@ class shareButton{
 	}
 	public function setImage($url){
 		$this->_imageUrl = $url;
+		return $this;
 	}
 	public function getUrl(){
 		return $this->_collection->getUrl();
