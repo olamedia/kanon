@@ -16,7 +16,7 @@ function isEmail($s){
 	if (preg_match($regexp, $s, $subs)){
 		return true;
 	}
-	return false;*/
+	return false;*/ 
 	if (preg_match("#^([a-z0-9\.\-\_]+@([a-z0-9-]+\.)+('.$countries.'|'.$special.'))$#ims", $s, $subs)){
 		return true;
 	}
