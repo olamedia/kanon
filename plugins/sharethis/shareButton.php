@@ -50,5 +50,3 @@ class shareButton{
 		return '<a rel="'.$this->_rel.'" href="'.$this->getShareUrl().'" title="'.$this->getTip().'"><img src="'.$this->getImageUrl().'" /></a>';
 	}
 }
-
-?>
