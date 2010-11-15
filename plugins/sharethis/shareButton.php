@@ -17,7 +17,7 @@ class shareButton{
 		$this->_collection = $collection;
 	}
 	public function load($domain){
-		return ($this->_domain = $domain);
+		return ($this->_domain == $domain);
 	}
 	public function end(){
 		return $this->_collection;
