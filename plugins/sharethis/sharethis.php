@@ -49,5 +49,8 @@ class sharethis{
 		$h = '<div class="sharethis">'.implode('', $ha).'</div>';
 		return $h;
 	}
+	public function __toString(){
+		return (string) $this->getHtml();
+	}
 }
 
