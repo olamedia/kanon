@@ -19,6 +19,15 @@ class sharethis{
 	public function setDescription($description){
 		$this->_description = $description;
 	}
+	public function getUrl(){
+		return $this->_url;
+	}
+	public function getTitle(){
+		return $this->_title;
+	}
+	public function getDescription(){
+		return $this->_description;
+	}
 	public function addButton($domain){
 		$button = $this->getButton($domain);
 		if ($button){
