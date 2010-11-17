@@ -57,7 +57,9 @@ final class magic{
         $args = func_get_args();
         array_shift($args);
         $hash = md5($name.serialize($args));
-        echo '<div style="padding: 3px;">callback='.$name.'; hash='.$hash.'</div>';
+        echo '<div style="padding: 3px;">callback='.$name.'; hash='.$hash.';'
+        debug_zval_dump($callback);
+        echo '</div>';
         if (!isset(self::$_rocks[$hash])){
             self::$_rocks[$hash] = call_user_func_array($callback, $args);
         }
