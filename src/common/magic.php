@@ -55,16 +55,16 @@ final class magic{
         if (!is_callable($callback, false, $name)){
             throw new Exception(printf($callback, true).' is not callable');
         }
-        $args = func_get_args();
-        array_shift($args);
         if (is_object($callback)){
             $name.=':'.spl_object_hash($callback);
         }
+        $args = func_get_args();
+        array_shift($args);
         $hash = md5($name.serialize($args));
-        echo '<div style="padding: 3px;">callback='.$name.'; hash='.$hash.';';
+        /*echo '<div style="padding: 3px;">callback='.$name.'; hash='.$hash.';';
         var_dump($args);
         debug_zval_dump($callback);
-        echo '</div>';
+        echo '</div>';*/
         if (!isset(self::$_rocks[$hash])){
             self::$_rocks[$hash] = call_user_func_array($callback, $args);
         }
