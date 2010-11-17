@@ -91,7 +91,8 @@ class profiler{
 			}
                         $i = 0;
                         foreach ($sqlInfo['trace'] as $traceInfo){
-                            $h .= '<div>';
+                            $i++;
+                            $h .= '<div style="line-height: 1em;font-size:10px;">';
                             $h .= '#'.$i.' '.$traceInfo['class'].$traceInfo['type'].$traceInfo['function'].'() at line '.$traceInfo['line'];
                             $h .= '</div>';
                         }
