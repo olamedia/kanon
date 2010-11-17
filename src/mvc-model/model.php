@@ -237,7 +237,7 @@ class model extends extendable implements ArrayAccess, IteratorAggregate{
     }
     public static function getRockCallback($class){
         echo '<div style="padding: 3px;">';
-        echo 'model '.$class;
+        echo '<b>getRockCallback</b><br />model '.$class;
         echo '<br />args:';
         $args = func_get_args();
         array_shift($args);
