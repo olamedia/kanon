@@ -226,6 +226,14 @@ class model extends extendable implements ArrayAccess, IteratorAggregate{
 	  if ($id === null) $id = self::getId();
 	  return $id;
 	  } */
+        public static function getRock($id){
+            // PHP>=5.3.0
+            $class = get_called_class();
+            return magic::rock(function()use($class,$id){
+                    $models = modelCollection::getInstance($class);
+                    return $models->findOne($id);
+            });
+        }
 	public static function findOne(){
 		if (isset($this)){
 			$class = get_class($this);
