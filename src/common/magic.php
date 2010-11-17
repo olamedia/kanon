@@ -62,6 +62,7 @@ final class magic{
         }
         $hash = md5($name.serialize($args));
         echo '<div style="padding: 3px;">callback='.$name.'; hash='.$hash.';';
+        var_dump($args);
         debug_zval_dump($callback);
         echo '</div>';
         if (!isset(self::$_rocks[$hash])){
