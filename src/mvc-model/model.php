@@ -236,8 +236,13 @@ class model extends extendable implements ArrayAccess, IteratorAggregate{
         return magic::rockArray(array('model','getRockCallback'), $args);
     }
     public static function getRockCallback($class){
+        echo '<div style="padding: 3px;">';
+        echo 'model '.$class;
+        echo '<br />args:';
         $args = func_get_args();
         array_shift($args);
+        var_dump($args);
+        echo '</div>';
         $models = modelCollection::getInstance($class);
         return call_user_func_array(array($models,'findOne'),$args);
     }
