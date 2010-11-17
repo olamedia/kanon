@@ -49,5 +49,17 @@ final class magic{
         ob_end_clean();
         throw new Exception('No such magic: '.$dump);
     }
+    protected static $_rocks = array();
+    public function rock($callback){
+        if (!is_callable($callback, false, $name)){
+            throw new Exception(printf($callback, true).' is not callable');
+        }
+        if (!isset(self::$_rocks[$name])){
+            $args = func_get_args();
+            array_shift($args);
+            self::$_rocks[$name] = call_user_func_array($callback, $args);
+        }
+        return self::$_rocks[$name];
+    }
 }
 
