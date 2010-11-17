@@ -90,6 +90,17 @@ class profiler{
 				$h .= ' '.$traceInfo['class'].$traceInfo['type'].$traceInfo['function'].'() at line '.$traceInfo['line'];
 			}
                         $i = 0;
+                        $skip = array(
+                            'profiler', 'mysqlDriver', 'storageDriver', 'modelStorage',
+                            'modelExpression', 'modelQueryBuilder', 'modelResultSet'
+                        );
+                        foreach ($sqlInfo['trace'] as $traceInfo){
+                            if (in_array($traceInfo['class'], $skip)){
+                                array_shift($sqlInfo['trace']);
+                            }else{
+                                break;
+                            }
+                        }
                         foreach ($sqlInfo['trace'] as $traceInfo){
                             $i++;
                             $h .= '<div style="line-height: 1em;font-size:10px;">';
