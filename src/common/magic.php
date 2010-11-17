@@ -54,7 +54,7 @@ final class magic{
     public static function rock($callback){
         $args = func_get_args();
         array_shift($args);
-        self::rockArray($callback, $args);
+        return self::rockArray($callback, $args);
     }
     public static function rockArray($callback, $args){
         if (!is_callable($callback, false, $name)){
