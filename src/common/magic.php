@@ -51,15 +51,18 @@ final class magic{
         throw new Exception('No such magic: '.$dump);
     }
     protected static $_rocks = array();
-    public function rock($callback){
+    public static function rock($callback){
+        $args = func_get_args();
+        array_shift($args);
+        self::rockArray($callback, $args);
+    }
+    public static function rockArray($callback, $args){
         if (!is_callable($callback, false, $name)){
             throw new Exception(printf($callback, true).' is not callable');
         }
         if (is_object($callback)){
             $name.=':'.spl_object_hash($callback);
         }
-        $args = func_get_args();
-        array_shift($args);
         $hash = md5($name.serialize($args));
         /*echo '<div style="padding: 3px;">callback='.$name.'; hash='.$hash.';';
         var_dump($args);
