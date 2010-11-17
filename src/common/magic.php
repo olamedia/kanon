@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Description of magic
  *
@@ -40,7 +41,7 @@ final class magic{
             if (is_string($callable)){
                 if (is_file($callable)){
                     return include $callable;
-                } 
+                }
             }
         }
         ob_start();
@@ -56,6 +57,9 @@ final class magic{
         }
         $args = func_get_args();
         array_shift($args);
+        if (is_object($callback)){
+            $name.=':'.spl_object_hash($callback);
+        }
         $hash = md5($name.serialize($args));
         echo '<div style="padding: 3px;">callback='.$name.'; hash='.$hash.';';
         debug_zval_dump($callback);
