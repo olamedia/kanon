@@ -54,12 +54,13 @@ final class magic{
         if (!is_callable($callback, false, $name)){
             throw new Exception(printf($callback, true).' is not callable');
         }
-        if (!isset(self::$_rocks[$name])){
-            $args = func_get_args();
-            array_shift($args);
-            self::$_rocks[$name] = call_user_func_array($callback, $args);
+        $args = func_get_args();
+        array_shift($args);
+        $hash = md5($name.serialize($args));
+        if (!isset(self::$_rocks[$hash])){
+            self::$_rocks[$hash] = call_user_func_array($callback, $args);
         }
-        return self::$_rocks[$name];
+        return self::$_rocks[$hash];
     }
 }
 
