@@ -228,15 +228,18 @@ class model extends extendable implements ArrayAccess, IteratorAggregate{
       if ($id === null) $id = self::getId();
       return $id;
       } */
-    public static function getRock($id){
+    public static function getRock(){
         // PHP>=5.3.0
         $class = get_called_class();
         $args = func_get_args();
+        array_unshift($args, $class);
         return magic::rockArray(array('model','getRockCallback'), $args);
     }
-    public static function getRockCallback($class, $id){
+    public static function getRockCallback($class){
+        $args = func_get_args();
+        array_shift($args);
         $models = modelCollection::getInstance($class);
-        return $models->findOne($id);
+        return call_user_func_array(array($models,'findOne'),$args);
     }
     public static function findOne(){
         if (isset($this)){
