@@ -239,10 +239,10 @@ class model extends extendable implements ArrayAccess, IteratorAggregate{
        /* echo '<div style="padding: 3px;">';
         echo '<b>getRockCallback</b><br />model '.$class;
         echo '<br />args:';
-        $args = func_get_args();
-        array_shift($args);
         var_dump($args);
         echo '</div>';*/
+        $args = func_get_args();
+        array_shift($args);
         $models = modelCollection::getInstance($class);
         return call_user_func_array(array($models,'findOne'),$args);
     }
