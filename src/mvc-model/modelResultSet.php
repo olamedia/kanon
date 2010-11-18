@@ -202,6 +202,13 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 			}
 		}
 	}
+        public function toArray(){
+            $a = array();
+            foreach ($this as $result){
+                $a[] = $result;
+            }
+            return $a;
+        }
 	/* public function __destruct(){
 	  unset($this->_result);
 	  } */
