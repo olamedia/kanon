@@ -11,8 +11,8 @@ class integerProperty extends modelProperty{
 		}
 		$this->_value = $value;
 	}
-	public function getValue(){
+	/*public function getValue(){
 		$value = parent::getValue();
 		return intval($value);
-	}
+	}*/
 }
