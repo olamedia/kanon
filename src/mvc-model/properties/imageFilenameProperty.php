@@ -24,7 +24,8 @@ class imageFilenameProperty extends stringProperty{
 			return $this->_uri;
 		}
 		$baseUrl = 'http://'.request::getServerName().'';
-		return $baseUrl.$this->_options['url'];
+		//$baseUrl.
+		return $this->_options['url'];
 		return kanon::getBaseUri().'/'.$this->_options['url'];
 	}
 	public function source(){
