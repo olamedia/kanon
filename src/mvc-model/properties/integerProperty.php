@@ -11,11 +11,11 @@ class integerProperty extends modelProperty{
 		}
 		$this->_value = $value;
 	}
-	public function getValue(){
+	/*public function getValue(){
 		$value = parent::getValue();
 		if ($value instanceof modelProperty){
 			$value = $value->getValue();
 		}
 		return intval($value);
-	}
+	}*/
 }
