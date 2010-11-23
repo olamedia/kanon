@@ -222,7 +222,7 @@ abstract class control{
 		return '<tr><td valign="top" class="label" style="padding-left: '.($level*50).'px">'.($this->getId()?'<label class="'.$this->getLabelCssClass().'" for="'.$this->getId().'">':'').
 		((strlen($this->getTitle()) || $this->isRequired())?
 		'<span'.($this->_required?' title="Обязательно к заполнению"':'').'>'.$this->getTitle().($this->_required?' <b style="color: #f00;">*</b>':'').$this->_afterTitle.'</span>':'')
-		.'</td><td>'.$this->getHtml().$this->getNote().''.($this->getId()?'</label>':'').'</td></tr>';
+		.'</td><td class="input">'.$this->getHtml().$this->getNote().''.($this->getId()?'</label>':'').'</td></tr>';
 	}
 	public function getHtml(){
 		return '<input type="text"'.$this->getIdHtml().' class="'.$this->getInputCssClass().'" name="'.$this->getName().'" value="'.htmlspecialchars($this->getValue()).'" />';
