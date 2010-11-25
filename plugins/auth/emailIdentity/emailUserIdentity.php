@@ -21,6 +21,10 @@ class emailUserIdentity extends userIdentityPrototype{
         $this->_email = $email;
         $this->_password = $password;
     }
+    public function getModel(){
+        $emails = modelCollection::getInstance('userEmail');
+        return $users->select($emails, $emails->email->is($this->_email))->fetch();
+    }
     /**
      * @return boolean whether authentication succeeds
      */
