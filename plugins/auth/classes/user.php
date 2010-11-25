@@ -14,6 +14,11 @@ class user extends extendable{
 	protected static $_model = 'registeredUser'; // real model
         public function setIdentity($identity){
             $this->_identity = $identity;
+            // try to load correct user model
+            if ($identity->isRegistered()){ // change user
+                $this->_user = $identity->getUserModel();
+                $this->setRegistered();
+            }
         }
 	/**
 	 * Login using valid authenticated identity
