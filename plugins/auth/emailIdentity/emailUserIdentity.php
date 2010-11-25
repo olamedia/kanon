@@ -3,6 +3,20 @@
 class emailUserIdentity extends userIdentityPrototype{
     protected $_email = '';
     protected $_password = ''; // @todo convert to hash, ex: md5($password)
+    protected $_isRegistered = null;
+    public function isRegistered(){
+        if ($this->_isRegistered === null){
+            $users = user::getCollection(); //modelCollection::getInstance('registeredUser');
+            $emails = modelCollection::getInstance('userEmail');
+            $result = $users->select($emails, $emails->email->is($this->_email))->fetch();
+            if ($result){
+                $this->_isRegistered = true;
+            }else{
+                $this->_isRegistered = false;
+            }
+        }
+        return $this->_isRegistered;
+    }
     public function __construct($email, $password){
         $this->_email = $email;
         $this->_password = $password;
