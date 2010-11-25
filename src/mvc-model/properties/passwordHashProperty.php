@@ -25,7 +25,7 @@ class passwordHashProperty extends stringProperty{
     }
     public function setValue($value){
         if ($value !== ''){
-            $hash = md5(md5($value).$this->getSalt());
+            $hash = $this->getHash($value);
             $this->_value = $hash;
         }
     }
