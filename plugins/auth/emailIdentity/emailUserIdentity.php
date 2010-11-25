@@ -23,7 +23,7 @@ class emailUserIdentity extends userIdentityPrototype{
     }
     public function getModel(){
         $emails = modelCollection::getInstance('userEmail');
-        return $users->select($emails, $emails->email->is($this->_email))->fetch();
+        return $emails->select($emails->email->is($this->_email))->fetch();
     }
     /**
      * @return boolean whether authentication succeeds
@@ -47,9 +47,7 @@ class emailUserIdentity extends userIdentityPrototype{
      * @return boolean whether authentication succeeds
      */
     public function exists(){
-        $users = user::getCollection(); //modelCollection::getInstance('registeredUser');
-        $emails = modelCollection::getInstance('userEmail');
-        $result = $users->select($emails, $emails->email->is($this->_email))->fetch();
+        $result = $this->getModel();
         if (!$result){
             return false;
         }
