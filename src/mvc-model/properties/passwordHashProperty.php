@@ -26,7 +26,7 @@ class passwordHashProperty extends stringProperty{
     public function setValue($value){
         if ($value !== ''){
             $hash = $this->getHash($value);
-            $this->_value = $hash;
+            parent::setValue($hash);
         }
     }
     public function equals($password){
