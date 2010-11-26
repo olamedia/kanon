@@ -15,6 +15,7 @@ class thumbnailer{
 	}
 	public function __construct(){
 		$requestUri = $_SERVER['REQUEST_URI'];
+                $requestUri = reset(explode('?',$requestUri));
 		$this->_filename = basename($requestUri);
 		$trace = debug_backtrace();
 		$file = $trace[0]['file'];
