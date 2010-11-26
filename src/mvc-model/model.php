@@ -438,7 +438,7 @@ class model extends extendable implements ArrayAccess, IteratorAggregate{
         foreach ($this->_classes as $propertyName=>$class){
             $property = $this->_getProperty($propertyName);
             if ($property->isChangedValue()){
-                $property->setInitialValue($property->getValue());
+                $property->setInitialValue($property->getInternalValue());
                 $property->forceSetValue(null);
             }
         }
