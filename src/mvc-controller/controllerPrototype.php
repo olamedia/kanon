@@ -112,7 +112,7 @@ class controllerPrototype{
 	public function getAction($index = 0){
 		$p = $this->_relativeUri->getPath();
 		if ($index < 0){
-			$index = 1-$index;
+			$index = -$index-1;
 			$p = array_reverse($p);
 			$px = array();
 			foreach ($p as $a){
