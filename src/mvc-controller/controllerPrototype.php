@@ -196,12 +196,25 @@ class controllerPrototype{
         $relativeUri->setPath(array_merge($this->_baseUri->getPath(), $a, $relativeUri->getPath()));
         return $relativeUri;
     }
-    public function arel($relativeUri = ''){
+    public function arel($relativeUri = '', $stripLast = false){
         $relativeUri = strval($relativeUri); //if (is_object($relativeUri))
         if (is_string($relativeUri))
             $relativeUri = uri::fromString($relativeUri);
         $a = array();
-		foreach ($this->_relativeUri->getPath() as $action){
+		$rel = $this->_relativeUri->getPath();
+		if ($stripLast){
+			$xrel = array_reverse($rel);
+			$stripa = $relativeUri->getPath();
+			foreach ($xrel as $action){
+				$stripAction = array_pop($stripa);
+				if ($action != $stripAction){
+					break;
+				}
+				array_pop($rel);
+			}
+		}
+		//$relativeUri
+		foreach ($rel as $action){
 			$a[] = $action;
 		}
         if (!is_object($relativeUri)){
