@@ -196,6 +196,9 @@ class controllerPrototype{
         $relativeUri->setPath(array_merge($this->_baseUri->getPath(), $a, $relativeUri->getPath()));
         return $relativeUri;
     }
+    public function arel($relativeUri = ''){
+        return $this->rel($relativeUri, true);
+    }
     /**
      * Returns SSI Include instruction <!--# include virtual="$uri" -->
      * @param string $uri
