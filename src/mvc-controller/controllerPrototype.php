@@ -114,6 +114,11 @@ class controllerPrototype{
 		if ($index < 0){
 			$index = 1-$index;
 			$p = array_reverse($p);
+			$px = array();
+			foreach ($p as $a){
+				$px[] = $a;
+			}
+			$p = $px;
 		}
 		if (isset($p[$index])){
 			return $p[$index];
