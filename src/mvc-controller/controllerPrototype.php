@@ -197,7 +197,19 @@ class controllerPrototype{
         return $relativeUri;
     }
     public function arel($relativeUri = ''){
-        return $this->rel($relativeUri, true);
+        $relativeUri = strval($relativeUri); //if (is_object($relativeUri))
+        if (is_string($relativeUri))
+            $relativeUri = uri::fromString($relativeUri);
+        $a = array();
+		foreach ($this->_relativeUri->getPath() as $action){
+			$a[] = $action;
+		}
+        if (!is_object($relativeUri)){
+            throw new Exception('$relativeUri not an object');
+        }
+        $relativeUri->setPath(array_merge($this->_baseUri->getPath(), $a, $relativeUri->getPath()));
+        return $relativeUri;
+		
     }
     /**
      * Returns SSI Include instruction <!--# include virtual="$uri" -->
