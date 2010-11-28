@@ -109,6 +109,13 @@ class controllerPrototype{
     public function setParent($parentController){
         $this->_parent = $parentController;
     }
+	public function getAction($index = 0){
+		$p = $this->_relativeUri->getPath();
+		if (isset($p[$index])){
+			return $p[$index];
+		}
+		return false;
+	}
     /**
      * Get parent controller
      */
