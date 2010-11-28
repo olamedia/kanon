@@ -1,19 +1,16 @@
 <?php
 
-#require_once dirname(__FILE__).'/modelQueryBuilder.php';
-#require_once dirname(__FILE__).'/modelResultSetIterator.php';
-
 class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Countable{
 	protected $_result = null;
 	protected $_finished = false;
 	protected $_list = array();
 	protected $_useCache = null; // null - default, true - use, false -no
 	protected $_cacheLifetime = null; // in seconds
-	
 	public function destroy(){
 		$this->_result = null;
 		foreach ($this->_list as $m){
-			if (is_subclass_of($m, 'model')) destroy($m);
+			if (is_subclass_of($m, 'model'))
+				destroy($m);
 		}
 		$this->free();
 		$this->_list = array();
@@ -48,7 +45,7 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 		return $this;
 	}
 	public function isCacheEnabled(){
-		return $this->_useCache === null?modelCache::isEnabledByDefault():$this->_useCache;
+		return $this->_useCache===null?modelCache::isEnabledByDefault():$this->_useCache;
 	}
 	public function getCacheLifetime(){
 		return $this->_cacheLifetime;
@@ -72,10 +69,12 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 					}
 					$model = new $modelClass();
 					$model->markSaved();
+					$model->preLoad();
 					foreach ($fields as $field){
 						//$model[$field->getName()]->setInitialValue($a[$field->getUniqueId()]);
 						$model->setInitialFieldValue($field->getName(), $a[$field->getUniqueId()]);
 					}
+					$model->postLoad();
 				}else{
 					list($k, $v) = each($sa);
 					$model = $a[$k];
@@ -155,7 +154,8 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 	 * @return model
 	 */
 	public function fetch(){
-		if ($this->_finished) return false;
+		if ($this->_finished)
+			return false;
 		$this->execute();
 		if ($this->_result){
 			if (is_array($this->_result)){
@@ -182,7 +182,7 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 	protected function _fetchAll(){
 		$this->useCache(true);
 		while ($this->fetch()){
-
+			
 		}
 	}
 	public function getIterator(){
@@ -202,13 +202,13 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
 			}
 		}
 	}
-        public function toArray(){
-            $a = array();
-            foreach ($this as $result){
-                $a[] = $result;
-            }
-            return $a;
-        }
+	public function toArray(){
+		$a = array();
+		foreach ($this as $result){
+			$a[] = $result;
+		}
+		return $a;
+	}
 	/* public function __destruct(){
 	  unset($this->_result);
 	  } */
