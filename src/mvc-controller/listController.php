@@ -1,4 +1,5 @@
 <?php
+
 class listController extends controller{
 	protected $_model = null;
 	protected $_title = 'title';
@@ -10,16 +11,16 @@ class listController extends controller{
 		$cl = strlen($class);
 		$lc = 'ListController';
 		$l = strlen($lc);
-		if ($this->_model === null){
-			if (substr($class,$cl-$l,$l)==$lc){
-				$this->_model = substr($class,0,$cl-$l);
+		if ($this->_model===null){
+			if (substr($class, $cl-$l, $l)==$lc){
+				$this->_model = substr($class, 0, $cl-$l);
 			}
-			if (($this->_model === null) || (!class_exists($this->_model))){
+			if (($this->_model===null)||(!class_exists($this->_model))){
 				throw new Exception('setup $_model in '.get_class($this));
 			}
 		}
 		$model = $this->_model;
-		if ($this->_subController === null){
+		if ($this->_subController===null){
 			$this->_subController = $model.'Controller';
 			if (!class_exists($this->_subController)){
 				throw new Exception('setup $_subController in '.get_class($this));
@@ -31,6 +32,8 @@ class listController extends controller{
 		if ($item){
 			$this->onValidItem($modelId, $item);
 			$this->runController($subController, array($model => $item));
+		}else{
+			$this->notFound();
 		}
 	}
 	public function onValidItem($modelId, $item, $rel = ''){
