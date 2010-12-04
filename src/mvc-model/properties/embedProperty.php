@@ -5,6 +5,6 @@ class embedProperty extends textProperty{
 		$h = $this->getValue();
 		$h = preg_replace("#width=('|\")([0-9%]+)('|\")#ims", 'width="'.$width.'"', $h);
 		$h = preg_replace("#height=('|\")([0-9%]+)('|\")#ims", 'height="'.$height.'"', $h);
-		return $h;
+		return $h.'e';
 	}
 }
