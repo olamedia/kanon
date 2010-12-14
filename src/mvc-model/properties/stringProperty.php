@@ -10,7 +10,7 @@ class stringProperty extends modelProperty{
             if (preg_match("#^(.[$h,$n]\S)\s+#imsu", $v, $subs)){
                 return $subs[1].$ellipsis;
             }
-            return mb_substr($v,0, $maxChars).$ellipsis; // cut
+            return mb_substr($v,0, $maxChars, 'UTF-8').$ellipsis; // cut
         }
         return $v;
     }
