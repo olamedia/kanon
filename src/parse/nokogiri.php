@@ -47,14 +47,11 @@ class nokogiri{
             $a = explode(' ', $expression);
             $first = array_shift($a);
             $sub = implode(' ', $a);
-            //echo ' find('.$first.')->get('.$sub.') ';
             return $this->getElements($first)->get($sub);
         }
-        //echo ' find('.$expression.') ';
         return $this->getElements($expression);
     }
     protected function getElements($expression){ // tag.class
-        //echo ' get elements: ';
         $newDom = new DOMDocument('1.0', 'UTF-8');
         $root = $newDom->createElement('root');
         $newDom->appendChild($root);
@@ -85,10 +82,7 @@ class nokogiri{
             if ($nodeList === false){
                 throw new Exception('Malformed xpath');
             }
-            // echo ' no errors ';
-            /* append all nodes from $nodeList to the new dom, as children of $root: */
             foreach ($nodeList as $domElement){
-                //echo ' node found ';
                 $domNode = $newDom->importNode($domElement, true);
                 $root->appendChild($domNode);
             }
@@ -99,7 +93,6 @@ class nokogiri{
         return $this->_dom->saveXML();
     }
     public function toArray($xnode = null){
-        //echo '<h3>to array</h3>';
         $array = array();
         if ($xnode === null){
             $node = $this->_dom;
@@ -115,19 +108,15 @@ class nokogiri{
             }
         }
         if ($node->hasChildNodes()){
-            //echo ' has child nodes ';
             if ($node->childNodes->length == 1){
                 $array[$node->firstChild->nodeName] = $this->toArray($node->firstChild);
             }else{
                 foreach ($node->childNodes as $childNode){
-                    //echo ' child ';
                     if ($childNode->nodeType != XML_TEXT_NODE){
                         $array[$childNode->nodeName][] = $this->toArray($childNode);
                     }
                 }
             }
-        }else{
-            //$array['TEXT'] = $node->nodeValue;
         }
         if ($xnode === null){
             return reset(reset($array)); // first child
