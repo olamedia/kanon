@@ -47,13 +47,13 @@ class nokogiri{
             $a = explode(' ', $expression);
             $first = array_shift($a);
             $sub = implode(' ', $a);
-            echo 'find('.$first.')->get('.$sub.')';
+            // echo 'find('.$first.')->get('.$sub.')';
             return $this->getElements($first)->get($sub);
         }
         return $this->getElements($expression);
     }
     protected function getElements($expression){ // tag.class
-        echo ' get elements: ';
+        //echo ' get elements: ';
         $newDom = new DOMDocument('1.0', 'UTF-8');
         $root = $newDom->createElement('root');
         $newDom->appendChild($root);
@@ -74,15 +74,15 @@ class nokogiri{
             }
         }
         if (strlen($query)){
-            echo $query;
+            // echo $query;
             $nodeList = $this->_xpath->query($query);
             if ($nodeList === false){
                 throw new Exception('Malformed xpath');
             }
-            echo ' no errors ';
+            // echo ' no errors ';
             /* append all nodes from $nodeList to the new dom, as children of $root: */
             foreach ($nodeList as $domElement){
-                echo ' node found ';
+                // echo ' node found ';
                 $domNode = $newDom->importNode($domElement, true);
                 $root->appendChild($domNode);
             }
@@ -95,7 +95,8 @@ class nokogiri{
     public function toArray($node = null){
         //echo '<h3>to array</h3>';
         $array = array();
-        if ($node === null) $node = $this->_dom;
+        if ($node === null)
+            $node = $this->_dom;
         if ($node->hasAttributes()){
             foreach ($node->attributes as $attr){
                 $array[$attr->nodeName] = $attr->nodeValue;
