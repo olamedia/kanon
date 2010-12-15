@@ -83,7 +83,7 @@ class nokogiri{
             // echo ' no errors ';
             /* append all nodes from $nodeList to the new dom, as children of $root: */
             foreach ($nodeList as $domElement){
-                //echo ' node found ';
+                echo ' node found ';
                 $domNode = $newDom->importNode($domElement, true);
                 $root->appendChild($domNode);
             }
