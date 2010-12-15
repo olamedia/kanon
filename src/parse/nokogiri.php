@@ -104,7 +104,7 @@ class nokogiri{
         if ($node->hasChildNodes()){
             echo ' has child nodes ';
             if ($node->childNodes->length == 1){
-                $array[$node->firstChild->nodeName] = $node->firstChild->nodeValue;
+                $array[$node->firstChild->nodeName] = $this->toArray($node->firstChild);
             }else{
                 foreach ($node->childNodes as $childNode){
                     echo ' child ';
