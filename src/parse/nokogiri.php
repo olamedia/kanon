@@ -52,12 +52,13 @@ class nokogiri{
         if ($nodeList === false){
             throw new Exception('Malformed xpath');
         }
+        echo ' no errors ';
         $newDom = new DOMDocument('1.0', 'UTF-8');
         $root = $newDom->createElement('root');
         $newDom->appendChild($root);
         /* append all nodes from $nodeList to the new dom, as children of $root: */
         foreach ($nodeList as $domElement){
-            echo ' . ';
+            echo ' node found ';
             $domNode = $newDom->importNode($domElement, true);
             $root->appendChild($domNode);
         }
