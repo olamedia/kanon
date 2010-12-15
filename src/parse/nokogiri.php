@@ -90,6 +90,7 @@ class nokogiri{
                 throw new Exception('Malformed xpath');
             }
             foreach ($nodeList as $domElement){
+                echo ' found ';
                 $domNode = $newDom->importNode($domElement, true);
                 $root->appendChild($domNode);
             }
