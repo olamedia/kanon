@@ -54,7 +54,7 @@ class nokogiri{
         }
         $newDom = new DOMDocument('1.0', 'UTF-8');
         $root = $newDom->createElement('root');
-        $root = $newDom->appendChild($root);
+        $newDom->appendChild($root);
         /* append all nodes from $nodeList to the new dom, as children of $root: */
         foreach ($nodeList as $domElement){
             $domNode = $newDom->importNode($domElement, true);
