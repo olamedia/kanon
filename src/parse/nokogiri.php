@@ -34,7 +34,11 @@ class nokogiri{
     }
     public function loadHtml($htmlString = ''){
         $this->_dom = new DOMDocument('1.0', 'UTF-8');
-        if (strlen($htmlString)) $this->_dom->loadHTML($htmlString);
+        if (strlen($htmlString)) {
+            libxml_use_internal_errors(TRUE);
+            $this->_dom->loadHTML($htmlString);
+            libxml_clear_errors();
+        }
         $this->_xpath = new DOMXpath($this->_dom);
     }
     public function get($expression){
