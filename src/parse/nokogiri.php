@@ -114,7 +114,7 @@ class nokogiri{
                 }
             }
         }
-        return $array;
+        return reset($array); // first child
     }
 }
 
