@@ -33,20 +33,20 @@ class nokogiri{
         $this->_xpath = new DOMXpath($this->_dom);
     }
     public function loadHtml($htmlString = ''){
-        $this->_dom = new DOMDocument('1.0', 'UTF-8');
+        $dom = new DOMDocument('1.0', 'UTF-8');
         if (strlen($htmlString)) {
             libxml_use_internal_errors(TRUE);
-            $this->_dom->loadHTML($htmlString);
+            $dom->loadHTML($htmlString);
             libxml_clear_errors();
         }
-        $this->_xpath = new DOMXpath($this->_dom);
+        $this->loadDom($dom);
     }
     public function get($expression){
         return $this->getElements($expression);
     }
     protected function getElements($expression){ // tag.class
         list($tag, $class) = explode('.', $expression);
-        $query = "*/".$tag.'[@class=\''.$class.'\']';
+        $query = "//".$tag.'[@class=\''.$class.'\']';
         echo $query;
         $nodeList = $this->_xpath->query($query);
         if ($nodeList === false){
