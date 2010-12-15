@@ -47,6 +47,7 @@ class nokogiri{
     protected function getElements($expression){ // tag.class
         list($tag, $class) = explode('.', $expression);
         $query = "*/".$tag.'[@class=\''.$class.'\']';
+        echo $query;
         $nodeList = $this->_xpath->query($query);
         if ($nodeList === false){
             throw new Exception('Malformed xpath');
