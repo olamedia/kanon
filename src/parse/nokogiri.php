@@ -59,15 +59,20 @@ class nokogiri{
         $root = $newDom->createElement('root');
         $newDom->appendChild($root);
         $query = '';
-        if (preg_match("/([a-z0-9]+)?(#(\S+))?(\.(\S+))?/ims", $expression, $subs)){
-            $tag = $subs[1];
-            $id = $subs[3];
-            $class = $subs[5];
+        if (preg_match("/(?P<tag>[a-z0-9]+)?(\[(?P<attr>\S+)=(?P<value>\S+)\])?(#(?P<id>\S+))?(\.(?P<class>\S+))?/ims", $expression, $subs)){
+            $tag = $subs['tag'];
+            $id = $subs['id'];
+            $attr = $subs['attr'];
+            $attrValue = $subs['value'];
+            $class = $subs['class'];
             if (!strlen($tag))
                 $tag = '*';
             $query = '//'.$tag;
             if (strlen($id)){
                 $query .= "[@id='".$id."']";
+            }
+            if (strlen($attr)){
+                $query .= "[@".$attr."='".$attrValue."']";
             }
             if (strlen($class)){
                 //$query .= "[@class='".$class."']";
