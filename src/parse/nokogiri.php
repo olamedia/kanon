@@ -130,7 +130,7 @@ class nokogiri{
             //$array['TEXT'] = $node->nodeValue;
         }
         if ($xnode === null){
-            return reset($array); // first child
+            return reset(reset($array)); // first child
         }
         return $array;
     }
