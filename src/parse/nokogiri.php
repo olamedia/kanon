@@ -117,6 +117,8 @@ class nokogiri{
                     }
                 }
             }
+        }else{
+            $array['#text'] = $node->nodeValue;
         }
         if ($xnode === null){
             return reset($array); // first child
