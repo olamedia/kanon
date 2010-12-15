@@ -92,11 +92,14 @@ class nokogiri{
     public function toXml(){
         return $this->_dom->saveXML();
     }
-    public function toArray($node = null){
+    public function toArray($xnode = null){
         //echo '<h3>to array</h3>';
         $array = array();
-        if ($node === null)
+        if ($xnode === null){
             $node = $this->_dom;
+        }else{
+            $node = $xnode;
+        }
         if ($node->hasAttributes()){
             foreach ($node->attributes as $attr){
                 $array[$attr->nodeName] = $attr->nodeValue;
@@ -115,7 +118,10 @@ class nokogiri{
                 }
             }
         }
-        return reset($array); // first child
+        if ($xnode === null){
+            return reset($array); // first child
+        }
+        return $array;
     }
 }
 
