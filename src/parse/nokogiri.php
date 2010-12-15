@@ -63,7 +63,7 @@ class nokogiri{
         return self::fromDom($newDom);
     }
     public function toXml(){
-        return $this->_dom->toXML();
+        return $this->_dom->saveXML();
     }
     public function toArray(){
         $array = array();
