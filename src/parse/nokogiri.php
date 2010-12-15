@@ -42,19 +42,20 @@ class nokogiri{
         }
         $this->loadDom($dom);
     }
+    function __invoke($expression){
+        return $this->get($expression);
+    }
     public function get($expression){
         if (strpos($expression, ' ') !== false){
             $a = explode(' ', $expression);
-            $first = array_shift($a);
-            $sub = implode(' ', $a);
-            return $this->getElements($first)->get($sub);
+            foreach ($a as $k => $sub){
+                $a[$k] = $this->getXpathSubquery($sub);
+            }
+            return $this->getElements(implode('', $a));
         }
-        return $this->getElements($expression);
+        return $this->getElements($this->getXpathSubquery($expression));
     }
-    protected function getElements($expression){ // tag.class
-        $newDom = new DOMDocument('1.0', 'UTF-8');
-        $root = $newDom->createElement('root');
-        $newDom->appendChild($root);
+    protected function getXpathSubquery($expression){
         $query = '';
         if (preg_match("/(?P<tag>[a-z0-9]+)?(\[(?P<attr>\S+)=(?P<value>\S+)\])?(#(?P<id>\S+))?(\.(?P<class>\S+))?/ims", $expression, $subs)){
             $tag = $subs['tag'];
@@ -76,9 +77,15 @@ class nokogiri{
                 $query .= '[contains(concat(" ", normalize-space(@class), " "), " '.$class.' ")]';
             }
         }
-        if (strlen($query)){
-            //echo ' query:'.$query.' ';
-            $nodeList = $this->_xpath->query($query);
+        return $query;
+    }
+    protected function getElements($xpathQuery){ // tag.class
+        $newDom = new DOMDocument('1.0', 'UTF-8');
+        $root = $newDom->createElement('root');
+        $newDom->appendChild($root);
+        echo ' query: '.$xpathQuery.' ';
+        if (strlen($xpathQuery)){
+            $nodeList = $this->_xpath->query($xpathQuery);
             if ($nodeList === false){
                 throw new Exception('Malformed xpath');
             }
