@@ -81,7 +81,7 @@ class nokogiri{
             }else{
                 foreach ($node->childNodes as $childNode){
                     if ($childNode->nodeType != XML_TEXT_NODE){
-                        $array[$childNode->nodeName][] = $this->getArray($childNode);
+                        $array[$childNode->nodeName][] = $this->toArray($childNode);
                     }
                 }
             }
