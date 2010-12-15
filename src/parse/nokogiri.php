@@ -47,9 +47,10 @@ class nokogiri{
             $a = explode(' ', $expression);
             $first = array_shift($a);
             $sub = implode(' ', $a);
-            // echo 'find('.$first.')->get('.$sub.')';
+            echo ' find('.$first.')->get('.$sub.') ';
             return $this->getElements($first)->get($sub);
         }
+        echo ' find('.$expression.') ';
         return $this->getElements($expression);
     }
     protected function getElements($expression){ // tag.class
