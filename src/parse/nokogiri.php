@@ -93,6 +93,7 @@ class nokogiri{
         return $this->_dom->saveXML();
     }
     public function toArray(){
+        echo '<h3>to array</h3>';
         $array = array();
         $node = $this->_dom;
         if ($node->hasAttributes()){
@@ -101,10 +102,12 @@ class nokogiri{
             }
         }
         if ($node->hasChildNodes()){
+            echo ' has child nodes ';
             if ($node->childNodes->length == 1){
                 $array[$node->firstChild->nodeName] = $node->firstChild->nodeValue;
             }else{
                 foreach ($node->childNodes as $childNode){
+                    echo ' child ';
                     if ($childNode->nodeType != XML_TEXT_NODE){
                         $array[$childNode->nodeName][] = $this->toArray($childNode);
                     }
