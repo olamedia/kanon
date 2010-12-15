@@ -32,9 +32,9 @@ class nokogiri{
         $this->_dom = $dom;
         $this->_xpath = new DOMXpath($this->_dom);
     }
-    public function loadHtml($htmlString){
+    public function loadHtml($htmlString = ''){
         $this->_dom = new DOMDocument('1.0', 'UTF-8');
-        $this->_dom->loadHTML($htmlString);
+        if (strlen($htmlString)) $this->_dom->loadHTML($htmlString);
         $this->_xpath = new DOMXpath($this->_dom);
     }
     public function get($expression){
