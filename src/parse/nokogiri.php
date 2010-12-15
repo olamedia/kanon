@@ -75,7 +75,7 @@ class nokogiri{
             }
         }
         if (strlen($query)){
-            // echo $query;
+            echo ' query:'.$query.' ';
             $nodeList = $this->_xpath->query($query);
             if ($nodeList === false){
                 throw new Exception('Malformed xpath');
