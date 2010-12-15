@@ -52,6 +52,7 @@ class nokogiri{
         return $this->getElements($expression);
     }
     protected function getElements($expression){ // tag.class
+        echo ' get elements: ';
         list($tag, $class) = explode('.', $expression);
         $query = "//".$tag.'[@class=\''.$class.'\']';
         echo $query;
