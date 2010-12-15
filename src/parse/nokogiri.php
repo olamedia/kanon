@@ -69,7 +69,8 @@ class nokogiri{
                 $query .= "[@id='".$id."']";
             }
             if (strlen($class)){
-                $query .= "[@class='".$class."']";
+                //$query .= "[@class='".$class."']";
+                $query .= '[contains(concat(" ", normalize-space(@class), " "), " '.$class.' ")]';
             }
         }
         if (strlen($query)){
