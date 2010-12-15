@@ -34,7 +34,8 @@ class nokogiri{
     }
     public function loadHtml($htmlString = ''){
         $dom = new DOMDocument('1.0', 'UTF-8');
-        if (strlen($htmlString)) {
+        $dom->preserveWhiteSpace = false;
+        if (strlen($htmlString)){
             libxml_use_internal_errors(TRUE);
             $dom->loadHTML($htmlString);
             libxml_clear_errors();
@@ -43,7 +44,7 @@ class nokogiri{
     }
     public function get($expression){
         if (strpos($expression, ' ') !== false){
-            $a = explode(' ',$expression);
+            $a = explode(' ', $expression);
             $first = array_shift($a);
             $sub = implode(' ', $a);
             echo 'find('.$first.')->get('.$sub.')';
@@ -53,24 +54,39 @@ class nokogiri{
     }
     protected function getElements($expression){ // tag.class
         echo ' get elements: ';
-        list($tag, $class) = explode('.', $expression);
-        $query = "//".$tag.'[@class=\''.$class.'\']';
-        echo $query;
-        $nodeList = $this->_xpath->query($query);
-        if ($nodeList === false){
-            throw new Exception('Malformed xpath');
-        }
-        echo ' no errors ';
         $newDom = new DOMDocument('1.0', 'UTF-8');
         $root = $newDom->createElement('root');
         $newDom->appendChild($root);
-        /* append all nodes from $nodeList to the new dom, as children of $root: */
-        foreach ($nodeList as $domElement){
-            echo ' node found ';
-            $domNode = $newDom->importNode($domElement, true);
-            $root->appendChild($domNode);
+        $query = '';
+        if (preg_match("/([a-z0-9]+)?(#(\S+))?(\.(\S+))?/ims", $expression, $subs)){
+            $tag = $subs[1];
+            $id = $subs[3];
+            $class = $subs[5];
+            if (!strlen($tag))
+                $tag = '*';
+            $query = '//'.$tag;
+            if (strlen($id)){
+                $query .= "[@id='".$id."']";
+            }
+            if (strlen($class)){
+                $query .= "[@class='".$class."']";
+            }
         }
-        return self::fromDom($newDom);
+        if (strlen($query)){
+            echo $query;
+            $nodeList = $this->_xpath->query($query);
+            if ($nodeList === false){
+                throw new Exception('Malformed xpath');
+            }
+            echo ' no errors ';
+            /* append all nodes from $nodeList to the new dom, as children of $root: */
+            foreach ($nodeList as $domElement){
+                echo ' node found ';
+                $domNode = $newDom->importNode($domElement, true);
+                $root->appendChild($domNode);
+            }
+            return self::fromDom($newDom);
+        }
     }
     public function toXml(){
         return $this->_dom->saveXML();
