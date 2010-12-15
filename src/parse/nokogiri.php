@@ -45,7 +45,9 @@ class nokogiri{
         if (strpos($expression, ' ') !== false){
             $a = explode(' ',$expression);
             $first = array_shift($a);
-            return $this->getElements($first)->get(implode(' ', $a));
+            $sub = implode(' ', $a);
+            echo 'find('.$first.')->get('.$sub.')';
+            return $this->getElements($first)->get($sub);
         }
         return $this->getElements($expression);
     }
