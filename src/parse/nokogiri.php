@@ -114,11 +114,13 @@ class nokogiri{
                     //echo ' child ';
                     if ($childNode->nodeType != XML_TEXT_NODE){
                         $array[$childNode->nodeName][] = $this->toArray($childNode);
+                    }else{
+                        $array[$childNode->nodeName][] = $this->toArray($childNode);
                     }
                 }
             }
         }else{
-            $array[''] = $node->nodeValue;
+            $array['TEXT'] = $node->nodeValue;
         }
         if ($xnode === null){
             return reset($array); // first child
