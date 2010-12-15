@@ -42,6 +42,11 @@ class nokogiri{
         $this->loadDom($dom);
     }
     public function get($expression){
+        if (strpos($expression, ' ') !== false){
+            $a = explode(' ',$expression);
+            $first = array_shift($a);
+            return $this->getElements($first)->get(implode(' ', $a));
+        }
         return $this->getElements($expression);
     }
     protected function getElements($expression){ // tag.class
