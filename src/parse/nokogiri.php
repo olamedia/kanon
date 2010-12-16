@@ -122,6 +122,12 @@ class nokogiri implements IteratorAggregate{
     public function toArray($xnode = null){
         $array = array();
         if ($xnode === null){
+            if ($this->_dom instanceof DOMNodeList){
+                foreach ($this->_dom as $node){
+                    $array[] = $this->toArray($node);
+                }
+                return $array;
+            }
             $node = $this->getDom();
         }else{
             $node = $xnode;
