@@ -12,6 +12,10 @@ class nokogiri implements IteratorAggregate{
      */
     protected $_dom = null;
     /**
+     * @var DOMDocument
+     */
+    protected $_tempDom = null;
+    /**
      * @var DOMXpath
      * */
     protected $_xpath = null;
@@ -30,7 +34,6 @@ class nokogiri implements IteratorAggregate{
     }
     public function loadDom($dom){
         $this->_dom = $dom;
-        $this->_xpath = new DOMXpath($this->_dom);
     }
     public function loadHtml($htmlString = ''){
         $dom = new DOMDocument('1.0', 'UTF-8');
@@ -48,12 +51,35 @@ class nokogiri implements IteratorAggregate{
     public function get($expression){
         if (strpos($expression, ' ') !== false){
             $a = explode(' ', $expression);
-            foreach ($a as $k => $sub){
+            foreach ($a as $k=>$sub){
                 $a[$k] = $this->getXpathSubquery($sub);
             }
             return $this->getElements(implode('', $a));
         }
         return $this->getElements($this->getXpathSubquery($expression));
+    }
+    protected function getNodes(){
+
+    }
+    protected function getDom(){
+        if ($this->_dom instanceof DOMDocument){
+            return $this->_dom;
+        }elseif ($this->_dom instanceof DOMNodeList){
+            $this->_tempDom = new DOMDocument('1.0', 'UTF-8');
+            $root = $this->_tempDom->createElement('root');
+            $this->_tempDom->appendChild($root);
+            foreach ($nodeList as $domElement){
+                $domNode = $this->_tempDom->importNode($domElement, true);
+                $root->appendChild($domNode);
+            }
+            return $this->_tempDom;
+        }
+    }
+    protected function getXpath(){
+        if ($this->_xpath === null){
+           $this->_xpath = new DOMXpath($this->getDom());
+        }
+        return $this->_xpath;
     }
     protected function getXpathSubquery($expression){
         $query = '';
@@ -80,30 +106,21 @@ class nokogiri implements IteratorAggregate{
         return $query;
     }
     protected function getElements($xpathQuery){
-        $newDom = new DOMDocument('1.0', 'UTF-8');
-        $root = $newDom->createElement('root');
-        $newDom->appendChild($root);
-        //echo ' query: '.$xpathQuery.' ';
         if (strlen($xpathQuery)){
-            $nodeList = $this->_xpath->query($xpathQuery);
+            $nodeList = $this->getXpath()->query($xpathQuery);
             if ($nodeList === false){
                 throw new Exception('Malformed xpath');
             }
-            foreach ($nodeList as $domElement){
-                //echo ' found ';
-                $domNode = $newDom->importNode($domElement, true);
-                $root->appendChild($domNode);
-            }
-            return self::fromDom($newDom);
+            return self::fromDom($nodeList);
         }
     }
     public function toXml(){
-        return $this->_dom->saveXML();
+        return $this->getDom()->saveXML();
     }
     public function toArray($xnode = null){
         $array = array();
         if ($xnode === null){
-            $node = $this->_dom;
+            $node = $this->getDom();
         }else{
             $node = $xnode;
         }
