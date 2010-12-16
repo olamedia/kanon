@@ -132,7 +132,7 @@ class nokogiri implements IteratorAggregate{
         }else{
             $node = $xnode;
         }
-        if ($node->nodeType == XML_TEXT_NODE){
+        if (in_array($node->nodeType, array(XML_TEXT_NODE,XML_COMMENT_NODE))){
             return $node->nodeValue;
         }
         if ($node->hasAttributes()){
