@@ -68,7 +68,7 @@ class nokogiri implements IteratorAggregate{
             $this->_tempDom = new DOMDocument('1.0', 'UTF-8');
             $root = $this->_tempDom->createElement('root');
             $this->_tempDom->appendChild($root);
-            foreach ($nodeList as $domElement){
+            foreach ($this->_dom as $domElement){
                 $domNode = $this->_tempDom->importNode($domElement, true);
                 $root->appendChild($domNode);
             }
