@@ -5,7 +5,7 @@
  *
  * @author olamedia
  */
-class nokogiri{
+class nokogiri implements IteratorAggregate{
     protected $_source = '';
     /**
      * @var DOMDocument
@@ -79,11 +79,11 @@ class nokogiri{
         }
         return $query;
     }
-    protected function getElements($xpathQuery){ // tag.class
+    protected function getElements($xpathQuery){
         $newDom = new DOMDocument('1.0', 'UTF-8');
         $root = $newDom->createElement('root');
         $newDom->appendChild($root);
-        echo ' query: '.$xpathQuery.' ';
+        //echo ' query: '.$xpathQuery.' ';
         if (strlen($xpathQuery)){
             $nodeList = $this->_xpath->query($xpathQuery);
             if ($nodeList === false){
@@ -130,6 +130,10 @@ class nokogiri{
             return reset(reset($array)); // first child
         }
         return $array;
+    }
+    public function getIterator(){
+        $a = $this->toArray();
+        return new ArrayIterator($a);
     }
 }
 
