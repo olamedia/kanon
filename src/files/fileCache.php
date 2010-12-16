@@ -7,7 +7,7 @@
  * @author olamedia
  */
 class fileCache {
-    public function getContents($filename, $cacheFilename, $context = null){
+    public function getContents($filename, $cacheFilename, $timeout = 0, $context = null){
         if (is_file($cacheFilename)){
             return file_get_contents($cacheFilename);
         }
