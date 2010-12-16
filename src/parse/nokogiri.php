@@ -145,9 +145,7 @@ class nokogiri implements IteratorAggregate{
                 $array[$node->firstChild->nodeName] = $this->toArray($node->firstChild);
             }else{
                 foreach ($node->childNodes as $childNode){
-                    if ($childNode->nodeType != XML_TEXT_NODE){
-                        $array[$childNode->nodeName][] = $this->toArray($childNode);
-                    }
+                    $array[$childNode->nodeName][] = $this->toArray($childNode);
                 }
             }
         }
