@@ -250,6 +250,7 @@ abstract class control{
 	}
 	public function setValue($value){
 		$property = $this->getProperty();
+                parent::setValue($value);
 		if ($property !== null && is_object($property)){
 			$property->setValue($this->exportValueToProperty());
 		}else{
