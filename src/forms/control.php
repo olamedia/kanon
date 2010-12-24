@@ -251,9 +251,9 @@ abstract class control{
     }
     public function setValue($value){
         $property = $this->getProperty();
-        $this->_setValue($value);
+        //$this->_setValue($value);
         if ($property !== null && is_object($property)){
-            $property->setValue($this->exportValueToProperty());
+            $property->setValue($value);
         }else{
             $this->_setValue($value);
         }
