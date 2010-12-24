@@ -4,6 +4,12 @@ class listController extends controller{
 	protected $_model = null;
 	protected $_title = 'title';
 	protected $_subController = null;
+        protected function _getTitle($item){
+            if (method_exists($item, 'getTitle')){
+                return $item->getTitle();
+            }
+            return $item->{$this->_title}->html();
+        }
 	public function _action($action){
 		//$app = application::getInstance();
 		$modelId = intval($action);
@@ -37,11 +43,11 @@ class listController extends controller{
 		}
 	}
 	public function onValidItem($modelId, $item, $rel = ''){
-		$this->setTitle($item->{$this->_title}->html());
+		$this->setTitle($this->_getTitle($item));
 		$parentItem = $item;
 		$bc = array();
 		while ($parentItem){
-			$bc[] = '<a href="'.$this->rel($rel.$parentItem->id).'">'.$parentItem->{$this->_title}->html().'</a>';
+			$bc[] = '<a href="'.$this->rel($rel.$parentItem->id).'">'.$this->_getTitle($parentItem).'</a>';
 			$parentItem = $parentItem->getParent();
 		}
 		$this->appendToBreadcrumb(array_reverse($bc));
