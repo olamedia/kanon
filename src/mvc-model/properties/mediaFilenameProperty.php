@@ -83,10 +83,18 @@ class mediaFilenameProperty extends imageFilenameProperty{
 		$in = ' height="'.$h.'" width="'.$w.'"';
 		return '<img src="'.$tm.'"'.$in.' />';
 	}
+        public function getHeight(){
+            list($w, $h) = $this->_getSize();
+            return $h;
+        }
+        public function getWidth(){
+            list($w, $h) = $this->_getSize();
+            return $w;
+        }
 	public function html($width = 'auto', $height = 'auto'){
 		$ext = end(explode(".", $this->getValue()));
 		if ($ext=='swf'){
-			return $this->_flashhtml(); //$width, $height
+			return $this->_flashHtml(); //$width, $height
 		}else{
 			$size = 'auto';
 			if ($width!='auto'&&$height!='auto'){
