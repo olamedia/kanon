@@ -24,7 +24,7 @@ class inflector{
         while ($i >= $base){
             $m = $i % $base;
             echo $m.']';
-            $i -= $m;
+            $i = floor($i/$base);
             $e .= $alphabet[$m];
         }
         if ($i){
