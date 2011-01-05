@@ -22,7 +22,7 @@ class inflector{
         $base = strlen($alphabet);
         $e = '';
         while ($i >= $base){
-            $m = $i - floor($i / $base);
+            $m = $i % $base;
             echo $m.']';
             $i -= $m;
             $e .= $alphabet[$m];
