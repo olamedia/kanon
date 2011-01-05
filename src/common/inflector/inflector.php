@@ -23,7 +23,7 @@ class inflector{
         $e = '';
         while ($i >= $base){
             $m = $i - floor($i / $base);
-            echo $m;
+            echo $m.']';
             $i -= $m;
             $e .= $alphabet[$m];
         }
