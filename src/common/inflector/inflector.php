@@ -22,9 +22,10 @@ class inflector{
         $base = strlen($alphabet);
         $e = '';
         while ($i >= $base){
-            $j = $i - floor($i / $base);
-            $i -= $j;
-            $e .= $alphabet[$j];
+            $m = $i - floor($i / $base);
+            echo $m;
+            $i -= $m;
+            $e .= $alphabet[$m];
         }
         if ($i){
             $e .= $alphabet[$i];
