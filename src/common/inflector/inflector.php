@@ -23,14 +23,12 @@ class inflector{
         $e = '';
         while ($i >= $base){
             $m = $i % $base;
-            echo $m.']';
             $i = floor($i/$base);
             $e .= $alphabet[$m];
         }
         if ($i){
             $e .= $alphabet[$i];
         }
-        echo '[['.$e.']]';
         return strrev($e);
     }
     /**
