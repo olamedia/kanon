@@ -30,6 +30,7 @@ class inflector{
         if ($i){
             $e .= $alphabet[$i];
         }
+        echo '[['.$e.']]';
         return strrev($e);
     }
     /**
