@@ -109,22 +109,22 @@ class controllerPrototype{
     public function setParent($parentController){
         $this->_parent = $parentController;
     }
-	public function getAction($index = 0){
-		$p = $this->_relativeUri->getPath();
-		if ($index < 0){
-			$index = -$index-1;
-			$p = array_reverse($p);
-			$px = array();
-			foreach ($p as $a){
-				$px[] = $a;
-			}
-			$p = $px;
-		}
-		if (isset($p[$index])){
-			return $p[$index];
-		}
-		return false;
-	}
+    public function getAction($index = 0){
+        $p = $this->_relativeUri->getPath();
+        if ($index < 0){
+            $index = -$index - 1;
+            $p = array_reverse($p);
+            $px = array();
+            foreach ($p as $a){
+                $px[] = $a;
+            }
+            $p = $px;
+        }
+        if (isset($p[$index])){
+            return $p[$index];
+        }
+        return false;
+    }
     /**
      * Get parent controller
      */
@@ -217,28 +217,27 @@ class controllerPrototype{
         if (is_string($relativeUri))
             $relativeUri = uri::fromString($relativeUri);
         $a = array();
-		$rel = $this->_relativeUri->getPath();
-		if ($stripLast){
-			$xrel = array_reverse($rel);
-			$stripa = $relativeUri->getPath();
-			foreach ($xrel as $action){
-				$stripAction = array_pop($stripa);
-				if ($action != $stripAction){
-					break;
-				}
-				array_pop($rel);
-			}
-		}
-		//$relativeUri
-		foreach ($rel as $action){
-			$a[] = $action;
-		}
+        $rel = $this->_relativeUri->getPath();
+        if ($stripLast){
+            $xrel = array_reverse($rel);
+            $stripa = $relativeUri->getPath();
+            foreach ($xrel as $action){
+                $stripAction = array_pop($stripa);
+                if ($action != $stripAction){
+                    break;
+                }
+                array_pop($rel);
+            }
+        }
+        //$relativeUri
+        foreach ($rel as $action){
+            $a[] = $action;
+        }
         if (!is_object($relativeUri)){
             throw new Exception('$relativeUri not an object');
         }
         $relativeUri->setPath(array_merge($this->_baseUri->getPath(), $a, $relativeUri->getPath()));
         return $relativeUri;
-		
     }
     /**
      * Returns SSI Include instruction <!--# include virtual="$uri" -->
@@ -312,7 +311,6 @@ class controllerPrototype{
     public function unauthorized(){
         response::unauthorized();
     }
-
     /**
      * Redirect with HTTP 301 "Moved Permanently" code
      * @param string $message
@@ -339,7 +337,8 @@ class controllerPrototype{
      * Redirect to previous page
      */
     function back(){
-        if (request::isAjax()) exit;
+        if (request::isAjax())
+            exit;
         response::back();
     }
     /**
@@ -488,7 +487,8 @@ class controllerPrototype{
     public function getController($controllerClass, $rel = '', $options = array()){
         $controller = new $controllerClass();
         $controller->setParent($this);
-        $controller->setBaseUri($rel);
+        $controller->setBaseUri($rel, false);
+        $controller->setRelativeUriFromBase($this->_baseUri);
         $controller->setOptions($options);
         return $controller;
     }
