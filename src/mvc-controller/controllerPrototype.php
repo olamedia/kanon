@@ -479,6 +479,19 @@ class controllerPrototype{
         }
         exit;
     }
+    /**
+     * Get another controller
+     * @param string $controllerClass
+     * @param string $rel Relative url
+     * @param array $options
+     */
+    public function getController($controllerClass, $rel = '', $options = array()){
+        $controller = new $controllerClass();
+        $controller->setParent($this);
+        $controller->setBaseUri($rel);
+        $controller->setOptions($options);
+        return $controller;
+    }
     protected $_widgetAction = 'widget';
     public function getWidgetAction(){
         return $this->_widgetAction;
