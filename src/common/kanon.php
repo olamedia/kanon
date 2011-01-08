@@ -92,10 +92,13 @@ class kanon{
 		}
 	}
 	public static function autoload($class){
+                $time = microtime(true);
 		if (isset(self::$_autoload[$class])){
 			require_once self::$_autoload[$class];
+                        profiler::getInstance()->addSql("autoload($class)", $time);
 			return true;
 		}
+                profiler::getInstance()->addSql("autoload($class)", $time);
 		return false;
 	}
 	/**
