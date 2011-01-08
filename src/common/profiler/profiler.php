@@ -23,7 +23,7 @@ class profiler{
 		}
 		return self::$_instance;
 	}
-	public function addSql(&$sql, $time){
+	public function addSql($sql, $time){
             if (!self::$_isEnabled) return;
 		$time = -$time;
 		$time += microtime(true);
