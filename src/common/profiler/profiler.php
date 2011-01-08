@@ -34,6 +34,8 @@ class profiler{
         $this->_sql[] = array(
             'sql'=>$sql,
             'time'=>$time,
+            'start'=>$time,
+            'finish'=>microtime(true),
             'trace'=>debug_backtrace(),
         );
     }
@@ -92,6 +94,7 @@ class profiler{
             if ($sqlInfo['time'] > 0.01){
                 $h .= '</span>';
             }
+            $h .= ' Start: '.number_format($sqlInfo['start'] - self::$_enableTime, 6, '.', '');
             if ($traceInfo = $this->_getTraceController($sqlInfo['trace'])){
                 $h .= ' '.$traceInfo['class'].$traceInfo['type'].$traceInfo['function'].'() at line '.$traceInfo['line'];
             }
