@@ -299,7 +299,7 @@ class modelStorage{
                 'keys'=>$this->getRegistry()->foreignKeys,
                 'reverseKeys'=>$this->getRegistry()->reverseKeys,
             );
-            file_put_contents(self::$_foreignKeysCache, $a);
+            file_put_contents(self::$_foreignKeysCache, serialize($a));
         }
         return $this;
     }
