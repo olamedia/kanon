@@ -668,7 +668,9 @@ class controllerPrototype{
 
                     if (method_exists($this, $initFunction)){
                         $methodFound = true;
+                        $time = microtime(true);
                         call_user_func_array(array($this, $initFunction), $this->_getArgs($initFunction));
+                        profiler::getInstance()->addSql("method ".$initFunction, $time);
                     }
                     $actionFunction = 'action'.$uc;
                     if (method_exists($this, $actionFunction)){
@@ -679,7 +681,9 @@ class controllerPrototype{
                     if (method_exists($this, $showFunction)){
                         $methodFound = true;
                         $this->_header();
+                        $time = microtime(true);
                         call_user_func_array(array($this, $showFunction), $this->_getArgs($showFunction));
+                        profiler::getInstance()->addSql("method ".$showFunction, $time);
                         $this->_footer();
                     }
                     if (!$methodFound){
