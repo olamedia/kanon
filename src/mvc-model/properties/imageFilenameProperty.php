@@ -74,8 +74,13 @@ class imageFilenameProperty extends stringProperty{
         }
         return $this->getUri().'.thumb/'.$tm;
     }
+    protected $_changed = false;
+    public function setValue($value){
+        parent::setValue($value);
+        $this->_changed = true;
+    }
     public function preUpdate(){
-        if ($this->getInitialValue() != $this->getValue()){
+        if ($this->_changed){
             $path = $this->getPath().'.thumb/';
             foreach (glob($path.'tm*_'.$this->getValue()) as $filename){
                 unlink($filename);
