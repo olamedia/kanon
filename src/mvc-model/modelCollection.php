@@ -171,6 +171,9 @@ class modelCollection implements ArrayAccess{
         if (!class_exists($this->_modelName)){
             throw new Exception('class "'.$this->_modelName.'" not exists');
         }
+        if (!($this->_modelName instanceof model)){
+            throw new Exception($this->_modelName.' is not a model');
+        }
         return new $this->_modelName;
         /*if ($this->_helper === null){
             $this->_helper = new $this->_modelName;
