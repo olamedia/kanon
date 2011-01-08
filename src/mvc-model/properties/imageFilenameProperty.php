@@ -75,7 +75,7 @@ class imageFilenameProperty extends stringProperty{
         return $this->getUri().'.thumb/'.$tm;
     }
     public function preUpdate(){
-        if ($this->getInitialValue() !== $this->getValue()){
+        if ($this->getInitialValue() != $this->getValue()){
             $path = $this->getPath().'.thumb/';
             foreach (glob($path.'tm*_'.$this->getValue()) as $filename){
                 unlink($filename);
