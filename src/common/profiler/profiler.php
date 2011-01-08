@@ -1,5 +1,6 @@
 <?php
 class profiler{
+        protected static $_enableTime = null;
 	protected static $_instance = null;
 	protected $_sql = array();
         protected static $_isEnabled = false;
@@ -8,6 +9,7 @@ class profiler{
         }
         public static function enable(){
             self::$_isEnabled = true;
+            self::$_enableTime = microtime(true);
         }
         public static function disable(){
             self::$_isEnabled = false;
@@ -73,6 +75,7 @@ class profiler{
 		foreach ($this->_sql as $sqlInfo){
 			$totalSqlTime+=$sqlInfo['time'];
 		}
+		$h .= '<div>Total runtime: '.number_format(microtime(true)-self::$_enableTime, 6,'.','').'</div>';
 		$h .= '<div>Total time: '.number_format($totalSqlTime, 6,'.','').'</div>';
 		$h .= '<table width="100%" class="sql">';
 		foreach ($this->_sql as $sqlInfo){
