@@ -600,6 +600,7 @@ class controllerPrototype{
      * Run controller - select methods and run them
      */
     public function run($methodToRun = null){
+        $time = microtime(true);
         kanon::setFinalController($this);
         $methodFound = false;
         $class = get_class($this);
@@ -618,6 +619,7 @@ class controllerPrototype{
                 $action = substr($action, 0, strlen($action) - strlen($this->_type) - 1); // cut .html, .js etc
             }
         }
+        profiler::getInstance()->addSql("run() before onConstruct()", $time);
         $this->onConstruct();
         if (($action == 'assets') && $this->_useAssets){
             $this->assets();
