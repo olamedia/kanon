@@ -80,12 +80,12 @@ class imageFilenameProperty extends stringProperty{
         $this->_changed = true;
     }
     public function preUpdate(){
-        if ($this->_changed){
-            $path = $this->getPath().'.thumb/';
-            foreach (glob($path.'tm*_'.$this->getValue()) as $filename){
-                unlink($filename);
-            }
+        // if ($this->_changed){
+        $path = $this->getPath().'.thumb/';
+        foreach (glob($path.'tm*_'.$this->getValue()) as $filename){
+            unlink($filename);
         }
+        // }
     }
     public function html($size = 100, $method="fit", $x = null){
         return '<img src="'.$this->tm($size, $method, $x).'"'.($this->_tmHeight?' height="'.$this->_tmHeight.'"':'').($this->_tmWidth?' width="'.$this->_tmWidth.'"':'').' />';
