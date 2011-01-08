@@ -244,6 +244,9 @@ class controllerPrototype{
      * @param string $uri
      */
     public function ssi($uri){
+        if (function_exists('virtual')){
+            return virtual($uri); // apache fix
+        }
         return '<!--# include virtual="'.$uri.'" -->';
     }
     /**
