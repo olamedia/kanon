@@ -695,8 +695,12 @@ class controllerPrototype{
                     }else{
                         //$this->_initIndex();
                         call_user_func_array(array($this, '_initIndex'), $this->_getArgs('_initIndex'));
+                        $time = microtime(true);
                         $this->_header();
+                        profiler::getInstance()->addSql("method _header", $time);
+                        $time = microtime(true);
                         call_user_func_array(array($this, 'index'), $this->_getArgs('index'));
+                        profiler::getInstance()->addSql("method index", $time);
                         //$this->index();
                         $this->_footer();
                     }
