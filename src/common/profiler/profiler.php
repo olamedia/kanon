@@ -26,15 +26,15 @@ class profiler{
         }
         return self::$_instance;
     }
-    public function addSql($sql, $time){
+    public function addSql($sql, $starttime){
         if (!self::$_isEnabled)
             return;
-        $time = -$time;
+        $time = -$starttime;
         $time += microtime(true);
         $this->_sql[] = array(
             'sql'=>$sql,
             'time'=>$time,
-            'start'=>$time,
+            'start'=>$starttime,
             'finish'=>microtime(true),
             'trace'=>debug_backtrace(),
         );
