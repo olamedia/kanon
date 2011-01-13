@@ -18,7 +18,7 @@ class l10nLanguage{
         if (!count($forms)){
             return '';
         }
-        $forms = $this->preConvertPlural($forms, 2);
+        //$forms = $this->preConvertPlural($forms, 2);
         if ($gender === 'male'){
             return $forms[0];
         }
@@ -31,7 +31,7 @@ class l10nLanguage{
         if (!count($forms)){
             return '';
         }
-        $forms = $this->preConvertPlural($forms, 2);
+        //$forms = $this->preConvertPlural($forms, 2);
         return ($count == 1)?$forms[0]:$forms[1];
     }
 }
