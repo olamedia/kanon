@@ -34,7 +34,7 @@ class l10nMessage{
         $this->_args = $args;
     }
     public function getLocalizedMessage(){
-        list($this->_realLocale, $this->_lmsg) = l10n::getMessage($this->_locale, $this->_msg);
+        list($this->_realLocale, $this->_lmsg) = l10n::getLocalizedMessageTemplate($this->_locale, $this->_msg);
         
         return $this->_msg;
     }
