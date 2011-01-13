@@ -24,7 +24,7 @@ class l10nMessage{
         $t = $bt[1];
         $this->_file = $t['file'];
         $this->_line = $t['line'];
-        echo $this->_file;
+        //echo $this->_file;
         //var_dump($bt);
     }
     public function setLocale($locale = 'ru'){
@@ -37,7 +37,7 @@ class l10nMessage{
         $d = dirname($this->_file);
         $f = basename($this->_file);
         $lcPath = $d.'/locale/'.$this->_locale.'/'.$f;
-        echo $lcPath;
+        echo $lcPath.' ';
     }
     public function getLocalizedMessage(){
         $this->_getTemplate();
