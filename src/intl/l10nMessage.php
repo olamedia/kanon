@@ -68,7 +68,10 @@ class l10nMessage{
                 echo '<hr />';
             }
         }
-        if ($changed) $this->_applyForms();
+        if ($changed) return $this->_applyForms();
+        foreach ($this->_args as $i => $word){
+            $this->_lmsg = str_replace('$'.($i+1), strval($word), $this->_lmsg);
+        }
     }
     public function getLocalizedMessage(){
         $this->_getTemplate();
