@@ -53,10 +53,12 @@ class l10nMessage{
                 switch ($call){
                     case 'GENDER':
                         $form = ruLanguage::gender($word->gender(), $forms);
+                        echo 'form:'.$form.' ';
                         $this->_lmsg = str_replace($match, $form, $this->_lmsg);
                         break;
                     case 'PLURAL':
                         $form = ruLanguage::plural($word->num(), $forms);
+                        echo 'form:'.$form.' ';
                         $this->_lmsg = str_replace($match, $form, $this->_lmsg);
                         break;
                 }
