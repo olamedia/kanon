@@ -48,6 +48,7 @@ class l10nMessage{
             foreach ($subs[1] as $k => $call){
                 $match = $subs[0][$k];
                 $word = $this->_args[intval($subs[2][$k])];
+                var_dump($word);
                 $forms = explode('|', $subs[3][$k]);
                 array_shift($forms);
                 switch ($call){
