@@ -17,10 +17,15 @@ class l10nMessage{
     protected $_locale = 'ru';
     protected $_realLocale = 'ru';
     protected $_file = null;
+    protected $_line = null;
     public function __construct($msg){
         $this->_msg = $msg;
         $bt = debug_backtrace();
-        var_dump($bt);
+        $t = $bt[1];
+        $this->_file = $t['file'];
+        $this->_line = $t['line'];
+        echo $this->_file;
+        //var_dump($bt);
     }
     public function setLocale($locale = 'ru'){
         $this->_locale = $locale;
