@@ -41,9 +41,16 @@ class l10nMessage{
         $this->_lmsg = l10n::getTemplate($this->_locale, $this->_msg);
         echo $lcPath.' ';
     }
+    protected function _applyForms(){
+        $changed = false;
+        if (preg_match_all("#\{(GENDER|PLURAL):([^\|{]+)(\|([^|{]+))+\}#ims", $this->_lmsg, $subs)){
+            var_dump($subs);
+        }
+        if ($changed) $this->_applyForms();
+    }
     public function getLocalizedMessage(){
         $this->_getTemplate();
-        
+        $this->_applyForms();
         return $this->_lmsg;
     }
     public function __toString(){
