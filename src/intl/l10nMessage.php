@@ -48,24 +48,24 @@ class l10nMessage{
             foreach ($subs[1] as $k => $call){
                 $match = $subs[0][$k];
                 $word = $this->_args[intval($subs[2][$k])-1];
-                var_dump($word);
+               // var_dump($word);
                 $forms = explode('|', $subs[3][$k]);
                 array_shift($forms);
                 switch ($call){
                     case 'GENDER':
                         $form = ruLanguage::gender($word->gender(), $forms);
-                        echo 'form:'.$form.' ';
+                        //echo 'form:'.$form.' ';
                         $this->_lmsg = str_replace($match, $form, $this->_lmsg);
                         break;
                     case 'PLURAL':
                         $form = ruLanguage::plural($word->num(), $forms);
-                        echo 'form:'.$form.' ';
+                        //echo 'form:'.$form.' ';
                         $this->_lmsg = str_replace($match, $form, $this->_lmsg);
                         break;
                 }
-                echo 'called '.$call.' on '.$word.' with ';
-                var_dump($forms);
-                echo '<hr />';
+               // echo 'called '.$call.' on '.$word.' with ';
+               // var_dump($forms);
+               // echo '<hr />';
             }
         }
         if ($changed) return $this->_applyForms();
