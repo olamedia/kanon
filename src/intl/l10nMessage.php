@@ -33,8 +33,14 @@ class l10nMessage{
     public function setArguments($args){
         $this->_args = $args;
     }
+    protected function _getTemplate(){
+        $d = dirname($this->_file);
+        $f = basename($this->_file);
+        $lcPath = $d.'/locale/'.$this->_locale.'/'.$f;
+        echo $lcPath;
+    }
     public function getLocalizedMessage(){
-        list($this->_realLocale, $this->_lmsg) = l10n::getLocalizedMessageTemplate($this->_locale, $this->_msg);
+        $this->_getTemplate();
         
         return $this->_msg;
     }
