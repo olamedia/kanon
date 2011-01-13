@@ -1,5 +1,6 @@
 <?php
-/* 
+
+/*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
@@ -9,7 +10,7 @@
  *
  * @author olamedia
  */
-class l10nWord {
+class l10nWord{
     protected $_word = '';
     protected $_num = 1;
     protected $_gender = 'male';
@@ -17,12 +18,14 @@ class l10nWord {
         $this->_word = (string) $word;
     }
     public function gender($gender = null){
-        if ($gender === null) return $this->_gender;
+        if ($gender === null)
+            return $this->_gender;
         $this->_gender = $gender;
         return $this;
     }
     public function num($num = null){
-        if ($num === null) return $this->_num;
+        if ($num === null)
+            return $this->_num;
         $this->_num = $num;
         return $this;
     }
