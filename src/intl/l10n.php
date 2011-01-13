@@ -27,6 +27,9 @@ class l10n{
         $msg->setLocale('ru');
         return $msg;
     }
+    public static function getLocalizedMessageTemplate($locale, $message){
+        
+    }
     public static function getFilename(){
 
     }
