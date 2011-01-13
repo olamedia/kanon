@@ -37,12 +37,14 @@ class l10nMessage{
         $d = dirname($this->_file);
         $f = basename($this->_file);
         $lcPath = $d.'/locale/'.$this->_locale.'/'.$f;
+        l10n::loadFile($this->_locale, $lcPath);
+        $this->_lmsg = l10n::getTemplate($this->_locale, $this->_msg);
         echo $lcPath.' ';
     }
     public function getLocalizedMessage(){
         $this->_getTemplate();
         
-        return $this->_msg;
+        return $this->_lmsg;
     }
     public function __toString(){
         return (string) $this->getLocalizedMessage();
