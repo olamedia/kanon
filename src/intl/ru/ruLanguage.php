@@ -11,8 +11,8 @@
  * @author olamedia
  */
 class ruLanguage extends l10nLanguage{
-    public static function plural($count, $forms){
+    /*public static function plural($count, $forms){
         return $forms[0];
-    }
+    }*/
 }
 

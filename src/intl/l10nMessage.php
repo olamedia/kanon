@@ -46,9 +46,20 @@ class l10nMessage{
         if (preg_match_all("#\{(GENDER|PLURAL):([^\|{]+)((\|([^|{]+))+)\}#ims", $this->_lmsg, $subs)){
             //var_dump($subs);
             foreach ($subs[1] as $k => $call){
+                $match = $subs[0][$k];
                 $word = $subs[2][$k];
                 $forms = explode('|', $subs[3][$k]);
                 array_shift($forms);
+                switch ($call){
+                    case 'GENDER':
+                        $form = ruLanguage::gender($word->getNum(), $forms);
+                        str_replace($match, $form, $this->_lmsg);
+                        break;
+                    case 'PLURAL':
+                        $form = ruLanguage::plural($word->getNum(), $forms);
+                        str_replace($match, $form, $this->_lmsg);
+                        break;
+                }
                 echo 'called '.$call.' on '.$word.' with ';
                 var_dump($forms);
                 echo '<hr />';
