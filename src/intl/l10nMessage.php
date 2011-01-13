@@ -39,7 +39,7 @@ class l10nMessage{
         $lcPath = $d.'/locale/'.$this->_locale.'/'.$f;
         l10n::loadFile($this->_locale, $lcPath);
         $this->_lmsg = l10n::getTemplate($this->_locale, $this->_msg);
-        echo $lcPath.' ';
+        //echo $lcPath.' ';
     }
     protected function _applyForms(){
         $changed = false;
