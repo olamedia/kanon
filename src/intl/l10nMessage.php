@@ -44,7 +44,15 @@ class l10nMessage{
     protected function _applyForms(){
         $changed = false;
         if (preg_match_all("#\{(GENDER|PLURAL):([^\|{]+)((\|([^|{]+))+)\}#ims", $this->_lmsg, $subs)){
-            var_dump($subs);
+            //var_dump($subs);
+            foreach ($subs[1] as $k => $call){
+                $word = $subs[2][$k];
+                $forms = explode('|', $subs[3][$k]);
+                array_shift($forms);
+                echo 'called '.$call.' on '.$word.' with ';
+                var_dump($forms);
+                echo '<hr />';
+            }
         }
         if ($changed) $this->_applyForms();
     }
