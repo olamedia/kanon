@@ -54,7 +54,7 @@ class mediaFilenameProperty extends imageFilenameProperty{
 		if ($height=='auto')
 			$height = $h;
 
-		return '<div style="width: '.$this->_px($width).';height: '.$this->_px($height).'">'.
+		return //'<div style="width: '.$this->_px($width).';height: '.$this->_px($height).'">'.
 		'<object width="'.$width.'" height="'.$height.'">'.
 		'<param name="movie" value="'.$this->source().'"></param>'.
 		'<param name="wmode" value="transparent"></param>'.
@@ -62,7 +62,7 @@ class mediaFilenameProperty extends imageFilenameProperty{
 		'<param name="allowscriptaccess" value="always"></param>'.
 		'<embed src="'.$this->source().'" type="application/x-shockwave-flash" '.
 		'wmode="transparent" allowscriptaccess="always" allowfullscreen="true" width="'.$width.'" height="'.$height.'"></embed>'.
-		'</object></div>';
+		'</object>';//</div>';
 	}
 	public function _imageHtml($size = 100, $method="fit"){
 		if ($size=='auto'){
