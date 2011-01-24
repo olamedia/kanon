@@ -47,6 +47,6 @@ class shareButton{
 		return $this->_tip;
 	}
 	public function getHtml(){
-		return '<a rel="'.$this->_rel.'" href="'.$this->getShareUrl().'" title="'.$this->getTip().'"><img src="'.$this->getImageUrl().'" /></a>';
+		return '<a rel="'.$this->_rel.'" target="_blank" href="'.$this->getShareUrl().'" title="'.$this->getTip().'"><img src="'.$this->getImageUrl().'" /></a>';
 	}
 }
