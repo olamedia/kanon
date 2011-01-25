@@ -2,6 +2,7 @@
 
 class listController extends controller{
     protected $_model = null;
+    protected $_id = 'id';
     protected $_title = 'title';
     protected $_subController = null;
     protected function _getTitle($item){
@@ -40,7 +41,7 @@ class listController extends controller{
         }
         $subController = $this->_subController;
         $items = modelCollection::getInstance($model);
-        $item = $items->select()->where("$items->id = '$modelId'")->fetch();
+        $item = $items->select()->where("$items->{$this->_id} = '$modelId'")->fetch();
         if ($item){
             $this->onValidItem($modelId, $item);
             $this->runController($subController, array($model=>$item));
