@@ -147,10 +147,12 @@ class xcss{
                     $block->content = $text;
                     $newBlocks[] = $block;
                 }
-                $block = new xcssBlock();
-                $block->type = 'text';
-                $block->content = $last;
-                $newBlocks[] = $block;
+                if (strlen($last)){
+                    $block = new xcssBlock();
+                    $block->type = 'text';
+                    $block->content = $last;
+                    $newBlocks[] = $block;
+                }
             }elseif ($block->type == 'block'){
                 $block->childNodes = $this->_explodeBlocks($block->childNodes);
                 $newBlocks[] = $block;
