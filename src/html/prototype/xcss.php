@@ -101,6 +101,9 @@ class xcss{
         $this->_prepareTokens();
         $this->getSource();
     }
+    public function getBlocks(){
+        return $this->_blocks;
+    }
     public function &getSource(){
         if ($this->_source === null){
             $this->_source = file_get_contents($this->_filename);
