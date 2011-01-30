@@ -23,12 +23,12 @@ class xcss{
             'open'=>'/*',
             'close'=>'*/'
         ),
-        /*'expression'=>array(
-            'close'=>';',
-            'contains'=>array(
-                'string', 'string2'
-            )
-        ),*/
+        /* 'expression'=>array(
+          'close'=>';',
+          'contains'=>array(
+          'string', 'string2'
+          )
+          ), */
         'block'=>array(
             'open'=>'{',
             'close'=>'}',
@@ -104,12 +104,12 @@ class xcss{
             var_dump($closing);
             throw new Exception('closing token not found');
         }
-        /*if ($nextP === false){
-            return false;
-        }
-        if ($nextP > $clp){
-            return false;
-        }*/
+        /* if ($nextP === false){
+          return false;
+          }
+          if ($nextP > $clp){
+          return false;
+          } */
         return $this->_getBlock($offset, $clp);
     }
     protected function _getBlock($offset, $endOffset = false){
@@ -122,12 +122,21 @@ class xcss{
             'close'=>$offset
         );
         list($type, $p, $op, $closing) = $this->_getBlockOpen($offset);
-        if ($endOffset!==false && $p > $endOffset){
+        if ($endOffset !== false && $p > $endOffset){
             $block['close'] = $endOffset;
             $block['content'] = substr($this->_source, $offset, $endOffset - $offset);
             echo "text ".$block['content']."\n";
             return $block;
-        }elseif ($p > $offset || $closing == ''){
+        }elseif ($closing == ''){
+            $p = strlen($this->_source);
+            if ($p > $offset){
+                $block['close'] = $p;
+                $block['content'] = substr($this->_source, $offset, $p - $offset);
+                echo "text ".$block['content']."\n";
+                return $block;
+            }
+            return false;
+        }elseif ($p > $offset){
             $block['close'] = $p;
             $block['content'] = substr($this->_source, $offset, $p - $offset);
             echo "text ".$block['content']."\n";
@@ -135,9 +144,9 @@ class xcss{
         }else{
             echo "$op $type\nsearching child nodes...\n";
             $block['type'] = $type;
-            $childOffset = $p+strlen($op);
+            $childOffset = $p + strlen($op);
             while ($node = $this->_getChild($childOffset, $closing)){
-                $childOffset = $node['close']+1;
+                $childOffset = $node['close'] + 1;
                 $block['childNodes'][] = $node;
             }
             $clp = strpos($this->_source, $closing, $childOffset);
