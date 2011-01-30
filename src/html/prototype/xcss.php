@@ -127,7 +127,7 @@ class xcss{
             $block['content'] = substr($this->_source, $offset, $endOffset - $offset);
             echo "text ".$block['content']."\n";
             return $block;
-        }elseif ($p > $offset){
+        }elseif ($p > $offset || $closing == ''){
             $block['close'] = $p;
             $block['content'] = substr($this->_source, $offset, $p - $offset);
             echo "text ".$block['content']."\n";
