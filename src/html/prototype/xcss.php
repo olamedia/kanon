@@ -152,6 +152,7 @@ class xcss{
                 $childOffset = $node['close'] + 1;
                 $block['childNodes'][] = $node;
             }
+            echo "$op $type\nsearching child nodes finished\n";
             $clp = strpos($this->_source, $closing, $childOffset);
             if ($clp > $childOffset){
                 $node = $this->_getBlock($childOffset, $clp-1, $level+1);
