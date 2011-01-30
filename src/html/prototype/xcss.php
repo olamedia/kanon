@@ -154,7 +154,7 @@ class xcss{
             }
             $clp = strpos($this->_source, $closing, $childOffset);
             if ($clp > $childOffset){
-                $node = $this->_getBlock($offset, $clp-1, $level+1);
+                $node = $this->_getBlock($childOffset, $clp-1, $level+1);
                 $block['childNodes'][] = $node;
             }
             $block['close'] = $clp;
