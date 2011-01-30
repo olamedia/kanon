@@ -18,15 +18,58 @@
  *
  */
 class xcss{
+    protected $_tokens = array(
+        'comment'=>array(
+            'open'=>'/*',
+            'close'=>'*/'
+        ),
+        'expression'=>array(
+            'close'=>';',
+            'contains'=>array(
+                'string', 'string2'
+            )
+        ),
+        'block'=>array(
+            'open'=>'{',
+            'close'=>'}',
+            'contains'=>array(
+                'block', 'expression', 'string', 'string2'
+            )
+        ),
+        'string'=>array(
+            'open'=>'"',
+            'close'=>'"',
+            'escape'=>'\\',
+        ),
+        'string2'=>array(
+            'open'=>"'",
+            'close'=>"'",
+            'escape'=>'\\',
+        ),
+    );
+    protected $_tokensPrepared = array();
+    protected $_syntax = array();
     protected $_filename = null;
     protected $_source = '';
     protected $_blocks = array();
     protected $_vars = array();
     const
+    XCSS_TEXT = 0,
     XCSS_BLOCK = 1,
     XCSS_EXPRESSION = 2;
+    protected function _prepareTokens(){
+        foreach ($this->_tokens as $name=>$a){
+            foreach ($a as $k=>$v){
+                $this->_tokensPrepared[$k] = array(
+                    'name'=>$name,
+                    'value'=>$v
+                );
+            }
+        }
+    }
     public function __construct($filename){
         $this->_filename = $filename;
+        $this->_prepareTokens();
         $this->getSource();
     }
     public function &getSource(){
@@ -45,45 +88,67 @@ class xcss{
         }
     }
     protected function _explode(){
-        while ($block = $this->_getBlock()){
+        $offset = 0;
+        while ($block = $this->_getBlock($offset)){
             $this->_blocks[] = $block;
+            $offset = $block['close'];
         }
     }
-    protected function _getBlock(){
-        $type = null;
-        $context = null;
-        $content = null;
-        // 1. looking for { or ;
-        list($c, $p) = $this->_getBlockStart();
-        if ($p === false){
-            // no opening char, return
+    protected function _getChild($offset, $closing){
+        $clp = strpos($this->_source, $closing, $offset);
+        list($nextType, $nextP, $nextOp, $nextCl) = $this->_getBlockOpen($offset);
+        if ($clp === false){
+            // error
+            throw new Exception('closing token not found');
+        }
+        if ($nextP === false){
             return false;
         }
-        if ($c == ';'){
-            $type = self::XCSS_EXPRESSION;
-            $content = substr($this->_source, 0, $p);
+        if ($nextP > $clp){
+            return false;
+        }
+        return $this->_getBlock($offset);
+    }
+    protected function _getBlock($offset){
+        $block = array(
+            'type'=>'text',
+            'childNodes'=>array(),
+            'content'=>'',
+            'open'=>$offset,
+            'close'=>$offset
+        );
+        list($type, $p, $op, $closing) = $this->_getBlockOpen($offset);
+        if ($p > $offset){
+            $block['close'] = $p;
+            $block['content'] = substr($this->_source, $offset, $p - $offset);
+            return $block;
         }else{
-            $type = self::XCSS_BLOCK;
-            $context = substr($this->_source, 0, $p);
-            $content = array();
-            $offset = $p;
-            while ($expression = $this->_getBlock()){
-                list($type, $context, $content) = $expression;
-                /*if ($type != self::XCSS_EXPRESSION){
-                    break;
-                }*/
-                $content[] = $expression;
+            $block['type'] = $type;
+            $childOffset = $p;
+            while ($node = $this->_getChild($childOffset, $closing)){
+                $childOffset = $node['close'];
+                $block['childNodes'][] = $node;
+            }
+            return $block;
+        }
+    }
+    protected function _getBlockClose($offset){
+        return $this->_getBlockOpen($offset, 'close');
+    }
+    protected function _getBlockOpen($offset = 0, $type = 'open'){
+        $min = array('text', 0, '', '');
+        $minP = null;
+        $tokens = $this->_tokensPrepared[$type];
+        foreach ($tokens as $type=>$op){
+            $p = strpos($this->_source, $op, $offset);
+            if ($p !== false){
+                if ($minP === null || $p < $minP){
+                    $minP = $p;
+                    $min = array($type, $p, $op);
+                }
             }
         }
-        return array($type, $context, $content);
-    }
-    protected function _getBlockStart($offset = 0){
-        // 1. looking for { or ;
-        $bp = strpos($this->_source, '{', $offset);
-        $dp = strpos($this->_source, ';', $offset);
-        if ($bp === false || $dp < $bp)
-            return array(';', $dp);
-        return array('{', $bp);
+        return $min;
     }
 }
 
