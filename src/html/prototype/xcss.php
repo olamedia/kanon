@@ -125,8 +125,10 @@ class xcss{
         if ($p > $offset){
             $block['close'] = $p;
             $block['content'] = substr($this->_source, $offset, $p - $offset);
+            echo "text\n";
             return $block;
         }else{
+            echo $type."\nsearching child nodes...";
             $block['type'] = $type;
             $childOffset = $p+strlen($op);
             while ($node = $this->_getChild($childOffset, $closing)){
