@@ -149,7 +149,7 @@ class xcss{
             $block['type'] = $type;
             $childOffset = $p + strlen($op);
             while ($node = $this->_getChild($childOffset, $closing, $level + 1)){
-                $childOffset = $node['close'] + 1;
+                $childOffset = $node['close'];
                 $block['childNodes'][] = $node;
             }
             echo "$op $type\nsearching child nodes finished\n";
