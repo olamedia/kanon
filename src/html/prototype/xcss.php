@@ -183,6 +183,9 @@ class xcss{
             }
             return false;
         }elseif ($p > $offset){
+            $block->type = 'text';
+            $block->open = '';
+            $block->close = '';
             $block->closeP = $p;
             $block->content = substr($this->_source, $offset, $p - $offset);
             echo "text ".$block->content."\n";
