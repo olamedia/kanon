@@ -115,7 +115,7 @@ class xcss{
     protected function _stripComments(){
         while (($p = strpos($this->_source, '/*')) !== false){
             if (($cp = strpos($this->_source, '*/', $p)) !== false){
-                $this->_source = substr($this->_source, 0, $p).substr($this->_source, $cp+2);
+                $this->_source = substr($this->_source, 0, $p).substr($this->_source, $cp + 2);
             }
         }
     }
@@ -130,15 +130,21 @@ class xcss{
     protected function _explodeBlocks($blocks){
         $newBlocks = array();
         foreach ($blocks as /** @var xcssBlock */ $block){
-            
+
             if ($block->type == 'text'){
                 $e = explode(';', $block->content);
+                $last = array_pop($e);
                 foreach ($e as $text){
                     $block = new xcssBlock();
+                    $block->type = 'statement';
                     $block->content = $text;
                     $newBlocks[] = $block;
                 }
-            }elseif($block->type == 'block'){
+                $block = new xcssBlock();
+                $block->type = 'text';
+                $block->content = $last;
+                $newBlocks[] = $block;
+            }elseif ($block->type == 'block'){
                 $block->childNodes = $this->_explodeBlocks($block->childNodes);
                 $newBlocks[] = $block;
             }else{
