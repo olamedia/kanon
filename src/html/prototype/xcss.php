@@ -102,6 +102,7 @@ class xcss{
         list($nextType, $nextP, $nextOp, $nextCl) = $this->_getBlockOpen($offset);
         if ($clp === false){
             // error
+            var_dump($this->_blocks);
             throw new Exception('closing token not found');
         }
         if ($nextP === false){
