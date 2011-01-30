@@ -60,10 +60,7 @@ class xcss{
     protected function _prepareTokens(){
         foreach ($this->_tokens as $name=>$a){
             foreach ($a as $k=>$v){
-                $this->_tokensPrepared[$k] = array(
-                    'name'=>$name,
-                    'value'=>$v
-                );
+                $this->_tokensPrepared[$k][$name]=$v;
             }
         }
     }
