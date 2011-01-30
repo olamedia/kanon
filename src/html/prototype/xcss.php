@@ -125,7 +125,7 @@ class xcss{
         if ($p > $offset || ($endOffset!==false && $p > $endOffset)){
             $block['close'] = $p;
             $block['content'] = substr($this->_source, $offset, $p - $offset);
-            echo "text\n";
+            echo "text ".$block['content']."\n";
             return $block;
         }else{
             echo "$op $type\nsearching child nodes...\n";
