@@ -115,7 +115,7 @@ class xcss{
     protected function _stripComments(){
         while (($p = strpos($this->_source, '/*')) !== false){
             if (($cp = strpos($this->_source, '*/', $p)) !== false){
-                $this->_source = substr($this->_source, 0, $p).substr($this->_source, $cp);
+                $this->_source = substr($this->_source, 0, $p).substr($this->_source, $cp+2);
             }
         }
     }
