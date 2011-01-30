@@ -159,6 +159,9 @@ class xcss{
                 $node = $this->_getBlock($childOffset, $clp-1, $level+1);
                 $block['childNodes'][] = $node;
             }
+            if ($clp === false){
+                $clp = strlen($this->_source);
+            }
             $block['close'] = $clp;
             echo "$closing $type closed\n";
             return $block;
