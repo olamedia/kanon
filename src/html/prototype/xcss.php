@@ -146,7 +146,8 @@ class xcss{
             if ($p !== false){
                 if ($minP === null || $p < $minP){
                     $minP = $p;
-                    $min = array($type, $p, $op);
+                    $closing = $this->_tokens[$type]['close'];
+                    $min = array($type, $p, $op, $closing);
                 }
             }
         }
