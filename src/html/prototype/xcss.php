@@ -6,10 +6,11 @@ class xcssBlock{
     public $close = '';
     public $openP = null;
     public $closeP = null;
+    public $name = '';
     public $content = '';
     public $childNodes = array();
     public function html(){
-        $content = '<b>'.$this->open.'</b>'.$this->content;
+        $content = '<i>'.$this->name.'</i><b>'.$this->open.'</b>'.$this->content;
         foreach ($this->childNodes as $node){
             $content .= $node->html();
         }
@@ -128,6 +129,24 @@ class xcss{
         }
         $this->_blocks = $this->_implodeBlocks($this->_blocks);
         $this->_blocks = $this->_explodeBlocks($this->_blocks);
+        $this->_blocks = $this->_nameBlocks($this->_blocks);
+    }
+    protected function _nameBlocks($blocks){
+        $newBlocks = array();
+        $prev = new xcssBlock();
+        $prev->type = 'undefined';
+        foreach ($blocks as /** @var xcssBlock */ $block){
+            if ($prev->type == 'text' && $block->type == 'block'){
+                $prev = array_pop($newBlocks);
+                $block->name = $prev->content;
+            }
+            if ($block->type == 'block'){
+                $block->childNodes = $this->_nameBlocks($block->childNodes);
+            }
+            $newBlocks[] = $block;
+            $prev = $block;
+        }
+        return $newBlocks;
     }
     protected function _implodeBlocks($blocks){
         $newBlocks = array();
