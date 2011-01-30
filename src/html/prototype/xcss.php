@@ -104,12 +104,12 @@ class xcss{
             var_dump($closing);
             throw new Exception('closing token not found');
         }
-        /* if ($nextP === false){
-          return false;
-          }
-          if ($nextP > $clp){
-          return false;
-          } */
+        if ($nextP === false){
+            return false;
+        }
+        if ($nextP > $clp){
+            return false;
+        }
         return $this->_getBlock($offset, $clp, $level + 1);
     }
     protected function _getBlock($offset, $endOffset = false, $level = 0){
@@ -148,13 +148,14 @@ class xcss{
             echo "$op $type\nsearching child nodes...\n";
             $block['type'] = $type;
             $childOffset = $p + strlen($op);
-            while ($node = $this->_getChild($childOffset, $closing, $level+1)){
+            while ($node = $this->_getChild($childOffset, $closing, $level + 1)){
                 $childOffset = $node['close'] + 1;
                 $block['childNodes'][] = $node;
             }
             $clp = strpos($this->_source, $closing, $childOffset);
             if ($clp > $childOffset){
-
+                $node = $this->_getBlock($offset, $clp-1, $level+1);
+                $block['childNodes'][] = $node;
             }
             $block['close'] = $clp;
             echo "$closing $type closed\n";
