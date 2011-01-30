@@ -110,9 +110,9 @@ class xcss{
         if ($nextP > $clp){
             return false;
         }*/
-        return $this->_getBlock($offset);
+        return $this->_getBlock($offset, $clp);
     }
-    protected function _getBlock($offset){
+    protected function _getBlock($offset, $endOffset = false){
         echo "$offset _getBlock?\n";
         $block = array(
             'type'=>'text',
@@ -122,7 +122,7 @@ class xcss{
             'close'=>$offset
         );
         list($type, $p, $op, $closing) = $this->_getBlockOpen($offset);
-        if ($p > $offset){
+        if ($p > $offset || ($endOffset!==false && $p > $endOffset)){
             $block['close'] = $p;
             $block['content'] = substr($this->_source, $offset, $p - $offset);
             echo "text\n";
