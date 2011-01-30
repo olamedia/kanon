@@ -125,6 +125,27 @@ class xcss{
             $this->_blocks[] = $block;
             $offset += strlen($block);
         }
+        $this->_blocks = $this->_explodeBlocks($this->_blocks);
+    }
+    protected function _explodeBlocks($blocks){
+        $newBlocks = array();
+        foreach ($blocks as /** @var xcssBlock */ $block){
+            
+            if ($block->type == 'text'){
+                $e = explode(';', $block->content);
+                foreach ($e as $text){
+                    $block = new xcssBlock();
+                    $block->content = $text;
+                    $newBlocks[] = $block;
+                }
+            }elseif($block->type == 'block'){
+                $block->childNodes = $this->_explodeBlocks($block->childNodes);
+                $newBlocks[] = $block;
+            }else{
+                $newBlocks[] = $block;
+            }
+        }
+        return $newBlocks;
     }
     protected function _getChild($offset, $closing, $level = 0){
         echo str_repeat(' ', $level)."$offset _getChild?\n";
