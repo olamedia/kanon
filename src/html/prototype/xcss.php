@@ -14,7 +14,7 @@ class xcssBlock{
             $content .= $node->html();
         }
         $content .= '<b>'.$this->close.'</b>';
-        return '<div style="padding: 4px;border: solid 1px #666;">'.$content.'</div>';
+        return '<div style="padding: 4px 30px;border: solid 1px #666;">'.$content.'</div>';
     }
     public function getLength(){
         return strlen($this);
