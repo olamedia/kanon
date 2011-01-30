@@ -147,7 +147,7 @@ class xcss{
                     $block->content = $text;
                     $newBlocks[] = $block;
                 }
-                if (strlen($last)){
+                if (strlen(trim($last))){
                     $block = new xcssBlock();
                     $block->type = 'text';
                     $block->content = $last;
