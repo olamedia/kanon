@@ -113,7 +113,7 @@ class xcss{
         return $this->_getBlock($offset, $clp, $level+1);
     }
     protected function _getBlock($offset, $endOffset = false, $level = 0){
-        echo str_repeat(' ', $level)."$offset _getBlock?\n";
+        echo str_repeat(' ', $level)."$offset ";
         $block = array(
             'type'=>'text',
             'childNodes'=>array(),
