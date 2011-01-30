@@ -140,26 +140,26 @@ class xcss{
                 $newBlocks[] = $block;
             }else{
                 if (count($textBlocks)){
-                    $block = new xcssBlock();
-                    $block->type = 'text';
-                    $block->content = '';
+                    $textBlock = new xcssBlock();
+                    $textBlock->type = 'text';
+                    $textBlock->content = '';
                     foreach ($textBlocks as $node){
-                        $block->content .= strval($node);
+                        $textBlock->content .= strval($node);
                     }
-                    $newBlocks[] = $block;
+                    $newBlocks[] = $textBlock;
                     $textBlocks = array();
                 }
                 $newBlocks[] = $block;
             }
         }
         if (count($textBlocks)){
-            $block = new xcssBlock();
-            $block->type = 'text';
-            $block->content = '';
+            $textBlock = new xcssBlock();
+            $textBlock->type = 'text';
+            $textBlock->content = '';
             foreach ($textBlocks as $node){
-                $block->content .= strval($node);
+                $textBlock->content .= strval($node);
             }
-            $newBlocks[] = $block;
+            $newBlocks[] = $textBlock;
             $textBlocks = array();
         }
         return $newBlocks;
