@@ -140,6 +140,7 @@ class xcss{
 
             }
             $block['close'] = $clp;
+            echo "$closing $type closed\n";
             return $block;
         }
     }
