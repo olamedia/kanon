@@ -137,7 +137,7 @@ class xcss{
             $block['type'] = $type;
             $childOffset = $p+strlen($op);
             while ($node = $this->_getChild($childOffset, $closing)){
-                $childOffset = $node['close'];
+                $childOffset = $node['close']+1;
                 $block['childNodes'][] = $node;
             }
             $clp = strpos($this->_source, $closing, $childOffset);
