@@ -128,7 +128,7 @@ class xcss{
             echo "text\n";
             return $block;
         }else{
-            echo $type."\nsearching child nodes...";
+            echo "$op $type\nsearching child nodes...\n";
             $block['type'] = $type;
             $childOffset = $p+strlen($op);
             while ($node = $this->_getChild($childOffset, $closing)){
