@@ -122,7 +122,12 @@ class xcss{
             'close'=>$offset
         );
         list($type, $p, $op, $closing) = $this->_getBlockOpen($offset);
-        if ($p > $offset || ($endOffset!==false && $p > $endOffset)){
+        if ($endOffset!==false && $p > $endOffset){
+            $block['close'] = $endOffset;
+            $block['content'] = substr($this->_source, $offset, $endOffset - $offset);
+            echo "text ".$block['content']."\n";
+            return $block;
+        }elseif ($p > $offset){
             $block['close'] = $p;
             $block['content'] = substr($this->_source, $offset, $p - $offset);
             echo "text ".$block['content']."\n";
