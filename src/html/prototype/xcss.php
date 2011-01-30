@@ -50,7 +50,7 @@ class xcss{
     protected $_tokensPrepared = array();
     protected $_syntax = array();
     protected $_filename = null;
-    protected $_source = '';
+    protected $_source = null;
     protected $_blocks = array();
     protected $_vars = array();
     const
