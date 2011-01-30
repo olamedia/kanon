@@ -95,6 +95,7 @@ class xcss{
         }
     }
     protected function _getChild($offset, $closing){
+        echo "$offset _getChild?\n";
         $clp = strpos($this->_source, $closing, $offset);
         list($nextType, $nextP, $nextOp, $nextCl) = $this->_getBlockOpen($offset);
         if ($clp === false){
@@ -112,6 +113,7 @@ class xcss{
         return $this->_getBlock($offset);
     }
     protected function _getBlock($offset){
+        echo "$offset _getBlock?\n";
         $block = array(
             'type'=>'text',
             'childNodes'=>array(),
