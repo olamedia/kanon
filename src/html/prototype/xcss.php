@@ -23,12 +23,12 @@ class xcss{
             'open'=>'/*',
             'close'=>'*/'
         ),
-        'expression'=>array(
+        /*'expression'=>array(
             'close'=>';',
             'contains'=>array(
                 'string', 'string2'
             )
-        ),
+        ),*/
         'block'=>array(
             'open'=>'{',
             'close'=>'}',
