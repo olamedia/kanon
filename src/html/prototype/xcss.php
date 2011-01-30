@@ -131,8 +131,13 @@ class xcss{
     protected function _explodeBlocks($blocks){
         $newBlocks = array();
         foreach ($blocks as /** @var xcssBlock */ $block){
-
-            if ($block->type == 'text'){
+            if ($block->type == 'string'){
+                $block->content = '';
+                foreach ($block->childNodes as $node){
+                    $block->content .= strval($node);
+                }
+                $newBlocks[] = $block;
+            }elseif ($block->type == 'text'){
                 $e = explode(';', $block->content);
                 $last = array_pop($e);
                 foreach ($e as $text){
