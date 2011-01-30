@@ -140,7 +140,7 @@ class xcss{
         if ($nextP === false){
             return false;
         }
-        if ($nextP > $clp){
+        if ($nextP >= $clp){
             return false;
         }
         return $this->_getBlock($offset, $clp, $level + 1);
