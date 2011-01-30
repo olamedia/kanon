@@ -104,12 +104,12 @@ class xcss{
             var_dump($closing);
             throw new Exception('closing token not found');
         }
-        if ($nextP === false){
+        /*if ($nextP === false){
             return false;
         }
         if ($nextP > $clp){
             return false;
-        }
+        }*/
         return $this->_getBlock($offset);
     }
     protected function _getBlock($offset){
@@ -134,6 +134,9 @@ class xcss{
                 $block['childNodes'][] = $node;
             }
             $clp = strpos($this->_source, $closing, $childOffset);
+            if ($clp > $childOffset){
+
+            }
             $block['close'] = $clp;
             return $block;
         }
