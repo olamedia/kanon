@@ -136,6 +136,7 @@ class xcss{
                 foreach ($block->childNodes as $node){
                     $block->content .= strval($node);
                 }
+                $block->childNodes = array();
                 $newBlocks[] = $block;
             }elseif ($block->type == 'text'){
                 $e = explode(';', $block->content);
