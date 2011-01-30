@@ -69,9 +69,9 @@ class xcss{
             $offset = $p;
             while ($expression = $this->_getBlock()){
                 list($type, $context, $content) = $expression;
-                if ($type != self::XCSS_EXPRESSION){
+                /*if ($type != self::XCSS_EXPRESSION){
                     break;
-                }
+                }*/
                 $content[] = $expression;
             }
         }
