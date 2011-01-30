@@ -91,7 +91,7 @@ class xcss{
         $offset = 0;
         while ($block = $this->_getBlock($offset)){
             $this->_blocks[] = $block;
-            $offset = $block['close'];
+            $offset = $block['close']+1;
         }
     }
     protected function _getChild($offset, $closing, $level = 0){
