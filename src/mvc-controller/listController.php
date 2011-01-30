@@ -41,7 +41,8 @@ class listController extends controller{
         }
         $subController = $this->_subController;
         $items = modelCollection::getInstance($model);
-        $item = $items->select()->where("$items->{$this->_id} = '$modelId'")->fetch();
+        $id = $this->_id;
+        $item = $items->select()->where("{$items->$id} = '$modelId'")->fetch();
         if ($item){
             $this->onValidItem($modelId, $item);
             $this->runController($subController, array($model=>$item));
