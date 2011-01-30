@@ -60,7 +60,7 @@ class xcss{
     protected function _prepareTokens(){
         foreach ($this->_tokens as $name=>$a){
             foreach ($a as $k=>$v){
-                $this->_tokensPrepared[$k][$name]=$v;
+                $this->_tokensPrepared[$k][$name] = $v;
             }
         }
     }
@@ -100,6 +100,7 @@ class xcss{
         if ($clp === false){
             // error
             var_dump($this->_blocks);
+            var_dump($closing);
             throw new Exception('closing token not found');
         }
         if ($nextP === false){
