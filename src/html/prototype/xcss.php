@@ -135,10 +135,10 @@ class xcss{
         foreach ($blocks as /** @var xcssBlock */ $block){
             if ($block->type == 'string' || $block->type == 'string2' || $block->type == 'text'){
                 $textBlocks[] = $block;
-            }elseif ($block->type == 'block'){
-                $block->childNodes = $this->_implodeBlocks($block->childNodes);
-                $newBlocks[] = $block;
             }else{
+                if ($block->type == 'block'){
+                    $block->childNodes = $this->_implodeBlocks($block->childNodes);
+                }
                 if (count($textBlocks)){
                     $textBlock = new xcssBlock();
                     $textBlock->type = 'text';
