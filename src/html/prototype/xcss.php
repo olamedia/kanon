@@ -131,6 +131,8 @@ class xcss{
                 $childOffset = $node['close'];
                 $block['childNodes'][] = $node;
             }
+            $clp = strpos($this->_source, $closing, $offset);
+            $block['close'] = $clp;
             return $block;
         }
     }
