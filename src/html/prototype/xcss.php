@@ -94,7 +94,7 @@ class xcss{
             $offset = $block['close'];
         }
     }
-    protected function _getChild($offset, $closing){
+    protected function _getChild($offset, $closing, $level = 0){
         echo "$offset _getChild?\n";
         $clp = strpos($this->_source, $closing, $offset);
         list($nextType, $nextP, $nextOp, $nextCl) = $this->_getBlockOpen($offset);
@@ -110,10 +110,10 @@ class xcss{
           if ($nextP > $clp){
           return false;
           } */
-        return $this->_getBlock($offset, $clp);
+        return $this->_getBlock($offset, $clp, $level+1);
     }
-    protected function _getBlock($offset, $endOffset = false){
-        echo "$offset _getBlock?\n";
+    protected function _getBlock($offset, $endOffset = false, $level = 0){
+        echo str_repeat(' ', $level)."$offset _getBlock?\n";
         $block = array(
             'type'=>'text',
             'childNodes'=>array(),
@@ -148,7 +148,7 @@ class xcss{
             echo "$op $type\nsearching child nodes...\n";
             $block['type'] = $type;
             $childOffset = $p + strlen($op);
-            while ($node = $this->_getChild($childOffset, $closing)){
+            while ($node = $this->_getChild($childOffset, $closing, $level)){
                 $childOffset = $node['close'] + 1;
                 $block['childNodes'][] = $node;
             }
