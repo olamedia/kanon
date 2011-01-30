@@ -129,6 +129,9 @@ class xcss{
             return $block;
         }elseif ($closing == ''){
             $p = strlen($this->_source);
+            if ($endOffset !== false && $p > $endOffset){
+                $p = $endOffset;
+            }
             if ($p > $offset){
                 $block['close'] = $p;
                 $block['content'] = substr($this->_source, $offset, $p - $offset);
