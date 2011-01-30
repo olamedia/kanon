@@ -27,6 +27,7 @@ class xcss{
     XCSS_EXPRESSION = 2;
     public function __construct($filename){
         $this->_filename = $filename;
+        $this->getSource();
     }
     public function &getSource(){
         if ($this->_source === null){
