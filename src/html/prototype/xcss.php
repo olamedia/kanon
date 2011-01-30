@@ -68,6 +68,9 @@ class xcss{
         }
     }
     public function __construct($filename){
+        if (!is_file($filename)){
+            throw new Exception('no such file');
+        }
         $this->_filename = $filename;
         $this->_prepareTokens();
         $this->getSource();
