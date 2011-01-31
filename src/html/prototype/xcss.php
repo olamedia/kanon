@@ -207,13 +207,14 @@ class xcss{
                             &&
                             ($dp = strpos($block->content, ':')) !== false
                     ){
-                        $block->type = 'var';
+                        //$block->type = 'var';
                         $varName = substr($block->content, 1, $dp - 1);
-                        $varValue = trim(substr($block->content, $dp+1));
-                        $block->content = $varValue;
+                        $varValue = trim(substr($block->content, $dp + 1));
+                        $this->_vars[$varName] = $varValue;
+                        //$block->content = $varValue;
+                    }else{
+                        $newBlocks[] = $block;
                     }
-
-                    $newBlocks[] = $block;
                 }
                 if (strlen(trim($last))){
                     $block = new xcssBlock();
