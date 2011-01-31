@@ -139,7 +139,7 @@ class xcss{
         foreach ($blocks as /** @var xcssBlock */ $block){
             if ($prev->type == 'text' && $block->type == 'block'){
                 $prev = array_pop($newBlocks);
-                $block->name = $prev->content;
+                $block->name = trim($prev->content);
                 if (strpos($block->name, '@mixin ') === 0){
                     $block->type = 'mixin';
                     $name = trim(substr($block->name, 7));
