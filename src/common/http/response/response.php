@@ -138,11 +138,11 @@ class response{
             return;
         }
         if (self::$_lastModified !== null){
-            header('Last-Modified: '.gmdate("D, d M Y H:i:s T", self::$_lastModified).' GMT');
-            header('X-Last-Modified: '.gmdate("D, d M Y H:i:s T", self::$_lastModified).' GMT');
+            header('Last-Modified: '.gmdate("D, d M Y H:i:s T", self::$_lastModified));
+            header('X-Last-Modified: '.gmdate("D, d M Y H:i:s T", self::$_lastModified));
             $ifModifiedSince = request::getHttpHeader('If-Modified-Since', false);
             if ($ifModifiedSince){
-                if ($ifModifiedSince == gmdate('D, d M Y H:i:s T', self::$_lastModified).' GMT'){
+                if ($ifModifiedSince == gmdate('D, d M Y H:i:s T', self::$_lastModified)){
                     self::notModified();
                 }
             }
