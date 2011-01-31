@@ -363,6 +363,7 @@ class controllerPrototype{
         $this->_ignoreParentTemplate = $ignore;
     }
     protected function _header(){
+        response::sendHeaders();
         //if (!$this->_ignoreParentTemplate) {
         $parent = $this->getParent();
         if ($this->_ignoreParentTemplate){
