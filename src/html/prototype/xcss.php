@@ -224,6 +224,14 @@ class xcss{
                 }
             }elseif ($block->type == 'block'){
                 $block->childNodes = $this->_explodeBlocks($block->childNodes);
+                if (strpos($block->name, '@mixin ') === 0){
+                    $block->type = 'mixin';
+                    $name = trim(substr($block->name, 7));
+                    $block->name = $name;
+                    //$this->_mixins[]
+                }else{
+
+                }
                 $newBlocks[] = $block;
             }else{
                 $newBlocks[] = $block;
