@@ -201,8 +201,8 @@ class xcss{
 
                     $block = new xcssBlock();
                     $block->type = 'statement';
-                    $block->content = $text;
-                    if (strpos($text,'$') === 0){
+                    $block->content = trim($text);
+                    if (strpos($block->content,'$') === 0){
                         $block->type = 'var';
                     }
                     $newBlocks[] = $block;
