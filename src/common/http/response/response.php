@@ -139,6 +139,7 @@ class response{
         }
         if (self::$_lastModified !== null){
             header('Last-Modified: '.date("r", self::$_lastModified));
+            header('X-Last-Modified: '.date("r", self::$_lastModified));
             $ifModifiedSince = request::getHttpHeader('If-Modified-Since', false);
             if ($ifModifiedSince){
                 if ($ifModifiedSince == date('r', self::$_lastModified)){
