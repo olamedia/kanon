@@ -6,7 +6,7 @@
 #require_once dirname(__FILE__).'/controller.php';
 class frontController extends controller{
     public static function startSession($domain, $expire = 360000){
-        session_cache_limiter('private_no_expire');
+        response::noCache(false);
         ini_set("session.gc_maxlifetime", $expire);
         session_set_cookie_params($expire, '/', $domain);
         if (!session_start()){
