@@ -208,24 +208,24 @@ class xcss{
                             ($dp = strpos($block->content, ':')) !== false
                     ){
                         $block->type = 'var';
-                        $varName = substr($block->content, 1, $dp-1);
+                        $varName = substr($block->content, 1, $dp - 1);
                         $block->content = $varName;
                     }
+
+                    $newBlocks[] = $block;
                 }
+                if (strlen(trim($last))){
+                    $block = new xcssBlock();
+                    $block->type = 'text';
+                    $block->content = $last;
+                    $newBlocks[] = $block;
+                }
+            }elseif ($block->type == 'block'){
+                $block->childNodes = $this->_explodeBlocks($block->childNodes);
+                $newBlocks[] = $block;
+            }else{
                 $newBlocks[] = $block;
             }
-            if (strlen(trim($last))){
-                $block = new xcssBlock();
-                $block->type = 'text';
-                $block->content = $last;
-                $newBlocks[] = $block;
-            }
-        }elseif ($block->type == 'block'){
-            $block->childNodes = $this->_explodeBlocks($block->childNodes);
-            $newBlocks[] = $block;
-        }else{
-            $newBlocks[] = $block;
-        }
         }
         return $newBlocks;
     }
