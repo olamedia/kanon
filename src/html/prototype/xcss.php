@@ -83,6 +83,7 @@ class xcss{
     protected $_filename = null;
     protected $_source = null;
     protected $_blocks = array();
+    protected $_mixins = array();
     protected $_vars = array();
     const
     XCSS_TEXT = 0,
@@ -197,9 +198,13 @@ class xcss{
                 $e = explode(';', $block->content);
                 $last = array_pop($e);
                 foreach ($e as $text){
+
                     $block = new xcssBlock();
                     $block->type = 'statement';
                     $block->content = $text;
+                    if (strpos($text,'$') === 0){
+                        $block->type = 'var';
+                    }
                     $newBlocks[] = $block;
                 }
                 if (strlen(trim($last))){
