@@ -152,6 +152,15 @@ class xcss{
             if ($block->type == 'block'){
                 $block->childNodes = $this->_nameBlocks($block->childNodes);
             }
+            if ($block->type == 'statement'){
+                // eval
+                if (strpos($block->content, '$') !== false){
+                    while (preg_match('#$([a-z0-9]+)#', $block->content, $subs)){
+                        $name = $subs[1];
+                        str_replace('$'.$name, $this->_vars[$name], $block->content);
+                    }
+                }
+            }
             $newBlocks[] = $block;
             $prev = $block;
         }
