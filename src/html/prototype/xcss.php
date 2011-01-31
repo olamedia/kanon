@@ -155,11 +155,13 @@ class xcss{
             if ($block->type == 'statement'){
                 // eval
                 //if (strpos($block->content, '$') !== false){
-                while (preg_match('#$([a-z0-9]+)#ims', $block->content, $subs)){
+                $block->content = ' $basefamily ';
+                if (preg_match('#$([a-z0-9]+)#ims', $block->content, $subs)){
                     $name = $subs[1];
                     $block->content = str_replace('$'.$name, $this->_vars[$name], $block->content);
+                    $block->content = 'match';
                 }
-                $block->content = ':(';
+                
                 //}
             }
             $newBlocks[] = $block;
