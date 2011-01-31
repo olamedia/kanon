@@ -168,6 +168,9 @@ class response{
     public static function unauthorized(){
         self::http(401);
     }
+    public static function getLastModified(){
+        return self::$_lastModified;
+    }
     public static function modifiedSince($timestamp){
         self::$_lastModified = max(self::$_lastModified, $timestamp);
     }
