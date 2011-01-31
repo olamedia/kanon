@@ -175,4 +175,8 @@ class response{
     public static function modifiedSince($timestamp){
         self::$_lastModified = max(self::$_lastModified, $timestamp);
     }
+    public static function noCache(){
+
+        self::modifiedSince(time());
+    }
 }
