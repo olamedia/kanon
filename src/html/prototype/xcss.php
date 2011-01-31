@@ -140,6 +140,14 @@ class xcss{
             if ($prev->type == 'text' && $block->type == 'block'){
                 $prev = array_pop($newBlocks);
                 $block->name = $prev->content;
+                if (strpos($block->name, '@mixin ') === 0){
+                    $block->type = 'mixin';
+                    $name = trim(substr($block->name, 7));
+                    $block->name = $name;
+                    //$this->_mixins[]
+                }else{
+
+                }
             }
             if ($block->type == 'block'){
                 $block->childNodes = $this->_nameBlocks($block->childNodes);
@@ -224,14 +232,7 @@ class xcss{
                 }
             }elseif ($block->type == 'block'){
                 $block->childNodes = $this->_explodeBlocks($block->childNodes);
-                if (strpos($block->name, '@mixin ') === 0){
-                    $block->type = 'mixin';
-                    $name = trim(substr($block->name, 7));
-                    $block->name = $name;
-                    //$this->_mixins[]
-                }else{
 
-                }
                 $newBlocks[] = $block;
             }else{
                 $newBlocks[] = $block;
