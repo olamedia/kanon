@@ -133,8 +133,10 @@ class response{
         self::http(500);
     }
     public static function sendHeaders(){
-        if (self::$_headersSent)
+        if (self::$_headersSent){
+            throw new Exception('headers already sent');
             return;
+        }
         if (self::$_lastModified !== null){
             header('Last-Modified: '.date("r", self::$_lastModified));
             $ifModifiedSince = request::getHttpHeader('If-Modified-Since', false);
