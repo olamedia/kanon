@@ -134,7 +134,7 @@ class response{
     }
     public static function sendHeaders(){
         if (self::$_headersSent){
-            throw new Exception('headers already sent');
+            //throw new Exception('headers already sent');
             return;
         }
         if (self::$_lastModified !== null){
