@@ -139,7 +139,7 @@ class response{
         }
         if (self::$_lastModified !== null){
             header('Last-Modified: '.gmdate("D, d M Y H:i:s T", self::$_lastModified));
-            header('X-Last-Modified: '.gmdate("D, d M Y H:i:s T", self::$_lastModified));
+            //header('X-Last-Modified: '.gmdate("D, d M Y H:i:s T", self::$_lastModified));
             $ifModifiedSince = request::getHttpHeader('If-Modified-Since', false);
             if ($ifModifiedSince){
                 if ($ifModifiedSince == gmdate('D, d M Y H:i:s T', self::$_lastModified)){
@@ -175,10 +175,15 @@ class response{
     public static function modifiedSince($timestamp){
         self::$_lastModified = max(self::$_lastModified, $timestamp);
     }
-    public static function noCache(){
-        self::modifiedSince(time());
+    public static function noCache($modify = true){
+        if ($modify){
+            self::modifiedSince(time());
+        }else{
+            header('Last-Modified: '.gmdate("D, d M Y H:i:s T", self::$_lastModified));
+        }
         header("Cache-Control: no-store, no-cache, must-revalidate"); // HTTP/1.1
         header("Cache-Control: post-check=0, pre-check=0", false);
         header("Pragma: no-cache"); // HTTP/1.0
+        session_cache_limiter("nocache");
     }
 }
