@@ -159,6 +159,7 @@ class xcss{
                     $name = $subs[1];
                     $block->content = str_replace('$'.$name, $this->_vars[$name], $block->content);
                 }
+                $block->content = ':(';
                 //}
             }
             $newBlocks[] = $block;
