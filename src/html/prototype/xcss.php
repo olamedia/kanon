@@ -209,7 +209,8 @@ class xcss{
                     ){
                         $block->type = 'var';
                         $varName = substr($block->content, 1, $dp - 1);
-                        $block->content = $varName;
+                        $varValue = trim(substr($block->content, $dp+1));
+                        $block->content = $varValue;
                     }
 
                     $newBlocks[] = $block;
