@@ -108,8 +108,8 @@ class yProfiler{
     public static function html(){
         ksort(self::$_callStatistics);
         $stat = array();
-        foreach (self::$_callStatistics as $dt=>$method){
-            $stat[] = $method.' - '.number_format($dt, 4, '.');
+        foreach (self::$_callStatistics as $method => $time){
+            $stat[] = $method.' - '.number_format($time, 4, '.');
         }
         return '<div style="font-size: 11px;font-weight: normal;line-height: 1.2em;color: #fff;background: #333;padding: 10px;">'.
         nl2br(strval($this)).
