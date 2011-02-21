@@ -129,9 +129,15 @@ class controller extends controllerPrototype{
         $this->getRegistry()->plainJs->{$alias} .= $jsString;
         $this->getRegistry()->plainJsRequire->{$alias} = $require;
     }
-    public function requireJs($uri, $alias = 'default', $require = ''){
-        $this->getRegistry()->javascriptIncludes->{$alias}[] = $uri;
-        $this->getRegistry()->javascriptIncludesRequire->{$alias} = $require;
+    public function requireJs($uri){//, $alias = 'default', $require = ''
+        $jsa = magic::get('js/required', false);
+        if (!$jsa){
+            $jsa = new ArrayObject();
+            magic::set('js/required', $jsa);
+        }
+        $jsa[] = $uri;
+        /* $this->getRegistry()->javascriptIncludes->{$alias}[] = $uri;
+          $this->getRegistry()->javascriptIncludesRequire->{$alias} = $require; */
     }
     protected function _getJsPart($requiredPart, $parts = array()){
         $includes = $this->getRegistry()->javascriptIncludes->toArray();
@@ -187,14 +193,18 @@ class controller extends controllerPrototype{
     }
     protected function _getJs(){
         $js = '';
-        $includes = $this->getRegistry()->javascriptIncludes->toArray();
+        $jsa = magic::get('js/required', array());
+        foreach ($jsa as $uri){
+            $js .= '<script type="text/javascript" src="'.$uri.'"></script>';
+        }
+        //$includes = $this->getRegistry()->javascriptIncludes->toArray();
         $plainJs = $this->getRegistry()->plainJs->toArray();
         $parts = array();
-        foreach ($includes as $alias=>$urls){
-            list($xjs, $xparts) = $this->_getJsPart($alias, $parts);
-            $parts = array_merge($parts, $xparts);
-            $js .= $xjs;
-        }
+        /* foreach ($includes as $alias=>$urls){
+          list($xjs, $xparts) = $this->_getJsPart($alias, $parts);
+          $parts = array_merge($parts, $xparts);
+          $js .= $xjs;
+          } */
         foreach ($plainJs as $alias=>$pjs){
             list($xjs, $xparts) = $this->_getJsPart($alias, $parts);
             $parts = array_merge($parts, $xparts);
