@@ -146,9 +146,12 @@ class modelCollection implements ArrayAccess{
         return $this->getHelper()->getForeignKeys();
     }
     public function getStorage(){
-        $storage = $this->getHelper()->getStorage();
-        if ($storage instanceof registry){
-            throw new Exception('storage for '.$this->_modelName.' not registered');
+        static $storage = null;
+        if ($storage === null){
+            $storage = $this->getHelper()->getStorage();
+            if ($storage instanceof registry){
+                throw new Exception('storage for '.$this->_modelName.' not registered');
+            }
         }
         return $storage;
     }
