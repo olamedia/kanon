@@ -11,9 +11,11 @@ class profiler{
     public static function enable(){
         self::$_isEnabled = true;
         self::$_enableTime = microtime(true);
+        yProfiler::start();
     }
     public static function disable(){
         self::$_isEnabled = false;
+        yProfiler::finish();
     }
     /**
      *
@@ -75,6 +77,9 @@ class profiler{
     }
     public function html(){
         $h = '<div class="kanon-profiler">';
+        if (function_exists('xdebug_get_profiler_filename')){
+            $h .= '<div>XDebug: '.xdebug_get_profiler_filename().'</div>';
+        }
         $h .= '<div>Total queries: '.count($this->_sql).'</div>';
         $totalSqlTime = 0;
         foreach ($this->_sql as $sqlInfo){
