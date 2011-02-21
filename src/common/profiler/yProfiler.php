@@ -77,9 +77,9 @@ class yProfiler{
         }
         $dt = $time - self::$lastTickTime;
         $trace = debug_backtrace();
-        if (isset($trace[1])){
-            $t = $trace[1];
-            $method = 'default';
+        if (isset($trace[0])){
+            $t = $trace[0];
+            $method = 'main';
             if (isset($t['function'])){
                 $method = $t['function'];
                 if (isset($t['class'])){
