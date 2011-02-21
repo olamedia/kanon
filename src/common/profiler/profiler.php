@@ -126,6 +126,7 @@ class profiler{
             $h .= '</td></tr>';
         }
         $h .= '</table>';
+        $h .= yProfiler::html();
         return $h.'</div>';
     }
     public function __toString(){
