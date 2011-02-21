@@ -168,17 +168,21 @@ class modelCollection implements ArrayAccess{
      * @return model
      */
     public function getHelper(){
-        if (!class_exists($this->_modelName)){
-            throw new Exception('class "'.$this->_modelName.'" not exists');
+        static $helpers = array();
+        if (!isset($helpers[$this->_modelName])){
+            if (!class_exists($this->_modelName)){
+                throw new Exception('class "'.$this->_modelName.'" not exists');
+            }
+            if (!( is_subclass_of($this->_modelName, 'model') )){
+                throw new Exception($this->_modelName.' is not a model');
+            }
+            $helpers[$this->_modelName] = new $this->_modelName;
         }
-        if (!( is_subclass_of($this->_modelName, 'model') )){
-            throw new Exception($this->_modelName.' is not a model');
-        }
-        return new $this->_modelName;
-        /*if ($this->_helper === null){
-            $this->_helper = new $this->_modelName;
-        }
-        return $this->_helper;*/
+        return $helpers[$this->_modelName];
+        /* if ($this->_helper === null){
+          $this->_helper = new $this->_modelName;
+          }
+          return $this->_helper; */
     }
     public function getPrimaryKey(){
         return $this->getHelper()->getPrimaryKey();
