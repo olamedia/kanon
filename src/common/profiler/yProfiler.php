@@ -77,12 +77,14 @@ class yProfiler{
         }
         $dt = $time - self::$lastTickTime;
         $trace = debug_backtrace();
-        $method = $trace[0]['function'];
-        $class = $trace[0]['class'];
-        if (!isset(self::$_callStatistics[$class.'::'.$method])){
-            self::$_callStatistics[$method] = 0;
+        if (isset($trace[1])){
+            $method = $trace[1]['function'];
+            $class = $trace[1]['class'];
+            if (!isset(self::$_callStatistics[$class.'::'.$method])){
+                self::$_callStatistics[$class.'::'.$method] = 0;
+            }
+            self::$_callStatistics[$class.'::'.$method] += $dt;
         }
-        self::$_callStatistics[$method] += $dt;
         if ($dt > yProfiler::LONG_TIME){ // FIXME
             $this->_benchmarkLog[] = array($dt, $trace);
         }
