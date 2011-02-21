@@ -235,7 +235,7 @@ class controller extends controllerPrototype{
         }
         $jsa = magic::get('js/required', array());
         foreach ($jsa as $uri){
-            $js .= '<script type="text/javascript" src="'.$uri.'"></script>';
+            $h .= '<script type="text/javascript" src="'.$uri.'"></script>';
         }
         $h .= $this->getCss();
         $h .= $this->_getJs();
