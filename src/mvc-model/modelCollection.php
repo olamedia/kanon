@@ -171,17 +171,17 @@ class modelCollection implements ArrayAccess{
      * @return model
      */
     public function getHelper(){
-        static $helper = null;
-        if ($helper === null){
+        static $helpers = array();
+        if (!isset($helpers[$this->_modelName])){
             if (!class_exists($this->_modelName)){
                 throw new Exception('class "'.$this->_modelName.'" not exists');
             }
             if (!( is_subclass_of($this->_modelName, 'model') )){
                 throw new Exception($this->_modelName.' is not a model');
             }
-            $helper = new $this->_modelName;
+            $helpers[$this->_modelName] = new $this->_modelName;
         }
-        return $helper;
+        return $helpers[$this->_modelName];
         /* if ($this->_helper === null){
           $this->_helper = new $this->_modelName;
           }
