@@ -35,6 +35,7 @@ class yProfiler{
     protected static $lastTickTime = null;
     protected $_benchmarkLog = array();
     protected static $_callStatistics = array();
+    protected static $_callMaxStatistics = array();
     /**
      * Get yProfiler instance.
      * @return yProfiler
@@ -77,22 +78,45 @@ class yProfiler{
         }
         $dt = $time - self::$lastTickTime;
         $trace = debug_backtrace();
-        if (isset($trace[0])){
-            $t = $trace[0];
-            $method = 'main';
-            if (isset($t['function'])){
-                $method = $t['function'];
-                if (isset($t['class'])){
-                    $method = $t['class'].'::'.$method;
+        foreach ($trace as $i=>$t){
+            if ($i == 0){
+                $method = 'main';
+            }elseif ($i > 0){
+                $method = 'main';
+                if (isset($t['function'])){
+                    $method = $t['function'];
+                    if (isset($t['class'])){
+                        $method = $t['class'].'::'.$method;
+                    }
                 }
             }
-        }else{
-            $method = 'main';
+            if ($i == 1){
+                if (!isset(self::$_callStatistics[$method])){
+                    self::$_callStatistics[$method] = 0;
+                }
+                self::$_callStatistics[$method] += $dt;
+            }
+            if (!isset(self::$_callMaxStatistics[$method])){
+                self::$_callMaxStatistics[$method] = 0;
+            }
+            self::$_callMaxStatistics[$method] += $dt;
         }
-        if (!isset(self::$_callStatistics[$method])){
-            self::$_callStatistics[$method] = 0;
-        }
-        self::$_callStatistics[$method] += $dt;
+        /* if (isset($trace[1])){
+          $t = $trace[1];
+          $method = 'main';
+          if (isset($t['function'])){
+          $method = $t['function'];
+          if (isset($t['class'])){
+          $method = $t['class'].'::'.$method;
+          }
+          }
+          }else{
+          $method = 'main';
+          }
+          if (!isset(self::$_callStatistics[$method])){
+          self::$_callStatistics[$method] = 0;
+          }
+          self::$_callStatistics[$method] += $dt; */
         if ($dt > yProfiler::LONG_TIME){ // FIXME
             $this->_benchmarkLog[] = array($dt, $trace);
         }
@@ -122,6 +146,9 @@ class yProfiler{
         foreach (self::$_callStatistics as $method=>$time){
             $sum += $time;
             $stat[] = $method.' - '.number_format($time, 4, '.', '');
+        }
+        foreach (self::$_callMaxStatistics as $method=>$time){
+            $stat[] = $method.' MAX - '.number_format($time, 4, '.', '');
         }
         $stat[] = 'Total: '.number_format($sum, 4, '.', '');
         return '<div style="font-size: 11px;font-weight: normal;line-height: 1.2em;color: #fff;background: #333;padding: 10px;">'.
