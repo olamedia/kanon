@@ -114,7 +114,7 @@ class yProfiler{
             $stat[] = $method.' - '.number_format($time, 4, '.', '');
         }
         return '<div style="font-size: 11px;font-weight: normal;line-height: 1.2em;color: #fff;background: #333;padding: 10px;">'.
-        nl2br(strval($this)).
+        nl2br(strval(self::$_instance)).
         '<hr />'.
         implode('<br />', $stat).
         '</div>';
