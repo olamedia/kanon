@@ -34,6 +34,7 @@ class yProfiler{
     protected static $_instance = null;
     protected static $lastTickTime = null;
     protected $_benchmarkLog = array();
+    protected $_callStatistics = array();
     /**
      * Get yProfiler instance.
      * @return yProfiler
@@ -75,8 +76,14 @@ class yProfiler{
             self::$lastTickTime = $time;
         }
         $dt = $time - self::$lastTickTime;
+        $trace = debug_backtrace();
+        $method = $trace[0]['function'];
+        $class = $trace[0]['class'];
+        if (!isset($this->_callStatistics[$class.'::'.$method])){
+            $this->_callStatistics[$method] = 0;
+        }
+        $this->_callStatistics[$method] += $dt;
         if ($dt > yProfiler::LONG_TIME){ // FIXME
-            $trace = debug_backtrace();
             $this->_benchmarkLog[] = array($dt, $trace);
         }
         // connection_aborted()
@@ -99,18 +106,24 @@ class yProfiler{
         return $s;
     }
     public static function html(){
+        ksort($this->_callStatistics);
+        $stat = array();
+        foreach ($this->_callStatistics as $dt=>$method){
+            $stat[] = $method.' - '.number_format($dt, 4, '.');
+        }
         return '<div style="font-size: 11px;font-weight: normal;line-height: 1.2em;color: #fff;background: #333;padding: 10px;">'.
         nl2br(strval($this)).
+        '<hr />'.
+        implode('<br />', $stat).
         '</div>';
     }
 }
 
-/*
-  yProfiler::start();
+yProfiler::start();
 
-  for ($i = 1; $i < 3; $i++){
-  echo ($i)."\n";
-  sleep(1);
-  }
-  echo yProfiler::getInstance();
- */
+for ($i = 1; $i < 3; $i++){
+    echo ($i)."\n";
+    sleep(1);
+}
+echo yProfiler::getInstance();
+var_dump(yProfiler::getInstance());
