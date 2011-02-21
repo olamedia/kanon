@@ -108,8 +108,8 @@ class yProfiler{
     public static function html(){
         ksort(self::$_callStatistics);
         $stat = array();
-        foreach (self::$_callStatistics as $method => $time){
-            $stat[] = $method.' - '.number_format($time, 4, '.');
+        foreach (self::$_callStatistics as $method=>$time){
+            $stat[] = $method.' - '.number_format($time, 4, '.', '');
         }
         return '<div style="font-size: 11px;font-weight: normal;line-height: 1.2em;color: #fff;background: #333;padding: 10px;">'.
         nl2br(strval($this)).
@@ -118,13 +118,14 @@ class yProfiler{
         '</div>';
     }
 }
-/*
-yProfiler::start();
 
-for ($i = 1; $i < 3; $i++){
-    echo ($i)."\n";
-    sleep(1);
-}
-echo yProfiler::getInstance();
-var_dump(yProfiler::getInstance());
-*/
+/*
+  yProfiler::start();
+
+  for ($i = 1; $i < 3; $i++){
+  echo ($i)."\n";
+  sleep(1);
+  }
+  echo yProfiler::getInstance();
+  var_dump(yProfiler::getInstance());
+ */
