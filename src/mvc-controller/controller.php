@@ -193,10 +193,10 @@ class controller extends controllerPrototype{
     }
     protected function _getJs(){
         $js = '';
-        $jsa = magic::get('js/required', array());
-        foreach ($jsa as $uri){
-            $js .= '<script type="text/javascript" src="'.$uri.'"></script>';
-        }
+        /* $jsa = magic::get('js/required', array());
+          foreach ($jsa as $uri){
+          $js .= '<script type="text/javascript" src="'.$uri.'"></script>';
+          } */
         //$includes = $this->getRegistry()->javascriptIncludes->toArray();
         $plainJs = $this->getRegistry()->plainJs->toArray();
         $parts = array();
@@ -232,6 +232,10 @@ class controller extends controllerPrototype{
                     $h .= '<link rel="stylesheet" type="text/css" href="'.$url.'" />';
                 }
             }
+        }
+        $jsa = magic::get('js/required', array());
+        foreach ($jsa as $uri){
+            $js .= '<script type="text/javascript" src="'.$uri.'"></script>';
         }
         $h .= $this->getCss();
         $h .= $this->_getJs();
