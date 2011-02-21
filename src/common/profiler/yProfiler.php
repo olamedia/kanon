@@ -108,7 +108,7 @@ class yProfiler{
         return $s;
     }
     public static function html(){
-        sort(self::$_callStatistics);
+        arsort(self::$_callStatistics);
         $stat = array();
         foreach (self::$_callStatistics as $method=>$time){
             $stat[] = $method.' - '.number_format($time, 4, '.', '');
