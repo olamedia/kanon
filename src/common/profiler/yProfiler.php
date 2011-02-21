@@ -118,9 +118,12 @@ class yProfiler{
     public static function html(){
         arsort(self::$_callStatistics);
         $stat = array();
+        $sum = 0;
         foreach (self::$_callStatistics as $method=>$time){
+            $sum += $time;
             $stat[] = $method.' - '.number_format($time, 4, '.', '');
         }
+        $stat[] = 'Total: '.number_format($sum, 4, '.', '');
         return '<div style="font-size: 11px;font-weight: normal;line-height: 1.2em;color: #fff;background: #333;padding: 10px;">'.
         nl2br(strval(self::$_instance)).
         '<hr />'.
