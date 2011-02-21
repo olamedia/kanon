@@ -46,7 +46,8 @@ class profiler{
 		.kanon-profiler{
 			background: #222;
 			color: #999;
-			font-size: 11px;
+			font-size: 11px !important;
+                        line-height: 1em !important;
 			font-family: Verdana;
 			padding: 30px;
 		}
