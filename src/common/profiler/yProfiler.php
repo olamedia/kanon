@@ -118,7 +118,7 @@ class yProfiler{
         '</div>';
     }
 }
-
+/*
 yProfiler::start();
 
 for ($i = 1; $i < 3; $i++){
@@ -127,3 +127,4 @@ for ($i = 1; $i < 3; $i++){
 }
 echo yProfiler::getInstance();
 var_dump(yProfiler::getInstance());
+*/
