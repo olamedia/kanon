@@ -34,7 +34,7 @@ class yProfiler{
     protected static $_instance = null;
     protected static $lastTickTime = null;
     protected $_benchmarkLog = array();
-    protected $_callStatistics = array();
+    protected static $_callStatistics = array();
     /**
      * Get yProfiler instance.
      * @return yProfiler
@@ -79,10 +79,10 @@ class yProfiler{
         $trace = debug_backtrace();
         $method = $trace[0]['function'];
         $class = $trace[0]['class'];
-        if (!isset($this->_callStatistics[$class.'::'.$method])){
-            $this->_callStatistics[$method] = 0;
+        if (!isset(self::$_callStatistics[$class.'::'.$method])){
+            self::$_callStatistics[$method] = 0;
         }
-        $this->_callStatistics[$method] += $dt;
+        self::$_callStatistics[$method] += $dt;
         if ($dt > yProfiler::LONG_TIME){ // FIXME
             $this->_benchmarkLog[] = array($dt, $trace);
         }
@@ -106,9 +106,9 @@ class yProfiler{
         return $s;
     }
     public static function html(){
-        ksort($this->_callStatistics);
+        ksort(self::$_callStatistics);
         $stat = array();
-        foreach ($this->_callStatistics as $dt=>$method){
+        foreach (self::$_callStatistics as $dt=>$method){
             $stat[] = $method.' - '.number_format($dt, 4, '.');
         }
         return '<div style="font-size: 11px;font-weight: normal;line-height: 1.2em;color: #fff;background: #333;padding: 10px;">'.
