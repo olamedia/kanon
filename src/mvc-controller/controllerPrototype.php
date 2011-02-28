@@ -20,6 +20,7 @@ class controllerPrototype{
     protected $_actionControllers = array();
     protected $_options = array();
     protected $_useAssets = false;
+    protected $_automaticWrappers = true; // wrapping with <div class="...content">
     public function assets(){
         //var_dump($this->_relativeUri);
         $path = $this->_relativeUri->getPath();
@@ -369,14 +370,19 @@ class controllerPrototype{
         if ($this->_ignoreParentTemplate){
             $parent = $parent->getParent();
         }
+
         if ($parent){
             $parent->_header();
             //if ($this->getParent())
-            echo "\r\n".'<div class="'.get_class($this).'_wrapper">';
+            if ($this->_automaticWrappers){
+                echo "\r\n".'<div class="'.get_class($this).'_wrapper">';
+            }
         }
         //}
         $this->header();
-        echo "\r\n".'<div class="'.get_class($this).'_content">';
+        if ($this->_automaticWrappers){
+            echo "\r\n".'<div class="'.get_class($this).'_content">';
+        }
     }
     protected function _footer(){
         echo "\r\n".'</div>';
