@@ -385,7 +385,9 @@ class controllerPrototype{
         }
     }
     protected function _footer(){
-        echo "\r\n".'</div>';
+        if ($this->_automaticWrappers){
+            echo "\r\n".'</div>';
+        }
         $this->footer();
         $parent = $this->getParent();
         if ($this->_ignoreParentTemplate){
@@ -393,7 +395,9 @@ class controllerPrototype{
         }
         if ($parent){
             //if ($this->getParent())
-            echo "\r\n".'</div>';
+            if ($this->_automaticWrappers){
+                echo "\r\n".'</div>';
+            }
             $parent->_footer();
         }
     }
