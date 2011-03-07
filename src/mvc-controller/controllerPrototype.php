@@ -179,7 +179,8 @@ class controllerPrototype{
         if ($action == $this->_widgetAction){
             $this->preloadWidgets();
             $actions = $this->_relativeUri->getPath();
-            $widgetId = intval($actions[2]);
+            array_shift($actions);
+            $widgetId = intval(array_shift($actions));
             if ($widget = widgets::get($widgetId, false)){
                 $widget->setWidgetMode();
                 $widget->run();
