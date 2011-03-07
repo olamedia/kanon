@@ -53,6 +53,7 @@ class imageFilenameProperty extends stringProperty{
         if (filesize($tmp) > $this->_maxFileSize){
             return false;
         }
+        return true;
     }
     public function upload($tmp, $uniqid){
         $path = $this->getPath();
