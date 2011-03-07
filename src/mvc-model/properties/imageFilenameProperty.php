@@ -44,6 +44,9 @@ class imageFilenameProperty extends stringProperty{
     public function canUpload($tmp){
         $path = $this->getPath();
         if (!is_writable($path)){
+            if (!headers_sent()){
+                header('X-Log-'.get_class($this).'1: not writable: '.$path);
+            }
             return false;
         }
         $info = getimagesize($tmp);
