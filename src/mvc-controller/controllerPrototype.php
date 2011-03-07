@@ -186,6 +186,7 @@ class controllerPrototype{
                 exit;
             }else{
                 widgets::dump();
+                throw new Exception('widget '.$widgetId.' not found at '.$_SERVER['REQUEST_URI']);
             }
             //var_dump($this->_relativeUri);
         }
