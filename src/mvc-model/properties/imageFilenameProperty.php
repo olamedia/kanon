@@ -5,6 +5,7 @@ class imageFilenameProperty extends stringProperty{
     protected $_uri = null;
     protected $_tmWidth = 0;
     protected $_tmHeight = 0;
+    protected $_maxFileSize = 5242880; // 5 Mb
     public function setPath($path){
         $this->_path = $path;
         return $this;
@@ -39,6 +40,30 @@ class imageFilenameProperty extends stringProperty{
           }
           } */
         return $value;
+    }
+    public function canUpload($tmp){
+        $path = $this->getPath();
+        if (!is_writable($path)){
+            return false;
+        }
+        $info = getimagesize($tmp);
+        if (!in_array($info[2], array(IMAGETYPE_GIF, IMAGETYPE_JPEG, IMAGETYPE_PNG))){
+            return false;
+        }
+        if (filesize($tmp) > $this->_maxFileSize){
+            return false;
+        }
+    }
+    public function upload($tmp, $uniqid){
+        $path = $this->getPath();
+        if ($this->canUpload($tmp)){
+            $info = getimagesize($tmp);
+            $ext = image_type_to_extension($info[2], true);
+            $basename = $uniqid.$ext;
+            $filename = $path.$basename;
+            copy($tmp, $filename);
+            $this->_value = $basename;
+        }
     }
     public function tm($size, $method = 'fit', $x = null){
         $width = $height = $size;
