@@ -26,22 +26,22 @@ class thumbnailer{
         $this->_rel = dirname(substr($requestUri, strlen($this->_baseUrl)));
     }
     public function onShutdown(){
-        /*if (!$this->_gcProb)
-            return;
-        mt_srand(microtime(true) * 100000);
-        if (mt_rand(0, 1 / $this->_gcProb) != 1)
-            return;
-        $path = $this->_gcPath;
-        foreach (glob($path.'/*') as $file){
-            if (!is_file($file))
-                continue;
-            if (substr(basename($file), 0, 2) != 'tm')
-                continue; // minimize possible damage
- if (fileatime($file) < (time() - 60 * 60 * 24 * 14)){ // not accessed for 2 weeks
-                //echo $file;
-                unlink($file);
-            }
-        }*/
+        /* if (!$this->_gcProb)
+          return;
+          mt_srand(microtime(true) * 100000);
+          if (mt_rand(0, 1 / $this->_gcProb) != 1)
+          return;
+          $path = $this->_gcPath;
+          foreach (glob($path.'/*') as $file){
+          if (!is_file($file))
+          continue;
+          if (substr(basename($file), 0, 2) != 'tm')
+          continue; // minimize possible damage
+          if (fileatime($file) < (time() - 60 * 60 * 24 * 14)){ // not accessed for 2 weeks
+          //echo $file;
+          unlink($file);
+          }
+          } */
     }
     public function prepareShutdown($path){
         $this->_gcPath = $path;
@@ -131,7 +131,7 @@ class thumbnailer{
                         mkdir($path, 0777, true);
                     }
                     if (is_dir($path)){
-                        if ($thumb = $this->makeThumbnail($filename)){
+                        if (($thumb = $this->makeThumbnail($filename))){
                             // FOUND
                             $this->prepareShutdown($path);
                             kanon::redirect($_SERVER['REQUEST_URI']);
@@ -142,6 +142,8 @@ class thumbnailer{
                 }else{
                     throw new Exception('source file not found in directory');
                 }
+            }else{
+                throw new Exception('basename is not correct ('.$this->_rel.')');
             }
         }
         $this->notFound();
