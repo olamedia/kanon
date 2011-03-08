@@ -88,10 +88,10 @@ class controller extends controllerPrototype{
     public function getUser(){
         static $user;
         $user = isset($_SESSION['site_user'])?$_SESSION['site_user']:null;
-        return $user;
+        return null;//$user;
     }
     public function getUserId(){
-        return is_object($this->getUser())?$this->getUser()->id->getValue():0;
+        return 0;//is_object($this->getUser())?$this->getUser()->id->getValue():0;
     }
     public function requireCss($uri, $order = 0){
         $this->getRegistry()->cssIncludes->{'order'.$order}[] = $uri;
