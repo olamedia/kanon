@@ -282,6 +282,7 @@ class modelStorage{
         return $collections;
     }
     public function registerForeignKeys(){
+        return $this;
         if (self::$_foreignKeysCache !== null){
             if (is_file(self::$_foreignKeysCache)){
                 $a = unserialize(file_get_contents(self::$_foreignKeysCache));
