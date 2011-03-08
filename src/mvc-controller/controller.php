@@ -82,7 +82,7 @@ class controller extends controllerPrototype{
     }
     public function viewBreadcrumb(){
         if (count($this->getBreadcrumb()) > 1){
-            echo '<div class="app_breadcrumb">'.implode(" → ", $this->getBreadcrumb()).'</div>';
+            echo '<div class="nav app_breadcrumb">'.implode(" → ", $this->getBreadcrumb()).'</div>';
         }
     }
     public function getUser(){
