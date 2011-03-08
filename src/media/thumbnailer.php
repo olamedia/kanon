@@ -52,7 +52,7 @@ class thumbnailer{
         //exit;
     }
     public function notFound(){
-        header($_SERVER['SERVER_PROTOCOL']." 404 Not Found");
+        response::notFound();
         //$this->prepareShutdown();
     }
     public function getSourcePath($testPrefix = ''){
