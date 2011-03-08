@@ -143,6 +143,7 @@ class thumbnailer{
                     throw new Exception('source file not found in directory');
                 }
             }else{
+                var_dump($this);
                 throw new Exception('basename is not correct ('.$this->_rel.')');
             }
         }
