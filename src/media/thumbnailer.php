@@ -148,6 +148,7 @@ class thumbnailer{
         $mime = image_type_to_mime_type($type);
         header('Content-Type: '.$mime);
         readfile($filename);
+        exit;
     }
     public function run(){
         //echo 'Filename: '.$this->_filename.'<br />';
@@ -161,8 +162,6 @@ class thumbnailer{
              * IMPORTANT: Workaround for open_file_cache of nginx
              */
             $this->readFile($tmFilename);
-            exit;
-            response::redirect($_SERVER['REQUEST_URI']);
         }
         if (strpos($this->_filename, '_') !== false){
             if (basename($this->_rel) == '.thumb'){
@@ -180,9 +179,12 @@ class thumbnailer{
                             if (is_file($tmFilename)){
                                 //response::notFound();
                                 $this->optimizePng($tmFilename);
+                                // Finally, throw away redirects
+                                $this->readFile($tmFilename);
                                 response::redirect($_SERVER['REQUEST_URI']);
                             }else{
                                 //echo $tmFilename;
+
                                 throw new Exception('thumbnail was created but not found 0_o');
                                 //response::notFound();
                             }
