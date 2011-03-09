@@ -23,6 +23,7 @@ class thumbnailer{
         $file = $trace[0]['file'];
         $this->_basePath = dirname($file);
         $this->_baseUrl = kanon::getBaseUri();
+        //$this->_rel = dirname(substr($requestUri, strlen($this->_baseUrl)));
         $this->_rel = dirname(substr($requestUri, strlen($this->_baseUrl)));
     }
     public function onShutdown(){
@@ -134,7 +135,11 @@ class thumbnailer{
                         if (($thumb = $this->makeThumbnail($filename))){
                             // FOUND
                             $this->prepareShutdown($path);
-                            kanon::redirect($_SERVER['REQUEST_URI']);
+                            if (is_file($filename)){
+                                response::redirect($_SERVER['REQUEST_URI']);
+                            }else{
+                                response::notFound();
+                            }
                         }
                     }else{
                         throw new Exception('can\'t create directory');
