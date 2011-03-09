@@ -134,7 +134,7 @@ class thumbnailer{
         }
     }
     public function readFile($filename){
-        header('X-Served-By: Kanon thumbnailer');
+        header('X-Powered-By: Kanon thumbnailer');
         $mtime = filemtime($filename);
         $gmt = gmdate('r', $timestamp);
         $if = isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])?$_SERVER['HTTP_IF_MODIFIED_SINCE']:'';
