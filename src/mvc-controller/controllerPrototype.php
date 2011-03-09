@@ -95,13 +95,13 @@ class controllerPrototype{
      * Executing before run() deprecated
      */
     public function onConstruct(){
-
+        
     }
     /**
      * Executing before run()
      */
     public function onRun(){
-
+        
     }
     /**
      * Set parent controller
@@ -364,14 +364,18 @@ class controllerPrototype{
         response::notFound();
     }
     protected $_ignoreParentTemplate = false;
+    protected $_isForwarded = false;
     public function ignoreParentTemplate($ignore = true){
         $this->_ignoreParentTemplate = $ignore;
+    }
+    public function setForwarded($isForwarded = true){
+        $this->_isForwarded = $isForwarded;
     }
     protected function _header(){
         response::sendHeaders();
         //if (!$this->_ignoreParentTemplate) {
         $parent = $this->getParent();
-        if ($parent && $this->_ignoreParentTemplate){
+        if ($parent && !$this->_isForwarded){
             $parent = $parent->getParent();
         }
 
@@ -394,7 +398,7 @@ class controllerPrototype{
         }
         $this->footer();
         $parent = $this->getParent();
-        if ($this->_ignoreParentTemplate){
+        if ($parent && !$this->_isForwarded){
             $parent = $parent->getParent();
         }
         if ($parent){
@@ -467,6 +471,7 @@ class controllerPrototype{
         $controller = new $controllerClass();
         $controller->setParent($this);
         $controller->ignoreParentTemplate(true);
+        $controller->setForwarded(true);
         $controller->setBaseUri($this->rel($relativePath), false);
         $controller->setRelativeUriFromBase($this->_baseUri);
         $controller->setOptions($options);
@@ -475,7 +480,7 @@ class controllerPrototype{
         }else{
             $controller->run($methodToRun);
             if ($methodToRun !== null){
-
+                
             }
             return; // continue execution of parent controller
         }
