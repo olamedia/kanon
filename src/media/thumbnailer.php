@@ -123,11 +123,13 @@ class thumbnailer{
         // echo 'Base url: '.$this->_baseUrl.'<br />';
         // echo 'Relative: '.$this->_rel.'<br />';
         //var_dump($this);
+        $tmFilename = $this->_basePath.'/'.dirname($this->_rel).'/'.$this->_filename;
         if (strpos($this->_filename, '_') !== false){
             if (basename($this->_rel) == '.thumb'){
                 if (($filename = $this->getSourcePath()) || ($filename = $this->getSourcePath('l_'))){
-                    if (is_file($this->_basePath.'/'.dirname($this->_rel).'/'.$this->_filename)){
-                        response::redirect($_SERVER['REQUEST_URI']);
+                    if (is_file($tmFilename)){
+                        response::forbidden();
+                        //response::redirect($_SERVER['REQUEST_URI']);
                     }
                     // Check path
                     $path = $this->_basePath.'/'.$this->_rel;
@@ -138,8 +140,9 @@ class thumbnailer{
                         if (($thumb = $this->makeThumbnail($filename))){
                             // FOUND
                             $this->prepareShutdown($path);
-                            if (is_file($filename)){
-                                response::redirect($_SERVER['REQUEST_URI']);
+                            if (is_file($tmFilename)){
+                                response::notFound();
+                                //response::redirect($_SERVER['REQUEST_URI']);
                             }else{
                                 response::notFound();
                             }
