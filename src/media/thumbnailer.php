@@ -126,7 +126,7 @@ class thumbnailer{
         if (strpos($this->_filename, '_') !== false){
             if (basename($this->_rel) == '.thumb'){
                 if (($filename = $this->getSourcePath()) || ($filename = $this->getSourcePath('l_'))){
-                    if (is_file($filename)){
+                    if (is_file($this->_basePath.'/'.dirname($this->_rel).'/'.$this->_filename)){
                         response::redirect($_SERVER['REQUEST_URI']);
                     }
                     // Check path
