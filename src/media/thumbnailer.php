@@ -134,15 +134,19 @@ class thumbnailer{
         }
     }
     public function readFile($filename){
-        if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && (strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) == filemtime($fn))){
+        $mtime = filemtime($filename);
+        $gmt = gmdate('r', $timestamp);
+        $if = isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])?$_SERVER['HTTP_IF_MODIFIED_SINCE']:'';
+        if ($if == $gmt){
             response::notModified();
         }
-        header("Cache-Control: public");
-        header('Last-Modified: '.gmdate('D, d M Y H:i:s', filemtime($filename)).' GMT', true);
+        header("Cache-Control: public,max-age=".(3*24*60*60));
+        header('Last-Modified: '.$gmt);
         $info = getimagesize($filename);
         $type = $info[2];
         $mime = image_type_to_mime_type($type);
         header('Content-Type: '.$mime);
+        header('X-Served-By: thumbnailer');
         readfile($filename);
     }
     public function run(){
