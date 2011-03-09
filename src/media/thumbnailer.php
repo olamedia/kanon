@@ -126,7 +126,11 @@ class thumbnailer{
         $tmFilename = $this->_basePath.'/'.dirname($this->_rel).'/.thumb/'.$this->_filename;
         if (is_file($tmFilename)){
             //response::forbidden();
-            sleep(1);
+            echo 'exists<br />';
+            echo 'readable: '.is_readable($tmFilename).'<br />';
+            echo 'writable: '.is_writable($tmFilename).'<br />';
+            //sleep(1);
+            exit;
             response::redirect($_SERVER['REQUEST_URI']);
         }
         if (strpos($this->_filename, '_') !== false){
