@@ -124,13 +124,13 @@ class thumbnailer{
         // echo 'Relative: '.$this->_rel.'<br />';
         //var_dump($this);
         $tmFilename = $this->_basePath.'/'.dirname($this->_rel).'/'.$this->_filename;
+        if (is_file($tmFilename)){
+            response::forbidden();
+        }
         if (strpos($this->_filename, '_') !== false){
             if (basename($this->_rel) == '.thumb'){
                 if (($filename = $this->getSourcePath()) || ($filename = $this->getSourcePath('l_'))){
-                    if (is_file($tmFilename)){
-                        response::forbidden();
-                        //response::redirect($_SERVER['REQUEST_URI']);
-                    }
+
                     // Check path
                     $path = $this->_basePath.'/'.$this->_rel;
                     if (!is_dir($path)){
