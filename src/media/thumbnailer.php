@@ -125,7 +125,8 @@ class thumbnailer{
         //var_dump($this);
         $tmFilename = $this->_basePath.'/'.dirname($this->_rel).'/.thumb/'.$this->_filename;
         if (is_file($tmFilename)){
-            response::forbidden();
+            //response::forbidden();
+            response::redirect($_SERVER['REQUEST_URI']);
         }
         if (strpos($this->_filename, '_') !== false){
             if (basename($this->_rel) == '.thumb'){
