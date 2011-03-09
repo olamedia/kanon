@@ -144,6 +144,7 @@ class thumbnailer{
                                 //response::notFound();
                                 response::redirect($_SERVER['REQUEST_URI']);
                             }else{
+                                echo $tmFilename;
                                 response::notFound();
                             }
                         }
