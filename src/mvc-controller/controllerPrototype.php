@@ -371,7 +371,7 @@ class controllerPrototype{
         response::sendHeaders();
         //if (!$this->_ignoreParentTemplate) {
         $parent = $this->getParent();
-        if ($this->_ignoreParentTemplate){
+        if ($parent && $this->_ignoreParentTemplate){
             $parent = $parent->getParent();
         }
 
@@ -466,6 +466,7 @@ class controllerPrototype{
     public function forwardTo($controllerClass, $relativePath = '', $options = array(), $methodToRun = null){
         $controller = new $controllerClass();
         $controller->setParent($this);
+        $controller->ignoreParentTemplate(true);
         $controller->setBaseUri($this->rel($relativePath), false);
         $controller->setRelativeUriFromBase($this->_baseUri);
         $controller->setOptions($options);
