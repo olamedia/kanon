@@ -133,6 +133,13 @@ class thumbnailer{
             unlink($tmpFile);
         }
     }
+    public function readFile($filename){
+        $info = getimagesize($filename);
+        $type = $info[2];
+        $mime = image_type_to_mime_type($type);
+        header('Content-Type: '.$mime);
+        readfile($filename);
+    }
     public function run(){
         //echo 'Filename: '.$this->_filename.'<br />';
         // echo 'Base path: '.$this->_basePath.'<br />';
@@ -144,7 +151,7 @@ class thumbnailer{
             /*
              * IMPORTANT: Workaround for open_file_cache of nginx
              */
-            readfile($tmFilename);
+            $this->readFile($tmFilename);
             exit;
             response::redirect($_SERVER['REQUEST_URI']);
         }
