@@ -379,7 +379,7 @@ class controllerPrototype{
             $parent = $parent->getParent();
         }
 
-        if ($parent){
+        if ($parent && !$this->_isForwarded){
             $parent->_header();
             //if ($this->getParent())
             if ($this->_automaticWrappers){
@@ -401,7 +401,7 @@ class controllerPrototype{
         if ($parent && !$this->_isForwarded){
             $parent = $parent->getParent();
         }
-        if ($parent){
+        if ($parent && !$this->_isForwarded){
             //if ($this->getParent())
             if ($this->_automaticWrappers){
                 echo "\r\n".'</div>';
