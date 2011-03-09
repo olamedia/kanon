@@ -375,7 +375,7 @@ class controllerPrototype{
         response::sendHeaders();
         //if (!$this->_ignoreParentTemplate) {
         $parent = $this->getParent();
-        if ($parent && !$this->_isForwarded){
+        if ($parent && $this->_ignoreParentTemplate && !$this->_isForwarded){
             $parent = $parent->getParent();
         }
 
@@ -398,7 +398,7 @@ class controllerPrototype{
         }
         $this->footer();
         $parent = $this->getParent();
-        if ($parent && !$this->_isForwarded){
+        if ($parent && $this->_ignoreParentTemplate && !$this->_isForwarded){
             $parent = $parent->getParent();
         }
         if ($parent){
