@@ -117,6 +117,22 @@ class thumbnailer{
         }
         return false;
     }
+    public function optimizePng($filename){
+        $info = getimagesize($filename);
+        if ($info[2] == IMAGETYPE_PNG){
+            exec('which pngcrush', $output, $return);
+            if (!count($output) || $return > 0){
+                return;
+                //throw new RuntimeException('The pngcrush program is not available nor accessible by php');
+            }
+            $tmpFile = sprintf('%s.tmp', $filename);
+            exec(sprintf('pngcrush %s %s 2>/dev/null', escapeshellarg($filename), escapeshellarg($tmpFile)), $output, $return);
+            if (file_exists($tmpFile) && filesize($tmpFile) < filesize($filename)){
+                copy($tmpFile, $file);
+            }
+            unlink($tmpFile);
+        }
+    }
     public function run(){
         //echo 'Filename: '.$this->_filename.'<br />';
         // echo 'Base path: '.$this->_basePath.'<br />';
@@ -125,9 +141,10 @@ class thumbnailer{
         //var_dump($this);
         $tmFilename = $this->_basePath.'/'.dirname($this->_rel).'/.thumb/'.$this->_filename;
         if (is_file($tmFilename)){
-            // !! Workaround for open_file_cache of nginx
+            /*
+             * IMPORTANT: Workaround for open_file_cache of nginx
+             */
             readfile($tmFilename);
-            //sleep(1);
             exit;
             response::redirect($_SERVER['REQUEST_URI']);
         }
@@ -146,6 +163,7 @@ class thumbnailer{
                             $this->prepareShutdown($path);
                             if (is_file($tmFilename)){
                                 //response::notFound();
+                                $this->optimizePng($tmFilename);
                                 response::redirect($_SERVER['REQUEST_URI']);
                             }else{
                                 //echo $tmFilename;
