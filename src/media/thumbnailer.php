@@ -128,7 +128,7 @@ class thumbnailer{
             $tmpFile = sprintf('%s.tmp', $filename);
             exec(sprintf('pngcrush %s %s 2>/dev/null', escapeshellarg($filename), escapeshellarg($tmpFile)), $output, $return);
             if (file_exists($tmpFile) && filesize($tmpFile) < filesize($filename)){
-                copy($tmpFile, $file);
+                copy($tmpFile, $filename);
             }
             unlink($tmpFile);
         }
