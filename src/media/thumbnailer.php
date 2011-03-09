@@ -141,8 +141,8 @@ class thumbnailer{
                             // FOUND
                             $this->prepareShutdown($path);
                             if (is_file($tmFilename)){
-                                response::notFound();
-                                //response::redirect($_SERVER['REQUEST_URI']);
+                                //response::notFound();
+                                response::redirect($_SERVER['REQUEST_URI']);
                             }else{
                                 response::notFound();
                             }
