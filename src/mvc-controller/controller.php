@@ -88,10 +88,10 @@ class controller extends controllerPrototype{
     public function getUser(){
         static $user;
         $user = isset($_SESSION['site_user'])?$_SESSION['site_user']:null;
-        return null;//$user;
+        return null; //$user;
     }
     public function getUserId(){
-        return 0;//is_object($this->getUser())?$this->getUser()->id->getValue():0;
+        return 0; //is_object($this->getUser())?$this->getUser()->id->getValue():0;
     }
     public function requireCss($uri, $order = 0){
         $this->getRegistry()->cssIncludes->{'order'.$order}[] = $uri;
@@ -126,8 +126,9 @@ class controller extends controllerPrototype{
         return $h;
     }
     public function js($jsString, $alias = 'default', $require = ''){
-        $this->getRegistry()->plainJs->{$alias} .= $jsString;
-        $this->getRegistry()->plainJsRequire->{$alias} = $require;
+        magic::append('js/plain', $jsString);
+        //$this->getRegistry()->plainJs->{$alias} .= $jsString;
+        //$this->getRegistry()->plainJsRequire->{$alias} = $require;
     }
     public function requireJs($uri){//, $alias = 'default', $require = ''
         $jsa = magic::get('js/required', false);
@@ -144,8 +145,8 @@ class controller extends controllerPrototype{
         $includesRequire = $this->getRegistry()->javascriptIncludesRequire->toArray();
         //var_dump($includes);
         //var_dump($includesRequire);
-        $plainJs = $this->getRegistry()->plainJs->toArray();
-        $plainJsRequire = $this->getRegistry()->plainJsRequire->toArray();
+        //$plainJs = $this->getRegistry()->plainJs->toArray();
+        //$plainJsRequire = $this->getRegistry()->plainJsRequire->toArray();
         //var_dump($plainJs);
         //var_dump($plainJsRequire);
         //$parts = array();
@@ -159,19 +160,19 @@ class controller extends controllerPrototype{
                 }
             }elseif (!in_array($requiredPart, $parts)){
                 $urls = array();
-                $plain = '';
+                //$plain = '';
                 $includeRequire = 'none';
                 if (isset($includes[$requiredPart])){
                     $urls = $includes[$requiredPart];
                     $includeRequire = $includesRequire[$requiredPart];
                 }
-                if (isset($plainJs[$requiredPart])){
-                    $plain = $plainJs[$requiredPart];
-                    $includeRequire = $plainJsRequire[$requiredPart];
-                }
+                /* if (isset($plainJs[$requiredPart])){
+                  $plain = $plainJs[$requiredPart];
+                  $includeRequire = $plainJsRequire[$requiredPart];
+                  } */
                 //var_dump($includeRequire);
                 $includeRequireString = is_array($includeRequire)?implode(",", $includeRequire):$includeRequire;
-                $js .= '<!-- start '.$requiredPart.' ('.$includeRequireString.') -->';
+                //$js .= '<!-- start '.$requiredPart.' ('.$includeRequireString.') -->';
 
                 if (is_array($includeRequire) || $includeRequire != ''){
                     list($xjs, $xparts) = $this->_getJsPart($includeRequire, $parts);
@@ -182,10 +183,7 @@ class controller extends controllerPrototype{
                 foreach ($urls as $url){
                     $js .= '<script type="text/javascript" src="'.$url.'"></script>';
                 }
-                if (strlen($plain)){
-                    $js .= '<script type="text/javascript">'.$plain.'</script>';
-                }
-                $js .= '<!-- finish '.$requiredPart.' ('.$includeRequireString.') -->';
+                //$js .= '<!-- finish '.$requiredPart.' ('.$includeRequireString.') -->';
             }
         }
         $parts[] = $requiredPart;
@@ -198,17 +196,21 @@ class controller extends controllerPrototype{
           $js .= '<script type="text/javascript" src="'.$uri.'"></script>';
           } */
         //$includes = $this->getRegistry()->javascriptIncludes->toArray();
-        $plainJs = $this->getRegistry()->plainJs->toArray();
-        $parts = array();
+        //$plainJs = $this->getRegistry()->plainJs->toArray();
+        //$parts = array();
         /* foreach ($includes as $alias=>$urls){
           list($xjs, $xparts) = $this->_getJsPart($alias, $parts);
           $parts = array_merge($parts, $xparts);
           $js .= $xjs;
           } */
-        foreach ($plainJs as $alias=>$pjs){
+        /*foreach ($plainJs as $alias=>$pjs){
             list($xjs, $xparts) = $this->_getJsPart($alias, $parts);
             $parts = array_merge($parts, $xparts);
             $js .= $xjs;
+        }*/
+        $plainJs = magic::get('js/plain', '');
+        if (strlen($plainJs)){
+            $js .= '<script type="text/javascript">'.$plainJs.'</script>';
         }
         return $js;
     }
