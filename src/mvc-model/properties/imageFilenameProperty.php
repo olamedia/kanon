@@ -110,9 +110,11 @@ class imageFilenameProperty extends stringProperty{
     }
     public function preUpdate(){
         // if ($this->_changed){
-        $path = $this->getPath().'.thumb/';
-        foreach (glob($path.'tm*_'.$this->getValue()) as $filename){
-            unlink($filename);
+        if ($this->hasChangedValue()){
+            $path = $this->getPath().'.thumb/';
+            foreach (glob($path.'tm*_'.$this->getValue()) as $filename){
+                unlink($filename);
+            }
         }
         // }
     }
