@@ -145,8 +145,9 @@ class thumbnailer{
                                 //response::notFound();
                                 response::redirect($_SERVER['REQUEST_URI']);
                             }else{
-                                echo $tmFilename;
-                                response::notFound();
+                                //echo $tmFilename;
+                                throw new Exception('thumbnail was created but not found 0_o');
+                                //response::notFound();
                             }
                         }
                     }else{
