@@ -123,7 +123,7 @@ class thumbnailer{
         // echo 'Base url: '.$this->_baseUrl.'<br />';
         // echo 'Relative: '.$this->_rel.'<br />';
         //var_dump($this);
-        $tmFilename = $this->_basePath.'/'.dirname($this->_rel).'/'.$this->_filename;
+        $tmFilename = $this->_basePath.'/'.dirname($this->_rel).'/.thumb/'.$this->_filename;
         if (is_file($tmFilename)){
             response::forbidden();
         }
