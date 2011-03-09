@@ -474,8 +474,9 @@ class controllerPrototype{
         }else{
             $controller->run($methodToRun);
             if ($methodToRun !== null){
-                return; // continue execution of parent controller
+
             }
+            return; // continue execution of parent controller
         }
         exit;
     }
