@@ -152,7 +152,7 @@ class kanon{
         // ["REQUEST_URI"]=> string(39) "/images/.thumb/tmc200x300_anonymous.png"
         // nginx: fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name;
         $requestUri = $_SERVER['REQUEST_URI'];
-        $scriptUri = isset($_SERVER['SCRIPT_FILENAME'])?$_SERVER['SCRIPT_FILENAME']:$_SERVER['SCRIPT_NAME'];
+        $scriptUri = isset($_SERVER['SCRIPT_NAME'])?$_SERVER['SCRIPT_NAME']:$_SERVER['SCRIPT_FILENAME'];
         if (preg_match("#^(.*)/[^/]+\.php$#imsu", $scriptUri, $subs)){
             $scriptUri = $subs[1];
         }
