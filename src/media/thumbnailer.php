@@ -125,10 +125,8 @@ class thumbnailer{
         //var_dump($this);
         $tmFilename = $this->_basePath.'/'.dirname($this->_rel).'/.thumb/'.$this->_filename;
         if (is_file($tmFilename)){
-            //response::forbidden();
-            echo 'exists<br />';
-            echo 'readable: '.is_readable($tmFilename).'<br />';
-            echo 'writable: '.is_writable($tmFilename).'<br />';
+            // !! Workaround for open_file_cache of nginx
+            readfile($tmFilename);
             //sleep(1);
             exit;
             response::redirect($_SERVER['REQUEST_URI']);
