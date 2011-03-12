@@ -56,6 +56,7 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
     }
     protected function &_makeModels(&$a){
         $models = array();
+        $made = array();
         foreach ($this->_selected as &$sa){
             if ($sa instanceof modelAggregation){
                 $models[] = $a[$sa->getAs()];
@@ -67,14 +68,17 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
                     if (!($modelClass = $table->getModelClass())){
                         $modelClass = 'model';
                     }
-                    $model = new $modelClass();
-                    $model->markSaved();
-                    $model->preLoad();
-                    foreach ($fields as $field){
-                        //$model[$field->getName()]->setInitialValue($a[$field->getUniqueId()]);
-                        $model->setInitialFieldValue($field->getName(), $a[$field->getUniqueId()]);
+                    if (!isset($made[$modelClass])){
+                        $made[$modelClass] = true;
+                        $model = new $modelClass();
+                        $model->markSaved();
+                        $model->preLoad();
+                        foreach ($fields as $field){
+                            //$model[$field->getName()]->setInitialValue($a[$field->getUniqueId()]);
+                            $model->setInitialFieldValue($field->getName(), $a[$field->getUniqueId()]);
+                        }
+                        $model->postLoad();
                     }
-                    $model->postLoad();
                 }else{
                     list($k, $v) = each($sa);
                     $model = $a[$k];
