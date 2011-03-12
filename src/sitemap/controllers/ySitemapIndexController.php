@@ -21,7 +21,13 @@
  */
 class ySitemapIndexController extends controller{
     public function _action($action){
-        
+        $controllers = ySitemapIndex::getInstance()->getControllers();
+        if (isset($controllers[$action])){
+            response::xml();
+            $this->runController($controllers[$action]);
+            exit;
+        }
+        response::notFound();
     }
     public function _initIndex(){
         response::xml();
