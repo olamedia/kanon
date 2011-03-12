@@ -206,8 +206,13 @@ class yPage{
         return '<!DOCTYPE html><html lang="'.$this->getLanguage().'">'."\n".$this->getHead();
     }
     public function getHead(){
+        //<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         $head = yHtmlTag::create('head')
                 ->appendChild(yHtmlTag::create('meta', array('charset'=>$this->getCharset())))
+                ->appendChild(yHtmlTag::create('meta', array(
+                            'http-equiv'=>'X-UA-Compatible',
+                            'content'=>'IE=edge,chrome=1'
+                        )))
                 ->appendChild(yHtmlTag::create('title')->text($this->getTitle()))
                 ->addMeta('title', $this->getTitle());
         foreach ($this->_meta->toArray() as $meta){
@@ -219,6 +224,8 @@ class yPage{
         $head->appendChild($this->getScripts());
         //var_dump(yHtmlTag::create('meta', array('charset'=>$this->getCharset())));
         //return $head;
+        // Favicon:
+        $head->appendChild(yHtmlTag::create('link', array('rel'=>'shortcut icon', 'href'=>'/favicon.ico')));
         // DO NOT CHANGE: Put inline scripts after other resources if possible.
         $head->appendChild($this->getScriptTag());
         return $head;

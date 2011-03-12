@@ -11,6 +11,20 @@ class controller extends controllerPrototype{
         $this->_startTime = microtime(true);
         parent::__construct();
     }
+    protected static $_pageInstance = null;
+    public static function getPageInstance(){
+        if (self::$_pageInstance === null){
+            self::$_pageInstance = new yPage();
+        }
+        return self::$_pageInstance;
+    }
+    /**
+     * Gets yPage instance
+     * @return yPage
+     */
+    public function getPage(){
+        return self::getPageInstance();
+    }
     public function getTable($tableName){ // Compatibility with zenMysql2 ORM
         $storage = kanon::getModelStorage();
         foreach ($storage->getRegistry()->modelSettings as $modelName=>$settings){
@@ -59,11 +73,11 @@ class controller extends controllerPrototype{
      * @return controller
      */
     public function setTitle($title){
-        $this->getRegistry()->title = $title;
+        $this->getPage()->setTitle($title);
         return $this;
     }
     public function getTitle(){
-        return $this->getRegistry()->title;
+        return $this->getPage()->getTitle();
     }
     public function appendToBreadcrumb($links = array()){
         if (is_array($links)){
@@ -93,168 +107,26 @@ class controller extends controllerPrototype{
     public function getUserId(){
         return 0; //is_object($this->getUser())?$this->getUser()->id->getValue():0;
     }
-    public function requireCss($uri, $order = 0){
-        $this->getRegistry()->cssIncludes->{'order'.$order}[] = $uri;
+    public function requireCss($uri){
+        $this->getPage()->requireCss($uri);
     }
     public function css($cssString){
-        $this->getRegistry()->plainCss[] = $cssString;
+        $this->getPage()->css($cssString);
     }
     public function robots($text){
-        $this->getRegistry()->meta->robots[] = $text;
+        $this->getPage()->{$text}();
     }
-    public function getMeta(){
-        $h = '';
-        if (count($this->getRegistry()->meta)){
-            foreach ($this->getRegistry()->meta as $name=>$meta){
-                if (count($meta) > 1){
-                    $meta = $meta->toArray();
-                    //foreach ($meta as &$x) $x = "$x";
-                    $meta = implode(',', $meta);
-                }
-                $h .= '<meta name="'.$name.'" content="'.$meta.'" />';
-            }
-        }
-        return $h;
-    }
-    public function getCss(){
-        $h = '';
-        if (count($this->getRegistry()->plainCss)){
-            $h .= '<style type="text/css">';
-            $h .= $this->getRegistry()->plainCss;
-            $h .= '</style>';
-        }
-        return $h;
-    }
-    public function js($jsString, $alias = 'default', $require = ''){
-        magic::append('js/plain', $jsString);
-        //$this->getRegistry()->plainJs->{$alias} .= $jsString;
-        //$this->getRegistry()->plainJsRequire->{$alias} = $require;
+    public function js($jsString){
+        $this->getPage()->js($jsString);
     }
     public function requireJs($uri){//, $alias = 'default', $require = ''
-        $jsa = magic::get('js/required', false);
-        if (!$jsa){
-            $jsa = new ArrayObject();
-            magic::set('js/required', $jsa);
-        }
-        $jsa[] = $uri;
-        /* $this->getRegistry()->javascriptIncludes->{$alias}[] = $uri;
-          $this->getRegistry()->javascriptIncludesRequire->{$alias} = $require; */
-    }
-    protected function _getJsPart($requiredPart, $parts = array()){
-        $includes = $this->getRegistry()->javascriptIncludes->toArray();
-        $includesRequire = $this->getRegistry()->javascriptIncludesRequire->toArray();
-        //var_dump($includes);
-        //var_dump($includesRequire);
-        //$plainJs = $this->getRegistry()->plainJs->toArray();
-        //$plainJsRequire = $this->getRegistry()->plainJsRequire->toArray();
-        //var_dump($plainJs);
-        //var_dump($plainJsRequire);
-        //$parts = array();
-        $js = '';
-        if (is_array($requiredPart) || $requiredPart != ''){
-            if (is_array($requiredPart)){
-                foreach ($requiredPart as $alias){
-                    list($xjs, $xparts) = $this->_getJsPart($alias, $parts);
-                    $parts = array_merge($parts, $xparts);
-                    $js .= $xjs;
-                }
-            }elseif (!in_array($requiredPart, $parts)){
-                $urls = array();
-                //$plain = '';
-                $includeRequire = 'none';
-                if (isset($includes[$requiredPart])){
-                    $urls = $includes[$requiredPart];
-                    $includeRequire = $includesRequire[$requiredPart];
-                }
-                /* if (isset($plainJs[$requiredPart])){
-                  $plain = $plainJs[$requiredPart];
-                  $includeRequire = $plainJsRequire[$requiredPart];
-                  } */
-                //var_dump($includeRequire);
-                $includeRequireString = is_array($includeRequire)?implode(",", $includeRequire):$includeRequire;
-                //$js .= '<!-- start '.$requiredPart.' ('.$includeRequireString.') -->';
-
-                if (is_array($includeRequire) || $includeRequire != ''){
-                    list($xjs, $xparts) = $this->_getJsPart($includeRequire, $parts);
-                    $parts = array_merge($parts, $xparts);
-                    $js .= $xjs;
-                }
-
-                foreach ($urls as $url){
-                    $js .= '<script type="text/javascript" src="'.$url.'"></script>';
-                }
-                //$js .= '<!-- finish '.$requiredPart.' ('.$includeRequireString.') -->';
-            }
-        }
-        $parts[] = $requiredPart;
-        return array($js, $parts);
-    }
-    protected function _getJs(){
-        $js = '';
-        /* $jsa = magic::get('js/required', array());
-          foreach ($jsa as $uri){
-          $js .= '<script type="text/javascript" src="'.$uri.'"></script>';
-          } */
-        //$includes = $this->getRegistry()->javascriptIncludes->toArray();
-        //$plainJs = $this->getRegistry()->plainJs->toArray();
-        //$parts = array();
-        /* foreach ($includes as $alias=>$urls){
-          list($xjs, $xparts) = $this->_getJsPart($alias, $parts);
-          $parts = array_merge($parts, $xparts);
-          $js .= $xjs;
-          } */
-        /*foreach ($plainJs as $alias=>$pjs){
-            list($xjs, $xparts) = $this->_getJsPart($alias, $parts);
-            $parts = array_merge($parts, $xparts);
-            $js .= $xjs;
-        }*/
-        $plainJs = magic::get('js/plain', '');
-        if (strlen($plainJs)){
-            $js .= '<script type="text/javascript">'.$plainJs.'</script>';
-        }
-        return $js;
+        $this->getPage()->requireJs($uri);
     }
     public function head(){
-        echo $this->getHeadContents();
+        echo $this->getPage()->getHtmlStart();
     }
     public function getHeadContents(){
-        $h = '<!DOCTYPE html>'; // html5
-        $h .= '<meta charset="utf-8">';
-        $h .= '<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">';
-        //$h .= '<meta http-equiv="imagetoolbar" content="false" />'; // ie6 toolbar
-        //
-        //$h .= '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
-        $h .= '<title>'.$this->getTitle().'</title>';
-        $h .= $this->getMeta();
-        if (count($this->getRegistry()->cssIncludes)){
-            $includes = $this->getRegistry()->cssIncludes->toArray();
-            sort($includes);
-            foreach ($includes as $order=>$urls){
-                foreach ($urls as $url){
-                    $h .= '<link rel="stylesheet" type="text/css" href="'.$url.'" />';
-                }
-            }
-        }
-        $jsa = magic::get('js/required', array());
-        foreach ($jsa as $uri){
-            $h .= '<script type="text/javascript" src="'.$uri.'"></script>';
-        }
-        $h .= $this->getCss();
-        $h .= $this->_getJs();
-        /* if (count($this->getRegistry()->javascriptIncludes)){
-          foreach ($this->getRegistry()->javascriptIncludes as $url){
-          $h .= '<script type="text/javascript" src="'.$url.'"></script>';
-          }
-          }
-          if (count($this->getRegistry()->plainJs)){
-          foreach ($this->getRegistry()->plainJs as $plainJs){
-          $h .= '<script type="text/javascript">';
-          $h .= $plainJs;
-          $h .= '</script>';
-          }
-          } */
-        $h .= '<link rel="shortcut icon" href="/favicon.ico" />';
-        return $h;
+        return $this->getPage()->getHead();
     }
     protected function &getDatabase($name = null){
         if ($name === null){
