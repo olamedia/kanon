@@ -23,11 +23,17 @@ class yRegistry{
     protected $_map = array(); //'default'=>array('response', 'name')
     protected $_results = array();
     public function append($name, $value){
+        if (is_object($name)){
+            $name = "$name";
+        }
         if (!isset($this->_map[$name]) || !is_string($this->_map[$name]))
             $this->_map[$name] = '';
         $this->_map[$name] .= $value;
     }
     public function set($name, $value = null){
+        if (is_object($name)){
+            $name = "$name";
+        }
         if ($value === null){
             unset($this->_map[$name]);
         }else{
@@ -35,15 +41,24 @@ class yRegistry{
         }
     }
     public function get($name, $default = null){
+        if (is_object($name)){
+            $name = "$name";
+        }
         return isset($this->_map[$name])?$this->_map[$name]:$default;
     }
     public function push($name, $value = null){
+        if (is_object($name)){
+            $name = "$name";
+        }
         if (!isset($this->_map[$name])){
             $this->_map[$name] = array();
         }
         $this->_map[$name][$value] = $value;
     }
     public function call($name, $default = null){
+        if (is_object($name)){
+            $name = "$name";
+        }
         if ($default === null){
             $default = $this->get('default');
         }
