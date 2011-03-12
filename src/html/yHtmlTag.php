@@ -83,7 +83,7 @@ class yHtmlTag implements ArrayAccess{
             $attrs[] = $name.'="'.$node.'"';
         }
         if ($this->_isSelfClosed){
-            $open = '<'.implode(' ', $attrs).' />';
+            $open = '<'.implode(' ', $attrs).'>';// /
             $close = '';
         }else{
             $open = '<'.implode(' ', $attrs).'>';
