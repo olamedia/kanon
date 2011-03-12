@@ -37,6 +37,12 @@ class yRegistry{
     public function get($name, $default = null){
         return isset($this->_map[$name])?$this->_map[$name]:$default;
     }
+    public function push($name, $value = null){
+        if (!isset($this->_map[$name])){
+            $this->_map[$name] = array();
+        }
+        $this->_map[$name][$value] = $value;
+    }
     public function call($name, $default = null){
         if ($default === null){
             $default = $this->get('default');
