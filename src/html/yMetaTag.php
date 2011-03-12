@@ -33,7 +33,7 @@ class yMetaTag extends yHtmlTag{
 
             
 //var_dump($a);
-        $a[] = $content;
+        $a[$content] = $content;
         $this->setAttribute('content', implode(',', $a));
     }
     public function popContent($content){
