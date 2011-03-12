@@ -226,6 +226,7 @@ class yPage{
     }
 }
 
+/*
 $page = new yPage();
 $page->setLanguage('ru')
         ->setTitle('My Page')
@@ -236,4 +237,4 @@ $page->setLanguage('ru')
         ->requireCss('/css.css')
         ->requireJs('/js.js')
 ;
-echo $page->getHtmlStart();
+echo $page->getHtmlStart();*/
