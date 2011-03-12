@@ -36,6 +36,13 @@ class yPage{
         $this->_registry->set('content/title', $title);
         return $this;
     }
+    public function getDescription(){
+        return $this->_registry->get('content/description', '');
+    }
+    public function setDescription($description){
+        $this->_registry->set('content/description', $description);
+        return $this;
+    }
     // NOODP NOYDIR
     // <META NAME="Slurp" CONTENT="NOYDIR">
     // class="robots-nocontent" Yahoo
@@ -203,18 +210,29 @@ class yPage{
     }
     public function getHtmlStart(){
         $eol = "\r\n";
+        //<?xml version="1.0" encoding="utf-8"?
         return '<!DOCTYPE html><html lang="'.$this->getLanguage().'">'."\n".$this->getHead();
     }
     public function getHead(){
         //<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         $head = yHtmlTag::create('head')
+                // http-equiv="content-type" content="text/html;charset=utf-8"
+                // charset="utf-8"
                 ->appendChild(yHtmlTag::create('meta', array('charset'=>$this->getCharset())))
                 ->appendChild(yHtmlTag::create('meta', array(
                             'http-equiv'=>'X-UA-Compatible',
                             'content'=>'IE=edge,chrome=1'
                         )))
+                //<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                ->appendChild(yHtmlTag::create('meta', array(
+                            'name'=>'viewport',
+                            'content'=>'width=device-width, initial-scale=1.0'
+                        )))
                 ->appendChild(yHtmlTag::create('title')->text($this->getTitle()))
                 ->addMeta('title', $this->getTitle());
+        if (strlen($this->getDescription())){
+            $head->addMeta('description', $this->getDescription());
+        }
         foreach ($this->_meta->toArray() as $meta){
             $head->appendChild($meta);
         }
