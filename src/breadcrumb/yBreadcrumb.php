@@ -13,6 +13,11 @@
 /**
  * yBreadcrumb - Represents a single Breadcrumb in a Breadcrumb trail.
  * Mixed with microdata and RDF
+ * 
+ * Note: This is an experimental format. 
+ * Depending on feedback and on other available markup standards, 
+ * it may be modified or replaced in the future.
+ * 
  * @link http://www.google.com/support/webmasters/bin/answer.py?hlrm=ru&answer=185417
  * @link http://www.google.com/webmasters/tools/richsnippets
  * @link http://www.data-vocabulary.org/Breadcrumb/
