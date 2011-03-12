@@ -204,17 +204,18 @@ class controllerPrototype{
      * @param boolean $includeAction
      * @return uri
      */
-    public function rel($relativeUri = '', $includeAction = false){
+    public function rel($relativeUri = '', $absolute = false){
         $relativeUri = strval($relativeUri); //if (is_object($relativeUri))
         if (is_string($relativeUri))
             $relativeUri = uri::fromString($relativeUri);
         $a = array();
-        if ($includeAction)
-            $a[] = $this->_action;
         if (!is_object($relativeUri)){
             throw new Exception('$relativeUri not an object');
         }
         $relativeUri->setPath(array_merge($this->_baseUri->getPath(), $a, $relativeUri->getPath()));
+        if ($absolute){
+            return 'http://'.request::getDomainName().$relativeUri;
+        }
         return $relativeUri;
     }
     public function arel($relativeUri = '', $stripLast = false){
@@ -373,10 +374,10 @@ class controllerPrototype{
     }
     protected function _header(){
         response::sendHeaders();
-        /*echo '<!--//';
-        echo get_class($this).'::_header() called, call stack:';
-        var_dump(debug_backtrace());
-        echo '//-->';*/
+        /* echo '<!--//';
+          echo get_class($this).'::_header() called, call stack:';
+          var_dump(debug_backtrace());
+          echo '//-->'; */
         //if (!$this->_ignoreParentTemplate) {
         $parent = $this->getParent();
         /* if ($parent && $this->_ignoreParentTemplate && !$this->_isForwarded){
