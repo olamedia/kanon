@@ -14,6 +14,7 @@ class thumbnailer{
     protected $_gcProb = 0.01; // garbage collector probability
     public function setMaxSize($maxSize = 500){
         $this->_maxSize = $maxSize;
+        return $this;
     }
     public function __construct(){
         $requestUri = request::getUri();
