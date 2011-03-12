@@ -374,7 +374,8 @@ class controllerPrototype{
     protected function _header(){
         response::sendHeaders();
         echo '<!--//';
-        echo get_class($this).'::_header() called';
+        echo get_class($this).'::_header() called, call stack:';
+        var_dump(debug_backtrace());
         echo '//-->';
         //if (!$this->_ignoreParentTemplate) {
         $parent = $this->getParent();
