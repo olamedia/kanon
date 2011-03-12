@@ -13,6 +13,9 @@
 /**
  * yBreadcrumb - Represents a single Breadcrumb in a Breadcrumb trail.
  * Mixed with microdata and RDF
+ * @link http://www.google.com/support/webmasters/bin/answer.py?hlrm=ru&answer=185417
+ * @link http://www.google.com/webmasters/tools/richsnippets
+ * @link http://www.data-vocabulary.org/Breadcrumb/
  *
  * @package Expression package is undefined on line 12, column 15 in Templates/Scripting/PHPClass.php.
  * @subpackage 
