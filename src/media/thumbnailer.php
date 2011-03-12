@@ -26,6 +26,11 @@ class thumbnailer{
         //$this->_rel = dirname(substr($requestUri, strlen($this->_baseUrl)));
         $this->_rel = dirname(substr($requestUri, strlen($this->_baseUrl)));
     }
+    public function setBaseUri($uri){
+        $this->_baseUrl = $uri;
+        $this->_rel = dirname(substr($requestUri, strlen($this->_baseUrl)));
+        return $this;
+    }
     public function onShutdown(){
         /* if (!$this->_gcProb)
           return;
@@ -141,7 +146,7 @@ class thumbnailer{
         if ($if == $gmt){
             response::notModified();
         }
-        header("Cache-Control: public,max-age=".(3*24*60*60));
+        header("Cache-Control: public,max-age=".(3 * 24 * 60 * 60));
         header('Last-Modified: '.$gmt);
         $info = getimagesize($filename);
         $type = $info[2];
