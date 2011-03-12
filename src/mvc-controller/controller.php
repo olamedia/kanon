@@ -80,24 +80,29 @@ class controller extends controllerPrototype{
         return $this->getPage()->getTitle();
     }
     public function appendToBreadcrumb($links = array()){
+        $bc = yBreadCrumbSet::getInstance();
         if (is_array($links)){
-            if (count($links)){
-                foreach ($links as $link){
-                    $this->getRegistry()->breadcrumb[] = $link;
-                }
+            foreach ($links as $link){
+                $this->appendToBreadcrumb($link);
             }
         }else{
-            $this->getRegistry()->breadcrumb[] = $links;
+// parse old-fashion <a href="#url#">#title#</a>
+            if (preg_match("#<a href=\"([^\"]+)\">([^<]+)</a>#ims", $links, $subs)){
+                $bc->append(new yBreadcrumb($subs[1], $subs[2]));
+            }
         }
         return $this;
     }
     public function getBreadcrumb(){
-        return $this->getRegistry()->breadcrumb->toArray();
+        return yBreadCrumbSet::getInstance()->toArray();
     }
     public function viewBreadcrumb(){
-        if (count($this->getBreadcrumb()) > 1){
-            echo '<div class="nav app_breadcrumb">'.implode(" → ", $this->getBreadcrumb()).'</div>';
+        $bc = yBreadCrumbSet::getInstance();
+        if (count($bc) > 1){
+            echo $bc;
         }
+        //echo '<div class="nav app_breadcrumb">'.implode(" → ", $this->getBreadcrumb()).'</div>';
+        //}
     }
     public function getUser(){
         static $user;
@@ -148,9 +153,9 @@ class controller extends controllerPrototype{
         $p = 0;
         while ($p <= $pagesCount){
             $p++;
-            //echo $p.' ';
+//echo $p.' ';
             if ($p > 0 && $p <= $pagesCount){
-                //echo ' ok';
+//echo ' ok';
                 if ($p == $selectedPage){
                     $la[] = '<b>'.$p.'</b>';
                 }else{
