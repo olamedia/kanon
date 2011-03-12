@@ -63,6 +63,11 @@ class ySitemapUrl{
      * @var float
      */
     protected $_priority = null;
+    protected $_controller = null;
+    public function setController($sitemapController){
+        $this->_controller = $sitemapController;
+        return $this;
+    }
     public function __construct($location){
         $this->_loc = $location;
     }
@@ -96,7 +101,11 @@ class ySitemapUrl{
         return $this;
     }
     public function __toString(){
-        $a = array('<loc>'.$this->_loc.'</loc>');
+        if ($this->_controller === null){
+            $a = array('<loc>'.$this->_loc.'</loc>');
+        }else{
+            $a = array('<loc>'.$this->_controller->rel($this->_loc, true).'</loc>');
+        }
         if ($this->_lastmod !== null){
             $a[] = '<lastmod>'.$this->_lastmod.'</lastmod>';
         }

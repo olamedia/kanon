@@ -85,7 +85,7 @@ class ySitemap{
         return $this;
     }
     public function __toString(){
-
+        $this->_set->setController($this->_controller);
         if ($this->_outputMode == 'sitemap'){
             return '<?xml version="1.0" encoding="UTF-8"?>'.$this->_set;
         }else{

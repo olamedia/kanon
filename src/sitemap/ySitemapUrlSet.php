@@ -21,6 +21,11 @@
  */
 class ySitemapUrlSet implements ArrayAccess, Countable{
     protected $_map = array();
+    protected $_controller = null;
+    public function setController($sitemapController){
+        $this->_controller = $sitemapController;
+        return $this;
+    }
     /**
      *
      * @param ySitemapUrl $url 
@@ -56,7 +61,13 @@ class ySitemapUrlSet implements ArrayAccess, Countable{
     public function count(){
         return count($this->_map);
     }
+    protected function _prepare(){
+        foreach ($this->_map as $url){
+            $url->setController($this->_controller);
+        }
+    }
     public function __toString(){
+        $this->_prepare();
         return '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'."\n".
         implode("\n", $this->_map)."\n".
         '</urlset>';
