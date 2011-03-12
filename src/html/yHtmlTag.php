@@ -20,33 +20,89 @@
  * @version SVN: $Id$
  */
 class yHtmlTag implements ArrayAccess{
-    protected $_name = '';
+    public $tagName = 'html';
     protected $_attr = array();
     protected $_isSelfClosed = false;
-    public function __construct($name = 'html', $attr = array()){
-        $this->_name = $name;
-        foreach ($attr as $k=>$v){
-            $this->offsetSet($k, $v);
+    public $childNodes = array();
+    public $attributes = array();
+    public function hasAttributes(){
+        return!!count($this->attributes);
+    }
+    public function hasAttribute($name){
+        return isset($this->attributes[$name]);
+    }
+    public function setAttribute($name, $value){
+        $this->attributes[$name] = $value;
+        return $this;
+    }
+    public function removeAttribute($name){
+        unset($this->attributes[$name]);
+        return $this;
+    }
+    public function getAttribute($name, $default = null){
+        return isset($this->attributes[$name])?$this->attributes[$name]:$default;
+    }
+    public function hasChildNodes(){
+        return!!count($this->childNodes);
+    }
+    public function appendChild($child){
+        $this->childNodes[] = $child;
+        return $this;
+    }
+    protected static $_tagMap = array(
+        'head'=>'yHeadTag',
+        'meta'=>'yMetaTag'
+    );
+    public function text($text = ''){
+        $textNode = new yTextNode($text);
+        if ($this->hasChildNodes()){
+            $this->childNodes = array();
         }
+        $this->appendChild($textNode);
+        return $this;
     }
-    public function setName($name){
-        $this->_name = $name;
+    public static function create($name = 'html', $attr = array(), $closed = false){
+        if (isset(self::$_tagMap[$name])){
+            $class = self::$_tagMap[$name];
+            return new $class($attr);
+        }
+        return new yHtmlTag($name, $attr, $closed);
     }
-    public function getName(){
-        return $this->_name;
+    public function __construct($name = 'html', $attr = array(), $closed = false){
+        //parent::__construct($name);
+        //yHtmlHelper::getInstance()->getDom()->appendChild($this);
+        $this->tagName = $name;
+        foreach ($attr as $k=>$v){
+            $this->setAttribute($k, $v);
+        }
+        $this->_isSelfClosed = $closed;
     }
     public function __toString(){
-        $name = strtolower($this->_name);
-        if ($this->_isSelfClosed){
-            return '<'.$name.' '.implode(' ', $this->_attr).' />';
+        $attrs = array($this->tagName);
+        foreach ($this->attributes as $name=>$node){
+            $attrs[] = $name.'="'.$node.'"';
         }
-        return '<'.$name.' '.implode(' ', $this->_attr).'></'.$name.'>';
+        if ($this->_isSelfClosed){
+            $open = '<'.implode(' ', $attrs).' />';
+            $close = '';
+        }else{
+            $open = '<'.implode(' ', $attrs).'>';
+            $close = '</'.$this->tagName.'>';
+        }
+        $inner = '';
+        if (!$this->_isSelfClosed){
+            $inner = implode("\n", $this->childNodes);
+        }
+        return $open.$inner.$close;
+        return substr($this->C14N(), 0, -strlen($this->tagName) - 4).' />';
+        //}
+        //return $this->C14N();
     }
     public function offsetExists($offset){
-        return array_key_exists($offset, $this->_attr);
+        return $this->hasAttribute($offset);
     }
     public function set($name, $value){
-        $this->_attr[$name] = new yHtmlAttribute($name, $value);
+        $this->setAttribute($name, $value);
     }
     /**
      * Sets attribute.
@@ -55,13 +111,13 @@ class yHtmlTag implements ArrayAccess{
      * @return yHtmlAttribute
      */
     public function offsetGet($offset){
-        return $this->_attr[$offset];
+        return $this->getAttribute($offset);
     }
     public function offsetSet($offset, $value){
-        $this->_attr[$offset] = new yHtmlAttribute($offset, $value);
+        $this->setAttribute($offset, $value);
     }
     public function offsetUnset($offset){
-        unset($this->_attr[$offset]);
+        $this->removeAttribute($offset);
     }
     /**
      *
@@ -82,10 +138,5 @@ class yHtmlTag implements ArrayAccess{
     }
 }
 
-require 'yHtmlAttribute.php';
-
-$tag = new yHtmlTag('div');
-$tag['class'] = 'fancy';
-$tag['style'] = 'color:#fff;';
-$tag->close();
-echo $tag;
+require_once dirname(__FILE__).'/yHeadTag.php';
+require_once dirname(__FILE__).'/yMetaTag.php';

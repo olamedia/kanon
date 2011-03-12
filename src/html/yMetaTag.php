@@ -20,18 +20,28 @@
  * @version SVN: $Id$
  */
 class yMetaTag extends yHtmlTag{
-    protected $_isSelfClosed = true;
     public function __construct($attr = array()){
-        parent::__construct('meta', $attr);
+        parent::__construct('meta', $attr, true);
     }
     public function setContent($content){
         $this->set('content', $content);
     }
     public function pushContent($content){
-        $this->forceAttribute('content')->push($content);
+        $a = explode(',', $this->getAttribute('content'));
+        if ($a[0] == '')
+            $a = array(); // fix initial array("")
+
+            
+//var_dump($a);
+        $a[] = $content;
+        $this->setAttribute('content', implode(',', $a));
     }
     public function popContent($content){
-        $this->forceAttribute('content')->pop($content);
+        $a = explode(',', $this->getAttribute('content'));
+        if (($k = array_search($content, $a)) !== false){
+            unset($a[$k]);
+        }
+        $this->setAttribute('content', implode(',', $a));
     }
 }
 
