@@ -87,7 +87,7 @@ class ySitemap{
             return '<?xml version="1.0" encoding="UTF-8"?>'.$this->_set;
         }else{
             if ($this->_controller instanceof controller){
-                $a = array('<loc>'.$this->_controller->rel($this->_name).'</loc>');
+                $a = array('<loc>'.$this->_controller->rel($this->_name, true).'</loc>');
             }else{
                 $a = array('<loc>'.$this->_loc.'</loc>');
             }
