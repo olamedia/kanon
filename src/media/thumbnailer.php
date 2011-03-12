@@ -12,6 +12,9 @@ class thumbnailer{
     protected $_image = null;
     protected $_gcPath = null; // garbage collector path
     protected $_gcProb = 0.01; // garbage collector probability
+    public static function create(){
+        return new self();
+    }
     public function setMaxSize($maxSize = 500){
         $this->_maxSize = $maxSize;
         return $this;
