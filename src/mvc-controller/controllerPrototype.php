@@ -157,7 +157,7 @@ class controllerPrototype{
      * Get $_SERVER['REQUEST_METHOD']
      */
     public function getHttpMethod(){
-        return $_SERVER['REQUEST_METHOD'];
+        return request::getMethod();
     }
     public function setBaseUri($uriString, $autoRel = true){
         $this->_baseUri = uri::fromString($uriString);
@@ -375,9 +375,9 @@ class controllerPrototype{
         response::sendHeaders();
         //if (!$this->_ignoreParentTemplate) {
         $parent = $this->getParent();
-        if ($parent && $this->_ignoreParentTemplate && !$this->_isForwarded){
+        /*if ($parent && $this->_ignoreParentTemplate && !$this->_isForwarded){
             $parent = $parent->getParent();
-        }
+        }*/
 
         if ($parent){
             $parent->_header();
