@@ -12,6 +12,7 @@
 
 /**
  * yBreadcrumb - Represents a single Breadcrumb in a Breadcrumb trail.
+ * Mixed with microdata and RDF
  *
  * @package Expression package is undefined on line 12, column 15 in Templates/Scripting/PHPClass.php.
  * @subpackage 
@@ -51,7 +52,7 @@ class yBreadcrumb{
     public function getChildHtml(){
         $h = ' '.self::$_delimiter;
         $h .= '<span rel="v:child">';
-        $h .= '<div itemprop="child" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">';
+        $h .= '<div class="breadcrumb-child" itemprop="child" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">';
         $h .= $this->getLinkHtml();
         if ($this->_child !== null){
             $h .= $this->_child->getChildHtml();
@@ -61,7 +62,7 @@ class yBreadcrumb{
         return $h;
     }
     public function __toString(){
-        $h = '<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" xmlns:v="http://rdf.data-vocabulary.org/#">';
+        $h = '<div class="nav breadcrumb" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" xmlns:v="http://rdf.data-vocabulary.org/#">';
         $h .= '<span typeof="v:Breadcrumb">';
         $h .= $this->getLinkHtml();
         if ($this->_child !== null){

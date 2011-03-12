@@ -30,6 +30,18 @@ class yBreadCrumbSet{
      * @var yBreadcrumb 
      */
     protected $_last = null;
+    protected static $_instances = array();
+    /**
+     *
+     * @param string $name
+     * @return yBreadCrumbSet 
+     */
+    public static function getInstance($name = 'default'){
+        if (!isset(self::$_instances[$name])){
+            self::$_instances[$name] = new self();
+        }
+        return self::$_instances[$name];
+    }
     public function append($breadcrumb){
         if ($this->_first === null){
             $this->_first = $this->_last = $breadcrumb;
