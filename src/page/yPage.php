@@ -225,7 +225,7 @@ class yPage{
         //var_dump(yHtmlTag::create('meta', array('charset'=>$this->getCharset())));
         //return $head;
         // Favicon:
-        $head->appendChild(yHtmlTag::create('link', array('rel'=>'shortcut icon', 'href'=>'/favicon.ico')));
+        $head->appendChild(yHtmlTag::create('link', array('rel'=>'shortcut icon', 'href'=>'/favicon.ico'), true));
         // DO NOT CHANGE: Put inline scripts after other resources if possible.
         $head->appendChild($this->getScriptTag());
         return $head;
