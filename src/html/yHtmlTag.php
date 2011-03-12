@@ -137,6 +137,3 @@ class yHtmlTag implements ArrayAccess{
         $this->_isSelfClosed = true;
     }
 }
-
-require_once dirname(__FILE__).'/yHeadTag.php';
-require_once dirname(__FILE__).'/yMetaTag.php';
