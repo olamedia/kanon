@@ -13,17 +13,19 @@ class thumbnailer{
     protected $_gcPath = null; // garbage collector path
     protected $_gcProb = 0.01; // garbage collector probability
     public static function create(){
-        return new self();
+        return new self(debug_backtrace());
     }
     public function setMaxSize($maxSize = 500){
         $this->_maxSize = $maxSize;
         return $this;
     }
-    public function __construct(){
+    public function __construct($trace = null){
         $requestUri = request::getUri();
         $requestUri = reset(explode('?', $requestUri));
         $this->_filename = basename($requestUri);
-        $trace = debug_backtrace();
+        if ($trace === null){
+            $trace = debug_backtrace();
+        }
         $file = $trace[0]['file'];
         $this->_basePath = dirname($file);
         $this->_baseUrl = kanon::getBaseUri();
