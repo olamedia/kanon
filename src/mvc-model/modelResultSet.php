@@ -9,6 +9,7 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
     protected $_rawMode = false;
     public function raw($raw = true){
         $this->_rawMode = $raw;
+        return $this;
     }
     public function destroy(){
         $this->_result = null;
