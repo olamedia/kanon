@@ -375,9 +375,9 @@ class controllerPrototype{
         response::sendHeaders();
         //if (!$this->_ignoreParentTemplate) {
         $parent = $this->getParent();
-        /*if ($parent && $this->_ignoreParentTemplate && !$this->_isForwarded){
-            $parent = $parent->getParent();
-        }*/
+        /* if ($parent && $this->_ignoreParentTemplate && !$this->_isForwarded){
+          $parent = $parent->getParent();
+          } */
 
         if ($parent){
             $parent->_header();
@@ -410,12 +410,6 @@ class controllerPrototype{
         }
     }
     public function header(){
-        
-    }
-    public function _initIndex(){
-        
-    }
-    public function index(){
         
     }
     public function footer(){
@@ -470,7 +464,7 @@ class controllerPrototype{
     public function forwardTo($controllerClass, $relativePath = '', $options = array(), $methodToRun = null){
         $controller = new $controllerClass();
         $controller->setParent($this);
-        $controller->ignoreParentTemplate(true);
+        //$controller->ignoreParentTemplate(true);
         $controller->setForwarded(true);
         $controller->setBaseUri($this->rel($relativePath), false);
         $controller->setRelativeUriFromBase($this->_baseUri);
@@ -718,15 +712,24 @@ class controllerPrototype{
                         $this->customIndex();
                     }else{
                         //$this->_initIndex();
-                        call_user_func_array(array($this, '_initIndex'), $this->_getArgs('_initIndex'));
-                        $time = microtime(true);
-                        $this->_header();
-                        profiler::getInstance()->addSql("method _header", $time);
-                        $time = microtime(true);
-                        call_user_func_array(array($this, 'index'), $this->_getArgs('index'));
-                        profiler::getInstance()->addSql("method index", $time);
+                        if (method_exists($this, '_initIndex')){
+                            call_user_func_array(array($this, '_initIndex'), $this->_getArgs('_initIndex'));
+                            $methodFound = true;
+                        }
+                        if (method_exists($this, 'index')){
+                            $time = microtime(true);
+                            $this->_header();
+                            profiler::getInstance()->addSql("method _header", $time);
+                            $time = microtime(true);
+                            call_user_func_array(array($this, 'index'), $this->_getArgs('index'));
+                            profiler::getInstance()->addSql("method index", $time);
+                            $this->_footer();
+                            $methodFound = true;
+                        }
+                        if (!$methodFound){
+                            return $this->_action('');
+                        }
                         //$this->index();
-                        $this->_footer();
                     }
                 }
             }
