@@ -121,7 +121,3 @@ class yBreadcrumb implements Countable{
  * </span>
  * </div>
  */
-require_once '../html/yHtmlHelper.php';
-$bc = new yBreadcrumb('/', 'home');
-$bc->append(new yBreadcrumb('/wiki/', 'wiki'));
-echo $bc;
