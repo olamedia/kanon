@@ -55,7 +55,7 @@ class response{
         array_shift($args);
         array_unshift($args, false);
         array_unshift($args, $magic);
-        $path = dirname(__FILE__).'/html/';
+        $path = dirname(__FILE__).'/_html/';
         magic::set('title', magic::get('title', 'Untitled page')); // LOL
         if (is_int($magic)){
             $file = $magic.'.php';
