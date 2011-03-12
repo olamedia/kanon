@@ -40,6 +40,7 @@ class ySitemapIndex{
     public function registerController($name, $controllerName){
         $this->_controllers[$name] = $controllerName;
         $this->add(ySitemap::create('')->setName($name));
+        return $this;
     }
     public function getControllers(){
         return $this->_controllers;
