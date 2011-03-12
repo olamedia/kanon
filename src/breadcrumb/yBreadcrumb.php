@@ -81,6 +81,14 @@ class yBreadcrumb implements Countable{
         }
         return 1 + count($this->_child);
     }
+    public function toArray(){
+        $a = array();
+        if ($this->_child !== null){
+            $a = $this->_child->toArray();
+        }
+        array_unshift($a, $this);
+        return $a;
+    }
 }
 
 /**

@@ -58,5 +58,11 @@ class yBreadCrumbSet implements Countable{
         }
         return count($this->_first);
     }
+    public function toArray(){
+        if ($this->_first === null){
+            return array();
+        }
+        return $this->_first->toArray();
+    }
 }
 
