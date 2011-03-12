@@ -33,6 +33,8 @@ class thumbnailer{
         $this->_rel = dirname(substr($requestUri, strlen($this->_baseUrl)));
     }
     public function setBaseUri($uri){
+        $requestUri = request::getUri();
+        $requestUri = reset(explode('?', $requestUri));
         $this->_baseUrl = $uri;
         $this->_rel = dirname(substr($requestUri, strlen($this->_baseUrl)));
         return $this;
