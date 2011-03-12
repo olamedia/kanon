@@ -19,7 +19,7 @@
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @version SVN: $Id$
  */
-class yBreadCrumbSet{
+class yBreadCrumbSet implements Countable{
     /**
      * First Breadcrumb in trail.
      * @var yBreadcrumb 
@@ -51,6 +51,12 @@ class yBreadCrumbSet{
     }
     public function __toString(){
         return (string) $this->_first;
+    }
+    public function count(){
+        if ($this->_first === null){
+            return 0;
+        }
+        return count($this->_first);
     }
 }
 

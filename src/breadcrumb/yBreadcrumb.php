@@ -20,7 +20,7 @@
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @version SVN: $Id$
  */
-class yBreadcrumb{
+class yBreadcrumb implements Countable{
     protected static $_delimiter = '›';
     protected $_url = '';
     protected $_title = '';
@@ -72,6 +72,12 @@ class yBreadcrumb{
         $h .= '</div>';
         return $h;
     }
+    public function count(){
+        if ($this->_child === null){
+            return 1;
+        }
+        return 1 + count($this->_child);
+    }
 }
 
 /**
@@ -115,7 +121,6 @@ class yBreadcrumb{
  * </span>
  * </div>
  */
-
 require_once '../html/yHtmlHelper.php';
 $bc = new yBreadcrumb('/', 'home');
 $bc->append(new yBreadcrumb('/wiki/', 'wiki'));
