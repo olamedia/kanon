@@ -27,7 +27,7 @@ class yPage{
     protected $_registry = null;
     public function __construct(){
         $this->_registry = new yRegistry();
-        $this->_meta = new yHtmlTagList();
+        $this->_meta = new yPageMetaCollection();
     }
     public function getTitle(){
         return $this->_registry->get('content/title', '');
