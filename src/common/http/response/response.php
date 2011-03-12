@@ -76,6 +76,9 @@ class response{
     }
     protected static $_mime = 'text/html';
     protected static $_charset = 'utf-8';
+    public static function xml(){
+        self::setMime('text/xml');
+    }
     public static function setMime($mime){
         self::$_mime = $mime;
         self::_sendContentType();
