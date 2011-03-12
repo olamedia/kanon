@@ -47,10 +47,12 @@ class ySitemap{
     protected $_controller = null;
     public function setController($sitemapController){
         $this->_controller = $sitemapController;
+        return $this;
     }
     protected $_name = null;
     public function setName($name){
         $this->_name = $name;
+        return $this;
     }
     public function __construct($url){
         $this->_loc = $url;
@@ -80,6 +82,7 @@ class ySitemap{
     }
     public function setOutputMode($mode){
         $this->_outputMode = $mode;
+        return $this;
     }
     public function __toString(){
 
