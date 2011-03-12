@@ -78,12 +78,13 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
                             $model->setInitialFieldValue($field->getName(), $a[$field->getUniqueId()]);
                         }
                         $model->postLoad();
+                        $models[] = $model;
                     }
                 }else{
                     list($k, $v) = each($sa);
                     $model = $a[$k];
+                    $models[] = $model;
                 }
-                $models[] = $model;
             }else{
                 
             }
