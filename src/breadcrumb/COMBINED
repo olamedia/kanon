@@ -1,0 +1,40 @@
+<div itemscope itemtype="http://data-vocabulary.org/Breadcrumb" xmlns:v="http://rdf.data-vocabulary.org/#">
+  <span typeof="v:Breadcrumb">  
+  <a href="http://www.example.com/books" itemprop="url" rel="v:url">
+    <span itemprop="title" property="v:title">Books</span>
+  </a> ›
+  <span rel="v:child">
+  <span typeof="v:Breadcrumb">
+  <div itemprop="child" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+    <a href="http://www.example.com/books/authors" itemprop="url">
+      <span itemprop="title">Authors</span>
+    </a> ›
+    <div itemprop="child" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+      <a href="http://www.example.com/books/authors/stephenking" itemprop="url">
+        <span itemprop="title">Stephen King</span>
+      </a>
+    </div>
+  </div>
+  </span>
+</div>
+<div xmlns:v="http://rdf.data-vocabulary.org/#"> 
+  <span typeof="v:Breadcrumb">
+    <a href="http://www.example.com/books" rel="v:url" property="v:title">
+      Books
+    </a> ›
+    <span rel="v:child">
+      <span typeof="v:Breadcrumb">
+        <a href="http://www.example.com/books/authors" rel="v:url" property="v:title">
+          Authors
+        </a> ›
+        <span rel="v:child">         
+          <span typeof="v:Breadcrumb">
+            <a href="http://www.example.com/books/authors/stephenking" rel="v:url" property="v:title">
+              Stephen King
+            </a> ›          
+          </span>
+        </span>
+      </span>
+    </span>
+  </span>
+</div>
