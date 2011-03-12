@@ -147,7 +147,7 @@ PHPFILE;
 		foreach (glob($dir.'*') as $f){
 //echo $f.' ';
 			if (is_dir($f)){
-				if (in_array(basename($f), array('prototype', 'test', 'tests', 'tmp', 'html'))){
+				if (in_array(basename($f), array('prototype', 'test', 'tests', 'tmp'))){
 // skip
 				}else{
 					echo "\r\n".$this->rel($f).'\ '."\r\n";
