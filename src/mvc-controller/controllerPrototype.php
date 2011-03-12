@@ -218,7 +218,7 @@ class controllerPrototype{
         }
         return $relativeUri;
     }
-    public function arel($relativeUri = '', $stripLast = false){
+    public function arel($relativeUri = '', $absolute = false, $stripLast = false){
         $relativeUri = strval($relativeUri); //if (is_object($relativeUri))
         if (is_string($relativeUri))
             $relativeUri = uri::fromString($relativeUri);
@@ -243,6 +243,9 @@ class controllerPrototype{
             throw new Exception('$relativeUri not an object');
         }
         $relativeUri->setPath(array_merge($this->_baseUri->getPath(), $a, $relativeUri->getPath()));
+        if ($absolute){
+            return 'http://'.request::getDomainName().$relativeUri;
+        }
         return $relativeUri;
     }
     /**
