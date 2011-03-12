@@ -6,6 +6,10 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
     protected $_list = array();
     protected $_useCache = null; // null - default, true - use, false -no
     protected $_cacheLifetime = null; // in seconds
+    protected $_rawMode = false;
+    public function raw($raw = true){
+        $this->_rawMode = $raw;
+    }
     public function destroy(){
         $this->_result = null;
         foreach ($this->_list as $m){
@@ -55,6 +59,12 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
         return $this;
     }
     protected function &_makeModels(&$a){
+        if ($this->_rawMode){
+            if (count($a) == 1){
+                return array_shift($a);
+            }
+            return $a;
+        }
         $models = array();
         $made = array();
         foreach ($this->_selected as &$sa){
