@@ -39,6 +39,7 @@ class ySitemapIndex{
     }
     public function registerController($name, $controllerName){
         $this->_controllers[$name] = $controllerName;
+        $this->add(ySitemap::create('')->setTime(time()));
     }
     public function getControllers(){
         return $this->_controllers;

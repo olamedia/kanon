@@ -56,6 +56,11 @@ class ySitemap{
         $this->_loc = $url;
         $this->_set = new ySitemapUrlSet();
     }
+    /**
+     *
+     * @param ySitemapUrl $url
+     * @return ySitemap
+     */
     public static function create($url){
         return new ySitemap($url);
     }
