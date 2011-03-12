@@ -53,7 +53,11 @@ class yRegistry{
         if (!isset($this->_map[$name])){
             $this->_map[$name] = array();
         }
-        $this->_map[$name][$value] = $value;
+        if (is_object($value)){
+            $this->_map[$name]["$value"] = $value;
+        }else{
+            $this->_map[$name][$value] = $value;
+        }
     }
     public function call($name, $default = null){
         if (is_object($name)){
