@@ -229,7 +229,7 @@ class yPage{
                             'content'=>'width=device-width, initial-scale=1.0'
                         )))
                 ->appendChild(yHtmlTag::create('title')->text($this->getTitle()))
-                ->addMeta('title', $this->getTitle());
+                ->addMeta('title', htmlspecialchars($this->getTitle()));
         if (strlen($this->getDescription())){
             $head->addMeta('description', $this->getDescription());
         }
