@@ -105,6 +105,14 @@ class yPage{
         $this->addRelation('Index', $href);
         return $this;
     }
+    public function setFirst($href){
+        $this->addRelation('Start', $href);
+        return $this;
+    }
+    public function setLast($href){
+        $this->addRelation('Finish', $href);
+        return $this;
+    }
     public function setNext($href){
         $this->addRelation('Next', $href);
         return $this;
