@@ -106,11 +106,11 @@ class yPage{
         return $this;
     }
     public function setFirst($href){
-        $this->addRelation('Start', $href);
+        $this->addRelation('First', $href);
         return $this;
     }
     public function setLast($href){
-        $this->addRelation('Finish', $href);
+        $this->addRelation('Last', $href);
         return $this;
     }
     public function setNext($href){
