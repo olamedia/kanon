@@ -97,6 +97,10 @@ class yPage{
         $this->_relations[$rel] = new yHtmlTag('link', $attr, true);
         return $this;
     }
+    public function setHome($href){
+        $this->addRelation('Home', $href);
+        return $this;
+    }
     public function setIndex($href){
         $this->addRelation('Index', $href);
         return $this;
