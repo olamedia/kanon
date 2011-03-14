@@ -125,6 +125,11 @@ class yPage{
         $this->addRelation('Help', $href);
         return $this;
     }
+    public function setGlossary($href){
+        $this->addRelation('Glossary', $href);
+        return $this;
+    }
+    
     public function setCopyright($href){
         $this->addRelation('Copyright', $href);
         return $this;
