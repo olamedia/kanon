@@ -94,7 +94,7 @@ class yPage{
     public function addRelation($rel, $href, $attr = array()){
         $attr['rel'] = $rel;
         $attr['href'] = $href;
-        $this->_relations[$rel] = new yHtmlTag('link', $attr);
+        $this->_relations[$rel] = new yHtmlTag('link', $attr, true);
         return $this;
     }
     public function setIndex($href){
