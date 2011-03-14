@@ -125,6 +125,10 @@ class yPage{
         $this->addRelation('Help', $href);
         return $this;
     }
+    public function setCopyright($href){
+        $this->addRelation('Copyright', $href);
+        return $this;
+    }
     public function setHttp($name, $content){
         $this->_meta->set($name, $content, true);
         return $this;
