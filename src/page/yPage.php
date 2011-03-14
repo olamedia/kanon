@@ -21,6 +21,7 @@
  */
 class yPage{
     protected $_meta = null;
+    protected $_relations = array();
     protected $_language = 'en';
     protected $_charset = 'UTF-8';
     protected $_title = null;
@@ -88,6 +89,12 @@ class yPage{
     }
     public function setMeta($name, $content, $isHttp = false){
         $this->_meta->set($name, $content, $isHttp);
+        return $this;
+    }
+    public function addRelation($rel, $href, $attr = array()){
+        $attr['rel'] = $rel;
+        $attr['href'] = $href;
+        $this->_relations[$rel] = new yHtmlTag('link', $attr);
         return $this;
     }
     public function setHttp($name, $content){
@@ -235,6 +242,9 @@ class yPage{
         }
         foreach ($this->_meta->toArray() as $meta){
             $head->appendChild($meta);
+        }
+        foreach ($this->_relations as $rel){
+            $head->appendChild($rel);
         }
         // DO NOT CHANGE: Put external scripts after external stylesheets if possible.
         $head->appendChild($this->getStyleTag());
