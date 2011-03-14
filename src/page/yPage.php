@@ -97,6 +97,22 @@ class yPage{
         $this->_relations[$rel] = new yHtmlTag('link', $attr);
         return $this;
     }
+    public function setIndex($href){
+        $this->addRelation('Index', $href);
+        return $this;
+    }
+    public function setNext($href){
+        $this->addRelation('Next', $href);
+        return $this;
+    }
+    public function setPrev($href){
+        $this->addRelation('Prev', $href);
+        return $this;
+    }
+    public function setHelp($href){
+        $this->addRelation('Help', $href);
+        return $this;
+    }
     public function setHttp($name, $content){
         $this->_meta->set($name, $content, true);
         return $this;
