@@ -219,8 +219,9 @@ class modelStorage{
         $sql = $this->_getDeleteSql($model);
         $this->query($sql);
     }
-    private function __construct(){
-        
+    protected $_name = '';
+    private function __construct($name){
+        $this->_name = $name;
     }
     /**
      * @return storageDriver
@@ -238,7 +239,7 @@ class modelStorage{
      */
     public static function getInstance($name = 'default'){
         if (!isset(self::$_instances[$name])){
-            $instance = new self;
+            $instance = new self($name);
             self::$_instances[$name] = $instance;
             storageRegistry::getInstance()->storages[$instance->getUniqueId()] = $instance;
         }
@@ -264,6 +265,7 @@ class modelStorage{
     }
     public function quote($string){
         if (!is_object($this->_storageDriver)){
+            var_dump($this);
             throw new Exception('');
         }
         return $this->_storageDriver->quote($string);
