@@ -66,7 +66,7 @@ class imageFilenameProperty extends stringProperty{
             $basename = $uniqid.$ext;
             $filename = $path.$basename;
             if (copy($tmp, $filename)){
-                $this->_value = $basename;
+                $this->setValue($basename);
                 return true;
             }
         }
