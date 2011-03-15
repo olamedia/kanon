@@ -65,9 +65,12 @@ class imageFilenameProperty extends stringProperty{
             $ext = image_type_to_extension($info[2], true);
             $basename = $uniqid.$ext;
             $filename = $path.$basename;
-            copy($tmp, $filename);
-            $this->_value = $basename;
+            if (copy($tmp, $filename)){
+                $this->_value = $basename;
+                return true;
+            }
         }
+        return false;
     }
     public function tm($size, $method = 'fit', $x = null){
         $width = $height = $size;
