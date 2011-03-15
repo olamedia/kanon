@@ -185,6 +185,9 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
                     $this->_result = null;
                 }
             }else{
+                $storage = $this->getStorage();
+                echo 'storage:';
+                var_dump($storage);
                 if ($a = $this->getStorage()->fetch($this->_result)){
                     var_dump($a);
                     $models = $this->_makeModels($a);
