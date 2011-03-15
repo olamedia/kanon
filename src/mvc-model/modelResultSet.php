@@ -174,7 +174,6 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
         if ($this->_finished)
             return false;
         $this->execute();
-        var_dump($this->_result);
         if ($this->_result){
             if (is_array($this->_result)){
                 // cached values
