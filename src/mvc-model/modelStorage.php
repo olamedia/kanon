@@ -220,7 +220,7 @@ class modelStorage{
         $this->query($sql);
     }
     private function __construct(){
-
+        
     }
     /**
      * @return storageDriver
@@ -263,6 +263,9 @@ class modelStorage{
         return $this->_storageDriver->rowCount($resultSet);
     }
     public function quote($string){
+        if (!is_object($this->_storageDriver)){
+            throw new Exception('');
+        }
         return $this->_storageDriver->quote($string);
     }
     public function getRegistry(){
@@ -402,10 +405,6 @@ class modelStorage{
                     //echo 'Connecting via DIRECT<br />';
                     if ($joinString !== false)
                         return $joins; //array($joinedTables, $joinString);
-
-
-
-
                 }
             }
         }
