@@ -198,8 +198,9 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
                     return $models;
                 }else{
                     echo '<h2>Failed</h2>';
-                        var_dump($a);
-                    echo mysql_error($storage->getConnection());
+                    var_dump($a);
+                    var_dump(mysql_errno($storage->getConnection()));
+                    var_dump(mysql_error($storage->getConnection()));
                 }
             }
         }
