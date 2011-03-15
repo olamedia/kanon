@@ -153,6 +153,8 @@ class kanon{
         // nginx: fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name;
         $requestUri = $_SERVER['REQUEST_URI'];
         $scriptUri = isset($_SERVER['SCRIPT_NAME'])?$_SERVER['SCRIPT_NAME']:$_SERVER['SCRIPT_FILENAME'];
+        $docRoot = $_SERVER['DOCUMENT_ROOT'];
+	$scriptUri = str_replace($docRoot, '', $scriptUri);
         if (preg_match("#^(.*)/[^/]+\.php$#imsu", $scriptUri, $subs)){
             $scriptUri = $subs[1];
         }
