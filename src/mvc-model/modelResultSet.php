@@ -66,6 +66,7 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
             }
             return $a;
         }
+        var_dump($a);
         $models = array();
         $made = array();
         foreach ($this->_selected as &$sa){
