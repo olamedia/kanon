@@ -69,7 +69,7 @@ class mysqlDriver extends storageDriver{
         }
         if ($host){
             try{
-                $this->_connection = mysql_connect($host, $this->get('username'), $this->get('password'));
+                $this->_connection = mysql_connect($host, $this->get('username'), $this->get('password'), true);
             }catch(Exception $e){
                 throw new Exception($e->getMessage(), $e->getCode());
             }
