@@ -66,7 +66,6 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
             }
             return $a;
         }
-        var_dump($a);
         $models = array();
         $made = array();
         foreach ($this->_selected as &$sa){
@@ -186,22 +185,13 @@ class modelResultSet extends modelQueryBuilder implements IteratorAggregate, Cou
                 }
             }else{
                 $storage = $this->getStorage();
-                echo 'storage:';
-                var_dump($storage);
                 $a = $storage->fetch($this->_result);
                 if ($a){
-                    var_dump($a);
                     $models = $this->_makeModels($a);
                     //if ($this->_useCache){
                     //	$this->_list[] = $models;
                     //}
                     return $models;
-                }else{
-                    echo '<h2>Failed '.$this->getSql().'</h2>';
-                    var_dump(mysql_fetch_assoc(mysql_query($this->getSql(), $storage->getConnection())));
-                    var_dump($a);
-                    var_dump(mysql_errno($storage->getConnection()));
-                    var_dump(mysql_error($storage->getConnection()));
                 }
             }
         }
