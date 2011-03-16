@@ -382,6 +382,7 @@ class modelQueryBuilder{
             $table = $sa->getCollection();
             return " FROM ".$table->getTableName()." as ".$table;
         }
+        throw new Exception('can\'t decide from which table I can take this');
     }
     protected function getOrderSql(){
         if (count($this->_order)){
