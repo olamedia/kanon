@@ -374,8 +374,14 @@ class modelQueryBuilder{
     protected function getFromSql(){
         reset($this->_selected);
         $sa = current($this->_selected);
-        list($table, $fields) = $sa;
-        return " FROM ".$table->getTableName()." as ".$table;
+        if ($sa instanceof modelField){
+            list($table, $fields) = $sa;
+            return " FROM ".$table->getTableName()." as ".$table;
+        }
+        if ($sa instanceof modelAggregation){
+            $table = $sa->getCollection();
+            return " FROM ".$table->getTableName()." as ".$table;
+        }
     }
     protected function getOrderSql(){
         if (count($this->_order)){
