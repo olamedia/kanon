@@ -126,15 +126,20 @@ class modelCollection implements ArrayAccess{
     public function select(){
         $args = func_get_args();
         $fields = false;
+        $aggregation = false;
         foreach ($args as $arg){
             if ($arg instanceof modelField){
                 if ($arg->getCollection()->getTableName() == $this->getTableName()){
                     $fields = true;
                 }
             }
+            if ($arg instanceof modelAggregation){
+                $aggregation = true;
+            }
         }
-        if (!$fields)
+        if (!$fields && !$aggregation){
             array_unshift($args, $this);
+        }
         $result = new modelResultSet();
         call_user_func_array(array($result, 'select'), $args);
         return $result;
