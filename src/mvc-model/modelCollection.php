@@ -141,6 +141,7 @@ class modelCollection implements ArrayAccess{
             array_unshift($args, $this);
         }
         $result = new modelResultSet();
+        $result->setStorageSource($this);
         call_user_func_array(array($result, 'select'), $args);
         return $result;
     }
