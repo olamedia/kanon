@@ -374,7 +374,7 @@ class modelQueryBuilder{
     protected function getFromSql(){
         reset($this->_selected);
         $sa = current($this->_selected);
-        if ($sa instanceof modelField){
+        if (is_array($sa)){
             list($table, $fields) = $sa;
             return " FROM ".$table->getTableName()." as ".$table;
         }
