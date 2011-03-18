@@ -62,7 +62,17 @@ class imageFilenameProperty extends stringProperty{
         $path = $this->getPath();
         if ($this->canUpload($tmp)){
             $info = getimagesize($tmp);
-            $ext = image_type_to_extension($info[2], true);
+            if (!$info){
+                $swc = false;
+                if ($fp = fopen($tmp, 'rb')){
+                    $header = fread($fp, 20);
+                    $swc = substr($header,0,3) === 'CWS';
+                    fclose($fp);
+                }
+                $ext = $swc?'.swf':'.dat';
+            }else{
+                $ext = image_type_to_extension($info[2], true);
+            }
             $basename = $uniqid.$ext;
             $filename = $path.$basename;
             if (copy($tmp, $filename)){
