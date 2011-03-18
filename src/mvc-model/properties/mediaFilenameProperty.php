@@ -19,12 +19,18 @@ class mediaFilenameProperty extends imageFilenameProperty{
             }
             return false;
         }
+        $swc = false;
+        if ($fp = fopen($tmp, 'rb')){
+            $header = fread($fp, 20);
+            $swc = substr($header,0,3) === 'CWS';
+            fclose($fp);
+        }
         $info = getimagesize($tmp);
-        if ($info === false){
+        if (!$swc && $info === false){
             header('X-Log-'.get_class($this).'1: not media: '.print_r($info).' '.$tmp);
             return false;
         }
-        if (!in_array($info[2], array(IMAGETYPE_GIF, IMAGETYPE_JPEG, IMAGETYPE_PNG, IMAGETYPE_SWF, IMAGETYPE_SWC))){
+        if (!$swc && !in_array($info[2], array(IMAGETYPE_GIF, IMAGETYPE_JPEG, IMAGETYPE_PNG, IMAGETYPE_SWF, IMAGETYPE_SWC))){
             header('X-Log-'.get_class($this).'1: not media: '.print_r($info[2]).' '.$tmp);
             return false;
         }
