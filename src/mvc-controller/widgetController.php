@@ -8,6 +8,10 @@
 class widgetController extends controller{
     protected $_widgetUri = null;
     protected $_widgetId = null;
+    protected $_block = null;
+    public function setBlock($block){
+        $this->_block = $block;
+    }
     /**
      *
      * @param integer $widgetId Constant id for widget settings over site
