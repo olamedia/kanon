@@ -20,7 +20,7 @@ class mediaFilenameProperty extends imageFilenameProperty{
             return false;
         }
         $info = getimagesize($tmp);
-        if (!in_array($info[2], array(IMAGETYPE_GIF, IMAGETYPE_JPEG, IMAGETYPE_PNG, IMAGETYPE_SWF))){
+        if (!in_array($info[2], array(IMAGETYPE_GIF, IMAGETYPE_JPEG, IMAGETYPE_PNG, IMAGETYPE_SWF, IMAGETYPE_SWC))){
             header('X-Log-'.get_class($this).'1: not media: '.$path);
             return false;
         }
