@@ -18,11 +18,21 @@ class widgetController extends controller{
             $this->back();
         }
     }
+    public function initSettings(){
+        if ($this->_block !== null){
+            if (request::getMethod() === 'POST'){
+                if (isset($_POST['padding'])){
+                    $this->_block->setOption('padding', intval($_POST['padding']));
+                }
+                $this->back();
+            }
+        }
+    }
     public function showSettings(){
         if ($this->_block !== null){
             echo '<form method="post" action="'.$this->arel().'" success="'.$this->rel('').'">';
             echo '<label for="s-padding">Внутренний отступ</label>';
-            echo '<input id="s-padding" type="text" style="width: 15px;" value="0" />';
+            echo '<input id="s-padding" type="text" name="padding" style="width: 15px;" value="'.$this->_block->getOption('padding', 0).'" />';
             echo '<div><input type="submit" value="Сохранить" /></div>';
             echo '</form>';
         }
