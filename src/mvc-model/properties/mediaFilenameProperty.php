@@ -21,9 +21,11 @@ class mediaFilenameProperty extends imageFilenameProperty{
         }
         $info = getimagesize($tmp);
         if (!in_array($info[2], array(IMAGETYPE_GIF, IMAGETYPE_JPEG, IMAGETYPE_PNG, IMAGETYPE_SWF))){
+            header('X-Log-'.get_class($this).'1: not media: '.$path);
             return false;
         }
         if (filesize($tmp) > $this->_maxFileSize){
+            header('X-Log-'.get_class($this).'1: too large: '.$path);
             return false;
         }
         return true;
