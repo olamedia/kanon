@@ -18,6 +18,15 @@ class widgetController extends controller{
             $this->back();
         }
     }
+    public function showSettings(){
+        if ($this->_block !== null){
+            echo '<form method="post" action="'.$this->arel().'" success="'.$this->rel('').'">';
+            echo '<label for="s-padding">Внутренний отступ</label>';
+            echo '<input id="s-padding" type="text" style="width: 15px;" value="0" />';
+            echo '<div><input type="submit" value="Сохранить" /></div>';
+            echo '</form>';
+        }
+    }
     /**
      *
      * @param integer $widgetId Constant id for widget settings over site
