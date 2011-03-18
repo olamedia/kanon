@@ -20,10 +20,12 @@ class widgetController extends controller{
     }
     public function initSettings(){
         if ($this->_block !== null){
+			$this->_block->getSettings();
             if (request::getMethod() === 'POST'){
                 if (isset($_POST['padding'])){
-                    $this->_block->setOption('padding', intval($_POST['padding']));
+                    $this->_block->setOption('padding', intval($_POST['padding']), 0);
                 }
+				$this->_block->save();
                 $this->back();
             }
         }
@@ -31,8 +33,8 @@ class widgetController extends controller{
     public function showSettings(){
         if ($this->_block !== null){
             echo '<form method="post" action="'.$this->arel().'" success="'.$this->rel('').'">';
-            echo '<label for="s-padding">Внутренний отступ</label>';
-            echo '<input id="s-padding" type="text" name="padding" style="width: 15px;" value="'.$this->_block->getOption('padding', 0).'" />';
+            echo '<label for="s-padding">Внутренний отступ</label> ';
+            echo '<input id="s-padding" type="text" name="padding" style="width: 40px;" value="'.$this->_block->getOption('padding', 0).'" /> px';
             echo '<div><input type="submit" value="Сохранить" /></div>';
             echo '</form>';
         }
