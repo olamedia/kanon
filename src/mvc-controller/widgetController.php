@@ -12,6 +12,12 @@ class widgetController extends controller{
     public function setBlock($block){
         $this->_block = $block;
     }
+    public function actionRemove(){
+        if ($this->_block !== null){
+            $this->_block->delete();
+            $this->back();
+        }
+    }
     /**
      *
      * @param integer $widgetId Constant id for widget settings over site
