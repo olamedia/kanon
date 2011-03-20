@@ -61,7 +61,7 @@ class documentFilenameProperty extends stringProperty{
     public function upload($tmp, $uniqid, $ext){
         $path = $this->getPath();
         if ($this->canUpload($tmp, $ext)){
-            $basename = $uniqid.$ext;
+            $basename = $uniqid.'.'.$ext;
             $filename = $path.$basename;
             if (copy($tmp, $filename)){
                 $this->setValue($basename);
