@@ -129,7 +129,7 @@ class widgetController extends controller{
         self::$_adminMode = $adminMode;
     }
     public function header(){
-        echo '<div class="widget '.get_class($this).'" id="'.$this->_widgetId.'">';
+        //echo '<div class="widget '.get_class($this).'" id="'.$this->_widgetId.'">';
         if (self::$_adminMode)
             $this->toolbar();
     }
@@ -139,7 +139,7 @@ class widgetController extends controller{
     public function footer(){
         if (self::$_adminMode)
             $this->statusbar();
-        echo '</div>';
+        //echo '</div>';
     }
     public function __toString(){
         $this->_header();
