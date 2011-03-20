@@ -180,7 +180,7 @@ class controllerPrototype{
             $this->preloadWidgets();
             $actions = $this->_relativeUri->getPath();
             array_shift($actions);
-            $widgetId = intval(array_shift($actions));
+            $widgetId = (array_shift($actions));
             if ($widget = widgets::get($widgetId, false)){
                 $widget->setWidgetMode();
                 $widget->run();
