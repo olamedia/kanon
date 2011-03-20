@@ -18,24 +18,58 @@ class widgetController extends controller{
             $this->back();
         }
     }
+    protected $_defaultSettings = array(
+        'padding'=>array(
+            'title'=>'Внутренний отступ',
+            'default'=>0,
+        ),
+        'margin'=>array(
+            'title'=>'Внешний отступ',
+            'default'=>0,
+        ),
+        'width'=>array(
+            'title'=>'Ширина',
+            'default'=>'100%',
+        ),
+        'height'=>array(
+            'title'=>'Высота',
+            'default'=>'auto',
+        ),
+    );
     public function initSettings(){
         if ($this->_block !== null){
-			$this->_block->getSettings();
+            $this->_block->getSettings();
             if (request::getMethod() === 'POST'){
-                if (isset($_POST['padding'])){
-                    $this->_block->setOption('padding', intval($_POST['padding']), 0);
+                foreach ($this->_defaultSettings as $name=>$a){
+                    $title = $a['title'];
+                    $default = $a['default'];
+                    if (isset($_POST[$name])){
+                        $this->_block->setOption($name, $_POST[$name], $default);
+                    }
                 }
-				$this->_block->save();
+                $this->_block->save();
                 $this->back();
             }
         }
     }
     public function showSettings(){
         if ($this->_block !== null){
+            echo '<h1>Настройки</h1>';
             echo '<form method="post" action="'.$this->arel().'" success="'.$this->rel('').'">';
-            echo '<label for="s-padding">Внутренний отступ</label> ';
-            echo '<input id="s-padding" type="text" name="padding" style="width: 40px;" value="'.$this->_block->getOption('padding', 0).'" /> px';
-            echo '<div><input type="submit" value="Сохранить" /></div>';
+            echo '<div class="content">';
+            echo '<table>';
+            foreach ($this->_defaultSettings as $name=>$a){
+                $title = $a['title'];
+                $default = $a['default'];
+                echo '<tr><td style="padding-right: 10px;text-align: right;">';
+                echo '<label for="s-'.$name.'">'.$title.'</label> ';
+                echo '</td><td>';
+                echo '<input id="s-'.$name.'" type="text" name="'.$name.'" style="width: 40px;" value="'.$this->_block->getOption($name, '').'" />';
+                echo '</td></tr>';
+            }
+            echo '</table>';
+            echo '</div>';
+            echo '<div class="footer"><input type="submit" value="Сохранить" /></div>';
             echo '</form>';
         }
     }
