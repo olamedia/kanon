@@ -61,10 +61,12 @@ class widgetController extends controller{
             foreach ($this->_defaultSettings as $name=>$a){
                 $title = $a['title'];
                 $default = $a['default'];
+                $width = isset($a['width'])?$a['width']:'40px';
                 echo '<tr><td style="padding-right: 10px;text-align: right;">';
                 echo '<label for="s-'.$name.'">'.$title.'</label> ';
                 echo '</td><td>';
-                echo '<input id="s-'.$name.'" type="text" name="'.$name.'" style="width: 40px;" value="'.$this->_block->getOption($name, $default).'" />';
+                
+                echo '<input id="s-'.$name.'" type="text" name="'.$name.'" style="width: '.$width.'" value="'.$this->_block->getOption($name, $default).'" />';
                 echo '</td></tr>';
             }
             echo '</table>';
