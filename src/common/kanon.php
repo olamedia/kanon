@@ -154,7 +154,7 @@ class kanon{
         $requestUri = $_SERVER['REQUEST_URI'];
         $scriptUri = isset($_SERVER['SCRIPT_NAME'])?$_SERVER['SCRIPT_NAME']:$_SERVER['SCRIPT_FILENAME'];
         $docRoot = $_SERVER['DOCUMENT_ROOT'];
-	$scriptUri = str_replace($docRoot, '', $scriptUri);
+        $scriptUri = str_replace($docRoot, '', $scriptUri);
         if (preg_match("#^(.*)/[^/]+\.php$#imsu", $scriptUri, $subs)){
             $scriptUri = $subs[1];
         }
@@ -217,6 +217,10 @@ class kanon{
         $path = self::getBasePath();
         foreach (glob($path.'/modules/*') as $d){
             if (is_dir($d)){
+                $base = basename($d);
+                if (substr($d, 0, 1) == '_'){
+                    continue;
+                }
                 if (is_file($d.'/module.php')){
                     self::loadModule(basename($d));
                 }
