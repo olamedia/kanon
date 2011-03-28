@@ -247,7 +247,7 @@ class yPage{
         $js = $this->_registry->get('js/plain', '');
         if (strlen($js)){
             $tag = yHtmlTag::create('script', array('type'=>'text/javascript'));
-            $tag->text($js);
+            $tag->appendChild(new yJsCommentNode($js));
             return $tag;
         }
         return new yTextNode();
