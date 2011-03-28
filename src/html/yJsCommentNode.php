@@ -25,9 +25,9 @@ class yJsCommentNode{
         return $this->_value;
     }
     public function __toString(){
-        return '//<!--'."\r\n".
+        return "\r\n".'//<!--'."\r\n".
         ($this->_value)."\r\n".
-        '//-->';
+        '//-->'."\r\n";
     }
 }
 
