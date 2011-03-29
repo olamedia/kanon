@@ -377,16 +377,7 @@ class controllerPrototype{
     }
     protected function _header(){
         response::sendHeaders();
-        /* echo '<!--//';
-          echo get_class($this).'::_header() called, call stack:';
-          var_dump(debug_backtrace());
-          echo '//-->'; */
-        //if (!$this->_ignoreParentTemplate) {
         $parent = $this->getParent();
-        /* if ($parent && $this->_ignoreParentTemplate && !$this->_isForwarded){
-          $parent = $parent->getParent();
-          } */
-
         if ($parent){
             $parent->_header();
             //if ($this->getParent())
@@ -394,7 +385,6 @@ class controllerPrototype{
                 echo "\r\n".'<div class="'.get_class($this).'_wrapper">';
             }
         }
-        //}
         $this->header();
         if ($this->_automaticWrappers){
             echo "\r\n".'<div class="'.get_class($this).'_content">';
@@ -406,15 +396,11 @@ class controllerPrototype{
         }
         $this->footer();
         $parent = $this->getParent();
-        if ($parent && $this->_ignoreParentTemplate && !$this->_isForwarded){
-            $parent = $parent->getParent();
-        }
         if ($parent){
-            //if ($this->getParent())
+            $parent->_footer();
             if ($this->_automaticWrappers){
                 echo "\r\n".'</div>';
             }
-            $parent->_footer();
         }
     }
     public function header(){
