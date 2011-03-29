@@ -379,10 +379,15 @@ class controllerPrototype{
         response::sendHeaders();
         $parent = $this->getParent();
         if ($parent){
-            $parent->_header();
-            //if ($this->getParent())
-            if ($this->_automaticWrappers){
-                echo "\r\n".'<div class="'.get_class($this).'_wrapper">';
+            if ($this->_ignoreParentTemplate){
+                $parent = $parent->getParent();
+            }
+            if ($parent){
+                $parent->_header();
+                //if ($this->getParent())
+                if ($this->_automaticWrappers){
+                    echo "\r\n".'<div class="'.get_class($this).'_wrapper">';
+                }
             }
         }
         $this->header();
@@ -397,10 +402,15 @@ class controllerPrototype{
         $this->footer();
         $parent = $this->getParent();
         if ($parent){
-            if ($this->_automaticWrappers){
-                echo "\r\n".'</div>';
+            if ($this->_ignoreParentTemplate){
+                $parent = $parent->getParent();
             }
-            $parent->_footer();
+            if ($parent){
+                if ($this->_automaticWrappers){
+                    echo "\r\n".'</div>';
+                }
+                $parent->_footer();
+            }
         }
     }
     public function header(){
