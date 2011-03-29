@@ -60,12 +60,12 @@ class yBreadcrumb implements Countable{
     public function getChildHtml(){
         $h = ' '.self::$_delimiter;
         $h .= '<span rel="v:child">';
-        $h .= '<div class="breadcrumb-child" itemprop="child" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">';
+        $h .= '<span class="breadcrumb-child" itemprop="child" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">';
         $h .= $this->getLinkHtml();
         if ($this->_child !== null){
             $h .= $this->_child->getChildHtml();
         }
-        $h .= '</div>';
+        $h .= '</span>';
         $h .= '</span>';
         return $h;
     }
