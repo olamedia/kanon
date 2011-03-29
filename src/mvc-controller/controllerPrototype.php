@@ -397,10 +397,10 @@ class controllerPrototype{
         $this->footer();
         $parent = $this->getParent();
         if ($parent){
-            $parent->_footer();
             if ($this->_automaticWrappers){
                 echo "\r\n".'</div>';
             }
+            $parent->_footer();
         }
     }
     public function header(){
