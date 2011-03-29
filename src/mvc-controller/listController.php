@@ -9,7 +9,7 @@ class listController extends controller{
         if (method_exists($item, 'getTitle')){
             return $item->getTitle();
         }
-        return $item->{$this->_title}->html();
+        return $item->{$this->_title}->getValue();
     }
     protected function _getHref($item, $rel){
         if (method_exists($item, 'getHref')){
