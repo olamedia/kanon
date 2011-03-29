@@ -47,6 +47,7 @@ class yBreadCrumbSet implements Countable{
             $this->_first = $this->_last = $breadcrumb;
         }else{
             $this->_last->append($breadcrumb);
+            $this->_last = $breadcrumb;
         }
     }
     public function __toString(){
