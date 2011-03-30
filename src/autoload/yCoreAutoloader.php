@@ -27,6 +27,8 @@ class yCoreAutoloader extends yAutoloader{
      */
     protected $_classes = array(
         'yAutoloader'=>'autoload/yAutoloader.php',
+        'yBreadCrumbSet'=>'breadcrumb/yBreadCrumbSet.php',
+        'yBreadcrumb'=>'breadcrumb/yBreadcrumb.php',
         'yCoreAutoloader'=>'autoload/yCoreAutoloader.php',
         'yDebugger'=>'debug/yDebugger.php',
         'yDirectory'=>'file/yDirectory.php',
