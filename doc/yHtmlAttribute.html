@@ -1,0 +1,119 @@
+<html>
+<head>
+<meta charset="utf-8" />
+<link type="text/css" rel="stylesheet" href="style.css" />
+<link href="http://alexgorbatchev.com/pub/sh/current/styles/shCore.css" rel="stylesheet" type="text/css" />
+<link href="http://alexgorbatchev.com/pub/sh/current/styles/shThemeRDark.css" rel="stylesheet" type="text/css" />
+<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shCore.js" type="text/javascript"></script>
+<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shAutoloader.js" type="text/javascript"></script>
+<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shBrushPhp.js" type="text/javascript"></script>
+<script type="text/javascript">
+SyntaxHighlighter.all();
+</script>
+</head>
+<body>
+<div class="header" style="border-top: 1px solid #C9D7F1;margin: 9px;margin-top: 24px;padding-top: 5px;margin-bottom: 10px;">
+    <a href="http://code.google.com/p/yuki/"><img src="http://code.google.com/p/yuki/logo?cct=1297980533" /></a>
+    <div style="display: inline-block;padding-left: 11px;">
+        <div class="project-name">
+            <a style="text-decoration: none;color: #666;font-family: arial, sans-serif;font-size: 39px;" href="http://code.google.com/p/yuki/">yuki</a>
+        </div>
+        <div class="project-summary">
+            <a href="http://code.google.com/p/yuki/" style="text-decoration: none;color: #444;font-family: arial, sans-serif;font-size: 13px;">Yuki PHP Framework</a>
+        </div>
+    </div>
+</div>
+<table width="100%"><tr><td width="200" valign="top">
+<div class="sidebar"><ul><li class="package">yuki<ul><li class="subpackage">autoload<ul><li class="class"><a href="yAutoloader.html">yAutoloader</a></li><li class="class"><a href="yCoreAutoloader.html">yCoreAutoloader</a></li></ul></li><li class="subpackage">debug<ul><li class="class"><a href="yDebugger.html">yDebugger</a></li></ul></li><li class="subpackage">file<ul><li class="class"><a href="yDirectory.html">yDirectory</a></li><li class="class"><a href="yFile.html">yFile</a></li><li class="class"><a href="yFileSystem.html">yFileSystem</a></li><li class="class"><a href="yLocalFileSystem.html">yLocalFileSystem</a></li><li class="class"><a href="yVirtualFileSystem.html">yVirtualFileSystem</a></li></ul></li><li class="subpackage">doc<ul><li class="class"><a href="yDocBlock.html">yDocBlock</a></li><li class="class"><a href="yDocumentor.html">yDocumentor</a></li><li class="class"><a href="yMethodDocumentor.html">yMethodDocumentor</a></li></ul></li><li class="subpackage">html<ul><li class="class"><a href="yHeadTag.html">yHeadTag</a></li><li class="class"><a href="yHtmlAttribute.html">yHtmlAttribute</a></li><li class="class"><a href="yHtmlHelper.html">yHtmlHelper</a></li><li class="class"><a href="yHtmlTag.html">yHtmlTag</a></li><li class="class"><a href="yHtmlTagList.html">yHtmlTagList</a></li><li class="class"><a href="yMetaTag.html">yMetaTag</a></li><li class="class"><a href="yStyleTag.html">yStyleTag</a></li><li class="class"><a href="yTextNode.html">yTextNode</a></li></ul></li></ul></li></ul></div>            
+</td><td valign="top">
+            
+<h1>yHtmlAttribute</h1>
+<div><b>@package</b> yuki</div>
+<div><b>@subpackage</b> html</div>
+
+<!-- Hierarhy -->
+
+<h2>Introduction</h2>
+yHtmlAttribute<br />
+<br />
+
+
+<h2>Method Summary</h2>
+<div class="summary" style="padding-bottom: 5px;margin-bottom: 5px;border-bottom: 1px solid #AAA;"><div class="method"><a href="#method.__construct">__construct</a>(<span class="param">$name, $value = ""</span>);</div><div style="font-size: 11px; margin-top: 1em;"></div></div><div class="summary" style="padding-bottom: 5px;margin-bottom: 5px;border-bottom: 1px solid #AAA;"><div class="method"><a href="#method.setName">setName</a>(<span class="param">$name</span>);</div><div style="font-size: 11px; margin-top: 1em;"></div></div><div class="summary" style="padding-bottom: 5px;margin-bottom: 5px;border-bottom: 1px solid #AAA;"><div class="method"><a href="#method.getName">getName</a>(<span class="param"></span>);</div><div style="font-size: 11px; margin-top: 1em;"></div></div><div class="summary" style="padding-bottom: 5px;margin-bottom: 5px;border-bottom: 1px solid #AAA;"><div class="method"><a href="#method.setDelimiter">setDelimiter</a>(<span class="param">$delimiter = ","</span>);</div><div style="font-size: 11px; margin-top: 1em;"></div></div><div class="summary" style="padding-bottom: 5px;margin-bottom: 5px;border-bottom: 1px solid #AAA;"><div class="method"><a href="#method.getDelimiter">getDelimiter</a>(<span class="param"></span>);</div><div style="font-size: 11px; margin-top: 1em;"></div></div><div class="summary" style="padding-bottom: 5px;margin-bottom: 5px;border-bottom: 1px solid #AAA;"><div class="method"><a href="#method.set">set</a>(<span class="param">$value</span>);</div><div style="font-size: 11px; margin-top: 1em;"></div></div><div class="summary" style="padding-bottom: 5px;margin-bottom: 5px;border-bottom: 1px solid #AAA;"><div class="method"><a href="#method.get">get</a>(<span class="param"></span>);</div><div style="font-size: 11px; margin-top: 1em;"></div></div><div class="summary" style="padding-bottom: 5px;margin-bottom: 5px;border-bottom: 1px solid #AAA;"><div class="method"><a href="#method.push">push</a>(<span class="param">$value</span>);</div><div style="font-size: 11px; margin-top: 1em;"></div></div><div class="summary" style="padding-bottom: 5px;margin-bottom: 5px;border-bottom: 1px solid #AAA;"><div class="method"><a href="#method.pop">pop</a>(<span class="param">$value</span>);</div><div style="font-size: 11px; margin-top: 1em;"></div></div><div class="summary" style="padding-bottom: 5px;margin-bottom: 5px;border-bottom: 1px solid #AAA;"><div class="method"><a href="#method.getAttributeString">getAttributeString</a>(<span class="param"></span>);</div><div style="font-size: 11px; margin-top: 1em;"></div></div><div class="summary" style="padding-bottom: 5px;margin-bottom: 5px;border-bottom: 1px solid #AAA;"><div class="method">string
+ <a href="#method.__toString">__toString</a>(<span class="param"></span>);</div><div style="font-size: 11px; margin-top: 1em;">Gets value string</div></div>
+<h2>Method Details</h2>
+<div style="padding: 4px;border: solid 1px #666;"><a name="method.__construct"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method"><a href="#method.__construct">__construct</a>(<span class="param">$name, $value = ""</span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3></h3></div></div></div></div><h3>Source Code</h3><pre class="brush: php">    public function __construct($name, $value = ''){
+        $this-&gt;_name = $name;
+        $this-&gt;_value = $value;
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method.setName"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method"><a href="#method.setName">setName</a>(<span class="param">$name</span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3></h3></div></div></div></div><h3>Source Code</h3><pre class="brush: php">    public function setName($name){
+        $this-&gt;_name = $name;
+        return $this;
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method.getName"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method"><a href="#method.getName">getName</a>(<span class="param"></span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3></h3></div></div></div></div><h3>Source Code</h3><pre class="brush: php">    public function getName(){
+        return $this-&gt;_name;
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method.setDelimiter"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method"><a href="#method.setDelimiter">setDelimiter</a>(<span class="param">$delimiter = ","</span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3></h3></div></div></div></div><h3>Source Code</h3><pre class="brush: php">    public function setDelimiter($delimiter = ','){
+        $this-&gt;_delimiter = $delimiter;
+        return $this;
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method.getDelimiter"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method"><a href="#method.getDelimiter">getDelimiter</a>(<span class="param"></span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3></h3></div></div></div></div><h3>Source Code</h3><pre class="brush: php">    public function getDelimiter(){
+        return $this-&gt;_delimiter;
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method.set"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method"><a href="#method.set">set</a>(<span class="param">$value</span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3></h3></div></div></div></div><h3>Source Code</h3><pre class="brush: php">    public function set($value){
+        if (is_array($value)){
+            $this-&gt;_value = array();
+            foreach ($value as $x){
+                $x = strval($x);
+                $this-&gt;_value[$x] = $x;
+            }
+        }else{
+            $this-&gt;_value = $value;
+        }
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method.get"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method"><a href="#method.get">get</a>(<span class="param"></span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3></h3></div></div></div></div><h3>Source Code</h3><pre class="brush: php">    public function get(){
+        return is_array($this-&gt;_value)?implode($this-&gt;_delimiter, $this-&gt;_value):$this-&gt;_value;
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method.push"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method"><a href="#method.push">push</a>(<span class="param">$value</span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3></h3></div></div></div></div><h3>Source Code</h3><pre class="brush: php">    public function push($value){
+        $value = strval($value);
+        if (!is_array($this-&gt;_value)){
+            $this-&gt;_value = array($this-&gt;_value=&gt;$this-&gt;_value);
+        }
+        $this-&gt;_value[$value] = $value;
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method.pop"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method"><a href="#method.pop">pop</a>(<span class="param">$value</span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3></h3></div></div></div></div><h3>Source Code</h3><pre class="brush: php">    public function pop($value){
+        $value = strval($value);
+        if (!is_array($this-&gt;_value)){
+            $this-&gt;_value = array($this-&gt;_value=&gt;$this-&gt;_value);
+        }
+        unset($this-&gt;_value[$value]);
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method.getAttributeString"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method"><a href="#method.getAttributeString">getAttributeString</a>(<span class="param"></span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3></h3></div></div></div></div><h3>Source Code</h3><pre class="brush: php">    public function getAttributeString(){
+        return $this-&gt;_name.'=&quot;'.htmlspecialchars($this-&gt;get()).'&quot;';
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method.__toString"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method">string
+ <a href="#method.__toString">__toString</a>(<span class="param"></span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3>Gets value string
+</h3></div></div><div><b>returns</b> string
+ </div></div></div><h3>Source Code</h3><pre class="brush: php">    public function __toString(){
+        return strval($this-&gt;get());
+    }
+</pre></div>
+
+
+<h2>Class synopsis</h2>
+<div class="classsynopsis">
+<b class="classname">yHtmlAttribute</b> {
+<div class="contents">
+<h3>/* Properties */</h3>
+<div class="property">protected <a href="#property._name">$_name</a>;</div><div class="property">protected <a href="#property._value">$_value</a>;</div><div class="property">protected <a href="#property._delimiter">$_delimiter</a>;</div>
+<h3>/* Methods */</h3>
+<div class="method"><a href="#method.__construct">__construct</a>(<span class="param">$name, $value = ""</span>);</div><div class="method"><a href="#method.setName">setName</a>(<span class="param">$name</span>);</div><div class="method"><a href="#method.getName">getName</a>(<span class="param"></span>);</div><div class="method"><a href="#method.setDelimiter">setDelimiter</a>(<span class="param">$delimiter = ","</span>);</div><div class="method"><a href="#method.getDelimiter">getDelimiter</a>(<span class="param"></span>);</div><div class="method"><a href="#method.set">set</a>(<span class="param">$value</span>);</div><div class="method"><a href="#method.get">get</a>(<span class="param"></span>);</div><div class="method"><a href="#method.push">push</a>(<span class="param">$value</span>);</div><div class="method"><a href="#method.pop">pop</a>(<span class="param">$value</span>);</div><div class="method"><a href="#method.getAttributeString">getAttributeString</a>(<span class="param"></span>);</div><div class="method">string
+ <a href="#method.__toString">__toString</a>(<span class="param"></span>);</div>
+</div>
+}
+</div>
+
+
+</td></tr></table>
+</body>
+</html>
