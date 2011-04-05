@@ -9,6 +9,12 @@ class widgetController extends controller{
     protected $_widgetUri = null;
     protected $_widgetId = null;
     protected $_block = null;
+    public function isEditable(){
+        return true;
+    }
+    public function isTuneable(){
+        return true;
+    }
     public function setBlock($block){
         $this->_block = $block;
     }
@@ -65,14 +71,15 @@ class widgetController extends controller{
                 echo '<tr><td style="padding-right: 10px;text-align: right;">';
                 echo '<label for="s-'.$name.'">'.$title.'</label> ';
                 echo '</td><td>';
-                
+
                 echo '<input id="s-'.$name.'" type="text" name="'.$name.'" style="width: '.$width.'" value="'.$this->_block->getOption($name, $default).'" />';
                 echo '</td></tr>';
             }
             echo '</table>';
             echo '</div>';
             echo '<div class="footer"><input type="submit" value="Сохранить" />';
-            if (request::isAjax()) echo '<a href="'.$this->rel().'" class="button close">Отменить</a>';
+            if (request::isAjax())
+                echo '<a href="'.$this->rel().'" class="button close">Отменить</a>';
             echo '</div>';
             echo '</form>';
         }
