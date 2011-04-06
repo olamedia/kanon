@@ -12,6 +12,9 @@ class widgetController extends controller{
     public function getClass(){
         return false;
     }
+    public function getTag(){
+        return false;
+    }
     public function allowWrap(){
         return true;
     }
