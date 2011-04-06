@@ -86,7 +86,7 @@ class widgetController extends controller{
             }
             echo '</table>';
             echo '</div>';
-            echo '<div class="footer"><input type="submit" value="Сохранить" />';
+            echo '<div class="footer"><input type="submit" class="button submit" value="Сохранить" />';
             if (request::isAjax())
                 echo '<a href="'.$this->rel().'" class="button close">Отменить</a>';
             echo '</div>';
