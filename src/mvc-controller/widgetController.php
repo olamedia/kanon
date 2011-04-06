@@ -9,6 +9,9 @@ class widgetController extends controller{
     protected $_widgetUri = null;
     protected $_widgetId = null;
     protected $_block = null;
+    public function getClass(){
+        return false;
+    }
     public function allowWrap(){
         return true;
     }
