@@ -104,7 +104,7 @@ class widgetController extends controller{
         $this->_relativeUri = uri::fromRequestUri();
         $this->_me = new ReflectionClass(get_class($this));
         $this->setOptions($options);
-        $this->setWidgetUri(app()->rel('w'.$widgetId));
+        $this->setWidgetUri(app()->rel('_w'.$widgetId));
         $this->setWidgetId($widgetId);
         parent::__construct();
     }
