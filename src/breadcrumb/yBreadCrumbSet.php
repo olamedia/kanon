@@ -50,6 +50,14 @@ class yBreadCrumbSet implements Countable{
             $this->_last = $breadcrumb;
         }
     }
+    public function prepend($breadcrumb){
+        if ($this->_first === null){
+            $this->_first = $this->_last = $breadcrumb;
+        }else{
+            $this->_first->prepend($breadcrumb);
+            $this->_first = $breadcrumb;
+        }
+    }
     public function __toString(){
         return (string) $this->_first;
     }

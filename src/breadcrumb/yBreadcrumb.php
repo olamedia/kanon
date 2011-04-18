@@ -44,6 +44,9 @@ class yBreadcrumb implements Countable{
     public function append($child){
         $this->_child = $child;
     }
+    public function prepend($parent){
+        $parent->append($this);
+    }
     public function getLinkHtml(){
         return '<a href="'.$this->_url.'" itemprop="url" rel="v:url">'.
         '<span itemprop="title" property="v:title">'.htmlspecialchars($this->_title).'</span>'.
