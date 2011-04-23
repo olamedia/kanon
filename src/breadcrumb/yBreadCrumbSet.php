@@ -13,10 +13,11 @@
 /**
  * yBreadCrumbSet - Represents a set of Breadcrumbs.
  *
- * @package yuki
- * @subpackage breadcrumb
+ * @package Expression package is undefined on line 12, column 15 in Templates/Scripting/PHPClass.php.
+ * @subpackage 
  * @author olamedia
  * @license http://www.opensource.org/licenses/mit-license.php MIT
+ * @version SVN: $Id$
  */
 class yBreadCrumbSet implements Countable{
     /**
@@ -47,6 +48,14 @@ class yBreadCrumbSet implements Countable{
         }else{
             $this->_last->append($breadcrumb);
             $this->_last = $breadcrumb;
+        }
+    }
+    public function prepend($breadcrumb){
+        if ($this->_first === null){
+            $this->_first = $this->_last = $breadcrumb;
+        }else{
+            $this->_first->prepend($breadcrumb);
+            $this->_first = $breadcrumb;
         }
     }
     public function __toString(){

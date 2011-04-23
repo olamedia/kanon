@@ -17,7 +17,7 @@
  * @subpackage html
  * @author olamedia
  * @license http://www.opensource.org/licenses/mit-license.php MIT
- * @property-write innerText
+ * @version SVN: $Id$
  */
 class yHtmlTag implements ArrayAccess{
     public $tagName = 'html';
@@ -32,19 +32,13 @@ class yHtmlTag implements ArrayAccess{
         return isset($this->attributes[$name]);
     }
     public function setAttribute($name, $value){
-        $this->attributes[$name] = new yHtmlAttribute($name, $value);
+        $this->attributes[$name] = $value;
         return $this;
     }
     public function removeAttribute($name){
         unset($this->attributes[$name]);
         return $this;
     }
-    /**
-     * Gets tag attribute.
-     * @param string $name
-     * @param mixed $default
-     * @return yHtmlAttribute
-     */
     public function getAttribute($name, $default = null){
         return isset($this->attributes[$name])?$this->attributes[$name]:$default;
     }
@@ -59,10 +53,7 @@ class yHtmlTag implements ArrayAccess{
         'head'=>'yHeadTag',
         'meta'=>'yMetaTag'
     );
-    protected static $_selfClosedTags = array(
-        'br', 'img', 'meta', 'link', 'input'
-    );
-    public function setText($text = ''){
+    public function text($text = ''){
         $textNode = new yTextNode($text);
         if ($this->hasChildNodes()){
             $this->childNodes = array();
@@ -78,22 +69,21 @@ class yHtmlTag implements ArrayAccess{
         return new yHtmlTag($name, $attr, $closed);
     }
     public function __construct($name = 'html', $attr = array(), $closed = false){
+        //parent::__construct($name);
+        //yHtmlHelper::getInstance()->getDom()->appendChild($this);
         $this->tagName = $name;
         foreach ($attr as $k=>$v){
             $this->setAttribute($k, $v);
-        }
-        if (in_array($name, self::$_selfClosedTags)){
-            $closed = true;
         }
         $this->_isSelfClosed = $closed;
     }
     public function __toString(){
         $attrs = array($this->tagName);
-        foreach ($this->attributes as $node){
-            $attrs[] = $node->getAttributeString();
+        foreach ($this->attributes as $name=>$node){
+            $attrs[] = $name.'="'.$node.'"';
         }
         if ($this->_isSelfClosed){
-            $open = '<'.implode(' ', $attrs).'>'; // /
+            $open = '<'.implode(' ', $attrs).'>';// /
             $close = '';
         }else{
             $open = '<'.implode(' ', $attrs).'>';
@@ -101,12 +91,18 @@ class yHtmlTag implements ArrayAccess{
         }
         $inner = '';
         if (!$this->_isSelfClosed){
-            $inner = implode('', $this->childNodes);
+            $inner = implode("\n", $this->childNodes);
         }
         return $open.$inner.$close;
+        return substr($this->C14N(), 0, -strlen($this->tagName) - 4).' />';
+        //}
+        //return $this->C14N();
     }
     public function offsetExists($offset){
         return $this->hasAttribute($offset);
+    }
+    public function set($name, $value){
+        $this->setAttribute($name, $value);
     }
     /**
      * Sets attribute.
@@ -139,15 +135,5 @@ class yHtmlTag implements ArrayAccess{
     }
     public function close(){
         $this->_isSelfClosed = true;
-    }
-    public function __set($name, $value){
-        if ($name === 'innerText'){
-            $this->setText($value);
-        }else{
-            $this->setAttribute($name, $value);
-        }
-    }
-    public function __get($name){
-        return $this->getAttribute($name, '');
     }
 }

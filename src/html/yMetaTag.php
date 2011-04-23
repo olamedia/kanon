@@ -17,6 +17,7 @@
  * @subpackage html
  * @author olamedia
  * @license http://www.opensource.org/licenses/mit-license.php MIT
+ * @version SVN: $Id$
  */
 class yMetaTag extends yHtmlTag{
     public function __construct($attr = array()){
@@ -30,7 +31,6 @@ class yMetaTag extends yHtmlTag{
         $a = explode(',', $this->getAttribute('content'));
         if ($a[0] == '')
             $a = array(); // fix initial array("")
-
 
             
 //var_dump($a);

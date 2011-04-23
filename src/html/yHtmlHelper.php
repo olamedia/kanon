@@ -13,10 +13,11 @@
 /**
  * yHtmlHelper
  *
- * @package yuki
- * @subpackage html
+ * @package Expression package is undefined on line 12, column 15 in Templates/Scripting/PHPClass.php.
+ * @subpackage 
  * @author olamedia
  * @license http://www.opensource.org/licenses/mit-license.php MIT
+ * @version SVN: $Id$
  */
 class yHtmlHelper{
     protected static $_instance = null;
