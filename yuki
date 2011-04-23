@@ -1,0 +1,337 @@
+<html>
+<head>
+<meta charset="utf-8" />
+<link type="text/css" rel="stylesheet" href="style.css" />
+<link href="http://alexgorbatchev.com/pub/sh/current/styles/shCore.css" rel="stylesheet" type="text/css" />
+<link href="http://alexgorbatchev.com/pub/sh/current/styles/shThemeRDark.css" rel="stylesheet" type="text/css" />
+<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shCore.js" type="text/javascript"></script>
+<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shAutoloader.js" type="text/javascript"></script>
+<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shBrushPhp.js" type="text/javascript"></script>
+<script type="text/javascript">
+SyntaxHighlighter.all();
+</script>
+</head>
+<body>
+<div class="header" style="border-top: 1px solid #C9D7F1;margin: 9px;margin-top: 24px;padding-top: 5px;margin-bottom: 10px;">
+    <a href="http://code.google.com/p/yuki/"><img src="http://code.google.com/p/yuki/logo?cct=1297980533" /></a>
+    <div style="display: inline-block;padding-left: 11px;">
+        <div class="project-name">
+            <a style="text-decoration: none;color: #666;font-family: arial, sans-serif;font-size: 39px;" href="http://code.google.com/p/yuki/">yuki</a>
+        </div>
+        <div class="project-summary">
+            <a href="http://code.google.com/p/yuki/" style="text-decoration: none;color: #444;font-family: arial, sans-serif;font-size: 13px;">Yuki PHP Framework</a>
+        </div>
+    </div>
+</div>
+<table width="100%"><tr><td width="200" valign="top">
+<div class="sidebar"><ul><li class="package">yuki<ul><li class="subpackage">autoload<ul><li class="class"><a href="yAutoloader.html">yAutoloader</a></li><li class="class"><a href="yCoreAutoloader.html">yCoreAutoloader</a></li></ul></li><li class="subpackage">breadcrumb<ul><li class="class"><a href="yBreadCrumbSet.html">yBreadCrumbSet</a></li><li class="class"><a href="yBreadcrumb.html">yBreadcrumb</a></li></ul></li><li class="subpackage">debug<ul><li class="class"><a href="yDebugger.html">yDebugger</a></li></ul></li><li class="subpackage">file<ul><li class="class"><a href="yDirectory.html">yDirectory</a></li><li class="class"><a href="yFile.html">yFile</a></li><li class="class"><a href="yFileSystem.html">yFileSystem</a></li><li class="class"><a href="yFilesystemResource.html">yFilesystemResource</a></li><li class="class"><a href="yLocalFileSystem.html">yLocalFileSystem</a></li><li class="class"><a href="yVirtualFileSystem.html">yVirtualFileSystem</a></li></ul></li><li class="subpackage">doc<ul><li class="class"><a href="yDocBlock.html">yDocBlock</a></li><li class="class"><a href="yDocumentor.html">yDocumentor</a></li><li class="class"><a href="yMethodDocumentor.html">yMethodDocumentor</a></li></ul></li><li class="subpackage">forms<ul><li class="class"><a href="yFileInput.html">yFileInput</a></li><li class="class"><a href="yFormControl.html">yFormControl</a></li><li class="class"><a href="yFormControlSet.html">yFormControlSet</a></li><li class="class"><a href="yFormResultIterator.html">yFormResultIterator</a></li><li class="class"><a href="yTextInput.html">yTextInput</a></li><li class="class"><a href="yValidatorException.html">yValidatorException</a></li></ul></li><li class="subpackage">html<ul><li class="class"><a href="yHeadTag.html">yHeadTag</a></li><li class="class"><a href="yHtmlAttribute.html">yHtmlAttribute</a></li><li class="class"><a href="yHtmlHelper.html">yHtmlHelper</a></li><li class="class"><a href="yHtmlTag.html">yHtmlTag</a></li><li class="class"><a href="yHtmlTagList.html">yHtmlTagList</a></li><li class="class"><a href="yMetaTag.html">yMetaTag</a></li><li class="class"><a href="yStyleTag.html">yStyleTag</a></li><li class="class"><a href="yTextNode.html">yTextNode</a></li></ul></li><li class="subpackage">uri<ul><li class="class"><a href="yUri.html">yUri</a></li><li class="class"><a href="yUriAuthority.html">yUriAuthority</a></li><li class="class"><a href="yUriFragment.html">yUriFragment</a></li><li class="class"><a href="yUriPath.html">yUriPath</a></li><li class="class"><a href="yUriQuery.html">yUriQuery</a></li><li class="class"><a href="yUriScheme.html">yUriScheme</a></li></ul></li></ul></li><li class="package">default</li></ul></div>            
+</td><td valign="top">
+            
+<h1>yTextInput</h1>
+<div><b>@package</b> yuki</div>
+<div><b>@subpackage</b> forms</div>
+<pre><div><a style="color: #666; text-decoration: none; border-bottom: dashed 1px #999;" href="yFormControl.html">yFormControl</a></div><div>    └ <a style="color: #666; text-decoration: none; border-bottom: dashed 1px #999;" href="yHtmlTag.html">yHtmlTag</a></div><div>    └     └ <b>yTextInput</b></div></pre><pre></pre>
+<!-- Hierarhy -->
+
+<h2>Introduction</h2>
+yTextInput<br />
+
+
+
+<h2>Method Summary</h2>
+<div class="summary" style="padding-bottom: 5px;margin-bottom: 5px;border-bottom: 1px solid #AAA;"><div class="method"><a href="#method.__construct">__construct</a>(<span class="param">$name</span>);</div><div style="font-size: 11px; margin-top: 1em;"></div></div><div class="summary" style="padding-bottom: 5px;margin-bottom: 5px;border-bottom: 1px solid #AAA;"><div class="method"><a href="#method.getKeys">getKeys</a>(<span class="param"></span>);</div><div style="font-size: 11px; margin-top: 1em;"></div></div><div class="summary" style="padding-bottom: 5px;margin-bottom: 5px;border-bottom: 1px solid #AAA;"><div class="method">yFormControl <a href="#method.setPrefix">setPrefix</a>(<span class="param">$prefix</span>);</div><div style="font-size: 11px; margin-top: 1em;">Sets name prefix.</div></div><div class="summary" style="padding-bottom: 5px;margin-bottom: 5px;border-bottom: 1px solid #AAA;"><div class="method">mixed <a href="#method.getPrefix">getPrefix</a>(<span class="param"></span>);</div><div style="font-size: 11px; margin-top: 1em;">Gets name prefix.</div></div><div class="summary" style="padding-bottom: 5px;margin-bottom: 5px;border-bottom: 1px solid #AAA;"><div class="method">yFormControl <a href="#method.setName">setName</a>(<span class="param">$name</span>);</div><div style="font-size: 11px; margin-top: 1em;">Sets input name.</div></div><div class="summary" style="padding-bottom: 5px;margin-bottom: 5px;border-bottom: 1px solid #AAA;"><div class="method">string <a href="#method.getName">getName</a>(<span class="param"></span>);</div><div style="font-size: 11px; margin-top: 1em;">Gets input name.</div></div><div class="summary" style="padding-bottom: 5px;margin-bottom: 5px;border-bottom: 1px solid #AAA;"><div class="method">yFormControl <a href="#method.setHelpHtml">setHelpHtml</a>(<span class="param">$help</span>);</div><div style="font-size: 11px; margin-top: 1em;">Sets help message.</div></div><div class="summary" style="padding-bottom: 5px;margin-bottom: 5px;border-bottom: 1px solid #AAA;"><div class="method">yFormControl <a href="#method.setHelpText">setHelpText</a>(<span class="param">$help</span>);</div><div style="font-size: 11px; margin-top: 1em;">Sets help message.</div></div><div class="summary" style="padding-bottom: 5px;margin-bottom: 5px;border-bottom: 1px solid #AAA;"><div class="method">string <a href="#method.getHelpHtml">getHelpHtml</a>(<span class="param"></span>);</div><div style="font-size: 11px; margin-top: 1em;">Gets help message.</div></div><div class="summary" style="padding-bottom: 5px;margin-bottom: 5px;border-bottom: 1px solid #AAA;"><div class="method">yFormControl <a href="#method.setKey">setKey</a>(<span class="param">$key</span>);</div><div style="font-size: 11px; margin-top: 1em;">Sets input key.</div></div><div class="summary" style="padding-bottom: 5px;margin-bottom: 5px;border-bottom: 1px solid #AAA;"><div class="method">mixed <a href="#method.getKey">getKey</a>(<span class="param"></span>);</div><div style="font-size: 11px; margin-top: 1em;">Gets input key.</div></div><div class="summary" style="padding-bottom: 5px;margin-bottom: 5px;border-bottom: 1px solid #AAA;"><div class="method"><a href="#method.setValue">setValue</a>(<span class="param">$value</span>);</div><div style="font-size: 11px; margin-top: 1em;"></div></div><div class="summary" style="padding-bottom: 5px;margin-bottom: 5px;border-bottom: 1px solid #AAA;"><div class="method"><a href="#method.getValue">getValue</a>(<span class="param"></span>);</div><div style="font-size: 11px; margin-top: 1em;"></div></div><div class="summary" style="padding-bottom: 5px;margin-bottom: 5px;border-bottom: 1px solid #AAA;"><div class="method"><a href="#method.setRequired">setRequired</a>(<span class="param">$required = 1</span>);</div><div style="font-size: 11px; margin-top: 1em;"></div></div><div class="summary" style="padding-bottom: 5px;margin-bottom: 5px;border-bottom: 1px solid #AAA;"><div class="method"><a href="#method.isRequired">isRequired</a>(<span class="param"></span>);</div><div style="font-size: 11px; margin-top: 1em;"></div></div><div class="summary" style="padding-bottom: 5px;margin-bottom: 5px;border-bottom: 1px solid #AAA;"><div class="method"><a href="#method.setLabelText">setLabelText</a>(<span class="param">$text</span>);</div><div style="font-size: 11px; margin-top: 1em;"></div></div><div class="summary" style="padding-bottom: 5px;margin-bottom: 5px;border-bottom: 1px solid #AAA;"><div class="method"><a href="#method.setLabelHtml">setLabelHtml</a>(<span class="param">$html</span>);</div><div style="font-size: 11px; margin-top: 1em;"></div></div><div class="summary" style="padding-bottom: 5px;margin-bottom: 5px;border-bottom: 1px solid #AAA;"><div class="method">yHtmlTag <a href="#method.getLabel">getLabel</a>(<span class="param"></span>);</div><div style="font-size: 11px; margin-top: 1em;"></div></div><div class="summary" style="padding-bottom: 5px;margin-bottom: 5px;border-bottom: 1px solid #AAA;"><div class="method"><a href="#method.addValidator">addValidator</a>(<span class="param">$validator, $options = Array</span>);</div><div style="font-size: 11px; margin-top: 1em;"></div></div><div class="summary" style="padding-bottom: 5px;margin-bottom: 5px;border-bottom: 1px solid #AAA;"><div class="method"><a href="#method.removeValidator">removeValidator</a>(<span class="param">$validator</span>);</div><div style="font-size: 11px; margin-top: 1em;"></div></div><div class="summary" style="padding-bottom: 5px;margin-bottom: 5px;border-bottom: 1px solid #AAA;"><div class="method"><a href="#method.addErrorMessage">addErrorMessage</a>(<span class="param">$message</span>);</div><div style="font-size: 11px; margin-top: 1em;"></div></div><div class="summary" style="padding-bottom: 5px;margin-bottom: 5px;border-bottom: 1px solid #AAA;"><div class="method"><a href="#method.getErrorMessages">getErrorMessages</a>(<span class="param"></span>);</div><div style="font-size: 11px; margin-top: 1em;"></div></div><div class="summary" style="padding-bottom: 5px;margin-bottom: 5px;border-bottom: 1px solid #AAA;"><div class="method"><a href="#method.validate">validate</a>(<span class="param"></span>);</div><div style="font-size: 11px; margin-top: 1em;"></div></div><div class="summary" style="padding-bottom: 5px;margin-bottom: 5px;border-bottom: 1px solid #AAA;"><div class="method"><a href="#method.processKey">processKey</a>(<span class="param"></span>);</div><div style="font-size: 11px; margin-top: 1em;"></div></div><div class="summary" style="padding-bottom: 5px;margin-bottom: 5px;border-bottom: 1px solid #AAA;"><div class="method"><a href="#method.hasAttributes">hasAttributes</a>(<span class="param"></span>);</div><div style="font-size: 11px; margin-top: 1em;"></div></div><div class="summary" style="padding-bottom: 5px;margin-bottom: 5px;border-bottom: 1px solid #AAA;"><div class="method"><a href="#method.hasAttribute">hasAttribute</a>(<span class="param">$name</span>);</div><div style="font-size: 11px; margin-top: 1em;"></div></div><div class="summary" style="padding-bottom: 5px;margin-bottom: 5px;border-bottom: 1px solid #AAA;"><div class="method"><a href="#method.setAttribute">setAttribute</a>(<span class="param">$name, $value</span>);</div><div style="font-size: 11px; margin-top: 1em;"></div></div><div class="summary" style="padding-bottom: 5px;margin-bottom: 5px;border-bottom: 1px solid #AAA;"><div class="method"><a href="#method.removeAttribute">removeAttribute</a>(<span class="param">$name</span>);</div><div style="font-size: 11px; margin-top: 1em;"></div></div><div class="summary" style="padding-bottom: 5px;margin-bottom: 5px;border-bottom: 1px solid #AAA;"><div class="method">yHtmlAttribute
+ <a href="#method.getAttribute">getAttribute</a>(<span class="param">$name, $default = </span>);</div><div style="font-size: 11px; margin-top: 1em;">Gets tag attribute.</div></div><div class="summary" style="padding-bottom: 5px;margin-bottom: 5px;border-bottom: 1px solid #AAA;"><div class="method"><a href="#method.hasChildNodes">hasChildNodes</a>(<span class="param"></span>);</div><div style="font-size: 11px; margin-top: 1em;"></div></div><div class="summary" style="padding-bottom: 5px;margin-bottom: 5px;border-bottom: 1px solid #AAA;"><div class="method"><a href="#method.appendChild">appendChild</a>(<span class="param">$child</span>);</div><div style="font-size: 11px; margin-top: 1em;"></div></div><div class="summary" style="padding-bottom: 5px;margin-bottom: 5px;border-bottom: 1px solid #AAA;"><div class="method"><a href="#method.setText">setText</a>(<span class="param">$text = ""</span>);</div><div style="font-size: 11px; margin-top: 1em;"></div></div><div class="summary" style="padding-bottom: 5px;margin-bottom: 5px;border-bottom: 1px solid #AAA;"><div class="method">static <a href="#method.create">create</a>(<span class="param">$name = "html", $attr = Array, $closed = </span>);</div><div style="font-size: 11px; margin-top: 1em;"></div></div><div class="summary" style="padding-bottom: 5px;margin-bottom: 5px;border-bottom: 1px solid #AAA;"><div class="method"><a href="#method.__toString">__toString</a>(<span class="param"></span>);</div><div style="font-size: 11px; margin-top: 1em;"></div></div><div class="summary" style="padding-bottom: 5px;margin-bottom: 5px;border-bottom: 1px solid #AAA;"><div class="method"><a href="#method.offsetExists">offsetExists</a>(<span class="param">$offset</span>);</div><div style="font-size: 11px; margin-top: 1em;"></div></div><div class="summary" style="padding-bottom: 5px;margin-bottom: 5px;border-bottom: 1px solid #AAA;"><div class="method">yHtmlAttribute
+ <a href="#method.offsetGet">offsetGet</a>(<span class="param">$offset</span>);</div><div style="font-size: 11px; margin-top: 1em;">Sets attribute.</div></div><div class="summary" style="padding-bottom: 5px;margin-bottom: 5px;border-bottom: 1px solid #AAA;"><div class="method"><a href="#method.offsetSet">offsetSet</a>(<span class="param">$offset, $value</span>);</div><div style="font-size: 11px; margin-top: 1em;"></div></div><div class="summary" style="padding-bottom: 5px;margin-bottom: 5px;border-bottom: 1px solid #AAA;"><div class="method"><a href="#method.offsetUnset">offsetUnset</a>(<span class="param">$offset</span>);</div><div style="font-size: 11px; margin-top: 1em;"></div></div><div class="summary" style="padding-bottom: 5px;margin-bottom: 5px;border-bottom: 1px solid #AAA;"><div class="method">yHtmlAttribute
+ <a href="#method.forceAttribute">forceAttribute</a>(<span class="param">$name</span>);</div><div style="font-size: 11px; margin-top: 1em;"></div></div><div class="summary" style="padding-bottom: 5px;margin-bottom: 5px;border-bottom: 1px solid #AAA;"><div class="method"><a href="#method.open">open</a>(<span class="param"></span>);</div><div style="font-size: 11px; margin-top: 1em;"></div></div><div class="summary" style="padding-bottom: 5px;margin-bottom: 5px;border-bottom: 1px solid #AAA;"><div class="method"><a href="#method.close">close</a>(<span class="param"></span>);</div><div style="font-size: 11px; margin-top: 1em;"></div></div><div class="summary" style="padding-bottom: 5px;margin-bottom: 5px;border-bottom: 1px solid #AAA;"><div class="method"><a href="#method.__set">__set</a>(<span class="param">$name, $value</span>);</div><div style="font-size: 11px; margin-top: 1em;"></div></div><div class="summary" style="padding-bottom: 5px;margin-bottom: 5px;border-bottom: 1px solid #AAA;"><div class="method"><a href="#method.__get">__get</a>(<span class="param">$name</span>);</div><div style="font-size: 11px; margin-top: 1em;"></div></div>
+<h2>Method Details</h2>
+<div style="padding: 4px;border: solid 1px #666;"><a name="method.__construct"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method"><a href="#method.__construct">__construct</a>(<span class="param">$name</span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3></h3></div></div></div></div><h3>Source Code</h3><pre class="brush: php">    public function __construct($name){
+        parent::__construct('input', array(
+            'type'=&gt;'text',
+        ));
+        $this-&gt;setName($name);
+        $this-&gt;setAttribute('value', '');
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method.getKeys"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method"><a href="#method.getKeys">getKeys</a>(<span class="param"></span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3></h3></div></div></div></div><h3>Source Code</h3><pre class="brush: php">    public function getKeys(){
+        $name = $this-&gt;_getFullName();
+        if (isset($_POST[$name])){
+            if (is_array($_POST[$name])){
+                return array_keys($_POST[$name]);
+            }else{
+                return array(null);
+            }
+        }
+        return array();
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method._getId"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method">protected <a href="#method._getId">_getId</a>(<span class="param"></span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3></h3></div></div></div></div><h3>Source Code</h3><pre class="brush: php">    protected function _getId(){
+        if ($this-&gt;_key !== null &amp;&amp; $this-&gt;_key !== true){
+            return $this-&gt;_key;
+        }
+        if ($this-&gt;_uniqId === null){
+            $this-&gt;_uniqId = ++self::$_ai;
+        }
+        return $this-&gt;_uniqId;
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method._getFullName"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method">protected <a href="#method._getFullName">_getFullName</a>(<span class="param"></span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3></h3></div></div></div></div><h3>Source Code</h3><pre class="brush: php">    protected function _getFullName(){
+        return ($this-&gt;_prefix === null?'':$this-&gt;_prefix.'_').$this-&gt;_name;
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method._getFullKey"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method">protected <a href="#method._getFullKey">_getFullKey</a>(<span class="param"></span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3></h3></div></div></div></div><h3>Source Code</h3><pre class="brush: php">    protected function _getFullKey(){
+        return ($this-&gt;_key === null?
+                '':
+                ($this-&gt;_key === true?
+                        '[]':
+                        (is_int($this-&gt;_key)?
+                                '['.$this-&gt;_key.']':
+                                &quot;['&quot;.str_replace(&quot;'&quot;, &quot;\\'&quot;, $this-&gt;_key).&quot;']&quot;
+                        )
+                )
+        );
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method._getFullKeyId"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method">protected <a href="#method._getFullKeyId">_getFullKeyId</a>(<span class="param"></span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3></h3></div></div></div></div><h3>Source Code</h3><pre class="brush: php">    protected function _getFullKeyId(){
+        return ($this-&gt;_key === null?
+                '':
+                '-'.$this-&gt;_getId()
+        );
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method._getHtmlName"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method">protected <a href="#method._getHtmlName">_getHtmlName</a>(<span class="param"></span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3></h3></div></div></div></div><h3>Source Code</h3><pre class="brush: php">    protected function _getHtmlName(){
+        return $this-&gt;_getFullName().$this-&gt;_getFullKey();
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method._getHtmlId"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method">protected <a href="#method._getHtmlId">_getHtmlId</a>(<span class="param"></span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3></h3></div></div></div></div><h3>Source Code</h3><pre class="brush: php">    protected function _getHtmlId(){
+        return $this-&gt;_getFullName().$this-&gt;_getFullKeyId();
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method._updateName"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method">protected <a href="#method._updateName">_updateName</a>(<span class="param"></span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3></h3></div></div></div></div><h3>Source Code</h3><pre class="brush: php">    protected function _updateName(){
+        $this-&gt;setAttribute('id', $this-&gt;_getHtmlId());
+        $this-&gt;setAttribute('name', $this-&gt;_getHtmlName());
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method.setPrefix"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method">yFormControl <a href="#method.setPrefix">setPrefix</a>(<span class="param">$prefix</span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div><b style="color: #683B00;">$prefix</b> (string) Name prefix</div><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3>Sets name prefix.</h3></div></div><div><b>returns</b> yFormControl </div></div></div><h3>Source Code</h3><pre class="brush: php">    public function setPrefix($prefix){
+        $this-&gt;_prefix = $prefix;
+        $this-&gt;_updateName();
+        return $this;
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method.getPrefix"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method">mixed <a href="#method.getPrefix">getPrefix</a>(<span class="param"></span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3>Gets name prefix.</h3></div></div><div><b>returns</b> mixed </div></div></div><h3>Source Code</h3><pre class="brush: php">    public function getPrefix(){
+        return $this-&gt;_prefix;
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method.setName"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method">yFormControl <a href="#method.setName">setName</a>(<span class="param">$name</span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div><b style="color: #683B00;">$name</b> (string) Input name</div><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3>Sets input name.</h3></div></div><div><b>returns</b> yFormControl </div></div></div><h3>Source Code</h3><pre class="brush: php">    public function setName($name){
+        $this-&gt;_name = $name;
+        $this-&gt;_updateName();
+        return $this;
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method.getName"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method">string <a href="#method.getName">getName</a>(<span class="param"></span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3>Gets input name.</h3></div></div><div><b>returns</b> string </div></div></div><h3>Source Code</h3><pre class="brush: php">    public function getName(){
+        return $this-&gt;_name;
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method.setHelpHtml"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method">yFormControl <a href="#method.setHelpHtml">setHelpHtml</a>(<span class="param">$help</span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div><b style="color: #683B00;">$help</b> (string) Help message.</div><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3>Sets help message.</h3></div></div><div><b>returns</b> yFormControl </div></div></div><h3>Source Code</h3><pre class="brush: php">    public function setHelpHtml($help){
+        $this-&gt;_help = $help;
+        return $this;
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method.setHelpText"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method">yFormControl <a href="#method.setHelpText">setHelpText</a>(<span class="param">$help</span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div><b style="color: #683B00;">$help</b> (string) Help message.</div><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3>Sets help message.</h3></div></div><div><b>returns</b> yFormControl </div></div></div><h3>Source Code</h3><pre class="brush: php">    public function setHelpText($help){
+        $this-&gt;_help = new yTextNode($help);
+        return $this;
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method.getHelpHtml"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method">string <a href="#method.getHelpHtml">getHelpHtml</a>(<span class="param"></span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3>Gets help message.</h3></div></div><div><b>returns</b> string </div></div></div><h3>Source Code</h3><pre class="brush: php">    public function getHelpHtml(){
+        return $this-&gt;_help;
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method.setKey"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method">yFormControl <a href="#method.setKey">setKey</a>(<span class="param">$key</span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div><b style="color: #683B00;">$key</b> (mixed) Input key</div><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3>Sets input key.</h3></div></div><div><b>returns</b> yFormControl </div></div></div><h3>Source Code</h3><pre class="brush: php">    public function setKey($key){
+        $this-&gt;_key = $key;
+        $this-&gt;_updateName();
+        return $this;
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method.getKey"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method">mixed <a href="#method.getKey">getKey</a>(<span class="param"></span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3>Gets input key.</h3></div></div><div><b>returns</b> mixed </div></div></div><h3>Source Code</h3><pre class="brush: php">    public function getKey(){
+        return $this-&gt;_key;
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method.setValue"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method"><a href="#method.setValue">setValue</a>(<span class="param">$value</span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3></h3></div></div></div></div><h3>Source Code</h3><pre class="brush: php">    public function setValue($value){
+        $this-&gt;setAttribute('value', $value);
+        return $this;
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method.getValue"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method"><a href="#method.getValue">getValue</a>(<span class="param"></span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3></h3></div></div></div></div><h3>Source Code</h3><pre class="brush: php">    public function getValue(){
+        return $this-&gt;getAttribute('value');
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method.setRequired"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method"><a href="#method.setRequired">setRequired</a>(<span class="param">$required = 1</span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3></h3></div></div></div></div><h3>Source Code</h3><pre class="brush: php">    public function setRequired($required = true){
+        $this-&gt;_isRequired = true;
+        return $this;
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method.isRequired"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method"><a href="#method.isRequired">isRequired</a>(<span class="param"></span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3></h3></div></div></div></div><h3>Source Code</h3><pre class="brush: php">    public function isRequired(){
+        return $this-&gt;_isRequired;
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method.setLabelText"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method"><a href="#method.setLabelText">setLabelText</a>(<span class="param">$text</span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3></h3></div></div></div></div><h3>Source Code</h3><pre class="brush: php">    public function setLabelText($text){
+        $this-&gt;_label-&gt;setText($text);
+        return $this;
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method.setLabelHtml"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method"><a href="#method.setLabelHtml">setLabelHtml</a>(<span class="param">$html</span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3></h3></div></div></div></div><h3>Source Code</h3><pre class="brush: php">    public function setLabelHtml($html){
+        $this-&gt;_label-&gt;setText('');
+        $this-&gt;_label-&gt;appendChild($html);
+        return $this;
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method.getLabel"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method">yHtmlTag <a href="#method.getLabel">getLabel</a>(<span class="param"></span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3></h3></div></div><div><b>returns</b> yHtmlTag </div></div></div><h3>Source Code</h3><pre class="brush: php">    public function getLabel(){
+        $this-&gt;_label['for'] = $this-&gt;getAttribute('id');
+        return $this-&gt;_label;
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method.addValidator"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method"><a href="#method.addValidator">addValidator</a>(<span class="param">$validator, $options = Array</span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3></h3></div></div></div></div><h3>Source Code</h3><pre class="brush: php">    public function addValidator($validator, $options = array()){
+        if (is_string($validator)){
+            $this-&gt;_validators[$validator] = new $validator($options);
+        }elseif (is_object($validator)){
+// preconfigured
+            $this-&gt;_validators[get_class($validator)] = $validator;
+        }
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method.removeValidator"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method"><a href="#method.removeValidator">removeValidator</a>(<span class="param">$validator</span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3></h3></div></div></div></div><h3>Source Code</h3><pre class="brush: php">    public function removeValidator($validator){
+        if (is_string($validator)){
+            unset($this-&gt;_validators[$validator]);
+        }elseif (is_object($validator)){
+            unset($this-&gt;_validators[get_class($validator)]);
+        }
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method.addErrorMessage"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method"><a href="#method.addErrorMessage">addErrorMessage</a>(<span class="param">$message</span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3></h3></div></div></div></div><h3>Source Code</h3><pre class="brush: php">    public function addErrorMessage($message){
+        $this-&gt;_errorMessages[] = $message;
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method.getErrorMessages"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method"><a href="#method.getErrorMessages">getErrorMessages</a>(<span class="param"></span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3></h3></div></div></div></div><h3>Source Code</h3><pre class="brush: php">    public function getErrorMessages(){
+        return $this-&gt;_errorMessages;
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method.validate"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method"><a href="#method.validate">validate</a>(<span class="param"></span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3></h3></div></div></div></div><h3>Source Code</h3><pre class="brush: php">    public function validate(){
+        $this-&gt;_errorMessages = array();
+        foreach ($this-&gt;_validators as $validator){
+            // if string or array we can create it here...
+            if (is_object($validator)){
+                try{
+                    $validator-&gt;validate($this);
+                }catch(yValidatorException $e){
+                    $this-&gt;addErrorMessage($e-&gt;getMessage());
+                }
+            }
+        }
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method.processKey"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method"><a href="#method.processKey">processKey</a>(<span class="param"></span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3></h3></div></div></div></div><h3>Source Code</h3><pre class="brush: php">    public function processKey(){
+        if (isset($_POST[$this-&gt;_getFullName()])){
+            if ($this-&gt;_key === null){
+                $this-&gt;setValue($_POST[$this-&gt;_getFullName()]);
+            }else{
+                $this-&gt;setValue($_POST[$this-&gt;_getFullName()][$this-&gt;_key]);
+            }
+        }
+        $this-&gt;validate();
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method.hasAttributes"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method"><a href="#method.hasAttributes">hasAttributes</a>(<span class="param"></span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3></h3></div></div></div></div><h3>Source Code</h3><pre class="brush: php">    public function hasAttributes(){
+        return!!count($this-&gt;attributes);
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method.hasAttribute"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method"><a href="#method.hasAttribute">hasAttribute</a>(<span class="param">$name</span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3></h3></div></div></div></div><h3>Source Code</h3><pre class="brush: php">    public function hasAttribute($name){
+        return isset($this-&gt;attributes[$name]);
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method.setAttribute"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method"><a href="#method.setAttribute">setAttribute</a>(<span class="param">$name, $value</span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3></h3></div></div></div></div><h3>Source Code</h3><pre class="brush: php">    public function setAttribute($name, $value){
+        $this-&gt;attributes[$name] = new yHtmlAttribute($name, $value);
+        return $this;
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method.removeAttribute"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method"><a href="#method.removeAttribute">removeAttribute</a>(<span class="param">$name</span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3></h3></div></div></div></div><h3>Source Code</h3><pre class="brush: php">    public function removeAttribute($name){
+        unset($this-&gt;attributes[$name]);
+        return $this;
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method.getAttribute"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method">yHtmlAttribute
+ <a href="#method.getAttribute">getAttribute</a>(<span class="param">$name, $default = </span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div><b style="color: #683B00;">$name
+</b> (string) </div><div><b style="color: #683B00;">$default
+</b> (mixed) </div><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3>Gets tag attribute.
+</h3></div></div><div><b>returns</b> yHtmlAttribute
+ </div></div></div><h3>Source Code</h3><pre class="brush: php">    public function getAttribute($name, $default = null){
+        return isset($this-&gt;attributes[$name])?$this-&gt;attributes[$name]:$default;
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method.hasChildNodes"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method"><a href="#method.hasChildNodes">hasChildNodes</a>(<span class="param"></span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3></h3></div></div></div></div><h3>Source Code</h3><pre class="brush: php">    public function hasChildNodes(){
+        return!!count($this-&gt;childNodes);
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method.appendChild"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method"><a href="#method.appendChild">appendChild</a>(<span class="param">$child</span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3></h3></div></div></div></div><h3>Source Code</h3><pre class="brush: php">    public function appendChild($child){
+        $this-&gt;childNodes[] = $child;
+        return $this;
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method.setText"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method"><a href="#method.setText">setText</a>(<span class="param">$text = ""</span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3></h3></div></div></div></div><h3>Source Code</h3><pre class="brush: php">    public function setText($text = ''){
+        $textNode = new yTextNode($text);
+        if ($this-&gt;hasChildNodes()){
+            $this-&gt;childNodes = array();
+        }
+        $this-&gt;appendChild($textNode);
+        return $this;
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method.create"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method">static <a href="#method.create">create</a>(<span class="param">$name = "html", $attr = Array, $closed = </span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3></h3></div></div></div></div><h3>Source Code</h3><pre class="brush: php">    public static function create($name = 'html', $attr = array(), $closed = false){
+        if (isset(self::$_tagMap[$name])){
+            $class = self::$_tagMap[$name];
+            return new $class($attr);
+        }
+        return new yHtmlTag($name, $attr, $closed);
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method.__toString"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method"><a href="#method.__toString">__toString</a>(<span class="param"></span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3></h3></div></div></div></div><h3>Source Code</h3><pre class="brush: php">    public function __toString(){
+        $attrs = array($this-&gt;tagName);
+        foreach ($this-&gt;attributes as $node){
+            $attrs[] = $node-&gt;getAttributeString();
+        }
+        if ($this-&gt;_isSelfClosed){
+            $open = '&lt;'.implode(' ', $attrs).'&gt;'; // /
+            $close = '';
+        }else{
+            $open = '&lt;'.implode(' ', $attrs).'&gt;';
+            $close = '&lt;/'.$this-&gt;tagName.'&gt;';
+        }
+        $inner = '';
+        if (!$this-&gt;_isSelfClosed){
+            $inner = implode('', $this-&gt;childNodes);
+        }
+        return $open.$inner.$close;
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method.offsetExists"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method"><a href="#method.offsetExists">offsetExists</a>(<span class="param">$offset</span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3></h3></div></div></div></div><h3>Source Code</h3><pre class="brush: php">    public function offsetExists($offset){
+        return $this-&gt;hasAttribute($offset);
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method.offsetGet"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method">yHtmlAttribute
+ <a href="#method.offsetGet">offsetGet</a>(<span class="param">$offset</span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div><b style="color: #683B00;">$offset
+</b> (string) </div><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3>Sets attribute.
+</h3></div>
+</div><div><b>returns</b> yHtmlAttribute
+ </div></div></div><h3>Source Code</h3><pre class="brush: php">    public function offsetGet($offset){
+        return $this-&gt;getAttribute($offset);
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method.offsetSet"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method"><a href="#method.offsetSet">offsetSet</a>(<span class="param">$offset, $value</span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3></h3></div></div></div></div><h3>Source Code</h3><pre class="brush: php">    public function offsetSet($offset, $value){
+        $this-&gt;setAttribute($offset, $value);
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method.offsetUnset"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method"><a href="#method.offsetUnset">offsetUnset</a>(<span class="param">$offset</span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3></h3></div></div></div></div><h3>Source Code</h3><pre class="brush: php">    public function offsetUnset($offset){
+        $this-&gt;removeAttribute($offset);
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method.forceAttribute"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method">yHtmlAttribute
+ <a href="#method.forceAttribute">forceAttribute</a>(<span class="param">$name</span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div><b style="color: #683B00;">$name
+</b> (string) </div><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3>
+</h3></div></div><div><b>returns</b> yHtmlAttribute
+ </div></div></div><h3>Source Code</h3><pre class="brush: php">    public function forceAttribute($name){
+        if (!isset($this-&gt;_attr[$name])){
+            $this-&gt;_attr[$name] = new yHtmlAttribute($name, '');
+        }
+        return $this-&gt;_attr[$name];
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method.open"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method"><a href="#method.open">open</a>(<span class="param"></span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3></h3></div></div></div></div><h3>Source Code</h3><pre class="brush: php">    public function open(){
+        $this-&gt;_isSelfClosed = false;
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method.close"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method"><a href="#method.close">close</a>(<span class="param"></span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3></h3></div></div></div></div><h3>Source Code</h3><pre class="brush: php">    public function close(){
+        $this-&gt;_isSelfClosed = true;
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method.__set"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method"><a href="#method.__set">__set</a>(<span class="param">$name, $value</span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3></h3></div></div></div></div><h3>Source Code</h3><pre class="brush: php">    public function __set($name, $value){
+        if ($name === 'innerText'){
+            $this-&gt;setText($value);
+        }else{
+            $this-&gt;setAttribute($name, $value);
+        }
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method.__get"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method"><a href="#method.__get">__get</a>(<span class="param">$name</span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3></h3></div></div></div></div><h3>Source Code</h3><pre class="brush: php">    public function __get($name){
+        return $this-&gt;getAttribute($name, '');
+    }
+</pre></div>
+
+
+<h2>Class synopsis</h2>
+<div class="classsynopsis">
+<b class="classname">yTextInput</b> extends <a href="yFormControl.html">yFormControl</a> implements ArrayAccess {
+<div class="contents">
+<h3>/* Properties */</h3>
+<div class="property">protected <a href="#property._prefix">$_prefix</a>;</div><div class="property">protected <a href="#property._name">$_name</a>;</div><div class="property">protected <a href="#property._key">$_key</a>;</div><div class="property">protected <a href="#property._uniqId">$_uniqId</a>;</div><div class="property">protected <a href="#property._value">$_value</a>;</div><div class="property">protected <a href="#property._label">$_label</a>;</div><div class="property">protected <a href="#property._help">$_help</a>;</div><div class="property">protected <a href="#property._validators">$_validators</a>;</div><div class="property">protected <a href="#property._errorMessages">$_errorMessages</a>;</div><div class="property">protected <a href="#property._isRequired">$_isRequired</a>;</div><div class="property">protected static <a href="#property._ai">$_ai</a>;</div><div class="property">public <a href="#property.tagName">$tagName</a>;</div><div class="property">protected <a href="#property._attr">$_attr</a>;</div><div class="property">protected <a href="#property._isSelfClosed">$_isSelfClosed</a>;</div><div class="property">public <a href="#property.childNodes">$childNodes</a>;</div><div class="property">public <a href="#property.attributes">$attributes</a>;</div><div class="property">protected static <a href="#property._tagMap">$_tagMap</a>;</div><div class="property">protected static <a href="#property._selfClosedTags">$_selfClosedTags</a>;</div>
+<h3>/* Methods */</h3>
+<div class="method"><a href="#method.__construct">__construct</a>(<span class="param">$name</span>);</div><div class="method"><a href="#method.getKeys">getKeys</a>(<span class="param"></span>);</div><div class="method">protected <a href="#method._getId">_getId</a>(<span class="param"></span>);</div><div class="method">protected <a href="#method._getFullName">_getFullName</a>(<span class="param"></span>);</div><div class="method">protected <a href="#method._getFullKey">_getFullKey</a>(<span class="param"></span>);</div><div class="method">protected <a href="#method._getFullKeyId">_getFullKeyId</a>(<span class="param"></span>);</div><div class="method">protected <a href="#method._getHtmlName">_getHtmlName</a>(<span class="param"></span>);</div><div class="method">protected <a href="#method._getHtmlId">_getHtmlId</a>(<span class="param"></span>);</div><div class="method">protected <a href="#method._updateName">_updateName</a>(<span class="param"></span>);</div><div class="method">yFormControl <a href="#method.setPrefix">setPrefix</a>(<span class="param">$prefix</span>);</div><div class="method">mixed <a href="#method.getPrefix">getPrefix</a>(<span class="param"></span>);</div><div class="method">yFormControl <a href="#method.setName">setName</a>(<span class="param">$name</span>);</div><div class="method">string <a href="#method.getName">getName</a>(<span class="param"></span>);</div><div class="method">yFormControl <a href="#method.setHelpHtml">setHelpHtml</a>(<span class="param">$help</span>);</div><div class="method">yFormControl <a href="#method.setHelpText">setHelpText</a>(<span class="param">$help</span>);</div><div class="method">string <a href="#method.getHelpHtml">getHelpHtml</a>(<span class="param"></span>);</div><div class="method">yFormControl <a href="#method.setKey">setKey</a>(<span class="param">$key</span>);</div><div class="method">mixed <a href="#method.getKey">getKey</a>(<span class="param"></span>);</div><div class="method"><a href="#method.setValue">setValue</a>(<span class="param">$value</span>);</div><div class="method"><a href="#method.getValue">getValue</a>(<span class="param"></span>);</div><div class="method"><a href="#method.setRequired">setRequired</a>(<span class="param">$required = 1</span>);</div><div class="method"><a href="#method.isRequired">isRequired</a>(<span class="param"></span>);</div><div class="method"><a href="#method.setLabelText">setLabelText</a>(<span class="param">$text</span>);</div><div class="method"><a href="#method.setLabelHtml">setLabelHtml</a>(<span class="param">$html</span>);</div><div class="method">yHtmlTag <a href="#method.getLabel">getLabel</a>(<span class="param"></span>);</div><div class="method"><a href="#method.addValidator">addValidator</a>(<span class="param">$validator, $options = Array</span>);</div><div class="method"><a href="#method.removeValidator">removeValidator</a>(<span class="param">$validator</span>);</div><div class="method"><a href="#method.addErrorMessage">addErrorMessage</a>(<span class="param">$message</span>);</div><div class="method"><a href="#method.getErrorMessages">getErrorMessages</a>(<span class="param"></span>);</div><div class="method"><a href="#method.validate">validate</a>(<span class="param"></span>);</div><div class="method"><a href="#method.processKey">processKey</a>(<span class="param"></span>);</div><div class="method"><a href="#method.hasAttributes">hasAttributes</a>(<span class="param"></span>);</div><div class="method"><a href="#method.hasAttribute">hasAttribute</a>(<span class="param">$name</span>);</div><div class="method"><a href="#method.setAttribute">setAttribute</a>(<span class="param">$name, $value</span>);</div><div class="method"><a href="#method.removeAttribute">removeAttribute</a>(<span class="param">$name</span>);</div><div class="method">yHtmlAttribute
+ <a href="#method.getAttribute">getAttribute</a>(<span class="param">$name, $default = </span>);</div><div class="method"><a href="#method.hasChildNodes">hasChildNodes</a>(<span class="param"></span>);</div><div class="method"><a href="#method.appendChild">appendChild</a>(<span class="param">$child</span>);</div><div class="method"><a href="#method.setText">setText</a>(<span class="param">$text = ""</span>);</div><div class="method">static <a href="#method.create">create</a>(<span class="param">$name = "html", $attr = Array, $closed = </span>);</div><div class="method"><a href="#method.__toString">__toString</a>(<span class="param"></span>);</div><div class="method"><a href="#method.offsetExists">offsetExists</a>(<span class="param">$offset</span>);</div><div class="method">yHtmlAttribute
+ <a href="#method.offsetGet">offsetGet</a>(<span class="param">$offset</span>);</div><div class="method"><a href="#method.offsetSet">offsetSet</a>(<span class="param">$offset, $value</span>);</div><div class="method"><a href="#method.offsetUnset">offsetUnset</a>(<span class="param">$offset</span>);</div><div class="method">yHtmlAttribute
+ <a href="#method.forceAttribute">forceAttribute</a>(<span class="param">$name</span>);</div><div class="method"><a href="#method.open">open</a>(<span class="param"></span>);</div><div class="method"><a href="#method.close">close</a>(<span class="param"></span>);</div><div class="method"><a href="#method.__set">__set</a>(<span class="param">$name, $value</span>);</div><div class="method"><a href="#method.__get">__get</a>(<span class="param">$name</span>);</div>
+</div>
+}
+</div>
+
+
+</td></tr></table>
+</body>
+</html>

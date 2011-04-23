@@ -1,0 +1,80 @@
+/* 
+    Document   : style.css
+    Created on : 19.02.2011, 4:51:19
+    Author     : olamedia
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+h1, h2 {
+    color: #3E2300;
+}
+h2{
+    font-size: 20px;
+}
+.summary{
+    color: #111;
+    font-size: 14px;
+}
+.summary a{
+    color: #683B00;
+}
+.description{
+    font-size: 11px;
+    margin: 1em 0;
+}
+a{
+    color: #00E;
+}
+span.param{
+    color: #111;
+    font-size: 12px;
+    font-style: italic;
+    font-family: Consolas, 'Andale Mono WT', 'Andale Mono', 'Lucida Console', Monaco, 'Courier New', Courier, monospace;
+}
+ul, li{
+    margin: 0;
+    padding:0;
+    list-style: none;
+}
+ul ul{
+    padding-left: 14px;
+}
+li.package{
+
+}
+body{
+    font-family: verdana, arial, helvetica, sans-serif;
+    font-size: 14px;
+}
+div.classsynopsis {
+    background: #F2EBE3;
+    color: #070;
+    border: 1px outset black;
+    padding: 0.5em;
+    font-size: 14px;
+    line-height: 1.4em;
+}
+div.classsynopsis div.classsynopsis{
+    background: #fff;
+}
+div.classsynopsis div.contents{
+    padding-left: 30px;
+}
+div.classsynopsis b.classname{
+    color: #00B;
+    font-weight: bold;
+}
+div.classsynopsis h3{
+    color: #FF8000;
+    line-height: 1.2em;
+    margin: 0;
+    margin-top: 1em;
+    font-size: 16px;
+}
+
