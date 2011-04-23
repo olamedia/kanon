@@ -1,0 +1,391 @@
+<html>
+<head>
+<meta charset="utf-8" />
+<link type="text/css" rel="stylesheet" href="style.css" />
+<link href="http://alexgorbatchev.com/pub/sh/current/styles/shCore.css" rel="stylesheet" type="text/css" />
+<link href="http://alexgorbatchev.com/pub/sh/current/styles/shThemeRDark.css" rel="stylesheet" type="text/css" />
+<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shCore.js" type="text/javascript"></script>
+<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shAutoloader.js" type="text/javascript"></script>
+<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shBrushPhp.js" type="text/javascript"></script>
+<script type="text/javascript">
+SyntaxHighlighter.all();
+</script>
+</head>
+<body>
+<div class="header" style="border-top: 1px solid #C9D7F1;margin: 9px;margin-top: 24px;padding-top: 5px;margin-bottom: 10px;">
+    <a href="http://code.google.com/p/yuki/"><img src="http://code.google.com/p/yuki/logo?cct=1297980533" /></a>
+    <div style="display: inline-block;padding-left: 11px;">
+        <div class="project-name">
+            <a style="text-decoration: none;color: #666;font-family: arial, sans-serif;font-size: 39px;" href="http://code.google.com/p/yuki/">yuki</a>
+        </div>
+        <div class="project-summary">
+            <a href="http://code.google.com/p/yuki/" style="text-decoration: none;color: #444;font-family: arial, sans-serif;font-size: 13px;">Yuki PHP Framework</a>
+        </div>
+    </div>
+</div>
+<table width="100%"><tr><td width="200" valign="top">
+<div class="sidebar"><ul><li class="package">yuki<ul><li class="subpackage">autoload<ul><li class="class"><a href="yAutoloader.html">yAutoloader</a></li><li class="class"><a href="yCoreAutoloader.html">yCoreAutoloader</a></li></ul></li><li class="subpackage">breadcrumb<ul><li class="class"><a href="yBreadCrumbSet.html">yBreadCrumbSet</a></li><li class="class"><a href="yBreadcrumb.html">yBreadcrumb</a></li></ul></li><li class="subpackage">debug<ul><li class="class"><a href="yDebugger.html">yDebugger</a></li></ul></li><li class="subpackage">file<ul><li class="class"><a href="yDirectory.html">yDirectory</a></li><li class="class"><a href="yFile.html">yFile</a></li><li class="class"><a href="yFileSystem.html">yFileSystem</a></li><li class="class"><a href="yFilesystemResource.html">yFilesystemResource</a></li><li class="class"><a href="yLocalFileSystem.html">yLocalFileSystem</a></li><li class="class"><a href="yVirtualFileSystem.html">yVirtualFileSystem</a></li></ul></li><li class="subpackage">doc<ul><li class="class"><a href="yDocBlock.html">yDocBlock</a></li><li class="class"><a href="yDocumentor.html">yDocumentor</a></li><li class="class"><a href="yMethodDocumentor.html">yMethodDocumentor</a></li></ul></li><li class="subpackage">forms<ul><li class="class"><a href="yFileInput.html">yFileInput</a></li><li class="class"><a href="yFormControl.html">yFormControl</a></li><li class="class"><a href="yFormControlSet.html">yFormControlSet</a></li><li class="class"><a href="yFormResultIterator.html">yFormResultIterator</a></li><li class="class"><a href="yTextInput.html">yTextInput</a></li><li class="class"><a href="yValidatorException.html">yValidatorException</a></li></ul></li><li class="subpackage">html<ul><li class="class"><a href="yHeadTag.html">yHeadTag</a></li><li class="class"><a href="yHtmlAttribute.html">yHtmlAttribute</a></li><li class="class"><a href="yHtmlHelper.html">yHtmlHelper</a></li><li class="class"><a href="yHtmlTag.html">yHtmlTag</a></li><li class="class"><a href="yHtmlTagList.html">yHtmlTagList</a></li><li class="class"><a href="yMetaTag.html">yMetaTag</a></li><li class="class"><a href="yStyleTag.html">yStyleTag</a></li><li class="class"><a href="yTextNode.html">yTextNode</a></li></ul></li><li class="subpackage">uri<ul><li class="class"><a href="yUri.html">yUri</a></li><li class="class"><a href="yUriAuthority.html">yUriAuthority</a></li><li class="class"><a href="yUriFragment.html">yUriFragment</a></li><li class="class"><a href="yUriPath.html">yUriPath</a></li><li class="class"><a href="yUriQuery.html">yUriQuery</a></li><li class="class"><a href="yUriScheme.html">yUriScheme</a></li></ul></li></ul></li><li class="package">default</li></ul></div>            
+</td><td valign="top">
+            
+<h1>yDocumentor</h1>
+<div><b>@package</b> yuki</div>
+<div><b>@subpackage</b> doc</div>
+
+<!-- Hierarhy -->
+
+<h2>Introduction</h2>
+yDocumentor<br />
+
+
+
+<h2>Method Summary</h2>
+<div class="summary" style="padding-bottom: 5px;margin-bottom: 5px;border-bottom: 1px solid #AAA;"><div class="method">static <a href="#method.getInstance">getInstance</a>(<span class="param"></span>);</div><div style="font-size: 11px; margin-top: 1em;"></div></div><div class="summary" style="padding-bottom: 5px;margin-bottom: 5px;border-bottom: 1px solid #AAA;"><div class="method"><a href="#method.rebuild">rebuild</a>(<span class="param">$path = "", $finalize = 1</span>);</div><div style="font-size: 11px; margin-top: 1em;"></div></div>
+<h2>Method Details</h2>
+<div style="padding: 4px;border: solid 1px #666;"><a name="method.getInstance"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method">static <a href="#method.getInstance">getInstance</a>(<span class="param"></span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3></h3></div></div></div></div><h3>Source Code</h3><pre class="brush: php">    public static function getInstance(){
+        if (self::$_instance === null){
+            self::$_instance = new self();
+        }
+        return self::$_instance;
+    }
+</pre></div><div style="padding: 4px;border: solid 1px #666;"><a name="method.rebuild"></a><div style="font-size: 11px;"><div class="classsynopsis"><div class="method"><a href="#method.rebuild">rebuild</a>(<span class="param">$path = "", $finalize = 1</span>);</div></div><div style="padding: 7px; margin-bottom: 2em; border: dashed 1px #eee; margin-tOP; 1em;"><div style="margin-top: 1em; margin-bottom: 1em;"><div><h3></h3></div></div></div></div><h3>Source Code</h3><pre class="brush: php">    public function rebuild($path = '', $finalize = true){
+        if ($finalize){
+            ob_implicit_flush(true);
+            echo &quot;Rebuilding API documentation.&quot;;
+            $this-&gt;_classes = array();
+        }else{
+            echo &quot;.&quot;;
+        }
+        $locationPrefix = substr($path, 0, strlen($path) - 1).'/';
+        $searchpath = realpath(dirname(__FILE__).'/..').'/'.$path;
+        foreach (glob($searchpath.'*', GLOB_NOSORT) as $filename){
+            $name = basename($filename);
+            if (is_dir($filename)){
+                $this-&gt;rebuild($path.$name.'/', false);
+            }elseif (is_file($filename)){
+                if ($name{0} == 'y'){
+                    $class = reset(explode('.', $name));
+                    $this-&gt;_classes[$class] = $locationPrefix.$name;
+                }
+            }
+        }
+        if (!$finalize){
+            return;
+        }
+        $projectHomepage = 'http://code.google.com/p/yuki/';
+        $projectLogo = 'http://code.google.com/p/yuki/logo?cct=1297980533';
+        // http://alexgorbatchev.com/SyntaxHighlighter/
+        $header = &lt;&lt;&lt;HTML
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;utf-8&quot; /&gt;
+&lt;link type=&quot;text/css&quot; rel=&quot;stylesheet&quot; href=&quot;style.css&quot; /&gt;
+&lt;link href=&quot;http://alexgorbatchev.com/pub/sh/current/styles/shCore.css&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot; /&gt;
+&lt;link href=&quot;http://alexgorbatchev.com/pub/sh/current/styles/shThemeRDark.css&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot; /&gt;
+&lt;script src=&quot;http://alexgorbatchev.com/pub/sh/current/scripts/shCore.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;http://alexgorbatchev.com/pub/sh/current/scripts/shAutoloader.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;http://alexgorbatchev.com/pub/sh/current/scripts/shBrushPhp.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+SyntaxHighlighter.all();
+&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div class=&quot;header&quot; style=&quot;border-top: 1px solid #C9D7F1;margin: 9px;margin-top: 24px;padding-top: 5px;margin-bottom: 10px;&quot;&gt;
+    &lt;a href=&quot;$projectHomepage&quot;&gt;&lt;img src=&quot;$projectLogo&quot; /&gt;&lt;/a&gt;
+    &lt;div style=&quot;display: inline-block;padding-left: 11px;&quot;&gt;
+        &lt;div class=&quot;project-name&quot;&gt;
+            &lt;a style=&quot;text-decoration: none;color: #666;font-family: arial, sans-serif;font-size: 39px;&quot; href=&quot;$projectHomepage&quot;&gt;yuki&lt;/a&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;project-summary&quot;&gt;
+            &lt;a href=&quot;$projectHomepage&quot; style=&quot;text-decoration: none;color: #444;font-family: arial, sans-serif;font-size: 13px;&quot;&gt;Yuki PHP Framework&lt;/a&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+HTML;
+
+        ksort($this-&gt;_classes);
+        $this-&gt;_packages = array(
+            'yuki'=&gt;array()
+        );
+        foreach ($this-&gt;_classes as $class=&gt;$location){
+            //echo &quot;$class =&gt; $location\n&quot;;
+            require_once realpath(dirname(__FILE__).'/..').'/'.$location;
+            $me = new ReflectionClass($class);
+            $classDoc = $me-&gt;getDocComment();
+            $package = 'default';
+            if (preg_match(&quot;#@package\s+([a-z0-9_]+)#ims&quot;, $classDoc, $subs)){
+                $package = $subs[1];
+            }
+            $subpackage = 'default';
+            if (preg_match(&quot;#@subpackage\s+([a-z0-9_]+)#ims&quot;, $classDoc, $subs)){
+                $subpackage = $subs[1];
+            }
+            $this-&gt;_packages[$package][$subpackage][] = $class;
+            $this-&gt;_classPackages[$class] = array($package, $subpackage);
+        }
+        foreach ($this-&gt;_classes as $class=&gt;$location){
+            $me = new ReflectionClass($class);
+            $classDoc = $me-&gt;getDocComment();
+            $classConstants = $me-&gt;getConstants();
+            $classProperties = $me-&gt;getProperties();
+            $classMethods = $me-&gt;getMethods();
+            list($classPackage, $classSubpackage) = $this-&gt;_classPackages[$class];
+
+            $lines = explode(&quot;\n&quot;, $classDoc);
+            array_shift($lines);
+            array_pop($lines);
+            $desc = array();
+            foreach ($lines as $k=&gt;$line){
+                $lines[$k] = $line = ltrim($line, &quot;* \t&quot;);
+                if (strlen($line) &amp;&amp; $line{0} == '@'){
+                    // annotation
+                }else{
+                    $desc[] = $line;
+                }
+            }
+            $desc = nl2br(implode(&quot;\n&quot;, $desc));
+            //echo $classDoc;
+            $classDocFilename = realpath(dirname(__FILE__).'/'.self::$_docPath).'/'.$class.'.html';
+            $sidebar = '&lt;div class=&quot;sidebar&quot;&gt;';
+            $sidebar .= '&lt;ul&gt;';
+            foreach ($this-&gt;_packages as $package=&gt;$subpackages){
+                $sidebar .= '&lt;li class=&quot;package&quot;&gt;';
+                $sidebar .= $package;
+                if ($package == $classPackage){
+                    $sidebar .= '&lt;ul&gt;';
+                    foreach ($subpackages as $subpackage=&gt;$sclasses){
+                        $sidebar .= '&lt;li class=&quot;subpackage&quot;&gt;';
+                        $sidebar .= $subpackage;
+                        $sidebar .= '&lt;ul&gt;';
+                        foreach ($sclasses as $sclass){
+                            $sidebar .= '&lt;li class=&quot;class&quot;&gt;';
+                            $sidebar .= '&lt;a href=&quot;'.$sclass.'.html&quot;&gt;'.$sclass.'&lt;/a&gt;';
+                            $sidebar .= '&lt;/li&gt;';
+                        }
+                        $sidebar .= '&lt;/ul&gt;';
+                        $sidebar .= '&lt;/li&gt;';
+                    }
+                    $sidebar .= '&lt;/ul&gt;';
+                }
+                $sidebar .= '&lt;/li&gt;';
+            }
+            $sidebar .= '&lt;/ul&gt;';
+            $sidebar .= '&lt;/div&gt;';
+            $propertiesHtml = '';
+            foreach ($classProperties as $property){
+                $propertiesHtml .= '&lt;div class=&quot;property&quot;&gt;';
+                if ($property-&gt;isPublic()){
+                    $propertiesHtml .= 'public ';
+                }
+                if ($property-&gt;isPrivate()){
+                    $propertiesHtml .= 'private ';
+                }
+                if ($property-&gt;isProtected()){
+                    $propertiesHtml .= 'protected ';
+                }
+                if ($property-&gt;isStatic()){
+                    $propertiesHtml .= 'static ';
+                }
+                $propertiesHtml .= '&lt;a href=&quot;#property.'.$property-&gt;getName().'&quot;&gt;$'.$property-&gt;getName().'&lt;/a&gt;';
+                $propertiesHtml .= ';';
+                $propertiesHtml .= '&lt;/div&gt;';
+            }
+            $hier = '';
+            $childs = array();
+            foreach ($this-&gt;_classes as $cclass=&gt;$location){
+                if (get_parent_class($cclass) == $class){
+                    $childs[] = $cclass;
+                }
+            }
+            $parents = class_parents($class);
+            if (count($parents) || count($childs)){
+                $hier = '&lt;pre&gt;';
+                $hierClasses = $parents + array($class);
+                $i = 0;
+                foreach ($hierClasses as $hclass){
+                    $hier .= '&lt;div&gt;'.str_repeat(&quot;    └ &quot;, $i);
+                    if ($hclass == $class){
+                        $hier .= '&lt;b&gt;';
+                    }else{
+                        $hier .= '&lt;a style=&quot;color: #666; text-decoration: none; border-bottom: dashed 1px #999;&quot; href=&quot;'.$hclass.'.html&quot;&gt;';
+                    }
+                    $hier .= $hclass;
+                    if ($hclass == $class){
+                        $hier .= '&lt;/b&gt;';
+                    }else{
+                        $hier .= '&lt;/a&gt;';
+                    }
+                    $hier .= '&lt;/div&gt;';
+                    $i++;
+                }
+                foreach ($childs as $hclass){
+                    $hier .= '&lt;div&gt;'.str_repeat(&quot;    └ &quot;, $i);
+                    if ($hclass == $class){
+                        $hier .= '&lt;b&gt;';
+                    }else{
+                        $hier .= '&lt;a style=&quot;color: #666; text-decoration: none; border-bottom: dashed 1px #999;&quot; href=&quot;'.$hclass.'.html&quot;&gt;';
+                    }
+                    $hier .= $hclass;
+                    if ($hclass == $class){
+                        $hier .= '&lt;/b&gt;';
+                    }else{
+                        $hier .= '&lt;/a&gt;';
+                    }
+                    $hier .= '&lt;/div&gt;';
+                }
+                $hier .= '&lt;/pre&gt;';
+            }
+            $extends = '';
+            if ($parents = class_parents($class)){
+                $hier .= '&lt;pre&gt;';
+                foreach ($parents as $parent){
+                    
+                }
+                $hier .= '&lt;/pre&gt;';
+                $parent = reset($parents);
+                $extends .= ' extends &lt;a href=&quot;'.$parent.'.html&quot;&gt;'.$parent.'&lt;/a&gt;';
+            }
+            if ($interfaces = class_implements($class)){
+                $extends .= ' implements '.implode(', ', $interfaces);
+            }
+            $methodsHtml = '';
+            $methodsSection = '';
+            $methodsSummary = '';
+            foreach ($classMethods as $method){
+                $yMethod = new yMethodDocumentor($method);
+                $methodsHtml .= $yMethod-&gt;getSynopsisHtml();
+                $methodsSection .= $yMethod-&gt;getSectionHtml();
+                if ($method-&gt;isPublic()){
+                    $methodsSummary .= $yMethod-&gt;getSummaryHtml();
+                }
+                /* $methodsHtml .= '&lt;div class=&quot;method&quot;&gt;';
+                  if ($method-&gt;isPublic()){
+                  $methodsHtml .= 'public ';
+                  }
+                  if ($method-&gt;isPrivate()){
+                  $methodsHtml .= 'private ';
+                  }
+                  if ($method-&gt;isProtected()){
+                  $methodsHtml .= 'protected ';
+                  }
+                  if ($method-&gt;isStatic()){
+                  $methodsHtml .= 'static ';
+                  }
+                  $methodsHtml .= '&lt;a href=&quot;#property.'.$method-&gt;getName().'&quot;&gt;'.$method-&gt;getName().'&lt;/a&gt;';
+                  $methodsHtml .= ' ( ';
+                  $args = array();
+                  $optArgs = array();
+                  foreach ($method-&gt;getParameters() as $parameter){
+                  //$parameter = new ReflectionParameter();
+                  $arg = '&lt;span class=&quot;param&quot;&gt;$'.$parameter-&gt;getName().'&lt;/span&gt;';
+                  if ($parameter-&gt;isDefaultValueAvailable()){
+                  $val = $parameter-&gt;getDefaultValue();
+                  $arg .= ' = ';
+                  if (is_string($val)){
+                  $arg .= '&quot;'.$val.'&quot;';
+                  }else{
+                  $arg .= $val;
+                  }
+                  }
+                  $parameter-&gt;isPassedByReference();
+                  if ($parameter-&gt;isOptional()){
+                  $optArgs[] = $arg;
+                  }else{
+                  $args[] = $arg;
+                  }
+                  }
+                  $argString = implode(', ', $args);
+                  if (count($optArgs)){
+                  $optString = implode(' [, ', $optArgs).str_repeat(']', count($optArgs) - 1);
+                  }else{
+                  $optString = '';
+                  }
+                  if (strlen($optString)){
+                  if (strlen($argString)){
+                  $argString .= ' [, '.$optString.']';
+                  }else{
+                  $argString = '['.$optString.']';
+                  }
+                  }
+                  $methodsHtml .= strlen($argString)?$argString:'void';
+                  $methodsHtml .= ' );';
+                  $methodsHtml .= '&lt;/div&gt;'; */
+            }
+            $html = &lt;&lt;&lt;HTML
+$header
+&lt;table width=&quot;100%&quot;&gt;&lt;tr&gt;&lt;td width=&quot;200&quot; valign=&quot;top&quot;&gt;
+$sidebar            
+&lt;/td&gt;&lt;td valign=&quot;top&quot;&gt;
+            
+&lt;h1&gt;$class&lt;/h1&gt;
+&lt;div&gt;&lt;b&gt;@package&lt;/b&gt; $classPackage&lt;/div&gt;
+&lt;div&gt;&lt;b&gt;@subpackage&lt;/b&gt; $classSubpackage&lt;/div&gt;
+$hier
+&lt;!-- Hierarhy --&gt;
+
+&lt;h2&gt;Introduction&lt;/h2&gt;
+$desc
+
+
+&lt;h2&gt;Method Summary&lt;/h2&gt;
+$methodsSummary
+&lt;h2&gt;Method Details&lt;/h2&gt;
+$methodsSection
+
+
+&lt;h2&gt;Class synopsis&lt;/h2&gt;
+&lt;div class=&quot;classsynopsis&quot;&gt;
+&lt;b class=&quot;classname&quot;&gt;$class&lt;/b&gt;$extends {
+&lt;div class=&quot;contents&quot;&gt;
+&lt;h3&gt;/* Properties */&lt;/h3&gt;
+$propertiesHtml
+&lt;h3&gt;/* Methods */&lt;/h3&gt;
+$methodsHtml
+&lt;/div&gt;
+}
+&lt;/div&gt;
+
+
+&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+HTML;
+            $html = str_replace(&quot;\r\n&quot;, &quot;\n&quot;, $html); // Consistent new lines
+            $html = str_replace(&quot;\r&quot;, &quot;\n&quot;, $html);
+            file_put_contents($classDocFilename, $html);
+        }
+        $html = &lt;&lt;&lt;HTML
+$header
+&lt;table width=&quot;100%&quot;&gt;&lt;tr&gt;&lt;td width=&quot;200&quot; valign=&quot;top&quot;&gt;
+$sidebar            
+&lt;/td&gt;&lt;td valign=&quot;top&quot;&gt;
+&lt;h1&gt;Yuki PHP Framework&lt;/h1&gt;
+
+&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+HTML;
+        $indexFilename = realpath(dirname(__FILE__).'/'.self::$_docPath).'/index.html';
+        file_put_contents($indexFilename, $html);
+        $styleFilename = realpath(dirname(__FILE__).'/'.self::$_docPath).'/style.css';
+        file_put_contents($styleFilename, file_get_contents(dirname(__FILE__).'/style.css'));
+        echo &quot;\nFinished.\n&quot;;
+    }
+</pre></div>
+
+
+<h2>Class synopsis</h2>
+<div class="classsynopsis">
+<b class="classname">yDocumentor</b> {
+<div class="contents">
+<h3>/* Properties */</h3>
+<div class="property">protected static <a href="#property._instance">$_instance</a>;</div><div class="property">protected static <a href="#property._docPath">$_docPath</a>;</div><div class="property">protected <a href="#property._classes">$_classes</a>;</div><div class="property">protected <a href="#property._packages">$_packages</a>;</div><div class="property">protected <a href="#property._classPackages">$_classPackages</a>;</div>
+<h3>/* Methods */</h3>
+<div class="method">static <a href="#method.getInstance">getInstance</a>(<span class="param"></span>);</div><div class="method"><a href="#method.rebuild">rebuild</a>(<span class="param">$path = "", $finalize = 1</span>);</div>
+</div>
+}
+</div>
+
+
+</td></tr></table>
+</body>
+</html>
