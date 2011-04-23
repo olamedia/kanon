@@ -19,12 +19,32 @@
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  */
 class yVirtualFileSystem extends yFileSystem{
+    /**
+     * yVirtualFileSystem instance.
+     * @var yVirtualFileSystem
+     */
     protected static $_instance = null;
+    /**
+     * Splitter for alias & path parts
+     * @var string
+     */
     protected static $_splitter = ':'; // \/ - directory, : - disk at windows
+    /**
+     * Alias => Resource map
+     * @var array
+     */
+    protected $_map = array();
+    /**
+     * Gets splitter currently in use
+     * @return string
+     */
     public static function getSplitter(){
         return self::$_splitter;
     }
-    protected $_map = array();
+    /**
+     * Gets yVirtualFileSystem instance.
+     * @return yVirtualFileSystem
+     */
     public static function getInstance(){
         if (self::$_instance === null){
             self::$_instance = new self();
@@ -32,8 +52,9 @@ class yVirtualFileSystem extends yFileSystem{
         return self::$_instance;
     }
     /**
-     * Gets resource by name.
-     * @param string $path
+     * Gets filesystem resource.
+     * @param string $path 
+     * @return yFilesystemResource
      */
     public function getResource($path){
         $p = strpos($path, self::$_splitter);
@@ -51,14 +72,22 @@ class yVirtualFileSystem extends yFileSystem{
         }
     }
     /**
+     * @todo remove??
      * @param yFilesystemResource $yResource 
      */
     public function getResourceUri($yResource){
         return $yResource->getFileSystem()->getResourceUri($yResource);
     }
+    /**
+     * Maps given URI to given path.
+     * Makes call to real filesystem object.
+     * @param string $uri
+     * @param string $path 
+     * @return yFileSystem
+     */
     public function mapUri($uri, $path){
         $res = $this->getResource($path);
-        $res->getFileSystem()->mapUri($uri, $res->getPath());
+        return $res->getFileSystem()->mapUri($uri, $res->getPath());
     }
     /**
      * Maps alias to real filesystem
@@ -66,10 +95,12 @@ class yVirtualFileSystem extends yFileSystem{
      * map('system', $localFs->getDirectory(realpath(dirname(__FILE__).'/../..')));
      * map('web', $localFs->getDirectory(realpath($_SERVER['DOCUMENT_ROOT'])));
      * @param string $alias
-     * @param yDirectory $directory
+     * @param yFilesystemResource $resource
+     * @return yVirtualFileSystem
      */
     public function map($alias, $resource){
         $this->_map[$alias] = $resource;
+        return $this;
     }
 }
 

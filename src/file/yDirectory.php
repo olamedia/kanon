@@ -17,7 +17,6 @@
  * @subpackage file
  * @author olamedia
  * @license http://www.opensource.org/licenses/mit-license.php MIT
- * @version SVN: $Id: yDirectory.php 150 2011-02-20 10:06:54Z olamedia@gmail.com $
  */
 class yDirectory extends yFilesystemResource{
     public function upload($tmp){
