@@ -51,13 +51,13 @@ class yVirtualFileSystemTest extends PHPUnit_Framework_TestCase{
         $s = yVirtualFileSystem::getSplitter();
         $fs = $this->fs;
         $test = $fs->getResource('test');
-        var_dump($test);
+        //var_dump($test);
         $test = $fs->getResource('test'.$s);
-        var_dump($test);
+        //var_dump($test);
         $fs->mapUri('/', 'base'.$s);
         $fs->mapUri('/x', 'test'.$s);
         $base = $fs->getResource('base')->getFileSystem();
-        var_dump($base);
+        //var_dump($base);
         //exit;
         $this->assertEquals($fs->getResource('base') instanceof yFilesystemResource, true);
         $res = $fs->getResource('base'.$s.basename(__FILE__));
@@ -67,7 +67,7 @@ class yVirtualFileSystemTest extends PHPUnit_Framework_TestCase{
         $res = $fs->getResource('test');
         $this->assertEquals('/x', $res->getUri());
         $tmp = $fs->getResource('base'.$s.'file.tmp');
-        var_dump($tmp->getPath());
+        //var_dump($tmp->getPath());
         $tmp->unlink();
         $this->assertEquals($tmp->exists(), false);
         $tmp->touch();

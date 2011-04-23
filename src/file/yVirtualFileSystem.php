@@ -28,7 +28,7 @@ class yVirtualFileSystem extends yFileSystem{
      * Splitter for alias & path parts
      * @var string
      */
-    protected static $_splitter = ':'; // \/ - directory, : - disk at windows
+    protected static $_splitter = '::'; // \/ - directory, : - disk at windows
     /**
      * Alias => Resource map
      * @var array
@@ -59,7 +59,7 @@ class yVirtualFileSystem extends yFileSystem{
     public function getResource($path){
         $p = strpos($path, self::$_splitter);
         $alias = ($p === false)?$path:substr($path, 0, $p);
-        $path = ($p === false)?'':substr($path, $p + 1);
+        $path = ($p === false)?'':substr($path, $p + strlen(self::$_splitter));
         if ($path === false){
             $path = '';
         }
