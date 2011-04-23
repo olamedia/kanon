@@ -63,7 +63,7 @@ class yVirtualFileSystem extends yFileSystem{
         if ($path === false){
             $path = '';
         }
-        var_dump($path);
+        //var_dump($path);
         //var_dump($this->_map[$alias]);
         if (isset($this->_map[$alias])){
             return $this->_map[$alias]->getResource($path);
