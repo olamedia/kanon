@@ -17,10 +17,13 @@
  * @subpackage file
  * @author olamedia
  * @license http://www.opensource.org/licenses/mit-license.php MIT
- * @version SVN: $Id: yVirtualFileSystem.php 150 2011-02-20 10:06:54Z olamedia@gmail.com $
  */
 class yVirtualFileSystem extends yFileSystem{
     protected static $_instance = null;
+    protected static $_splitter = ':'; // \/ - directory, : - disk at windows
+    public static function getSplitter(){
+        return self::$_splitter;
+    }
     protected $_map = array();
     public static function getInstance(){
         if (self::$_instance === null){
@@ -33,16 +36,29 @@ class yVirtualFileSystem extends yFileSystem{
      * @param string $path
      */
     public function getResource($path){
-        $p = strpos($path, ':');
+        $p = strpos($path, self::$_splitter);
         $alias = ($p === false)?$path:substr($path, 0, $p);
         $path = ($p === false)?'':substr($path, $p + 1);
-        var_dump($alias);
+        if ($path === false){
+            $path = '';
+        }
+        var_dump($path);
+        //var_dump($this->_map[$alias]);
         if (isset($this->_map[$alias])){
             return $this->_map[$alias]->getResource($path);
         }else{
-            // return virtual resource.
-            //$this->_map[$alias] = new yDirectory($path);
+            throw new Exception('Virtual directory was mot mapped');
         }
+    }
+    /**
+     * @param yFilesystemResource $yResource 
+     */
+    public function getResourceUri($yResource){
+        return $yResource->getFileSystem()->getResourceUri($yResource);
+    }
+    public function mapUri($uri, $path){
+        $res = $this->getResource($path);
+        $res->getFileSystem()->mapUri($uri, $res->getPath());
     }
     /**
      * Maps alias to real filesystem

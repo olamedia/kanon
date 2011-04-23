@@ -19,32 +19,13 @@
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  * @version SVN: $Id: yDirectory.php 150 2011-02-20 10:06:54Z olamedia@gmail.com $
  */
-class yDirectory{
-    protected $_path = '';
-    protected $_fsid = null;
-    public function __construct($path = '', $fileSystem){
-        $this->_path = $path;
-        $this->_fsid = $fileSystem->getId();
-    }
-    /**
-     *
-     * @return yFileSystem
-     */
-    public function getFileSystem(){
-        return yFileSystem::get($this->_fsid);
-    }
-    public function getResource($path){
-        return $this->getFileSystem()->getResource($this->_path.'/'.$path);
-    }
-    public function setPath($path){
-        $this->_path = (string) $path;
-        return $this;
-    }
-    public function getPath(){
-        return $this->_path;
-    }
-    public function __toString(){
-        return $this->_path;
+class yDirectory extends yFilesystemResource{
+    public function upload($tmp){
+        // Check if directory still exists
+        if (is_dir($this->getPath())){
+            throw new Exception('Can\'t upload - filename used by directory');
+        }
+        parent::upload($tmp);
     }
 }
 

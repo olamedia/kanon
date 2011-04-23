@@ -37,6 +37,7 @@ class yCoreAutoloader extends yAutoloader{
         'yFile'=>'file/yFile.php',
         'yFileInput'=>'forms/yFileInput.php',
         'yFileSystem'=>'file/yFileSystem.php',
+        'yFilesystemResource'=>'file/yFilesystemResource.php',
         'yFormControl'=>'forms/yFormControl.php',
         'yFormControlSet'=>'forms/yFormControlSet.php',
         'yFormResultIterator'=>'forms/yFormResultIterator.php',
