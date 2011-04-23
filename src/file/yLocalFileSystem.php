@@ -12,6 +12,7 @@
 
 /**
  * yLocalFileSystem
+ * Local filesystem abstraction layer
  *
  * @package yuki
  * @subpackage file
@@ -20,21 +21,33 @@
  */
 class yLocalFileSystem extends yFileSystem{
     /**
+     * Creates file or modifies atime+mtime of resource
      * @param yFilesystemResource $yResource 
      */
     public function touchResource($yResource){
         touch($yResource->getPath());
     }
     /**
-     * @param string $tmp
-     * @param yFilesystemResource $yResource 
+     * Uploads local file into given location.
+     * @param string $tmp Local file name.
+     * @param yFilesystemResource $yResource Location to upload
      */
     public function uploadResource($tmp, $yResource){
         copy($tmp, $yResource->getPath());
     }
+    /**
+     * Gets contents of resource.
+     * @param yFilesystemResource $yResource
+     * @return string
+     */
     public function getResourceContents($yResource){
         return file_get_contents($yResource->getPath());
     }
+    /**
+     * Removes resource at given location if possible
+     * @param yFilesystemResource $yResource
+     * @return yFilesystemResource
+     */
     public function unlinkResource($yResource){
         try{
             if (is_file($yResource->getPath())){
@@ -45,12 +58,18 @@ class yLocalFileSystem extends yFileSystem{
         }catch(Exception $e){
             
         }
-        return $yResource;
+        return $this->getResource($yResource->getPath());
     }
+    /**
+     * Checks if resource exists.
+     * @param yFilesystemResource $yResource
+     * @return boolean
+     */
     public function resourceExists($yResource){
         return file_exists($yResource->getPath());
     }
     /**
+     * Gets filesystem resource.
      * @param string $path 
      * @return yFilesystemResource
      */
@@ -64,15 +83,19 @@ class yLocalFileSystem extends yFileSystem{
         return new yFilesystemResource($path, $this); // not existing resource (ex, for uploading)
     }
     /**
+     * Makes directory at given location.
      * @param yFilesystemResource $yResource 
+     * @return yDirectory
      */
     public function makeResourceDirectory($yResource){
         if (!file_exists($yResource->getPath())){
             mkdir($yResource->getPath());
         }
-        return $yResource;
+        return $this->getResource($yResource->getPath());
     }
     /**
+     * Removes resource at given location.
+     * If second paremeter is true, forces recursive removing.
      * @param yFilesystemResource $yResource 
      * @param boolean $force
      */
