@@ -19,47 +19,115 @@
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  */
 class yFileSystem{
+    /**
+     * Filesystem instances
+     * Array key is an id of filesystem
+     * @var array
+     */
     protected static $_instances = array();
+    /**
+     * URI => path map
+     * @var array
+     */
     protected $_uriMap = array();
     /**
-     * Unique id
+     * Unique filesystem id
      * @var int
      */
     protected $_id = null;
+    /**
+     * Creates file or modifies atime+mtime of resource at given path.
+     * @param string $path Path of resource
+     */
     public function touch($path){
-        $this->getResource($path)->touch();
+        return $this->getResource($path)->touch();
     }
+    /**
+     * Uploads local file into given location
+     * @param string $tmp Local file name
+     * @param string $path Path in this filesystem
+     */
     public function upload($tmp, $path){
-        $this->getResource($path)->upload($tmp);
+        return $this->getResource($path)->upload($tmp);
     }
+    /**
+     * Gets contents of resource.
+     * @abstract
+     * @param yFilesystemResource $yResource
+     * @return string
+     */
     public function getResourceContents($yResource){
         throw new BadMethodCallException('Not implemented');
     }
+    /**
+     * Removes resource at given location if possible
+     * @abstract
+     * @param yFilesystemResource $yResource
+     * @return yFilesystemResource
+     */
     public function unlinkResource($yResource){
         throw new BadMethodCallException('Not implemented');
     }
+     /**
+     * Checks if resource exists.
+     * @param yFilesystemResource $yResource
+     * @return boolean
+     */
     public function resourceExists($yResource){
         throw new BadMethodCallException('Not implemented');
     }
     /**
+     * Gets filesystem resource.
+     * @abstract
      * @param string $path 
      * @return yFilesystemResource
      */
     public function getResource($path){
         throw new BadMethodCallException('Not implemented');
     }
+    /**
+     * Creates file or modifies atime+mtime of resource
+     * @abstract
+     * @param yFilesystemResource $yResource 
+     */
     public function touchResource($yResource){
         throw new BadMethodCallException('Not implemented');
     }
+    /**
+     * Uploads local file into given location.
+     * @abstract
+     * @param string $tmp Local file name.
+     * @param yFilesystemResource $yResource Location to upload
+     */
     public function uploadResource($tmp, $yFile){
         throw new BadMethodCallException('Not implemented');
     }
+    /**
+     * Makes directory at given location.
+     * @abstract
+     * @param yFilesystemResource $yResource 
+     * @return yDirectory
+     */
     public function makeResourceDirectory($yResource){
         throw new BadMethodCallException('Not implemented');
     }
+    /**
+     * Removes resource at given location.
+     * If second paremeter is true, forces recursive removing.
+     * @abstract
+     * @param yFilesystemResource $yResource 
+     * @param boolean $force
+     */
     public function removeResource($yResource, $force = false){
         throw new BadMethodCallException('Not implemented');
     }
+    /**
+     * Gets URI for given resource if possible.
+     * URI-path mapping is possible using mapURI() method.
+     * @throws Exception
+     * @param yFilesystemResource $yResource
+     * @return string URI
+     */
     public function getResourceUri($yResource){
         $rPath = $yResource->getPath();
         $bestMatchLength = 0;
@@ -81,14 +149,21 @@ class yFileSystem{
             if ($rel === false){
                 $rel = '';
             }
-            echo "URI Found: ".$uri."\nMapped to $path\nLocal path: $rPath\nRelative: $rel\n\n";
+            //echo "URI Found: ".$uri."\nMapped to $path\nLocal path: $rPath\nRelative: $rel\n\n";
             return $uri.$rel;
         }
-        var_dump($this);
+        //var_dump($this);
         throw new Exception('Resource "'.$yResource->getPath().'" not mapped to uri');
     }
+    /**
+     * Maps given URI to given path.
+     * @param string $uri
+     * @param string $path 
+     * @return yFileSystem
+     */
     public function mapUri($uri, $path){
         $this->_uriMap[$path] = $uri;
+        return $this;
     }
     /**
      * Gets unique id
@@ -98,7 +173,7 @@ class yFileSystem{
     public function getId(){
         static $i = 0;
         if ($this->_id === null){
-            $this->_id = ++$i;
+            $this->_id = ++$i; // a little strange way <_<
         }
         return $this->_id;
     }
@@ -108,7 +183,12 @@ class yFileSystem{
     public function __construct(){
         $this->register();
     }
-    public function get($id){
+    /**
+     * Gets filesystem by id.
+     * @param integer $id
+     * @return yFileSystem
+     */
+    public static function get($id){
         return self::$_instances[$id];
     }
     /**
@@ -127,10 +207,10 @@ class yFileSystem{
         unset(self::$_instances[$this->getId()]);
         return $this;
     }
-    //abstract public function getResource($path);
-    public function __call($name, $arguments){
-        throw new BadMethodCallException('method '.$name.' is not implemented in '.get_class($this));
-    }
+    /**
+     * Gets string representation of filesystem ("class#id")
+     * @return string
+     */
     public function __toString(){
         return get_class($this).'#'.$this->getId();
     }
