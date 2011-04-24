@@ -1,5 +1,5 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteCond   %{REQUEST_FILENAME} !-f
-    RewriteRule   ^.*$ /bootstrap.php [QSA,L]
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^.*$ bootstrap.php [QSA,L]
 </IfModule>
