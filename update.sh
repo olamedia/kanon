@@ -1,7 +1,7 @@
 #!/bin/sh
-git update
+git pull
 # git submodule update will update only to version, commited in kanon
 cd yuki
-git update
+git pull
 cd ..
 echo "OK"
