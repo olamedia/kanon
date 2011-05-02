@@ -113,11 +113,15 @@ kanon::registerAutoload(array(
 'timestampable'=>'src/mvc-model/behaviors/timestampable.php',
 'uri'=>'src/common/uri.php',
 'url'=>'incubator/data/url.php',
+'uuid'=>'incubator/uuid/uuid.php',
 'versionProperty'=>'src/mvc-model/properties/versionProperty.php',
 'versionableBehavior'=>'src/mvc-model/behaviors/versionableBehavior.php',
 'view'=>'src/mvc-view/view.php',
 'widgetController'=>'src/mvc-controller/widgetController.php',
 'widgets'=>'incubator/widgets/widgets.php',
+'yBase58'=>'incubator/types/yBase58.php',
+'yBinary'=>'incubator/types/yBinary.php',
+'yHex'=>'incubator/types/yHex.php',
 'yProfiler'=>'src/common/profiler/yProfiler.php',
 'yRuInflector'=>'incubator/inflector/yRuInflector.php',
 'ySitemap'=>'src/sitemap/ySitemap.php',
@@ -125,6 +129,7 @@ kanon::registerAutoload(array(
 'ySitemapIndexController'=>'src/sitemap/controllers/ySitemapIndexController.php',
 'ySitemapUrl'=>'src/sitemap/ySitemapUrl.php',
 'ySitemapUrlSet'=>'src/sitemap/ySitemapUrlSet.php',
+'yString'=>'incubator/types/yString.php',
 'zenMysqlRow'=>'src/mvc-model/compat.php'
 ),$dirname);
 register_shutdown_function(array('kanon', 'onShutdown'));
