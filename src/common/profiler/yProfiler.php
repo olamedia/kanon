@@ -36,6 +36,8 @@ class yProfiler{
     protected $_benchmarkLog = array();
     protected static $_callStatistics = array();
     protected static $_callMaxStatistics = array();
+    protected static $_maxMemory = 67108864; // 64 Mb
+    protected static $_writeLog = true;
     /**
      * Get yProfiler instance.
      * @return yProfiler
@@ -47,7 +49,11 @@ class yProfiler{
         return self::$_instance;
     }
     public function shutdown(){
-
+        
+    }
+    public static function setMemoryLimit($bytesCount = 67108864){
+        self::$_maxMemory = $bytesCount;
+        self::$_writeLog = false;
     }
     /**
      * Starts profiler instance.
@@ -77,48 +83,53 @@ class yProfiler{
             self::$lastTickTime = $time;
         }
         $dt = $time - self::$lastTickTime;
-        $trace = debug_backtrace();
-        foreach ($trace as $i=>$t){
-            $method = 'main';
-            if (isset($t['function'])){
-                $method = $t['function'];
-                if (isset($t['class'])){
-                    $method = $t['class'].'::'.$method;
-                }
-            }
-            if ($i == 1){
-                if (!isset(self::$_callStatistics[$method])){
-                    self::$_callStatistics[$method] = 0;
-                }
-                self::$_callStatistics[$method] += $dt;
-            }
-            if (!isset(self::$_callMaxStatistics[$method])){
-                self::$_callMaxStatistics[$method] = 0;
-            }
-            self::$_callMaxStatistics[$method] += $dt;
+        if (memory_get_usage() - 1048576 > self::$_maxMemory){ // 1 Mb reserved
+            throw new Exception('memory limit exceeded');
         }
-        /* if (isset($trace[1])){
-          $t = $trace[1];
-          $method = 'main';
-          if (isset($t['function'])){
-          $method = $t['function'];
-          if (isset($t['class'])){
-          $method = $t['class'].'::'.$method;
-          }
-          }
-          }else{
-          $method = 'main';
-          }
-          if (!isset(self::$_callStatistics[$method])){
-          self::$_callStatistics[$method] = 0;
-          }
-          self::$_callStatistics[$method] += $dt; */
-        if ($dt > yProfiler::LONG_TIME){ // FIXME
-            $this->_benchmarkLog[] = array($dt, $trace);
-        }
-        // connection_aborted()
-        // memory_get_usage()
+        if (self::$_writeLog){
+            $trace = debug_backtrace();
+            foreach ($trace as $i=>$t){
+                $method = 'main';
+                if (isset($t['function'])){
+                    $method = $t['function'];
+                    if (isset($t['class'])){
+                        $method = $t['class'].'::'.$method;
+                    }
+                }
+                if ($i == 1){
+                    if (!isset(self::$_callStatistics[$method])){
+                        self::$_callStatistics[$method] = 0;
+                    }
+                    self::$_callStatistics[$method] += $dt;
+                }
+                if (!isset(self::$_callMaxStatistics[$method])){
+                    self::$_callMaxStatistics[$method] = 0;
+                }
+                self::$_callMaxStatistics[$method] += $dt;
+            }
+            /* if (isset($trace[1])){
+              $t = $trace[1];
+              $method = 'main';
+              if (isset($t['function'])){
+              $method = $t['function'];
+              if (isset($t['class'])){
+              $method = $t['class'].'::'.$method;
+              }
+              }
+              }else{
+              $method = 'main';
+              }
+              if (!isset(self::$_callStatistics[$method])){
+              self::$_callStatistics[$method] = 0;
+              }
+              self::$_callStatistics[$method] += $dt; */
+            if ($dt > yProfiler::LONG_TIME){ // FIXME
+                $this->_benchmarkLog[] = array($dt, $trace);
+            }
+            // connection_aborted()
+            // memory_get_usage()
         //
+       }
         self::$lastTickTime = microtime(true);
     }
     public static function finish(){
@@ -150,10 +161,10 @@ class yProfiler{
         arsort($stat);
         $stat = array_keys($stat);
         return '<div style="font-size: 11px;font-weight: normal;line-height: 1.2em;color: #fff;background: #333;padding: 10px;">'.
-        nl2br(strval(self::$_instance)).
-        '<hr />'.
-        implode('<br />', $stat).
-        '</div>';
+                nl2br(strval(self::$_instance)).
+                '<hr />'.
+                implode('<br />', $stat).
+                '</div>';
     }
 }
 
