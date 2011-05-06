@@ -83,7 +83,7 @@ class yProfiler{
             self::$lastTickTime = $time;
         }
         $dt = $time - self::$lastTickTime;
-        if (memory_get_peak_usage(true)() > self::$_maxMemory - 1048576){ // 1 Mb reserved
+        if (memory_get_peak_usage(true) > self::$_maxMemory - 1048576){ // 1 Mb reserved
             throw new Exception('memory limit exceeded');
         }
         if (self::$_writeLog){
