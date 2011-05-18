@@ -179,7 +179,7 @@ class uri{
     public function __toString(){
         $ep = array();
         foreach ($this->_path as $d){
-            $ep[] = urlencode($d);
+            $ep[] = rawurlencode($d);
         }
         return '/'.implode('/', $ep);
     }
