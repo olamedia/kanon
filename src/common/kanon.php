@@ -145,27 +145,34 @@ class kanon{
     public static function getCollection($modelName){
         return modelCollection::getInstance($modelName);
     }
+    private static $_baseUri = null;
+    public static function setBaseUri($uriString){
+        self::$_baseUri = $uriString;
+    }
     public static function getBaseUri(){
-        // ["DOCUMENT_ROOT"]=> string(28) "/somefolder/"
-        // ["SCRIPT_FILENAME"]=> string(44) "/somefolder/thumbnailer.php"
-        // ["SCRIPT_NAME"]=> string(39) "/images/.thumb/tmc200x300_anonymous.png"
-        // ["REQUEST_URI"]=> string(39) "/images/.thumb/tmc200x300_anonymous.png"
-        // nginx: fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name;
-        $requestUri = $_SERVER['REQUEST_URI'];
-        $scriptUri = isset($_SERVER['SCRIPT_NAME'])?$_SERVER['SCRIPT_NAME']:$_SERVER['SCRIPT_FILENAME'];
-        $docRoot = $_SERVER['DOCUMENT_ROOT'];
-        $scriptUri = str_replace($docRoot, '', $scriptUri);
-        if (preg_match("#^(.*)/[^/]+\.php$#imsu", $scriptUri, $subs)){
-            $scriptUri = $subs[1];
-        }
-        $max = min(strlen($requestUri), strlen($scriptUri));
-        $cmp = 0;
-        for ($l = 1; $l <= $max; $l++){
-            if (substr_compare($requestUri, $scriptUri, 0, $l, true) === 0){
-                $cmp = $l;
+        if (self::$_baseUri === null){
+            // ["DOCUMENT_ROOT"]=> string(28) "/somefolder/"
+            // ["SCRIPT_FILENAME"]=> string(44) "/somefolder/thumbnailer.php"
+            // ["SCRIPT_NAME"]=> string(39) "/images/.thumb/tmc200x300_anonymous.png"
+            // ["REQUEST_URI"]=> string(39) "/images/.thumb/tmc200x300_anonymous.png"
+            // nginx: fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name;
+            $requestUri = $_SERVER['REQUEST_URI'];
+            $scriptUri = isset($_SERVER['SCRIPT_NAME'])?$_SERVER['SCRIPT_NAME']:$_SERVER['SCRIPT_FILENAME'];
+            $docRoot = $_SERVER['DOCUMENT_ROOT'];
+            $scriptUri = str_replace($docRoot, '', $scriptUri);
+            if (preg_match("#^(.*)/[^/]+\.php$#imsu", $scriptUri, $subs)){
+                $scriptUri = $subs[1];
             }
+            $max = min(strlen($requestUri), strlen($scriptUri));
+            $cmp = 0;
+            for ($l = 1; $l <= $max; $l++){
+                if (substr_compare($requestUri, $scriptUri, 0, $l, true) === 0){
+                    $cmp = $l;
+                }
+            }
+            self::$_baseUri = substr($requestUri, 0, $cmp);
         }
-        return substr($requestUri, 0, $cmp);
+        return self::$_baseUri;
     }
     /**
      * Redirect with custom HTTP code
