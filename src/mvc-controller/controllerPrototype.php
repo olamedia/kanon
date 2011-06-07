@@ -204,7 +204,7 @@ class controllerPrototype{
      * @param boolean $includeAction
      * @return uri
      */
-    public function rel($relativeUri = '', $absolute = false){
+    public function rel($relativeUri = '', $absolute = false, $cutWww = true){
         $relativeUri = strval($relativeUri); //if (is_object($relativeUri))
         if (is_string($relativeUri))
             $relativeUri = uri::fromString($relativeUri);
@@ -214,7 +214,11 @@ class controllerPrototype{
         }
         $relativeUri->setPath(array_merge($this->_baseUri->getPath(), $a, $relativeUri->getPath()));
         if ($absolute){
-            return 'http://'.request::getDomainName().$relativeUri;
+            if ($cutWww){
+                return 'http://'.request::getDomainName().$relativeUri;
+            }else{
+                return 'http://www.'.request::getDomainName().$relativeUri;
+            }
         }
         return $relativeUri;
     }
@@ -637,6 +641,8 @@ class controllerPrototype{
             if (strpos($action, '.') !== false){
                 $this->_type = end(explode('.', $action));
                 $action = substr($action, 0, strlen($action) - strlen($this->_type) - 1); // cut .html, .js etc
+            }else{
+                $this->_type = '';
             }
         }
         profiler::getInstance()->addSql("run() before onConstruct()", $time);
