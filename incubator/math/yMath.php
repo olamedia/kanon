@@ -27,6 +27,73 @@ class yMath{
     // base58 - flickr reduced alphabet without 0,O,l,I letters (they looks like o,1)
     const base58 = '123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ';
     const base64 = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    public static function bcmathExists(){
+        return function_exists('bcadd');
+    }
+    public static function gmpExists(){
+        return function_exists('gmp_add');
+    }
+    /**
+     * Checks if calculations will work with arbitrary-length numbers
+     * @return boolean 
+     */
+    public static function hasArbitraryPrecision(){
+        return self::bcmathExists() || self::gmpExists();
+    }
+    public static function add($x, $y){
+        if (self::bcmathExists()){
+            return bcadd($x, $y);
+        }
+        if (self::gmpExists()){
+            return gmp_strval(gmp_add($x, $y));
+        }
+        return $x % $y;
+    }
+    public static function sub($x, $y){
+        if (self::bcmathExists()){
+            return bcsub($x, $y);
+        }
+        if (self::gmpExists()){
+            return gmp_strval(gmp_sub($x, $y));
+        }
+        return $x % $y;
+    }
+    public static function mod($x, $y){
+        if (self::bcmathExists()){
+            return bcmod($x, $y);
+        }
+        if (self::gmpExists()){
+            return gmp_strval(gmp_mod($x, $y));
+        }
+        // fallback by Andrius Baranauskas and Laurynas Butkus
+        $take = 5;
+        $mod = '';
+        do{
+            $a = (int) $mod.substr($x, 0, $take);
+            $x = substr($x, $take);
+            $mod = $a % $y;
+        }while (strlen($x));
+        return (int) $mod;
+        return $x % $y;
+    }
+    public static function div($x, $y){
+        if (self::bcmathExists()){
+            return bcdiv($x, $y);
+        }
+        if (self::gmpExists()){
+            return gmp_strval(gmp_div($x, $y));
+        }
+        return $x / $y;
+    }
+    public static function mul($x, $y){
+        if (self::bcmathExists()){
+            return bcmul($x, $y);
+        }
+        if (self::gmpExists()){
+            return gmp_strval(gmp_mul($x, $y));
+        }
+        return $x / $y;
+    }
     /**
      * Converts number base (up to base 64)
      * Works similary to base_convert, but supports larger numbers
@@ -61,8 +128,11 @@ class yMath{
         $base = strlen($alphabet);
         $e = '';
         while ($number){
-            $e .= $alphabet[$number % $base];
-            $number = floor($number / $base);
+            $m = self::mod($number, $base);
+            $x = self::div(self::sub($number, $m), $base);
+            $e .= $alphabet[$m];
+            echo $number.' = '.$base.' * '.$x.' + '.$m."\n";
+            $number = $x;
         }
         return strrev($e);
     }
@@ -75,13 +145,35 @@ class yMath{
     public static function baseDecode($encoded, $alphabet){
         $number = 0;
         $l = strlen($encoded);
+        $rev = strrev($encoded);
         $base = strlen($alphabet);
         while ($l > 0){
-            $number *= $base;
-            $number += strpos($alphabet, $encoded[$l - 1]);
+            $number = self::mul($number, $base);
+            $number = self::add($number, strpos($alphabet, $rev[$l - 1]));
             $l--;
         }
         return $number;
     }
 }
+
+$dec = yMath::baseDecode('537d9f604f5d4511858d350d3a4e233c', yMath::hex);
+
+echo "DEC:";
+echo $dec;
+echo "\n";
+echo "\n";
+$hex = yMath::baseEncode($dec, yMath::hex);
+echo "HEX:";
+echo $hex;
+echo "\n";
+echo "\n";
+
+echo "10 = ".yMath::baseDecode('a', yMath::hex)."\n";
+echo "254 = ".yMath::baseDecode('fe', yMath::hex)."\n";
+
+echo "a = ".yMath::baseEncode('10', yMath::hex)."\n";
+echo "fe = ".yMath::baseEncode('254', yMath::hex)."\n";
+
+
+
 
