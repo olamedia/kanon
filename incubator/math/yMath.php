@@ -155,7 +155,7 @@ class yMath{
         return $number;
     }
 }
-
+/*/
 $dec = yMath::baseDecode('537d9f604f5d4511858d350d3a4e233c', yMath::hex);
 
 echo "DEC:";
@@ -173,7 +173,7 @@ echo "254 = ".yMath::baseDecode('fe', yMath::hex)."\n";
 
 echo "a = ".yMath::baseEncode('10', yMath::hex)."\n";
 echo "fe = ".yMath::baseEncode('254', yMath::hex)."\n";
-
+*/
 
 
 
