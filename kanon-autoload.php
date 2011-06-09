@@ -122,6 +122,7 @@ kanon::registerAutoload(array(
 'yBase58'=>'incubator/types/yBase58.php',
 'yBinary'=>'incubator/types/yBinary.php',
 'yHex'=>'incubator/types/yHex.php',
+'yMath'=>'incubator/math/yMath.php',
 'yProfiler'=>'src/common/profiler/yProfiler.php',
 'yRuInflector'=>'incubator/inflector/yRuInflector.php',
 'ySitemap'=>'src/sitemap/ySitemap.php',
