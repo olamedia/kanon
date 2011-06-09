@@ -12,6 +12,7 @@
 
 /**
  * yMath
+ * General mathematic methods, using bcmath or gmp if available
  * 
  * @package yuki
  * @subpackage math
@@ -103,6 +104,10 @@ class yMath{
      * @return mixed
      */
     public static function baseConvert($number, $fromBase, $toBase){
+        if (self::gmpExists()){
+            // native gmp variant
+            return gmp_strval(gmp_init($number, $fromBase), $toBase);
+        }
         $fromAlphabet = substr(self::base64, 0, $fromBase);
         $toAlphabet = substr(self::base64, 0, $toBase);
         return self::alphabetConvert($number, $fromAlphabet, $toAlphabet);
