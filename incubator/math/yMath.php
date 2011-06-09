@@ -131,7 +131,7 @@ class yMath{
             $m = self::mod($number, $base);
             $x = self::div(self::sub($number, $m), $base);
             $e .= $alphabet[$m];
-            echo $number.' = '.$base.' * '.$x.' + '.$m."\n";
+            //echo $number.' = '.$base.' * '.$x.' + '.$m."\n";
             $number = $x;
         }
         return strrev($e);
@@ -155,6 +155,7 @@ class yMath{
         return $number;
     }
 }
+
 /*/
 $dec = yMath::baseDecode('537d9f604f5d4511858d350d3a4e233c', yMath::hex);
 
