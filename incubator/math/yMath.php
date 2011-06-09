@@ -28,6 +28,29 @@ class yMath{
     // base58 - flickr reduced alphabet without 0,O,l,I letters (they looks like o,1)
     const base58 = '123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ';
     const base64 = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const modeNative = 0;
+    const modeBcmath = 1;
+    const modeGmp = 2;
+    private static $_mode = null;
+    /**
+     * Sets mode, choosing between native, bcmath & gmp imlementations
+     * For testing purposes primary
+     * @param integer $mode 
+     */
+    public static function setMode($mode){
+        self::$_mode = $mode;
+    }
+    public static function getMode(){
+        if (self::$_mode === null){
+            self::$_mode = self::gmpExists()?
+                    self::modeGmp:
+                    (self::bcmathExists()?
+                            self::modeBcmath:
+                            self::modeNative
+                    );
+        }
+        return self::$_mode;
+    }
     public static function bcmathExists(){
         return function_exists('bcadd');
     }
@@ -42,58 +65,78 @@ class yMath{
         return self::bcmathExists() || self::gmpExists();
     }
     public static function add($x, $y){
-        if (self::bcmathExists()){
-            return bcadd($x, $y);
+        switch (self::getMode()){
+            case self::modeGmp:
+                return gmp_strval(gmp_add($x, $y));
+                break;
+            case self::modeBcmath:
+                return bcadd($x, $y);
+                break;
+            case self::modeNative:
+                return $x + $y;
+                break;
         }
-        if (self::gmpExists()){
-            return gmp_strval(gmp_add($x, $y));
-        }
-        return $x % $y;
     }
     public static function sub($x, $y){
-        if (self::bcmathExists()){
-            return bcsub($x, $y);
+        switch (self::getMode()){
+            case self::modeGmp:
+                return gmp_strval(gmp_sub($x, $y));
+                break;
+            case self::modeBcmath:
+                return bcsub($x, $y);
+                break;
+            case self::modeNative:
+                return $x - $y;
+                break;
         }
-        if (self::gmpExists()){
-            return gmp_strval(gmp_sub($x, $y));
-        }
-        return $x % $y;
     }
     public static function mod($x, $y){
-        if (self::bcmathExists()){
-            return bcmod($x, $y);
+        switch (self::getMode()){
+            case self::modeGmp:
+                return gmp_strval(gmp_mod($x, $y));
+                break;
+            case self::modeBcmath:
+                return bcmod($x, $y);
+                break;
+            case self::modeNative:
+                // fallback by Andrius Baranauskas and Laurynas Butkus
+                $take = 5;
+                $mod = '';
+                do{
+                    $a = (int) $mod.substr($x, 0, $take);
+                    $x = substr($x, $take);
+                    $mod = $a % $y;
+                }while (strlen($x));
+                return (int) $mod;
+                return $x % $y;
+                break;
         }
-        if (self::gmpExists()){
-            return gmp_strval(gmp_mod($x, $y));
-        }
-        // fallback by Andrius Baranauskas and Laurynas Butkus
-        $take = 5;
-        $mod = '';
-        do{
-            $a = (int) $mod.substr($x, 0, $take);
-            $x = substr($x, $take);
-            $mod = $a % $y;
-        }while (strlen($x));
-        return (int) $mod;
-        return $x % $y;
     }
     public static function div($x, $y){
-        if (self::bcmathExists()){
-            return bcdiv($x, $y);
+        switch (self::getMode()){
+            case self::modeGmp:
+                return gmp_strval(gmp_div($x, $y));
+                break;
+            case self::modeBcmath:
+                return bcdiv($x, $y);
+                break;
+            case self::modeNative:
+                return $x / $y;
+                break;
         }
-        if (self::gmpExists()){
-            return gmp_strval(gmp_div($x, $y));
-        }
-        return $x / $y;
     }
     public static function mul($x, $y){
-        if (self::bcmathExists()){
-            return bcmul($x, $y);
+        switch (self::getMode()){
+            case self::modeGmp:
+                return gmp_strval(gmp_mul($x, $y));
+                break;
+            case self::modeBcmath:
+                return bcmul($x, $y);
+                break;
+            case self::modeNative:
+                return $x * $y;
+                break;
         }
-        if (self::gmpExists()){
-            return gmp_strval(gmp_mul($x, $y));
-        }
-        return $x / $y;
     }
     /**
      * Converts number base (up to base 64)
@@ -179,7 +222,7 @@ echo "254 = ".yMath::baseDecode('fe', yMath::hex)."\n";
 
 echo "a = ".yMath::baseEncode('10', yMath::hex)."\n";
 echo "fe = ".yMath::baseEncode('254', yMath::hex)."\n";
-*/
+/*/
 
 
 
