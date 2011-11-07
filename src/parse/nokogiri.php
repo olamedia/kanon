@@ -88,7 +88,7 @@ class nokogiri implements IteratorAggregate{
         if (preg_match("/(?P<tag>[a-z0-9]+)?(\[(?P<attr>\S+)=(?P<value>\S+)\])?(#(?P<id>\S+))?(\.(?P<class>\S+))?/ims", $expression, $subs)){
             $tag = isset($subs['tag']) && !empty($subs['tag'])?$subs['tag']:'*';
             $query = '//'.$tag;
-            if (array_key_exists('id', $subs) && !empty($subs['id'])){
+            if (isset($subs['id']) && !empty($subs['id'])){
                 $query .= "[@id='".$subs['id']."']";
             }
             if (isset($subs['attr']) && !empty($subs['attr'])){
