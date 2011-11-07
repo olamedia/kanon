@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Description of nokogiri
+ * Simple HTML parser
  *
- * @author olamedia
+ * @author olamedia <olamedia@gmail.com>
  */
 class nokogiri implements IteratorAggregate{
     protected $_source = '';
@@ -86,23 +86,18 @@ class nokogiri implements IteratorAggregate{
     protected function getXpathSubquery($expression){
         $query = '';
         if (preg_match("/(?P<tag>[a-z0-9]+)?(\[(?P<attr>\S+)=(?P<value>\S+)\])?(#(?P<id>\S+))?(\.(?P<class>\S+))?/ims", $expression, $subs)){
-            $tag = $subs['tag'];
-            $id = $subs['id'];
-            $attr = $subs['attr'];
-            $attrValue = $subs['value'];
-            $class = $subs['class'];
-            if (!strlen($tag))
-                $tag = '*';
+            $tag = isset($subs['tag']) && !empty($subs['tag'])?$subs['tag']:'*';
             $query = '//'.$tag;
-            if (strlen($id)){
-                $query .= "[@id='".$id."']";
+            if (array_key_exists('id', $subs) && !empty($subs['id'])){
+                $query .= "[@id='".$subs['id']."']";
             }
-            if (strlen($attr)){
+            if (isset($subs['attr']) && !empty($subs['attr'])){
+                $attrValue = isset($subs['value']) && !empty($subs['value'])?$subs['value']:'';
                 $query .= "[@".$attr."='".$attrValue."']";
             }
-            if (strlen($class)){
+            if (isset($subs['class']) && !empty($subs['class'])){
                 //$query .= "[@class='".$class."']";
-                $query .= '[contains(concat(" ", normalize-space(@class), " "), " '.$class.' ")]';
+                $query .= '[contains(concat(" ", normalize-space(@class), " "), " '.$subs['class'].' ")]';
             }
         }
         return $query;
