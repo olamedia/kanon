@@ -93,7 +93,7 @@ class nokogiri implements IteratorAggregate{
             }
             if (isset($subs['attr']) && !empty($subs['attr'])){
                 $attrValue = isset($subs['value']) && !empty($subs['value'])?$subs['value']:'';
-                $query .= "[@".$attr."='".$attrValue."']";
+                $query .= "[@".$subs['attr']."='".$attrValue."']";
             }
             if (isset($subs['class']) && !empty($subs['class'])){
                 //$query .= "[@class='".$class."']";
