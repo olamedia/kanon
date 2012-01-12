@@ -149,7 +149,7 @@ class thumbnailer{
     public function readFile($filename){
         header('X-Powered-By: Kanon thumbnailer', true);
         $mtime = filemtime($filename);
-        $gmt = gmdate('r', $timestamp);
+        $gmt = gmdate('r', $mtime);
         $if = isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])?$_SERVER['HTTP_IF_MODIFIED_SINCE']:'';
         if ($if == $gmt){
             response::notModified();
