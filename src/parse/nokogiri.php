@@ -102,7 +102,7 @@ class nokogiri implements IteratorAggregate{
             if (isset($subs['pseudo']) && !empty($subs['pseudo'])){
                 //$query .= "[@class='".$class."']";
                 if ('first-child' === $subs['pseudo']){
-                    $query .= '/*[1]';
+                    $query .= '[1]';
                 }
             }
         }
