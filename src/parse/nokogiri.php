@@ -85,7 +85,7 @@ class nokogiri implements IteratorAggregate{
     }
     protected function getXpathSubquery($expression){
         $query = '';
-        if (preg_match("/(?P<tag>[a-z0-9]+)?(\[(?P<attr>\S+)=(?P<value>\S+)\])?(#(?P<id>\S+))?(\.(?P<class>\S+))?/ims", $expression, $subs)){
+        if (preg_match("/(?P<tag>[a-z0-9]+)?(\[(?P<attr>\S+)=(?P<value>\S+)\])?(#(?P<id>\S+))?(\.(?P<class>\S+))?(:(?P<pseudo>first-child))?/ims", $expression, $subs)){
             $tag = isset($subs['tag']) && !empty($subs['tag'])?$subs['tag']:'*';
             $query = '//'.$tag;
             if (isset($subs['id']) && !empty($subs['id'])){
@@ -98,6 +98,12 @@ class nokogiri implements IteratorAggregate{
             if (isset($subs['class']) && !empty($subs['class'])){
                 //$query .= "[@class='".$class."']";
                 $query .= '[contains(concat(" ", normalize-space(@class), " "), " '.$subs['class'].' ")]';
+            }
+            if (isset($subs['pseudo']) && !empty($subs['pseudo'])){
+                //$query .= "[@class='".$class."']";
+                if ('first-child' === $subs['pseudo']){
+                    $query .= '[1]';
+                }
             }
         }
         return $query;
