@@ -4,6 +4,8 @@
  * Simple HTML parser
  *
  * @author olamedia <olamedia@gmail.com>
+ * @deprecated
+ * @see https://github.com/olamedia/nokogiri
  */
 class nokogiri implements IteratorAggregate{
     protected $_source = '';
