@@ -50,15 +50,15 @@ class nokogiri implements IteratorAggregate{
     function __invoke($expression){
         return $this->get($expression);
     }
-    public function get($expression){
+    public function get($expression, $retDom = false){
         if (strpos($expression, ' ') !== false){
             $a = explode(' ', $expression);
             foreach ($a as $k=>$sub){
                 $a[$k] = $this->getXpathSubquery($sub);
             }
-            return $this->getElements(implode('', $a));
+            return $this->getElements(implode('', $a), $retDom);
         }
-        return $this->getElements($this->getXpathSubquery($expression));
+        return $this->getElements($this->getXpathSubquery($expression), $retDom);
     }
     protected function getNodes(){
 
@@ -110,13 +110,13 @@ class nokogiri implements IteratorAggregate{
         }
         return $query;
     }
-    protected function getElements($xpathQuery){
+    protected function getElements($xpathQuery, $retDom = false){
         if (strlen($xpathQuery)){
             $nodeList = $this->getXpath()->query($xpathQuery);
             if ($nodeList === false){
                 throw new Exception('Malformed xpath');
             }
-            return self::fromDom($nodeList);
+            return $retDom?$nodeList:self::fromDom($nodeList);
         }
     }
     public function toXml(){
