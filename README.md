@@ -71,5 +71,56 @@ public function initEdit(){
 public function showEdit(){
   echo $this->_form->getFormHtml(1); // show form with key 1 (field names will be in form of name="field[1]")
 }
-``
+```
 
+Kanon models
+===============
+Somethere at bootstrap:
+```
+kanon::getModelStorage()
+  ->connect('mysql:host=localhost;port=3307;dbname=DATABASE', 'USER', 'PASSWORD')
+	;
+```
+
+Model example
+```
+class myModel extends model{ 
+    protected $_classes = array( 
+            'id' => 'integerProperty', 
+            'title' => 'stringProperty', 
+            'createdAt' => 'creationTimestampProperty', 
+            'modifiedAt' => 'modificationTimestampProperty', 
+        ); 
+    protected $_fields = array( 
+            'id' => 'id', 
+            'title' => 'title', 
+            'createdAt' => 'created_at', 
+            'modifiedAt' => 'modified_at', 
+        ); 
+    protected $_foreignKeys = array( 
+        ); 
+    protected $_primaryKey = array( 
+            'id', 
+        ); 
+    protected $_autoIncrement = 'id'; 
+    protected $_options = array( 
+        ); 
+}
+```
+Other property classes can be found at [src/mvc-model/properties]
+
+Working with model
+```
+$myModels = myModel::getCollection();
+$list = $myModels->select($myModels->createdAt->gte(time()-24*60*60)); // select new models (created in 24 hours)
+$model = $list->fetch(); // fetch next model from result list
+$list->toArray(); // fetch all models into array
+foreach ($list as $model){
+  // iterating list
+}
+
+$model->title = "some title"; // setting value
+echo $model->title->html(); // same as echo htmlspecialchars($model->title->getValue())
+$model->save(); // saving changed fields
+$model->delete(); // delete by primary key (if primary key exists), or by all values
+```
