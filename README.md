@@ -135,15 +135,15 @@ Common layout:
 ```
 somefolder/
 	bootstrap.php
-		modules/
-			mymodule/
-				controllers/
-				forms/
-				models/
-					myModel.php
-				subfolder/
-					myClassFile.php
-				module.php
+	modules/
+		mymodule/
+			controllers/
+			forms/
+			models/
+				myModel.php
+			subfolder/
+				myClassFile.php
+			module.php
 				
 ```
 module.php example
