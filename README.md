@@ -124,3 +124,41 @@ echo $model->title->html(); // same as echo htmlspecialchars($model->title->getV
 $model->save(); // saving changed fields
 $model->delete(); // delete by primary key (if primary key exists), or by all values
 ```
+
+
+Kanon modules
+==============
+When using kanon::run, it will make some basic setup. One of setup steps is to load modules from the folder "modules" next to bootstrap.php (index.php)
+
+
+Common layout:
+```
+somefolder/
+	bootstrap.php
+		modules/
+			mymodule/
+				controllers/
+				forms/
+				models/
+					myModel.php
+				subfolder/
+					myClassFile.php
+				module.php
+				
+```
+module.php example
+```
+<?php
+// setting up class autoloader:
+$autoload = array(
+'myClass' => 'subfolder/myClassFile.php',
+'myModel' => 'models/myModel.php'
+);
+// registering models with related database tables:
+$storage = kanon::getModelStorage();
+$storage
+	->registerCollection('myModel', 'myTable')
+	->registerCollection('myOtherModel', 'my_other_table')
+	;
+```
+
