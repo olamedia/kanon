@@ -39,7 +39,7 @@ class mySubController extends controller{
 ```
 class myController extends controller{
   public function actionExample1($name){ // $name will come from $_POST['name'] or $_GET['name']
-    $this->_runController('mySubController', array('who' => $name)); // run another controller, passing array of options
+    $this->_runController('mySubController', array('name' => $name)); // run another controller, passing array of options
   }
 }
 ```
