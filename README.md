@@ -2,6 +2,7 @@ Some documentation draft
 ===================
 
 Kanon controllers
+=================
 
 ```
 class mySubController extends controller{
@@ -17,6 +18,12 @@ class myController extends controller{
   }
 }
 ```
+Launching controller as application (bootstrap.php)
+```
+kanon::run('myController');
+```
+
+
 
 Kanon forms [src/forms]
 ===========
