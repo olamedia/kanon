@@ -48,7 +48,7 @@ Launching controller as application (bootstrap.php)
 kanon::run('myController');
 ```
 
-
+View component can be implemented, but is not required because logic is already separated from view (init vs show methods).
 
 Kanon forms
 ===========
