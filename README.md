@@ -3,6 +3,31 @@ Some documentation draft
 
 Kanon controllers
 =================
+Kanon controllers are hierarchical. Each controller represents some root url (example: /forum/) 
+from which it can show index page and process further urls, 
+starting from that point (Example: /forum/thread/, /forum/post/ etc). To achieve this, you can use one of the following:
+
+* method _action($action), where $action is the next path component between "/" - for custom url processing; 
+* methods actionMyAction and initMyAction() will be processed before any output;
+* methods header() and footer() are for page header&footer;
+* method showMyAction() will be processed right after all page headers;
+* method _initIndex() for index page, see initMyAction()
+* method index() for index page, see showMyAction()
+
+In case of nested controllers, order of calls will be following:
+
+```
+controller1::initAction() // call controller 2 in this method
+controller2::initSomeAction() // call controller 3 in this method
+controller3::initSomeOtherAction()
+controller1::header() // controller 1
+  controller2::header() // controller 2
+    controller3::header() // controller 3
+    controller3::showSomeOtherAction()
+    controller3::footer() // controller 3
+  controller2::footer() // controller 2
+controller1::footer() // controller 1
+```
 
 ```
 class mySubController extends controller{
@@ -25,7 +50,7 @@ kanon::run('myController');
 
 
 
-Kanon forms [src/forms]
+Kanon forms
 ===========
 ```
 class myForm extends controlSet{
