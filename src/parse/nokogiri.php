@@ -42,7 +42,7 @@ class nokogiri implements IteratorAggregate{
         $dom->preserveWhiteSpace = false;
         if (strlen($htmlString)){
             libxml_use_internal_errors(TRUE);
-            $dom->loadHTML($htmlString);
+            $dom->loadHTML('<?xml encoding="UTF-8">' . $htmlString);
             libxml_clear_errors();
         }
         $this->loadDom($dom);
